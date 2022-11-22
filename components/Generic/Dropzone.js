@@ -71,7 +71,7 @@ export default function DropZone({ setValue, name }) {
             <p>Drop the files here ...</p>
           ) : (
             <p>
-              Drag 'n' drop some files here,
+              Drag and drop files here,
               <br />
               or click to select files
             </p>
