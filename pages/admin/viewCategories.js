@@ -1,5 +1,5 @@
 import React from 'react'
-import ViewCategories from '../../components/Admin/viewCategories'
+import ViewCategories from '../../components/Admin/ViewCategories'
 
 const viewCategories = () => {
   return (
