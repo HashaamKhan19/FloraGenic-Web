@@ -13,8 +13,18 @@ import {
 } from '@mui/material'
 import { VisibilityOff, Visibility, AlternateEmail } from '@mui/icons-material'
 import DropZone from '../Generic/Dropzone'
+import { useRouter } from 'next/router'
 
 const AddAdmin = () => {
+  const [action, setAction] = React.useState('Enter')
+
+  const router = useRouter()
+
+  React.useEffect(() => {
+    const parts = router.pathname.split('/')
+    parts[parts.length - 1] == 'addUser' ? action : setAction('Edit')
+  }, [router])
+
   const passwordDisplay = () => {
     {
       showPassword == 'text'
@@ -49,7 +59,7 @@ const AddAdmin = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Enter First Name
+          {action} First Name
         </InputLabel>
         <TextField
           id="firstName"
@@ -70,7 +80,7 @@ const AddAdmin = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Enter Last Name
+          {action} Last Name
         </InputLabel>
         <TextField
           id="lastName"
@@ -90,7 +100,7 @@ const AddAdmin = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Enter Email
+          {action} Email
         </InputLabel>
         <TextField
           id="email"
@@ -118,7 +128,7 @@ const AddAdmin = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Phone Number
+          {action} Phone Number
         </InputLabel>
         <MuiTelInput
           defaultCountry="PK"
@@ -140,7 +150,7 @@ const AddAdmin = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Enter Password
+          {action} Password
         </InputLabel>
         <TextField
           id="password"
@@ -218,14 +228,13 @@ const AddAdmin = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Gender
+          {action} Gender
         </InputLabel>
         <Select id="gender" name="gender" autoComplete="gender" fullWidth>
           <MenuItem value="male" selected>
             Male
           </MenuItem>
           <MenuItem value="female">Female</MenuItem>
-          <MenuItem value="others">Others</MenuItem>
         </Select>
       </Grid>
 
@@ -264,7 +273,7 @@ const AddAdmin = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Address
+          {action} Address
         </InputLabel>
         <TextField
           id="Address"
@@ -287,7 +296,7 @@ const AddAdmin = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          CNIC
+          {action} CNIC
         </InputLabel>
         <TextField
           id="cnic"
@@ -309,7 +318,7 @@ const AddAdmin = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Profile Image
+          {action} Profile Image
         </InputLabel>
         <DropZone />
       </Grid>

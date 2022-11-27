@@ -1,17 +1,25 @@
 import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
-import { TextField, InputLabel, Select, MenuItem } from '@mui/material'
+import {
+  TextField,
+  InputLabel,
+  Select,
+  MenuItem,
+  InputAdornment,
+} from '@mui/material'
 import { AddProductIcon } from '../../public/icons/AddProductIcon'
+import { AlternateEmail } from '@mui/icons-material'
 import { styled } from '@mui/material/styles'
-import Chip from '@mui/material/Chip'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { MuiTelInput } from 'mui-tel-input'
+import TimeChooser from '../Generic/TimeChooser'
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }))
 
-const AddProduct = () => {
+const AddNursery = () => {
   const [action, setAction] = React.useState('Enter')
   const [action2, setAction2] = React.useState('Add')
 
@@ -19,8 +27,8 @@ const AddProduct = () => {
 
   React.useEffect(() => {
     const parts = router.pathname.split('/')
-    parts[parts.length - 1] == 'addProduct' ? action : setAction('Edit')
-    parts[parts.length - 1] == 'addProduct' ? action2 : setAction2('Edit')
+    parts[parts.length - 1] == 'addNursery' ? action : setAction('Edit')
+    parts[parts.length - 1] == 'addNursery' ? action2 : setAction2('Edit')
   }, [router])
 
   const [quantity, setQuantity] = React.useState(1)
@@ -63,14 +71,14 @@ const AddProduct = () => {
         <section className="w-[75%] p-4 bg-white rounded-md shadow-md ">
           <h1 className="text-3xl font-semibold text-gray-800 capitalize text-center p-4">
             <AddProductIcon sx={{ mt: 1 }} fontSize="large" />
-            {action2} Product
+            {action} Nursery Details
           </h1>
 
           <form onSubmit={handleSubmit}>
             <Grid container spacing={3} sx={{ mt: 5, px: 2 }}>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <InputLabel
-                  htmlFor="category"
+                  htmlFor="nurseryName"
                   variant="standard"
                   required
                   sx={{
@@ -79,24 +87,181 @@ const AddProduct = () => {
                     '& span': { color: 'error.light' },
                   }}
                 >
-                  Choose Product Category
+                  {action} Nursery Name
+                </InputLabel>
+                <TextField
+                  id="nurseryName"
+                  name="nurseryName"
+                  fullWidth
+                  autoComplete="Nursery Name"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <InputLabel
+                  htmlFor="nurseryTitle"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
+                  }}
+                >
+                  {action} Nursery Title
+                </InputLabel>
+                <TextField
+                  id="nurseryTitle"
+                  name="nurseryTitle"
+                  fullWidth
+                  autoComplete="Nursery Title"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <InputLabel
+                  htmlFor="nurseryDescription"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
+                  }}
+                >
+                  {action} Nursery Description
+                </InputLabel>
+                <TextField
+                  id="nurseryDescription"
+                  name="nurseryDescription"
+                  fullWidth
+                  autoComplete="Nursery Description"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <InputLabel
+                  htmlFor="nurseryCity"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
+                  }}
+                >
+                  {action} Nursery City
+                </InputLabel>
+                <TextField
+                  id="nurseryCity"
+                  name="nurseryCity"
+                  fullWidth
+                  autoComplete="Nursery City"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <InputLabel
+                  htmlFor="nurseryAddress"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
+                  }}
+                >
+                  {action} Nursery Address
+                </InputLabel>
+                <TextField
+                  id="nurseryAddress"
+                  name="nurseryAddress"
+                  multiline
+                  rows={4}
+                  fullWidth
+                  autoComplete="Nursery Address"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <InputLabel
+                  htmlFor="nurseryPhoneNumber"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
+                  }}
+                >
+                  {action} Phone Number
+                </InputLabel>
+                <MuiTelInput
+                  defaultCountry="PK"
+                  id="nurseryPhoneNumber"
+                  name="nurseryPhoneNumber"
+                  fullWidth
+                  autoComplete="nurseryPhoneNumber"
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <InputLabel
+                  htmlFor="email"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
+                  }}
+                >
+                  {action} Email
+                </InputLabel>
+                <TextField
+                  id="email"
+                  name="email"
+                  fullWidth
+                  autoComplete="email"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AlternateEmail />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <InputLabel
+                  htmlFor="nurseryOwner"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
+                  }}
+                >
+                  Choose NurseryOwner to handle Over this Nursery to
                 </InputLabel>
                 <Select
-                  id="category"
-                  name="category"
-                  autoComplete="category"
-                  defaultValue={'Plant'}
+                  id="nurseryOwner"
+                  name="nurseryOwner"
+                  autoComplete="nurseryOwner"
+                  defaultValue={'User-x'}
                   fullWidth
                 >
-                  <MenuItem value={'Plant'}>Plants</MenuItem>
-                  <MenuItem value={'Tools'}>Tools</MenuItem>
-                  <MenuItem value={'Care'}>Care</MenuItem>
+                  <MenuItem value={'User-x'}>User-x</MenuItem>
+                  <MenuItem value={'User-y'}>User-y</MenuItem>
+                  <MenuItem value={'User-z'}>User-z</MenuItem>
                 </Select>
               </Grid>
 
               <Grid item xs={12} sm={6}>
                 <InputLabel
-                  htmlFor="productName"
+                  htmlFor="openingTime"
                   variant="standard"
                   required
                   sx={{
@@ -105,19 +270,14 @@ const AddProduct = () => {
                     '& span': { color: 'error.light' },
                   }}
                 >
-                  {action} Product Name
+                  {action} Nursery Opening Hours
                 </InputLabel>
-                <TextField
-                  id="productName"
-                  name="productName"
-                  fullWidth
-                  autoComplete="Product Name"
-                />
+                <TimeChooser />
               </Grid>
 
               <Grid item xs={12} sm={6}>
                 <InputLabel
-                  htmlFor="productDescription"
+                  htmlFor="closingTime"
                   variant="standard"
                   required
                   sx={{
@@ -126,108 +286,14 @@ const AddProduct = () => {
                     '& span': { color: 'error.light' },
                   }}
                 >
-                  {action} Product Description
+                  {action} Nursery Closing Hours
                 </InputLabel>
-                <TextField
-                  id="productDescription"
-                  name="productDescription"
-                  fullWidth
-                  autoComplete="Product Description"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <InputLabel
-                  htmlFor="retailPrice"
-                  variant="standard"
-                  required
-                  sx={{
-                    mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
-                  }}
-                >
-                  {action} Retail Price
-                </InputLabel>
-                <TextField
-                  id="retailPrice"
-                  name="retailPrice"
-                  fullWidth
-                  autoComplete="Rs. 100"
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <InputLabel
-                  htmlFor="wholeSalePrice"
-                  variant="standard"
-                  required
-                  sx={{
-                    mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
-                  }}
-                >
-                  {action} Whole Sale Price
-                </InputLabel>
-                <TextField
-                  id="wholeSalePrice"
-                  name="wholeSalePrice"
-                  fullWidth
-                  autoComplete="Rs. 80"
-                />
-              </Grid>
-
-              <Grid
-                item
-                xs={12}
-                display="flex"
-                flexDirection={'column'}
-                justifyContent={'center'}
-                alignItems={'center'}
-              >
-                <InputLabel
-                  htmlFor="quantity"
-                  variant="standard"
-                  required
-                  sx={{
-                    mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
-                  }}
-                >
-                  {action} Product Quantity
-                </InputLabel>
-                <div className="flex flex-row">
-                  <button
-                    className="bg-slate-200 px-4 py-2 rounded-sm"
-                    onClick={handleIncrement}
-                  >
-                    +
-                  </button>
-                  <div className="mx-4 mt-2 font-semibold">{quantity}</div>
-                  {quantity == 1 ? (
-                    <button
-                      className="bg-slate-100 px-4 py-2 rounded-sm"
-                      onClick={handleDecrement}
-                      disabled
-                    >
-                      <p className="text-slate-300 rounded-sm">-</p>
-                    </button>
-                  ) : (
-                    <button
-                      className="bg-slate-200 px-4 py-2 rounded-sm"
-                      onClick={handleDecrement}
-                    >
-                      -
-                    </button>
-                  )}
-                </div>
+                <TimeChooser />
               </Grid>
 
               <Grid item xs={12}>
                 <InputLabel
-                  htmlFor="tags"
+                  htmlFor="website"
                   variant="standard"
                   required
                   sx={{
@@ -236,60 +302,18 @@ const AddProduct = () => {
                     '& span': { color: 'error.light' },
                   }}
                 >
-                  {action} Product Tags
+                  {action} Nursery Website URL
                 </InputLabel>
                 <TextField
-                  id="tags"
-                  name="tags"
+                  id="website"
+                  name="website"
                   fullWidth
-                  autoComplete="off"
-                  onKeyDown={handleTagAdder}
-                  onChange={(e) => setTagValue(e.target.value)}
-                  placeholder="Press Enter to add a new Tag"
+                  autoComplete="Website URL"
                 />
-
-                <div className="flex flex-wrap justify-start list-none p-2 m-0">
-                  {tags.map((data) => {
-                    return (
-                      <ListItem key={data.key}>
-                        <Chip
-                          label={data.label}
-                          onDelete={handleDelete(data)}
-                        />
-                      </ListItem>
-                    )
-                  })}
-                </div>
-              </Grid>
-
-              <Grid item xs={12}>
-                <InputLabel
-                  htmlFor="nursery"
-                  variant="standard"
-                  required
-                  sx={{
-                    mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
-                  }}
-                >
-                  Choose Nursery to add this Product to
-                </InputLabel>
-                <Select
-                  id="nursery"
-                  name="nursery"
-                  autoComplete="Nursery"
-                  defaultValue={'Nursery-x'}
-                  fullWidth
-                >
-                  <MenuItem value={'Nursery-x'}>Nursery-x</MenuItem>
-                  <MenuItem value={'Nursery-y'}>Nursery-y</MenuItem>
-                  <MenuItem value={'Nursery-z'}>Nursery-z</MenuItem>
-                </Select>
               </Grid>
 
               <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>
-                <Link href={'/admin/viewProducts'}>
+                <Link href={'/admin/viewNurseries'}>
                   <button class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease">
                     <span class="absolute bottom-0 left-0 h-full -ml-2">
                       <svg
@@ -320,7 +344,7 @@ const AddProduct = () => {
                       </svg>
                     </span>
                     <AddProductIcon sx={{ mt: 0.6 }} fontSize="medium" />
-                    <span class="relative">{action} Product</span>
+                    <span class="relative">{action2} Nursery</span>
                   </button>
                 </Link>
               </Grid>
@@ -332,4 +356,4 @@ const AddProduct = () => {
   )
 }
 
-export default AddProduct
+export default AddNursery

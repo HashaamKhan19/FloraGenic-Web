@@ -12,6 +12,8 @@ import MenuIcon from '@mui/icons-material/Menu'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import PersonIcon from '@mui/icons-material/Person'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
+import HolidayVillageIcon from '@mui/icons-material/HolidayVillage'
+import HouseSidingIcon from '@mui/icons-material/HouseSiding'
 import ReviewsIcon from '@mui/icons-material/Reviews'
 import MuiAppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -96,6 +98,9 @@ export default function Sidebar({ children }) {
   }
   const handleProductClick = () => {
     setProductListOpen(!productlistOpen)
+  }
+  const handleNurseryClick = () => {
+    setNurseryListOpen(!nurserylistOpen)
   }
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -249,6 +254,76 @@ export default function Sidebar({ children }) {
             </Collapse>
           </Link>
 
+          {/* Nursery */}
+
+          <ListItemButton
+            onClick={handleNurseryClick}
+            sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+          >
+            <ListItemIcon>
+              <HouseSidingIcon style={{ fontSize: '24px', color: 'white' }} />
+            </ListItemIcon>
+            <ListItemText
+              primary="3 - Nurseries"
+              primaryTypographyProps={{
+                marginLeft: -1.5,
+              }}
+            />
+            {nurserylistOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+
+          <Link href="/admin/addNursery">
+            <Collapse in={nurserylistOpen} timeout="auto" unmountOnExit>
+              <List disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                >
+                  <ListItemIcon>
+                    <HouseSidingIcon
+                      style={{
+                        fontSize: '22px',
+                        color: 'white',
+                      }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="3.1 - Add Nursery"
+                    primaryTypographyProps={{
+                      fontSize: '14px',
+                      marginLeft: -1.5,
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </Link>
+
+          <Link href="/admin/viewNurseries">
+            <Collapse in={nurserylistOpen} timeout="auto" unmountOnExit>
+              <List disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                >
+                  <ListItemIcon>
+                    <HolidayVillageIcon
+                      style={{
+                        fontSize: '22px',
+                        color: 'white',
+                      }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="3.2 - View all Nurseries"
+                    primaryTypographyProps={{
+                      fontSize: '14px',
+                      marginLeft: -1.5,
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </Link>
+
           {/* Products */}
 
           <ListItemButton
@@ -260,7 +335,7 @@ export default function Sidebar({ children }) {
               <FiBox style={{ fontSize: '24px', color: 'white' }} />
             </ListItemIcon>
             <ListItemText
-              primary="3 - Products"
+              primary="4 - Products"
               primaryTypographyProps={{
                 marginLeft: -1.5,
               }}
@@ -283,7 +358,7 @@ export default function Sidebar({ children }) {
                     />
                   </ListItemIcon>
                   <ListItemText
-                    primary="3.1 - Add Product"
+                    primary="4.1 - Add Product"
                     primaryTypographyProps={{
                       fontSize: '14px',
                       marginLeft: -1.5,
@@ -309,7 +384,7 @@ export default function Sidebar({ children }) {
                     />
                   </ListItemIcon>
                   <ListItemText
-                    primary="3.2 - View all Products"
+                    primary="4.2 - View all Products"
                     primaryTypographyProps={{
                       fontSize: '14px',
                       marginLeft: -1.5,
@@ -330,7 +405,7 @@ export default function Sidebar({ children }) {
               <CategoryIcon style={{ color: 'white', fontSize: '22px' }} />
             </ListItemIcon>
             <ListItemText
-              primary="4 - Category"
+              primary="5 - Category"
               primaryTypographyProps={{
                 marginLeft: -1.5,
               }}
@@ -353,7 +428,7 @@ export default function Sidebar({ children }) {
                     />
                   </ListItemIcon>
                   <ListItemText
-                    primary="4.1 - Add Category"
+                    primary="5.1 - Add Category"
                     primaryTypographyProps={{
                       fontSize: '14px',
                       marginLeft: -1.5,
@@ -376,7 +451,7 @@ export default function Sidebar({ children }) {
                     />
                   </ListItemIcon>
                   <ListItemText
-                    primary="4.2 - View all Categories"
+                    primary="5.2 - View all Categories"
                     primaryTypographyProps={{
                       fontSize: '14px',
                       marginLeft: -1.5,
@@ -396,7 +471,7 @@ export default function Sidebar({ children }) {
                 <ReviewsIcon style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText
-                primary="5 - Reviews"
+                primary="6 - Reviews"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}
@@ -413,7 +488,7 @@ export default function Sidebar({ children }) {
                 <ReportGmailerrorredIcon style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText
-                primary="6 - Complaints"
+                primary="7 - Complaints"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}
@@ -430,7 +505,7 @@ export default function Sidebar({ children }) {
                 <BarChartIcon style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText
-                primary="7 - Statistics"
+                primary="8 - Statistics"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}

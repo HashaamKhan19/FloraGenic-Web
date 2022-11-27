@@ -7,16 +7,25 @@ import AddGardener from './AddGardener'
 import AddNurseryOwner from './AddNurseryOwner'
 import { UsersIcon } from '../../public/icons/UsersIcon'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const AddUser = () => {
   const [userType, setUserType] = React.useState('Customer')
+  const [action, setAction] = React.useState('Add')
+
+  const router = useRouter()
+
+  React.useEffect(() => {
+    const parts = router.pathname.split('/')
+    parts[parts.length - 1] == 'addUser' ? action : setAction('Edit')
+  }, [router])
 
   return (
     <div className="flex justify-center">
       <section className="w-[75%] p-4 bg-white rounded-md shadow-md ">
         <h1 className="text-3xl font-semibold text-gray-800 capitalize text-center p-4">
           <UsersIcon sx={{ mr: 1 }} fontSize="large" />
-          Add {userType}
+          {action} {userType}
         </h1>
 
         <form>
@@ -119,7 +128,9 @@ const AddUser = () => {
                     </svg>
                   </span>
                   <UsersIcon sx={{ mr: 1 }} fontSize="small" />
-                  <span class="relative">Add {userType}</span>
+                  <span class="relative">
+                    {action} {userType}
+                  </span>
                 </button>
               </Link>
             </Grid>

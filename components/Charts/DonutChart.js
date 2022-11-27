@@ -37,7 +37,7 @@ const DonutChart = () => {
     <div className="donut">
       <Box
         sx={{
-          width: 630,
+          width: '630',
           height: 380,
         }}
       >

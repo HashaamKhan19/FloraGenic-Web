@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps, router }) {
         main: '#62A82C',
         light: '#b7ff80',
         dark: '#4A761F',
-        contrastText: '#E7FFD0',
+        contrastText: '#374151',
       },
       secondary: {
         main: '#1D9D45',

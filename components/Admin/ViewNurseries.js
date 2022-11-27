@@ -1,22 +1,27 @@
 import * as React from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 import { Box, Button, Typography } from '@mui/material'
+import { PersonAdd } from '@mui/icons-material'
 import ActionIcons from '../Generic/ActionIcons'
 import BlockToggle from '../Generic/BlockToggle'
 import SearchField from '../Generic/SearchField'
 import Export from '../Generic/Export'
 import Link from 'next/link'
-import { CategoryIcon } from '../../public/icons/CategoryIcon'
+import { AddProductIcon } from '../../public/icons/AddProductIcon'
+import HouseSidingIcon from '@mui/icons-material/HouseSiding'
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 50 },
-  { field: 'image', headerName: 'Image', width: 100 },
-  { field: 'categoryName', headerName: 'Category Name', width: 200 },
+  { field: 'image', headerName: 'Image', width: 70 },
   {
-    field: 'categoryDescription',
-    headerName: 'Category Description',
-    width: 220,
+    field: 'name',
+    headerName: 'Nursery Name',
+    width: 150,
   },
+  { field: 'title', headerName: 'Nursery Title', width: 220 },
+  { field: 'email', headerName: 'Email Address', width: 180 },
+  { field: 'phoneNumber', headerName: 'Phone Number', width: 180 },
+  { field: 'city', headerName: 'City', width: 100 },
   {
     field: 'status',
     headerName: 'Status',
@@ -34,7 +39,7 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: () => {
-      return <ActionIcons type="category" />
+      return <ActionIcons type="nursery" />
     },
   },
 ]
@@ -43,14 +48,36 @@ const rows = [
   {
     id: 1,
     image: 'Null',
-    categoryName: 'Tools',
-    categoryDescription: 'Tools serve as Tools',
+    name: 'Fazal Nursery',
+    title: 'Best Nursery in the Town',
+    email: 'nursery@gmail.com',
+    phoneNumber: 12345,
+    city: 'Rawalpindi',
     status: 'Active',
     actions: 'iconsHere',
   },
 ]
 
-export default function ViewCategories() {
+export default function ViewNurseries() {
+  const [anchorElImport, setAnchorElImport] = React.useState(null)
+  const [anchorElExport, setAnchorElExport] = React.useState(null)
+  const importOpen = Boolean(anchorElImport)
+  const exportOpen = Boolean(anchorElExport)
+
+  // Menu handlers
+  const handleImportClick = (event) => {
+    setAnchorElImport(event.currentTarget)
+  }
+  const handleImportClose = () => {
+    setAnchorElImport(null)
+  }
+  const handleExportClick = (event) => {
+    setAnchorElExport(event.currentTarget)
+  }
+  const handleExportClose = () => {
+    setAnchorElExport(null)
+  }
+
   return (
     <Box
       style={{
@@ -88,8 +115,8 @@ export default function ViewCategories() {
             alignItems={'center'}
             sx={{ marginLeft: 1 }}
           >
-            <CategoryIcon sx={{ mr: 1, mb: 0.3 }} fontSize="large" />
-            View Categories
+            <HouseSidingIcon sx={{ mr: 0.3, mb: 0.4 }} fontSize="large" />
+            View Nurseries
           </Typography>
         </Box>
         <Box
@@ -103,13 +130,10 @@ export default function ViewCategories() {
         >
           <SearchField />
 
-          <Link href={'/admin/addCategory'}>
-            <button className="bg-floraGreen px-3 py-[6px] rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
-              <CategoryIcon
-                sx={{ color: 'white', mb: 0.3, mr: 0.5 }}
-                fontSize="small"
-              />
-              Add Category
+          <Link href={'/admin/addNursery'}>
+            <button className="bg-floraGreen px-3 py-[2px] rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
+              <HouseSidingIcon sx={{ color: 'white', mr: 0.3, mb: 0.3 }} />
+              Add Nursery
             </button>
           </Link>
 

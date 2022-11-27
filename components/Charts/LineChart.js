@@ -107,7 +107,7 @@ const LineChart = () => {
     <div className="line">
       <Box
         sx={{
-          width: 740,
+          width: '740',
           height: 390,
         }}
       >

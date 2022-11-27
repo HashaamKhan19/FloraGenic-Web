@@ -20,6 +20,14 @@ import DropZone from '../Generic/Dropzone'
 
 const AddGardener = () => {
   const router = useRouter()
+
+  const [action, setAction] = React.useState('Enter')
+
+  React.useEffect(() => {
+    const parts = router.pathname.split('/')
+    parts[parts.length - 1] == 'addUser' ? action : setAction('Edit')
+  }, [router])
+
   const passwordDisplay = () => {
     {
       showPassword == 'text'
@@ -54,7 +62,7 @@ const AddGardener = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Enter First Name
+          {action} First Name
         </InputLabel>
         <TextField
           id="firstName"
@@ -75,7 +83,7 @@ const AddGardener = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Enter Last Name
+          {action} Last Name
         </InputLabel>
         <TextField
           id="lastName"
@@ -95,7 +103,7 @@ const AddGardener = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Enter Email
+          {action} Email
         </InputLabel>
         <TextField
           id="email"
@@ -123,7 +131,7 @@ const AddGardener = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Phone Number
+          {action} Phone Number
         </InputLabel>
         <MuiTelInput
           defaultCountry="PK"
@@ -145,7 +153,7 @@ const AddGardener = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Enter Password
+          {action} Password
         </InputLabel>
         <TextField
           id="password"
@@ -230,7 +238,6 @@ const AddGardener = () => {
             Male
           </MenuItem>
           <MenuItem value="female">Female</MenuItem>
-          <MenuItem value="others">Others</MenuItem>
         </Select>
       </Grid>
 
@@ -269,7 +276,7 @@ const AddGardener = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Address
+          {action} Address
         </InputLabel>
         <TextField
           id="Address"
@@ -292,7 +299,7 @@ const AddGardener = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          CNIC
+          {action} CNIC
         </InputLabel>
         <TextField
           id="CNIC"
@@ -314,7 +321,7 @@ const AddGardener = () => {
             '& span': { color: 'error.light' },
           }}
         >
-          Profile Image
+          {action} Profile Image
         </InputLabel>
         <DropZone />
       </Grid>

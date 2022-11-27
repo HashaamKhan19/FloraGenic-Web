@@ -40,7 +40,7 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: () => {
-      return <ActionIcons />
+      return <ActionIcons type="user" />
     },
   },
 ]

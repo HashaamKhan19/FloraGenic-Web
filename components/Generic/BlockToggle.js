@@ -1,4 +1,3 @@
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'

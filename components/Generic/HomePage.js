@@ -8,9 +8,9 @@ export const HomePage = () => {
     <div>
       {/* Main Logo */}
       <div className="flex flex-row mt-8 ml-8">
-        <Image src={mainLogo} alt="" className="w-14" />
+        <Image src={mainLogo} alt="" className="w-20" />
         <div className="flex items-end">
-          <h1 className="text-3xl ml-3">FloraGenic</h1>
+          <h1 className="text-4xl ml-3">FloraGenic</h1>
         </div>
       </div>
 

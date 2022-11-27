@@ -3,11 +3,23 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { TextField, InputLabel, Select, MenuItem } from '@mui/material'
 import { CategoryIcon } from '../../public/icons/CategoryIcon'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const AddCategory = () => {
   const handleSubmit = (e) => {
     e.preventdefault()
   }
+
+  const [action, setAction] = React.useState('Enter')
+  const [action2, setAction2] = React.useState('Add')
+
+  const router = useRouter()
+
+  React.useEffect(() => {
+    const parts = router.pathname.split('/')
+    parts[parts.length - 1] == 'addCategory' ? action : setAction('Edit')
+    parts[parts.length - 1] == 'addCategory' ? action2 : setAction2('Edit')
+  }, [router])
 
   return (
     <>
@@ -15,7 +27,7 @@ const AddCategory = () => {
         <section className="w-[75%] p-4 bg-white rounded-md shadow-md ">
           <h1 className="text-3xl font-semibold text-gray-800 capitalize text-center p-4">
             <CategoryIcon sx={{ mr: 1, mb: 0.3 }} fontSize="large" />
-            Add Category
+            {action2} Category
           </h1>
 
           <form onSubmit={handleSubmit}>
@@ -31,7 +43,7 @@ const AddCategory = () => {
                     '& span': { color: 'error.light' },
                   }}
                 >
-                  Enter Category Name
+                  {action} Category Name
                 </InputLabel>
                 <TextField
                   id="categoryName"
@@ -52,14 +64,14 @@ const AddCategory = () => {
                     '& span': { color: 'error.light' },
                   }}
                 >
-                  Enter Product Description
+                  {action} Category Description
                 </InputLabel>
                 <TextField
                   id="categoryDescription"
                   name="categoryDescription"
                   fullWidth
                   multiline
-                  autoComplete="Product Description"
+                  autoComplete="Category Description"
                 />
               </Grid>
 
@@ -95,7 +107,7 @@ const AddCategory = () => {
                       </svg>
                     </span>
                     <CategoryIcon sx={{ mr: 0.3, mb: 0.2 }} fontSize="small" />
-                    <span class="relative">Add Category</span>
+                    <span class="relative">{action2} Category</span>
                   </button>
                 </Link>
               </Grid>

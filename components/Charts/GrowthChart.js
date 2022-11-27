@@ -79,7 +79,7 @@ const GrowthChart = () => {
           {typeof window !== 'undefined' && (
             <Box
               sx={{
-                width: '100%',
+                width: '740',
                 height: 375,
               }}
             >
@@ -89,7 +89,7 @@ const GrowthChart = () => {
                   series={data.series}
                   type="bar"
                   height={375}
-                  width={'100%'}
+                  width={'700'}
                 />
               </Paper>
             </Box>
