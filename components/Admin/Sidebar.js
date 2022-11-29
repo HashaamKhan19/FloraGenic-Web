@@ -1,4 +1,5 @@
 import { FiBox } from 'react-icons/fi'
+import mainLogo from '../../public/images/Logo.png'
 import { AiFillPlusSquare } from 'react-icons/ai'
 import BarChartIcon from '@mui/icons-material/BarChart'
 import CategoryIcon from '@mui/icons-material/Category'
@@ -29,11 +30,15 @@ import ListItemText from '@mui/material/ListItemText'
 import { styled, useTheme } from '@mui/material/styles'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import ProfileMenu from '../Generic/ProfileMenu'
 import Link from 'next/link'
 import * as React from 'react'
 import { useState } from 'react'
+import { Router } from '@mui/icons-material'
+import { useRouter } from 'next/router'
+import Image from 'next/image'
 
-const drawerWidth = 260
+const drawerWidth = 280
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -81,6 +86,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }))
 
 export default function Sidebar({ children }) {
+  const router = useRouter()
   const theme = useTheme()
   const [open, setOpen] = React.useState(false)
   const [adminlistOpen, setAdminListOpen] = useState(false)
@@ -123,15 +129,34 @@ export default function Sidebar({ children }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ color: 'black' }}
-            z
+          <Box
+            sx={{
+              display: 'flex',
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
           >
-            Admin Dashboard
-          </Typography>
+            <Typography
+              variant="h6"
+              noWrap
+              width={'100%'}
+              component="div"
+              sx={{ color: 'primary.dark' }}
+              textAlign={'center'}
+            >
+              Admin Dashboard
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+              }}
+            >
+              <ProfileMenu />
+            </Box>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -149,7 +174,49 @@ export default function Sidebar({ children }) {
         open={open}
       >
         <DrawerHeader>
-          {/* FloraGenic Icon Here */}
+          <Box
+            width="100%"
+            height="100%"
+            onClick={() => {
+              router.push('/admin')
+            }}
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              mt: 1,
+              mr: 3,
+              justifyContent: 'center',
+              ':hover': {
+                cursor: 'pointer',
+              },
+            }}
+          >
+            <Image
+              src={mainLogo}
+              duration={0}
+              fit="contain"
+              width="100%"
+              alt="FloraGenicLogo"
+              style={{
+                width: 42,
+                height: 42,
+                marginTop: 8,
+                marginLeft: 4,
+              }}
+            />
+            <Typography
+              sx={{
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center',
+                ml: 1,
+                mt: 1,
+                fontSize: 26,
+              }}
+            >
+              FloraGenic
+            </Typography>
+          </Box>
           <IconButton
             onClick={handleDrawerClose}
             sx={{

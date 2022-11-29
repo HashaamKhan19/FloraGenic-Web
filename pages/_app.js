@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps, router }) {
         main: '#1D9D45',
         light: '#379D1D',
         dark: '#266E14',
-        contrastText: '#68E38F',
+        contrastText: '#d8ffba',
       },
       background: {
         default: '#F8FAFC',

@@ -1,48 +1,41 @@
-import React, { Component } from 'react'
-// import Chart from 'react-apexcharts'
+import React from 'react'
 import dynamic from 'next/dynamic'
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
-import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
+import { Card, CardContent } from '@mui/material'
+export default function GrowthChart() {
+  const [chartData, setChartData] = React.useState(null)
 
-const GrowthChart = () => {
-  const data = {
-    series: [
-      {
-        name: 'Net Profit',
-        data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-      },
-      {
-        name: 'Revenue',
-        data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-      },
-      {
-        name: 'Free Cash Flow',
-        data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-      },
-    ],
+  React.useEffect(() => {
+    setTimeout(() => {
+      setChartData(options)
+    }, 200)
+  }, [])
+
+  const options = {
+    height: 400,
+    type: 'bar',
     options: {
       chart: {
-        type: 'bar',
-        height: 350,
+        stacked: true,
+        toolbar: {
+          show: false,
+        },
+        zoom: {
+          enabled: true,
+        },
+        width: '100%',
       },
+
       plotOptions: {
         bar: {
           horizontal: false,
-          columnWidth: '55%',
-          endingShape: 'rounded',
+          columnWidth: '50%',
         },
       },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ['transparent'],
-      },
       xaxis: {
+        type: 'category',
         categories: [
+          'Jan',
           'Feb',
           'Mar',
           'Apr',
@@ -52,52 +45,63 @@ const GrowthChart = () => {
           'Aug',
           'Sep',
           'Oct',
+          'Nov',
+          'Dec',
         ],
       },
-      yaxis: {
-        title: {
-          text: 'Rs. (thousands)',
+      legend: {
+        show: true,
+        fontSize: '14px',
+        fontFamily: `'Roboto', sans-serif`,
+        position: 'bottom',
+        offsetX: 20,
+        labels: {
+          useSeriesColors: false,
+        },
+        markers: {
+          width: 16,
+          height: 16,
+          radius: 5,
+        },
+        itemMargin: {
+          horizontal: 15,
+          vertical: 8,
         },
       },
       fill: {
-        opacity: 1,
+        type: 'solid',
       },
-      tooltip: {
-        y: {
-          formatter: function (val) {
-            return '$ ' + val + ' thousands'
-          },
-        },
+      dataLabels: {
+        enabled: false,
+      },
+      grid: {
+        show: true,
       },
     },
+    series: [
+      {
+        name: 'Users',
+        data: [35, 125, 35, 35, 35, 80, 35, 20, 35, 45, 15, 75],
+      },
+      {
+        name: 'Nurseries',
+        data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75],
+      },
+      {
+        name: 'Gardeners',
+        data: [35, 145, 35, 35, 20, 105, 100, 10, 65, 45, 30, 10],
+      },
+      {
+        name: 'Products',
+        data: [0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0],
+      },
+    ],
   }
-
   return (
-    <div className="app">
-      <div className="row">
-        <div className="mixed-chart">
-          {typeof window !== 'undefined' && (
-            <Box
-              sx={{
-                width: '740',
-                height: 375,
-              }}
-            >
-              <Paper elevation={3} sx={{ padding: 2 }}>
-                <Chart
-                  options={data.options}
-                  series={data.series}
-                  type="bar"
-                  height={375}
-                  width={'700'}
-                />
-              </Paper>
-            </Box>
-          )}
-        </div>
-      </div>
-    </div>
+    <Card>
+      <CardContent>
+        {chartData ? <Chart {...chartData} width="100%" /> : 'Loading...'}
+      </CardContent>
+    </Card>
   )
 }
-
-export default GrowthChart

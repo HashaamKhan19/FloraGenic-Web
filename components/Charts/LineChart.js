@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
+import { Typography } from '@mui/material'
 
 const LineChart = () => {
   const data = {
@@ -37,7 +38,7 @@ const LineChart = () => {
         dashArray: [0, 8, 5],
       },
       title: {
-        text: 'Page Statistics',
+        // text: 'Page Statistics',
         align: 'left',
       },
       legend: {
@@ -107,16 +108,19 @@ const LineChart = () => {
     <div className="line">
       <Box
         sx={{
-          width: '740',
+          width: '100%',
           height: 390,
         }}
       >
         <Paper elevation={3} sx={{ padding: 2 }}>
+          <Typography variant="h6" gutterBottom sx={{ textAlign: 'center' }}>
+            Page Statistics
+          </Typography>
           <Chart
             options={data.options}
             series={data.series}
             type="line"
-            width="700"
+            width="100%"
             height={'375'}
           />
         </Paper>

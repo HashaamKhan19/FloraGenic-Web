@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
+import { Typography } from '@mui/material'
 
 const AreaChart = () => {
   const data = {
@@ -131,16 +132,19 @@ const AreaChart = () => {
     <div className="area">
       <Box
         sx={{
-          width: 630,
+          width: '100%',
           height: 380,
         }}
       >
         <Paper elevation={3} sx={{ padding: 2 }}>
+          <Typography variant="h6" gutterBottom sx={{ textAlign: 'center' }}>
+            Sales
+          </Typography>
           <Chart
             options={data.options}
             series={data.series}
             type="bar"
-            width="570"
+            width="100%"
             height={'375'}
           />
         </Paper>

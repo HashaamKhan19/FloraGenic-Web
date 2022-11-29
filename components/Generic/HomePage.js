@@ -1,5 +1,6 @@
 import React from 'react'
 import mainLogo from '../../public/images/Logo.png'
+import backgroundImage from '../../public/images/mainBG-removebg-preview.png'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -19,7 +20,7 @@ export const HomePage = () => {
         <Link href="/signIn">
           <button
             type="submit"
-            className="w-20 h-10 bg-emerald-600 rounded-full text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.35)]"
+            className="w-24 h-12 p-2 bg-floraGreen rounded-full text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.35)]"
           >
             Sign In
           </button>
@@ -28,11 +29,19 @@ export const HomePage = () => {
         <Link href="/signUp">
           <button
             type="submit"
-            className="w-20 h-10 bg-green-600 rounded-full text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.35)]"
+            className="w-24 h-12 bg-floraGreen rounded-full text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.35)]"
           >
             Sign Up
           </button>
         </Link>
+      </div>
+
+      <div className="">
+        <Image
+          src={backgroundImage}
+          alt=""
+          className="absolute bottom-0 right-0 w-1/2"
+        />
       </div>
     </div>
   )
