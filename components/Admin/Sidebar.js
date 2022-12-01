@@ -143,7 +143,6 @@ export default function Sidebar({ children }) {
               width={'100%'}
               component="div"
               sx={{ color: 'primary.dark' }}
-              textAlign={'center'}
             >
               Admin Dashboard
             </Typography>

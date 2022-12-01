@@ -3,8 +3,14 @@ import { Box, IconButton, Tooltip } from '@mui/material'
 import { Visibility, Edit, Delete } from '@mui/icons-material'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import ActionConfirmationModal from './ActionConfirmationModal'
 
-const ActionIcons = ({ type }) => {
+const ActionIcons = ({ type, text, warningText }) => {
+  // Modal
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
   const router = useRouter()
   const styles = {
     cursor: 'pointer',
@@ -50,9 +56,19 @@ const ActionIcons = ({ type }) => {
           {/* </Link> */}
         </Tooltip>
         <Tooltip title="Delete">
-          <Delete sx={{ ...styles, color: 'error.main' }} />
+          <Delete
+            sx={{ ...styles, color: 'error.main' }}
+            onClick={handleOpen}
+          />
         </Tooltip>
       </Box>
+
+      <ActionConfirmationModal
+        open={open}
+        handleClose={handleClose}
+        text={text}
+        warningText={warningText}
+      />
     </>
   )
 }

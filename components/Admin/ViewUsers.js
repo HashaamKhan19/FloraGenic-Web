@@ -40,7 +40,13 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: () => {
-      return <ActionIcons type="user" />
+      return (
+        <ActionIcons
+          type="user"
+          text={'Are you sure you want to delete this User?'}
+          warningText={'This action is irreversable!'}
+        />
+      )
     },
   },
 ]

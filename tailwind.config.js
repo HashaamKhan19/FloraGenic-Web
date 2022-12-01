@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       colors: {
         floraGreen: '#62A82C',
+        error: '#D14343',
       },
     },
   },
