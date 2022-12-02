@@ -45,6 +45,7 @@ const columns = [
           type="user"
           text={'Are you sure you want to delete this User?'}
           warningText={'This action is irreversable!'}
+          viewText={'User Data Here'}
         />
       )
     },

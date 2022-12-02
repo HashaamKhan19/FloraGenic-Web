@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import sideImage from '../../public/images/SignIn-removebg.jpg'
+import sideImage from '../../../public/images/SignIn-removebg.jpg'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BsFacebook } from 'react-icons/bs'
@@ -13,14 +13,18 @@ import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import mainLogo from '../../../public/images/Logo.png'
 
-const SignInCard = () => {
+const SignUpCard = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [user, setUser] = useState()
   const [visible, setVisible] = useState(false)
+  const [confirmVisible, setConfirmVisible] = useState(false)
   const [validemail, setValidEmail] = useState(true)
   const [validpassword, setValidPassword] = useState(true)
+  const [validConfirmPassword, setValidConfirmPassword] = useState(true)
 
   const regEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$')
 
@@ -45,14 +49,19 @@ const SignInCard = () => {
       </div>
 
       {/* Form Container */}
-      <div className="w-1/2 px-24 py-24">
+      <div className="w-1/2 px-24 py-[60px]">
         <form
-          className="bg-emerald-50 px-6 py-10 flex flex-col rounded-lg"
+          className="bg-emerald-50 px-6 py-8 flex flex-col rounded-lg"
           onSubmit={onSubmit}
         >
           {/* Select Component */}
           <div className="flex flex-row justify-between">
-            <h1 className="text-3xl font-bold">Login</h1>
+            <div className="flex flex-row">
+              <Link href={'/'}>
+                <Image src={mainLogo} className="w-12 h-12" />
+              </Link>
+              <h1 className="text-3xl font-bold flex items-end ml-2">SignUp</h1>
+            </div>
             {/* User Selection */}
             <FormControl sx={{ minWidth: 140 }} size="small">
               <InputLabel id="demo-select-small">User</InputLabel>
@@ -72,7 +81,7 @@ const SignInCard = () => {
 
           {/* Inputs */}
           <TextField
-            margin="normal"
+            margin="small"
             label="Email Address"
             autoComplete="email"
             variant="outlined"
@@ -86,7 +95,7 @@ const SignInCard = () => {
             sx={{ marginTop: 3 }}
           />
           <TextField
-            margin="normal"
+            margin="small"
             label="Password"
             type={visible ? 'text' : 'password'}
             variant="outlined"
@@ -113,6 +122,41 @@ const SignInCard = () => {
             onChange={(e) => {
               setPassword(e.target.value)
               setValidPassword(true)
+            }}
+          />
+
+          <TextField
+            margin="small"
+            label="Confirm Password"
+            type={confirmVisible ? 'text' : 'password'}
+            variant="outlined"
+            fullWidth
+            size="medium"
+            sx={{ marginTop: 2 }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={(e) => {
+                      setConfirmVisible(!confirmVisible)
+                    }}
+                  >
+                    {confirmVisible ? (
+                      <VisibilityOffIcon />
+                    ) : (
+                      <VisibilityIcon />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            error={!validpassword && validpassword != validConfirmPassword}
+            helperText={
+              !validpassword && "Password can't be less than 5 characters"
+            }
+            onChange={(e) => {
+              setConfirmPassword(e.target.value)
+              setValidConfirmPassword(true)
             }}
           />
 
@@ -152,12 +196,12 @@ const SignInCard = () => {
           </a>
         </div>
         <p className="text-center text-black font-poppins text-sm mt-6">
-          Don&apos;t have an account yet?{' '}
+          Already have an account?{' '}
           <Link
             className="text-emerald-600 font-poppins font-bold hover:cursor-pointer hover:text-emerald-700"
-            href="/signUp"
+            href="/signIn"
           >
-            Register for free
+            Login Here
           </Link>
         </p>
       </div>
@@ -165,4 +209,4 @@ const SignInCard = () => {
   )
 }
 
-export default SignInCard
+export default SignUpCard

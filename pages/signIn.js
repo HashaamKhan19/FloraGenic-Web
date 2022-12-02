@@ -1,5 +1,5 @@
 import React from 'react'
-import SignInCard from '../components/Generic/SignInCard'
+import SignInCard from '../components/Generic/pfpManagement/SignInCard'
 
 const signIn = () => {
   return (

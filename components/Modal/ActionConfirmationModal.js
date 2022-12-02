@@ -65,10 +65,18 @@ export default function ActionConfirmationModal({
                 variant="contained"
                 color="primary"
                 sx={{ flex: 1, color: 'white' }}
+                onClick={handleClose}
               >
                 Cancel
               </Button>
-              <Button variant="contained" color="error" sx={{ flex: 1 }}>
+              <Button
+                variant="contained"
+                color="error"
+                sx={{ flex: 1 }}
+                onClick={() => {
+                  handleClose()
+                }}
+              >
                 Confirm
               </Button>
             </Box>

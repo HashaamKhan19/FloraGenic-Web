@@ -90,7 +90,11 @@ function MyApp({ Component, pageProps, router }) {
     )
   }
 
-  return <Component {...pageProps} />
+  return (
+    <ThemeProvider theme={theme}>
+      <Component {...pageProps} />
+    </ThemeProvider>
+  )
 }
 
 export default MyApp

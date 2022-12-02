@@ -3,13 +3,19 @@ import { Box, IconButton, Tooltip } from '@mui/material'
 import { Visibility, Edit, Delete } from '@mui/icons-material'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import ActionConfirmationModal from './ActionConfirmationModal'
+import ActionConfirmationModal from '../Modal/ActionConfirmationModal'
+import ViewUserModal from '../Modal/ViewUserModal'
 
-const ActionIcons = ({ type, text, warningText }) => {
-  // Modal
+const ActionIcons = ({ type, text, warningText, viewText }) => {
+  // Action Confirmation Modal States
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+
+  // View User Modal States
+  const [viewOpen, setViewOpen] = React.useState(false)
+  const handleViewOpen = () => setViewOpen(true)
+  const handleViewClose = () => setViewOpen(false)
 
   const router = useRouter()
   const styles = {
@@ -20,7 +26,6 @@ const ActionIcons = ({ type, text, warningText }) => {
   }
 
   const handleEdit = () => {
-    console.log('panchod')
     switch (type) {
       case 'user':
         router.push(`editUser/${123}`)
@@ -37,6 +42,13 @@ const ActionIcons = ({ type, text, warningText }) => {
     }
   }
 
+  const handleView = () => {
+    switch (type) {
+      case 'user': {
+      }
+    }
+  }
+
   return (
     <>
       <Box
@@ -48,12 +60,13 @@ const ActionIcons = ({ type, text, warningText }) => {
         }}
       >
         <Tooltip title="View">
-          <Visibility sx={{ ...styles, color: 'info.dark' }} />
+          <Visibility
+            sx={{ ...styles, color: 'info.dark' }}
+            onClick={handleView}
+          />
         </Tooltip>
         <Tooltip title="Edit">
-          {/* <Link href={`editUser/${123}`}> */}
           <Edit sx={{ ...styles, color: 'info.main' }} onClick={handleEdit} />
-          {/* </Link> */}
         </Tooltip>
         <Tooltip title="Delete">
           <Delete
@@ -68,6 +81,12 @@ const ActionIcons = ({ type, text, warningText }) => {
         handleClose={handleClose}
         text={text}
         warningText={warningText}
+      />
+
+      <ViewUserModal
+        open={viewOpen}
+        handleClose={handleViewClose}
+        viewText={viewText}
       />
     </>
   )
