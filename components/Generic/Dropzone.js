@@ -1,7 +1,7 @@
-import { IconButton, Box } from '@mui/material'
-import React, { useCallback } from 'react'
-import { useDropzone } from 'react-dropzone'
-import { AttachFile, Cancel } from '@mui/icons-material'
+import { IconButton, Box } from "@mui/material";
+import React, { useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import { AttachFile, Cancel } from "@mui/icons-material";
 
 export default function DropZone({ setValue, name }) {
   const onDrop = useCallback((acceptedFiles) => {
@@ -10,10 +10,10 @@ export default function DropZone({ setValue, name }) {
       acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        }),
-      ),
-    )
-  }, [])
+        })
+      )
+    );
+  }, []);
   const {
     getRootProps,
     getInputProps,
@@ -22,42 +22,42 @@ export default function DropZone({ setValue, name }) {
     isDragAccept,
   } = useDropzone({
     accept: {
-      'image/*': [],
+      "image/*": [],
     },
     maxFiles: 1,
     onDrop,
-  })
+  });
   return (
     <Box
       sx={{
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
         // padding: watch(name) == null || watch(name) === "" ? 5 : 0,
-        overflow: 'hidden',
-        borderWidth: '2px',
-        borderStyle: 'dashed',
+        overflow: "hidden",
+        borderWidth: "2px",
+        borderStyle: "dashed",
         borderColor: isDragAccept
-          ? 'success.main'
+          ? "success.main"
           : isDragReject
-          ? 'error.main'
-          : 'gray',
+          ? "error.main"
+          : "gray",
         borderRadius: 2,
-        width: 'min(100%, 400px)',
+        width: "min(100%, 400px)",
         height: 400,
-        outline: 'none',
-        transition: 'border .24s ease-in-out',
-        mx: 'auto',
-        textAlign: 'center',
-        '&:hover': {
-          borderColor: '#62A82C',
+        outline: "none",
+        transition: "border .24s ease-in-out",
+        mx: "auto",
+        textAlign: "center",
+        "&:hover": {
+          borderColor: "#62A82C",
         },
       }}
       {...getRootProps()}
     >
-      {name == null || name === '' ? (
+      {name == null || name === "" ? (
         <>
           <input {...getInputProps()} />
 
@@ -80,30 +80,30 @@ export default function DropZone({ setValue, name }) {
       ) : (
         <Box
           sx={{
-            width: '100%',
-            height: '100%',
+            width: "100%",
+            height: "100%",
           }}
         >
           <img
             src={name[0].preview || name}
             alt="preview"
             style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
             }}
           />
           <IconButton
             sx={{
-              position: 'absolute',
+              position: "absolute",
               top: 5,
               right: 5,
-              color: 'white',
-              backgroundColor: 'rgba(0,0,0,0.3)',
-              p: '3px',
+              color: "white",
+              backgroundColor: "rgba(0,0,0,0.3)",
+              p: "3px",
             }}
             onClick={() => {
-              setValue(name, null)
+              setValue(name, null);
             }}
           >
             <Cancel />
@@ -111,5 +111,5 @@ export default function DropZone({ setValue, name }) {
         </Box>
       )}
     </Box>
-  )
+  );
 }

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.1",
     "@date-io/jalaali": "^2.16.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -18,12 +19,14 @@
     "@mui/x-date-pickers": "^5.0.9",
     "apexcharts": "^3.36.3",
     "dayjs": "^1.11.6",
+    "graphql": "^16.6.0",
     "mui-tel-input": "^2.0.4",
     "next": "13.0.0",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.40.0",
     "react-icons": "^4.6.0"
   },
   "devDependencies": {
