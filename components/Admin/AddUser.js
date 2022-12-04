@@ -1,24 +1,24 @@
-import React from 'react'
-import Grid from '@mui/material/Unstable_Grid2'
-import { Button, InputLabel, Select, MenuItem } from '@mui/material'
-import AddAdmin from './AddAdmin'
-import AddCustomer from './AddCustomer'
-import AddGardener from './AddGardener'
-import AddNurseryOwner from './AddNurseryOwner'
-import { UsersIcon } from '../../public/icons/UsersIcon'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import React from "react";
+import Grid from "@mui/material/Unstable_Grid2";
+import { Button, InputLabel, Select, MenuItem } from "@mui/material";
+import AddAdmin from "./AddAdmin";
+import AddCustomer from "./AddCustomer";
+import AddGardener from "./AddGardener";
+import AddNurseryOwner from "./AddNurseryOwner";
+import { UsersIcon } from "../../public/icons/UsersIcon";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const AddUser = () => {
-  const [userType, setUserType] = React.useState('Customer')
-  const [action, setAction] = React.useState('Add')
+  const [userType, setUserType] = React.useState("Customer");
+  const [action, setAction] = React.useState("Add");
 
-  const router = useRouter()
+  const router = useRouter();
 
   React.useEffect(() => {
-    const parts = router.pathname.split('/')
-    parts[parts.length - 1] == 'addUser' ? action : setAction('Edit')
-  }, [router])
+    const parts = router.pathname.split("/");
+    parts[parts.length - 1] == "addUser" ? action : setAction("Edit");
+  }, [router]);
 
   return (
     <div className="flex justify-center">
@@ -37,8 +37,8 @@ const AddUser = () => {
                 required
                 sx={{
                   mb: 1.5,
-                  color: 'text.primary',
-                  '& span': { color: 'error.light' },
+                  color: "text.primary",
+                  "& span": { color: "error.light" },
                 }}
               >
                 User Category
@@ -47,38 +47,38 @@ const AddUser = () => {
                 id="userType"
                 name="userType"
                 autoComplete="userType"
-                defaultValue={'Customer'}
+                defaultValue={"Customer"}
                 fullWidth
               >
                 <MenuItem
-                  value={'Customer'}
+                  value={"Customer"}
                   onClick={() => {
-                    setUserType('Customer')
+                    setUserType("Customer");
                   }}
                 >
                   Customer
                 </MenuItem>
                 <MenuItem
-                  value={'Gardener'}
+                  value={"Gardener"}
                   onClick={() => {
-                    setUserType('Gardener')
+                    setUserType("Gardener");
                   }}
                 >
                   Gardener
                 </MenuItem>
                 <MenuItem
-                  value={'NurseryOwner'}
+                  value={"NurseryOwner"}
                   onClick={() => {
-                    setUserType('NurseryOwner')
+                    setUserType("NurseryOwner");
                   }}
                 >
                   Nursery Owner
                 </MenuItem>
                 <MenuItem
-                  value={'Admin'}
+                  value={"Admin"}
                   selected="true"
                   onClick={() => {
-                    setUserType('Admin')
+                    setUserType("Admin");
                   }}
                 >
                   Admin
@@ -86,11 +86,11 @@ const AddUser = () => {
               </Select>
             </Grid>
 
-            {userType == 'Admin' ? (
+            {userType == "Admin" ? (
               <AddAdmin />
-            ) : userType == 'Gardener' ? (
+            ) : userType == "Gardener" ? (
               <AddGardener />
-            ) : userType == 'NurseryOwner' ? (
+            ) : userType == "NurseryOwner" ? (
               <AddNurseryOwner />
             ) : (
               <AddCustomer />
@@ -138,7 +138,7 @@ const AddUser = () => {
         </form>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default AddUser
+export default AddUser;

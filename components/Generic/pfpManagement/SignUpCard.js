@@ -1,45 +1,45 @@
-import React, { useState } from 'react'
-import sideImage from '../../../public/images/SignIn-removebg.jpg'
-import Image from 'next/image'
-import Link from 'next/link'
-import { BsFacebook } from 'react-icons/bs'
-import { FcGoogle } from 'react-icons/fc'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
-import FormControl from '@mui/material/FormControl'
-import TextField from '@mui/material/TextField'
-import InputAdornment from '@mui/material/InputAdornment'
-import IconButton from '@mui/material/IconButton'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
-import mainLogo from '../../../public/images/Logo.png'
+import React, { useState } from "react";
+import sideImage from "../../../public/images/SignIn-removebg.jpg";
+import Image from "next/image";
+import Link from "next/link";
+import { BsFacebook } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import mainLogo from "../../../public/images/Logo.png";
 
 const SignUpCard = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [user, setUser] = useState()
-  const [visible, setVisible] = useState(false)
-  const [confirmVisible, setConfirmVisible] = useState(false)
-  const [validemail, setValidEmail] = useState(true)
-  const [validpassword, setValidPassword] = useState(true)
-  const [validConfirmPassword, setValidConfirmPassword] = useState(true)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [user, setUser] = useState();
+  const [visible, setVisible] = useState(false);
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [validemail, setValidEmail] = useState(true);
+  const [validpassword, setValidPassword] = useState(true);
+  const [validConfirmPassword, setValidConfirmPassword] = useState(true);
 
-  const regEmail = new RegExp('^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$')
+  const regEmail = new RegExp("^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$");
 
   const onSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    regEmail.test(email) ? setValidEmail(true) : setValidEmail(false)
-    password.length > 5 ? setValidPassword(true) : setValidPassword(false)
+    regEmail.test(email) ? setValidEmail(true) : setValidEmail(false);
+    password.length > 5 ? setValidPassword(true) : setValidPassword(false);
 
     if (regEmail.test(email) && password.length > 5) {
-      console.log('Ready to Login')
+      console.log("Ready to Login");
     } else {
-      console.log('Invalid Data')
+      console.log("Invalid Data");
     }
-  }
+  };
 
   return (
     <div className="flex flex-row">
@@ -57,7 +57,7 @@ const SignUpCard = () => {
           {/* Select Component */}
           <div className="flex flex-row justify-between">
             <div className="flex flex-row">
-              <Link href={'/'}>
+              <Link href={"/"}>
                 <Image src={mainLogo} className="w-12 h-12" />
               </Link>
               <h1 className="text-3xl font-bold flex items-end ml-2">SignUp</h1>
@@ -88,16 +88,16 @@ const SignUpCard = () => {
             fullWidth
             size="medium"
             error={!validemail}
-            helperText={!validemail && 'Please Enter a Valid Email Address'}
+            helperText={!validemail && "Please Enter a Valid Email Address"}
             onChange={(e) => {
-              setEmail(e.target.value), setValidEmail(true)
+              setEmail(e.target.value), setValidEmail(true);
             }}
             sx={{ marginTop: 3 }}
           />
           <TextField
             margin="small"
             label="Password"
-            type={visible ? 'text' : 'password'}
+            type={visible ? "text" : "password"}
             variant="outlined"
             fullWidth
             size="medium"
@@ -107,7 +107,7 @@ const SignUpCard = () => {
                 <InputAdornment position="end">
                   <IconButton
                     onClick={(e) => {
-                      setVisible(!visible)
+                      setVisible(!visible);
                     }}
                   >
                     {visible ? <VisibilityOffIcon /> : <VisibilityIcon />}
@@ -120,15 +120,15 @@ const SignUpCard = () => {
               !validpassword && "Password can't be less than 5 characters"
             }
             onChange={(e) => {
-              setPassword(e.target.value)
-              setValidPassword(true)
+              setPassword(e.target.value);
+              setValidPassword(true);
             }}
           />
 
           <TextField
             margin="small"
             label="Confirm Password"
-            type={confirmVisible ? 'text' : 'password'}
+            type={confirmVisible ? "text" : "password"}
             variant="outlined"
             fullWidth
             size="medium"
@@ -138,7 +138,7 @@ const SignUpCard = () => {
                 <InputAdornment position="end">
                   <IconButton
                     onClick={(e) => {
-                      setConfirmVisible(!confirmVisible)
+                      setConfirmVisible(!confirmVisible);
                     }}
                   >
                     {confirmVisible ? (
@@ -155,8 +155,8 @@ const SignUpCard = () => {
               !validpassword && "Password can't be less than 5 characters"
             }
             onChange={(e) => {
-              setConfirmPassword(e.target.value)
-              setValidConfirmPassword(true)
+              setConfirmPassword(e.target.value);
+              setValidConfirmPassword(true);
             }}
           />
 
@@ -188,7 +188,7 @@ const SignUpCard = () => {
           <a className="w-20 h-10 bg-slate-100 rounded-full hover:bg-slate-200 hover:cursor-pointer">
             <BsFacebook
               className="flex w-8 h-8 ml-6 mt-1 p-1"
-              style={{ color: 'blue' }}
+              style={{ color: "blue" }}
             />
           </a>
           <a className="w-20 h-10 bg-slate-100 ml-10 rounded-full hover:bg-slate-200 hover:cursor-pointer">
@@ -196,7 +196,7 @@ const SignUpCard = () => {
           </a>
         </div>
         <p className="text-center text-black font-poppins text-sm mt-6">
-          Already have an account?{' '}
+          Already have an account?{" "}
           <Link
             className="text-emerald-600 font-poppins font-bold hover:cursor-pointer hover:text-emerald-700"
             href="/signIn"
@@ -206,7 +206,7 @@ const SignUpCard = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignUpCard
+export default SignUpCard;
