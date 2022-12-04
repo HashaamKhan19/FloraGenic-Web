@@ -17,6 +17,52 @@ import mainLogo from "../../../public/images/Logo.png";
 import ControlledTextInput from "../ControlledComponents/ControlledTextInput";
 import ControlledSelect from "../ControlledComponents/ControlledSelect";
 import { useForm } from "react-hook-form";
+import { useMutation, gql } from "@apollo/client";
+
+const LOGIN_QUERY = gql`
+  mutation Mutation($credentials: UserLoginInput!) {
+    loginCustomer(credentials: $credentials) {
+      email
+      userType
+      bannedStatus
+      details {
+        ... on Customer {
+          id
+          firstName
+          lastName
+          nationality
+          phoneNumber
+          gender
+          image
+          createdAt
+          updatedAt
+        }
+        ... on Admin {
+          id
+          firstName
+          lastName
+          nationality
+          phoneNumber
+          CNIC
+          image
+          createdAt
+          updatedAt
+        }
+        ... on Gardener {
+          id
+          firstName
+          lastName
+          nationality
+          phoneNumber
+          CNIC
+          image
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
 
 const SignInCard = () => {
   const [visible, setVisible] = useState(false);
@@ -29,8 +75,22 @@ const SignInCard = () => {
     mode: "onChange",
   });
 
+  const [loginUser, { data, loading, error }] = useMutation(LOGIN_QUERY, {
+    errorPolicy: "all",
+  });
+
+  if (data) console.log(data);
+
   const onSubmit = (data) => {
-    console.log(data);
+    loginUser({
+      variables: {
+        credentials: {
+          email: data.email,
+          password: data.password,
+          userType: data.user,
+        },
+      },
+    });
   };
 
   return (
@@ -127,6 +187,19 @@ const SignInCard = () => {
               errors.password && "Password can't be less than 5 characters"
             }
           />
+          {loading && (
+            <p className="text-green-500 text-sm my-3">
+              Logging in, Please Wait...
+            </p>
+          )}
+          {error && (
+            <p className="text-red-500 text-sm my-3">Error: {error.message}</p>
+          )}
+          {data && data.loginCustomer && data.loginCustomer.bannedStatus && (
+            <p className="text-red-500 text-sm my-3">
+              Error: Your account has been banned. Please contact admin.
+            </p>
+          )}
           {/* Buttons */}
           <div className="mt-3">
             <a className="text-sm font-semibold text-emerald-600 hover:cursor-pointer hover:text-emerald-700 transition-all ease-in">
