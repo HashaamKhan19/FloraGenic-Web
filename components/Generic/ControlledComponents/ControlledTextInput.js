@@ -8,6 +8,7 @@ const ControlledTextInput = ({
   required = false,
   minLength = null,
   maxLength = null,
+  validate = null,
   defaultValue = "",
   ...rest
 }) => {
@@ -15,7 +16,7 @@ const ControlledTextInput = ({
     <Controller
       name={name}
       control={control}
-      rules={{ required, pattern, minLength, maxLength }}
+      rules={{ required, pattern, minLength, maxLength, validate }}
       defaultValue={defaultValue}
       render={({ field }) => <TextField {...rest} {...field} />}
     />
