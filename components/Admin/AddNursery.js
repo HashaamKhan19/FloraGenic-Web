@@ -1,69 +1,84 @@
-import React from 'react'
-import Grid from '@mui/material/Unstable_Grid2'
+import React from "react";
+import Grid from "@mui/material/Unstable_Grid2";
 import {
   TextField,
   InputLabel,
   Select,
   MenuItem,
   InputAdornment,
-} from '@mui/material'
-import { AddProductIcon } from '../../public/icons/AddProductIcon'
-import { AlternateEmail } from '@mui/icons-material'
-import { styled } from '@mui/material/styles'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { MuiTelInput } from 'mui-tel-input'
-import TimeChooser from '../Generic/TimeChooser'
+} from "@mui/material";
+import { AddProductIcon } from "../../public/icons/AddProductIcon";
+import { AlternateEmail } from "@mui/icons-material";
+import { styled } from "@mui/material/styles";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { MuiTelInput } from "mui-tel-input";
+import TimeChooser from "../Generic/TimeChooser";
 
-const ListItem = styled('li')(({ theme }) => ({
+// Controlled Input
+import { useForm } from "react-hook-form";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
+import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import ControlledTimePicker from "../Generic/ControlledComponents/ControlledTimePicker";
+
+const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
-}))
+}));
 
 const AddNursery = () => {
-  const [action, setAction] = React.useState('Enter')
-  const [action2, setAction2] = React.useState('Add')
+  const [action, setAction] = React.useState("Enter");
+  const [action2, setAction2] = React.useState("Add");
 
-  const router = useRouter()
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm();
+
+  const router = useRouter();
 
   React.useEffect(() => {
-    const parts = router.pathname.split('/')
-    parts[parts.length - 1] == 'addNursery' ? action : setAction('Edit')
-    parts[parts.length - 1] == 'addNursery' ? action2 : setAction2('Edit')
-  }, [router])
+    const parts = router.pathname.split("/");
+    parts[parts.length - 1] == "addNursery" ? action : setAction("Edit");
+    parts[parts.length - 1] == "addNursery" ? action2 : setAction2("Edit");
+  }, [router]);
 
-  const [quantity, setQuantity] = React.useState(1)
-  const [tagsValue, setTagValue] = React.useState('')
-  const [tagsKey, setTagKey] = React.useState(0)
-  const [tags, setTag] = React.useState([])
+  const [quantity, setQuantity] = React.useState(1);
+  const [tagsValue, setTagValue] = React.useState("");
+  const [tagsKey, setTagKey] = React.useState(0);
+  const [tags, setTag] = React.useState([]);
 
   const handleIncrement = () => {
-    setQuantity(quantity + 1)
-  }
+    setQuantity(quantity + 1);
+  };
 
   const handleDecrement = () => {
-    setQuantity(quantity - 1)
-  }
+    setQuantity(quantity - 1);
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-  }
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   const handleTagAdder = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
+    if (e.key === "Enter") {
+      e.preventDefault();
       tags.push({
         key: tagsKey,
         label: tagsValue,
-      })
-      setTagKey(tagsKey + 1)
+      });
+      setTagKey(tagsKey + 1);
     }
-  }
+  };
 
   //   const [chipData, setChipData] = React.useState([{ key: 0, label: tags }])
 
   const handleDelete = (chipToDelete) => () => {
-    setTag((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
-  }
+    setTag((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+  };
 
   return (
     <>
@@ -74,7 +89,7 @@ const AddNursery = () => {
             {action} Nursery Details
           </h1>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3} sx={{ mt: 5, px: 2 }}>
               <Grid item xs={12} sm={6}>
                 <InputLabel
@@ -83,17 +98,21 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Nursery Name
                 </InputLabel>
-                <TextField
+                <ControlledTextInput
+                  control={control}
+                  required
                   id="nurseryName"
                   name="nurseryName"
                   fullWidth
                   autoComplete="Nursery Name"
+                  error={errors.nurseryName ? true : false}
+                  helperText={errors.nurseryName && "Nursery Name is required"}
                 />
               </Grid>
 
@@ -104,17 +123,23 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Nursery Title
                 </InputLabel>
-                <TextField
+                <ControlledTextInput
+                  control={control}
+                  required
                   id="nurseryTitle"
                   name="nurseryTitle"
                   fullWidth
                   autoComplete="Nursery Title"
+                  error={errors.nurseryTitle ? true : false}
+                  helperText={
+                    errors.nurseryTitle && "Nursery Title is required"
+                  }
                 />
               </Grid>
 
@@ -125,17 +150,24 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Nursery Description
                 </InputLabel>
-                <TextField
+                <ControlledTextInput
+                  control={control}
+                  required
                   id="nurseryDescription"
                   name="nurseryDescription"
                   fullWidth
                   autoComplete="Nursery Description"
+                  error={errors.nurseryDescription ? true : false}
+                  helperText={
+                    errors.nurseryDescription &&
+                    "Nursery Description is required"
+                  }
                 />
               </Grid>
 
@@ -146,17 +178,21 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Nursery City
                 </InputLabel>
-                <TextField
+                <ControlledTextInput
+                  control={control}
+                  required
                   id="nurseryCity"
                   name="nurseryCity"
                   fullWidth
                   autoComplete="Nursery City"
+                  error={errors.nurseryCity ? true : false}
+                  helperText={errors.nurseryCity && "Nursery City is required"}
                 />
               </Grid>
 
@@ -167,19 +203,25 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Nursery Address
                 </InputLabel>
-                <TextField
+                <ControlledTextInput
+                  control={control}
+                  required
                   id="nurseryAddress"
                   name="nurseryAddress"
                   multiline
                   rows={4}
                   fullWidth
                   autoComplete="Nursery Address"
+                  error={errors.nurseryAddress ? true : false}
+                  helperText={
+                    errors.nurseryAddress && "Nursery Address is required"
+                  }
                 />
               </Grid>
 
@@ -190,18 +232,24 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Phone Number
                 </InputLabel>
-                <MuiTelInput
+                <ControlledTelInput
+                  control={control}
+                  required
                   defaultCountry="PK"
                   id="nurseryPhoneNumber"
                   name="nurseryPhoneNumber"
                   fullWidth
                   autoComplete="nurseryPhoneNumber"
+                  error={errors.nurseryPhoneNumber ? true : false}
+                  helperText={
+                    errors.nurseryPhoneNumber && "Phone Number is required"
+                  }
                 />
               </Grid>
 
@@ -212,13 +260,16 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Email
                 </InputLabel>
-                <TextField
+                <ControlledTextInput
+                  control={control}
+                  required
+                  pattern={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
                   id="email"
                   name="email"
                   fullWidth
@@ -230,6 +281,8 @@ const AddNursery = () => {
                       </InputAdornment>
                     ),
                   }}
+                  error={errors.email ? true : false}
+                  helperText={errors.email && "Email is required"}
                 />
               </Grid>
 
@@ -240,23 +293,25 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   Choose NurseryOwner to handle Over this Nursery to
                 </InputLabel>
-                <Select
+                <ControlledSelect
+                  control={control}
+                  required
                   id="nurseryOwner"
                   name="nurseryOwner"
                   autoComplete="nurseryOwner"
-                  defaultValue={'User-x'}
+                  defaultValue={"User-x"}
                   fullWidth
                 >
-                  <MenuItem value={'User-x'}>User-x</MenuItem>
-                  <MenuItem value={'User-y'}>User-y</MenuItem>
-                  <MenuItem value={'User-z'}>User-z</MenuItem>
-                </Select>
+                  <MenuItem value={"User-x"}>User-x</MenuItem>
+                  <MenuItem value={"User-y"}>User-y</MenuItem>
+                  <MenuItem value={"User-z"}>User-z</MenuItem>
+                </ControlledSelect>
               </Grid>
 
               <Grid item xs={12} sm={6}>
@@ -266,13 +321,17 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Nursery Opening Hours
                 </InputLabel>
-                <TimeChooser />
+                <ControlledTimePicker
+                  control={control}
+                  required
+                  name="opening"
+                />
               </Grid>
 
               <Grid item xs={12} sm={6}>
@@ -282,13 +341,18 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Nursery Closing Hours
                 </InputLabel>
-                <TimeChooser />
+                <ControlledTimePicker
+                  control={control}
+                  required
+                  name="closing"
+                  fullWidth
+                />
               </Grid>
 
               <Grid item xs={12}>
@@ -298,62 +362,67 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Nursery Website URL
                 </InputLabel>
-                <TextField
+                <ControlledTextInput
+                  control={control}
+                  required
                   id="website"
                   name="website"
                   fullWidth
                   autoComplete="Website URL"
+                  error={errors.website ? true : false}
+                  helperText={errors.website && "Website URL is required"}
                 />
               </Grid>
 
               <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>
-                <Link href={'/admin/viewNurseries'}>
-                  <button class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease">
-                    <span class="absolute bottom-0 left-0 h-full -ml-2">
-                      <svg
-                        viewBox="0 0 487 487"
-                        class="w-auto h-full opacity-100 object-stretch"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M0 .3c67 2.1 134.1 4.3 186.3 37 52.2 32.7 89.6 95.8 112.8 150.6 23.2 54.8 32.3 101.4 61.2 149.9 28.9 48.4 77.7 98.8 126.4 149.2H0V.3z"
-                          fill="#FFF"
-                          fill-rule="nonzero"
-                          fill-opacity=".1"
-                        ></path>
-                      </svg>
-                    </span>
-                    <span class="absolute top-0 right-0 w-12 h-full -mr-3">
-                      <svg
-                        viewBox="0 0 487 487"
-                        class="object-cover w-full h-full"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M487 486.7c-66.1-3.6-132.3-7.3-186.3-37s-95.9-85.3-126.2-137.2c-30.4-51.8-49.3-99.9-76.5-151.4C70.9 109.6 35.6 54.8.3 0H487v486.7z"
-                          fill="#FFF"
-                          fill-rule="nonzero"
-                          fill-opacity=".1"
-                        ></path>
-                      </svg>
-                    </span>
-                    <AddProductIcon sx={{ mt: 0.6 }} fontSize="medium" />
-                    <span class="relative">{action2} Nursery</span>
-                  </button>
-                </Link>
+                <button
+                  type="submit"
+                  class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease"
+                >
+                  <span class="absolute bottom-0 left-0 h-full -ml-2">
+                    <svg
+                      viewBox="0 0 487 487"
+                      class="w-auto h-full opacity-100 object-stretch"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0 .3c67 2.1 134.1 4.3 186.3 37 52.2 32.7 89.6 95.8 112.8 150.6 23.2 54.8 32.3 101.4 61.2 149.9 28.9 48.4 77.7 98.8 126.4 149.2H0V.3z"
+                        fill="#FFF"
+                        fill-rule="nonzero"
+                        fill-opacity=".1"
+                      ></path>
+                    </svg>
+                  </span>
+                  <span class="absolute top-0 right-0 w-12 h-full -mr-3">
+                    <svg
+                      viewBox="0 0 487 487"
+                      class="object-cover w-full h-full"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M487 486.7c-66.1-3.6-132.3-7.3-186.3-37s-95.9-85.3-126.2-137.2c-30.4-51.8-49.3-99.9-76.5-151.4C70.9 109.6 35.6 54.8.3 0H487v486.7z"
+                        fill="#FFF"
+                        fill-rule="nonzero"
+                        fill-opacity=".1"
+                      ></path>
+                    </svg>
+                  </span>
+                  <AddProductIcon sx={{ mt: 0.6 }} fontSize="medium" />
+                  <span class="relative">{action2} Nursery</span>
+                </button>
               </Grid>
             </Grid>
           </form>
         </section>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default AddNursery
+export default AddNursery;
