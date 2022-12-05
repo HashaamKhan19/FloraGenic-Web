@@ -304,31 +304,6 @@ const AddCustomer = ({ control, getValues, setValue, errors }) => {
           <MenuItem value="pakistan">Pakistan</MenuItem>
         </ControlledSelect>
       </Grid>
-      <Grid item xs={12}>
-        <InputLabel
-          htmlFor="Address"
-          variant="standard"
-          required
-          sx={{
-            mb: 1.5,
-            color: "text.primary",
-            "& span": { color: "error.light" },
-          }}
-        >
-          {action} Address
-        </InputLabel>
-        <ControlledTextInput
-          control={control}
-          required
-          name="address"
-          id="address"
-          multiline
-          fullWidth
-          autoComplete="address"
-          error={errors.address ? true : false}
-          helperText={errors.address && "Address is required"}
-        />
-      </Grid>
 
       <Grid item xs={12}>
         <InputLabel
