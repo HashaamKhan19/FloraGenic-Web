@@ -1,19 +1,10 @@
 import { IconButton, Box } from "@mui/material";
-import React, { useCallback } from "react";
+import React from "react";
 import { useDropzone } from "react-dropzone";
 import { AttachFile, Cancel } from "@mui/icons-material";
+import Image from "next/legacy/image";
 
-export default function DropZone({ setValue, name }) {
-  const onDrop = useCallback((acceptedFiles) => {
-    setValue(
-      name,
-      acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        })
-      )
-    );
-  }, []);
+export default function DropZone({ onChange, getValues, name, setValue }) {
   const {
     getRootProps,
     getInputProps,
@@ -25,7 +16,6 @@ export default function DropZone({ setValue, name }) {
       "image/*": [],
     },
     maxFiles: 1,
-    onDrop,
   });
   return (
     <Box
@@ -35,7 +25,7 @@ export default function DropZone({ setValue, name }) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        // padding: watch(name) == null || watch(name) === "" ? 5 : 0,
+        padding: getValues(name) == null ? 5 : 0,
         overflow: "hidden",
         borderWidth: "2px",
         borderStyle: "dashed",
@@ -52,14 +42,21 @@ export default function DropZone({ setValue, name }) {
         mx: "auto",
         textAlign: "center",
         "&:hover": {
-          borderColor: "#62A82C",
+          borderColor: "#2196f3",
         },
       }}
       {...getRootProps()}
     >
-      {name == null || name === "" ? (
+      {getValues(name) == null ? (
         <>
-          <input {...getInputProps()} />
+          <input
+            {...getInputProps()}
+            onChange={(e) => {
+              const file = e.target.files[0];
+              file.preview = URL.createObjectURL(file);
+              onChange(file);
+            }}
+          />
 
           <AttachFile
             sx={{
@@ -71,7 +68,7 @@ export default function DropZone({ setValue, name }) {
             <p>Drop the files here ...</p>
           ) : (
             <p>
-              Drag and drop files here,
+              Drag and drop some files here,
               <br />
               or click to select files
             </p>
@@ -82,17 +79,16 @@ export default function DropZone({ setValue, name }) {
           sx={{
             width: "100%",
             height: "100%",
+            position: "relative",
           }}
         >
-          <img
-            src={name[0].preview || name}
+          <Image
+            src={getValues(name).preview}
             alt="preview"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
+            layout="fill"
+            objectFit="cover"
           />
+
           <IconButton
             sx={{
               position: "absolute",
