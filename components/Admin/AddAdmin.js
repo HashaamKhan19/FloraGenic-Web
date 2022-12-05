@@ -1,6 +1,5 @@
-import React from 'react'
-import Grid from '@mui/material/Unstable_Grid2'
-import { MuiTelInput } from 'mui-tel-input'
+import React from "react";
+import Grid from "@mui/material/Unstable_Grid2";
 import {
   Button,
   TextField,
@@ -10,41 +9,50 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from '@mui/material'
-import { VisibilityOff, Visibility, AlternateEmail } from '@mui/icons-material'
-import DropZone from '../Generic/Dropzone'
-import { useRouter } from 'next/router'
+} from "@mui/material";
+import { VisibilityOff, Visibility, AlternateEmail } from "@mui/icons-material";
+import DropZone from "../Generic/Dropzone";
+import { useRouter } from "next/router";
 
-const AddAdmin = () => {
-  const [action, setAction] = React.useState('Enter')
+// Controlled component
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
+import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
 
-  const router = useRouter()
+// Pattern input
+import { PatternFormat } from "react-number-format";
+import ControlledPatternInput from "../Generic/ControlledComponents/ControlledPatternInput";
+
+const AddAdmin = ({ control, getValues, setValue, errors }) => {
+  const [action, setAction] = React.useState("Enter");
+
+  const router = useRouter();
 
   React.useEffect(() => {
-    const parts = router.pathname.split('/')
-    parts[parts.length - 1] == 'addUser' ? action : setAction('Edit')
-  }, [router])
+    const parts = router.pathname.split("/");
+    parts[parts.length - 1] == "addUser" ? action : setAction("Edit");
+  }, [router.pathname]);
 
   const passwordDisplay = () => {
     {
-      showPassword == 'text'
-        ? setShowPassword('password')
-        : setShowPassword('text')
+      showPassword == "text"
+        ? setShowPassword("password")
+        : setShowPassword("text");
     }
-  }
+  };
 
   const confirmPasswordDisplay = () => {
     {
-      showConfirmPassword == 'text'
-        ? setShowConfirmPassword('password')
-        : setShowConfirmPassword('text')
+      showConfirmPassword == "text"
+        ? setShowConfirmPassword("password")
+        : setShowConfirmPassword("text");
     }
-  }
+  };
 
-  const [showPassword, setShowPassword] = React.useState('password')
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(
-    'password',
-  )
+  const [showPassword, setShowPassword] = React.useState("password");
+  const [showConfirmPassword, setShowConfirmPassword] =
+    React.useState("password");
 
   return (
     <>
@@ -55,17 +63,21 @@ const AddAdmin = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} First Name
         </InputLabel>
-        <TextField
-          id="firstName"
+        <ControlledTextInput
+          control={control}
+          required
           name="firstName"
+          id="firstName"
           fullWidth
           autoComplete="family-name"
+          error={errors.firstName ? true : false}
+          helperText={errors.firstName && "First name is required"}
         />
       </Grid>
 
@@ -76,17 +88,21 @@ const AddAdmin = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Last Name
         </InputLabel>
-        <TextField
-          id="lastName"
+        <ControlledTextInput
+          control={control}
+          required
           name="lastName"
+          id="lastName"
           fullWidth
           autoComplete="family-name"
+          error={errors.lastName ? true : false}
+          helperText={errors.lastName && "Last name is required"}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -96,17 +112,22 @@ const AddAdmin = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Email
         </InputLabel>
-        <TextField
-          id="email"
+        <ControlledTextInput
+          control={control}
+          required
+          pattern={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
           name="email"
+          id="email"
           fullWidth
           autoComplete="email"
+          error={errors.email ? true : false}
+          helperText={errors.email && "Invalid email address"}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -124,18 +145,22 @@ const AddAdmin = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Phone Number
         </InputLabel>
-        <MuiTelInput
+        <ControlledTelInput
+          control={control}
+          name="phoneNumber"
+          required
           defaultCountry="PK"
           id="phoneNumber"
-          name="phoneNumber"
           fullWidth
           autoComplete="phoneNumber"
+          error={errors.phoneNumber ? true : false}
+          helperText={errors.phoneNumber && "Phone number is required"}
         />
       </Grid>
 
@@ -146,13 +171,16 @@ const AddAdmin = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Password
         </InputLabel>
-        <TextField
+        <ControlledTextInput
+          control={control}
+          required
+          minLength={5}
           id="password"
           name="password"
           type={showPassword}
@@ -166,7 +194,7 @@ const AddAdmin = () => {
                   aria-label="toggle password visibility"
                   edge="end"
                 >
-                  {showPassword == 'password' ? (
+                  {showPassword == "password" ? (
                     <VisibilityOff />
                   ) : (
                     <Visibility />
@@ -175,6 +203,10 @@ const AddAdmin = () => {
               </InputAdornment>
             ),
           }}
+          error={errors.password ? true : false}
+          helperText={
+            errors.password && "Password must be at least 5 characters long"
+          }
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -184,14 +216,17 @@ const AddAdmin = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           Confirm Password
         </InputLabel>
 
-        <TextField
+        <ControlledTextInput
+          control={control}
+          required
+          validate={(value) => value === getValues("password")}
           id="confirmPassword"
           name="confirmPassword"
           fullWidth
@@ -205,7 +240,7 @@ const AddAdmin = () => {
                   aria-label="toggle password visibility"
                   edge="end"
                 >
-                  {showConfirmPassword == 'password' ? (
+                  {showConfirmPassword == "password" ? (
                     <VisibilityOff />
                   ) : (
                     <Visibility />
@@ -214,6 +249,10 @@ const AddAdmin = () => {
               </InputAdornment>
             ),
           }}
+          error={errors.confirmPassword ? true : false}
+          helperText={
+            errors.confirmPassword && "Password and confirm password must match"
+          }
         />
       </Grid>
 
@@ -224,18 +263,26 @@ const AddAdmin = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Gender
         </InputLabel>
-        <Select id="gender" name="gender" autoComplete="gender" fullWidth>
+        <ControlledSelect
+          control={control}
+          required
+          defaultValue="male"
+          id="gender"
+          name="gender"
+          autoComplete="gender"
+          fullWidth
+        >
           <MenuItem value="male" selected>
             Male
           </MenuItem>
           <MenuItem value="female">Female</MenuItem>
-        </Select>
+        </ControlledSelect>
       </Grid>
 
       <Grid item xs={12} sm={6}>
@@ -245,13 +292,16 @@ const AddAdmin = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           Nationality
         </InputLabel>
-        <Select
+        <ControlledSelect
+          control={control}
+          defaultValue="pakistan"
+          required
           id="nationality"
           name="nationality"
           autoComplete="Pakistan"
@@ -260,7 +310,7 @@ const AddAdmin = () => {
           <MenuItem value="pakistan" selected>
             Pakistan
           </MenuItem>
-        </Select>
+        </ControlledSelect>
       </Grid>
       <Grid item xs={12}>
         <InputLabel
@@ -269,41 +319,48 @@ const AddAdmin = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Address
         </InputLabel>
-        <TextField
-          id="Address"
-          name="Address"
-          multiline
-          rows={4}
+        <ControlledTextInput
+          control={control}
+          required
+          id="address"
+          name="address"
           fullWidth
-          autoComplete="Address"
+          autoComplete="address"
+          error={errors.address ? true : false}
+          helperText={errors.address && "Address is required"}
         />
       </Grid>
 
-      <Grid item xs={12} justifyItems={'center'}>
+      <Grid item xs={12} justifyItems={"center"}>
         <InputLabel
           htmlFor="cnic"
           variant="standard"
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} CNIC
         </InputLabel>
-        <TextField
+        <ControlledPatternInput
+          control={control}
+          required
+          format="#####-#######-#"
+          pattern={/^[0-9]{5}-[0-9]{7}-[0-9]$/}
           id="cnic"
           name="cnic"
           fullWidth
           autoComplete="CNIC"
-          sx={{}}
+          error={errors.cnic ? true : false}
+          helperText={errors.cnic && "CNIC is required"}
         />
       </Grid>
 
@@ -314,16 +371,28 @@ const AddAdmin = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Profile Image
         </InputLabel>
-        <DropZone />
+        <ControlledDropzone
+          control={control}
+          getValues={getValues}
+          setValue={setValue}
+          // required
+          name="image"
+          id="image"
+        />
+        {errors.image && (
+          <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+            Image is required
+          </Typography>
+        )}
       </Grid>
     </>
-  )
-}
+  );
+};
 
-export default AddAdmin
+export default AddAdmin;

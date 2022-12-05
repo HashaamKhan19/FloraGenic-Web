@@ -141,11 +141,26 @@ const AddUser = () => {
             </Grid>
 
             {userType == "Admin" ? (
-              <AddAdmin control={control} />
+              <AddAdmin
+                control={control}
+                getValues={getValues}
+                setValue={setValue}
+                errors={errors}
+              />
             ) : userType == "Gardener" ? (
-              <AddGardener control={control} />
+              <AddGardener
+                control={control}
+                getValues={getValues}
+                setValue={setValue}
+                errors={errors}
+              />
             ) : userType == "NurseryOwner" ? (
-              <AddNurseryOwner control={control} />
+              <AddNurseryOwner
+                control={control}
+                getValues={getValues}
+                setValue={setValue}
+                errors={errors}
+              />
             ) : (
               <AddCustomer
                 control={control}
