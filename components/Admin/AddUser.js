@@ -22,6 +22,7 @@ const AddUser = () => {
     watch,
     control,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: "onChange",
@@ -111,7 +112,12 @@ const AddUser = () => {
             ) : userType == "NurseryOwner" ? (
               <AddNurseryOwner control={control} />
             ) : (
-              <AddCustomer control={control} getValues={getValues} />
+              <AddCustomer
+                control={control}
+                getValues={getValues}
+                setValue={setValue}
+                errors={errors}
+              />
             )}
 
             <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>

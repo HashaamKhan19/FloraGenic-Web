@@ -18,8 +18,9 @@ import { useRouter } from "next/router";
 import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
 import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
 
-const AddCustomer = ({ control, getValues }) => {
+const AddCustomer = ({ control, getValues, setValue, errors }) => {
   const [action, setAction] = React.useState("Enter");
 
   const router = useRouter();
@@ -71,6 +72,8 @@ const AddCustomer = ({ control, getValues }) => {
           name="firstName"
           fullWidth
           autoComplete="family-name"
+          error={errors.firstName ? true : false}
+          helperText={errors.firstName && "First name is required"}
         />
       </Grid>
 
@@ -94,6 +97,8 @@ const AddCustomer = ({ control, getValues }) => {
           id="lastName"
           fullWidth
           autoComplete="family-name"
+          error={errors.lastName ? true : false}
+          helperText={errors.lastName && "Last name is required"}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -124,6 +129,8 @@ const AddCustomer = ({ control, getValues }) => {
               </InputAdornment>
             ),
           }}
+          error={errors.email ? true : false}
+          helperText={errors.email && "Please enter a valid email address"}
         />
       </Grid>
 
@@ -148,6 +155,8 @@ const AddCustomer = ({ control, getValues }) => {
           id="phoneNumber"
           fullWidth
           autoComplete="phoneNumber"
+          error={errors.phoneNumber ? true : false}
+          helperText={errors.phoneNumber && "Phone number is required"}
         />
       </Grid>
 
@@ -190,6 +199,10 @@ const AddCustomer = ({ control, getValues }) => {
               </InputAdornment>
             ),
           }}
+          error={errors.password ? true : false}
+          helperText={
+            errors.password && "Password must be at least 5 characters long"
+          }
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -232,6 +245,10 @@ const AddCustomer = ({ control, getValues }) => {
               </InputAdornment>
             ),
           }}
+          error={errors.confirmPassword ? true : false}
+          helperText={
+            errors.confirmPassword && "Passwords do not match. Please try again"
+          }
         />
       </Grid>
 
@@ -257,9 +274,7 @@ const AddCustomer = ({ control, getValues }) => {
           autoComplete="gender"
           fullWidth
         >
-          <MenuItem value="male" selected>
-            Male
-          </MenuItem>
+          <MenuItem value="male">Male</MenuItem>
           <MenuItem value="female">Female</MenuItem>
         </ControlledSelect>
       </Grid>
@@ -286,9 +301,7 @@ const AddCustomer = ({ control, getValues }) => {
           autoComplete="Pakistan"
           fullWidth
         >
-          <MenuItem value="pakistan" selected>
-            Pakistan
-          </MenuItem>
+          <MenuItem value="pakistan">Pakistan</MenuItem>
         </ControlledSelect>
       </Grid>
       <Grid item xs={12}>
@@ -312,6 +325,8 @@ const AddCustomer = ({ control, getValues }) => {
           multiline
           fullWidth
           autoComplete="address"
+          error={errors.address ? true : false}
+          helperText={errors.address && "Address is required"}
         />
       </Grid>
 
@@ -328,7 +343,20 @@ const AddCustomer = ({ control, getValues }) => {
         >
           {action} Profile Image
         </InputLabel>
-        <Dropzone />
+        {/* <Dropzone /> */}
+        <ControlledDropzone
+          control={control}
+          getValues={getValues}
+          setValue={setValue}
+          // required
+          name="image"
+          id="image"
+        />
+        {errors.image && (
+          <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+            Image is required
+          </Typography>
+        )}
       </Grid>
     </>
   );
