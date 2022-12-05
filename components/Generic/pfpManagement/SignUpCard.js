@@ -37,9 +37,11 @@ const SignUpCard = () => {
   const router = useRouter();
 
   const [signUp, { data, loading, error }] = useMutation(SIGN_UP, {
-    errorPolicy: "all",
     onCompleted: () => {
       router.push("/signIn");
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
 
@@ -92,7 +94,9 @@ const SignUpCard = () => {
                   alt="FloraGenic Logo"
                 />
               </Link>
-              <h1 className="text-3xl font-bold flex items-end ml-2">SignUp</h1>
+              <h1 className="text-3xl font-bold flex items-end ml-2">
+                Sign Up
+              </h1>
             </div>
             {/* User Selection */}
             <FormControl sx={{ minWidth: 140 }} size="small">
