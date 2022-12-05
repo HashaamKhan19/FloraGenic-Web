@@ -9,10 +9,29 @@ import { UsersIcon } from "../../public/icons/UsersIcon";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { useMutation, gql } from "@apollo/client";
+
+const ADD_CUSTOMER = gql`
+  mutation RegisterCustomer(
+    $credentials: UserRegisterInput!
+    $details: CustomerCreateInput!
+  ) {
+    registerCustomer(credentials: $credentials, details: $details)
+  }
+`;
 
 const AddUser = () => {
   const [userType, setUserType] = React.useState("Customer");
   const [action, setAction] = React.useState("Add");
+
+  const [addCustomer, { data, loading, error }] = useMutation(ADD_CUSTOMER, {
+    onCompleted: () => {
+      alert("Customer added successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const router = useRouter();
 
@@ -34,7 +53,23 @@ const AddUser = () => {
   }, [router]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    addCustomer({
+      variables: {
+        credentials: {
+          email: data.email,
+          password: data.password,
+          userType: userType,
+        },
+        details: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          phoneNumber: data.phoneNumber,
+          gender: data.gender,
+          nationality: data.nationality,
+          image: data.image.preview,
+        },
+      },
+    });
   };
 
   console.log(errors);
