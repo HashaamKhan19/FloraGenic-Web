@@ -18,6 +18,7 @@ import ControlledTextInput from "../ControlledComponents/ControlledTextInput";
 import ControlledSelect from "../ControlledComponents/ControlledSelect";
 import { useForm } from "react-hook-form";
 import { useMutation, gql } from "@apollo/client";
+import { useRouter } from "next/router";
 
 const LOGIN_QUERY = gql`
   mutation Mutation($credentials: UserLoginInput!) {
@@ -25,6 +26,7 @@ const LOGIN_QUERY = gql`
       email
       userType
       bannedStatus
+      token
       details {
         ... on Customer {
           id
@@ -67,6 +69,8 @@ const LOGIN_QUERY = gql`
 const SignInCard = () => {
   const [visible, setVisible] = useState(false);
 
+  const router = useRouter();
+
   const {
     handleSubmit,
     control,
@@ -76,10 +80,15 @@ const SignInCard = () => {
   });
 
   const [loginUser, { data, loading, error }] = useMutation(LOGIN_QUERY, {
-    errorPolicy: "all",
+    onCompleted: (data) => {
+      console.log(data);
+      localStorage.setItem("token", data.loginCustomer.token);
+      router.push("/admin");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
   });
-
-  if (data) console.log(data);
 
   const onSubmit = (data) => {
     loginUser({
