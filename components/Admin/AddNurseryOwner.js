@@ -1,6 +1,6 @@
-import React from 'react'
-import Grid from '@mui/material/Unstable_Grid2'
-import { MuiTelInput } from 'mui-tel-input'
+import React from "react";
+import Grid from "@mui/material/Unstable_Grid2";
+import { MuiTelInput } from "mui-tel-input";
 import {
   Button,
   TextField,
@@ -10,41 +10,45 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from '@mui/material'
-import { VisibilityOff, Visibility, AlternateEmail } from '@mui/icons-material'
-import DropZone from '../Generic/Dropzone'
-import { useRouter } from 'next/router'
+} from "@mui/material";
+import { VisibilityOff, Visibility, AlternateEmail } from "@mui/icons-material";
+import DropZone from "../Generic/Dropzone";
+import { useRouter } from "next/router";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
+import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import ControlledPatternInput from "../Generic/ControlledComponents/ControlledPatternInput";
+import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
 
-const AddNurseryOwner = () => {
-  const [action, setAction] = React.useState('Enter')
+const AddNurseryOwner = ({ control, getValues, setValue, errors }) => {
+  const [action, setAction] = React.useState("Enter");
 
-  const router = useRouter()
+  const router = useRouter();
 
   React.useEffect(() => {
-    const parts = router.pathname.split('/')
-    parts[parts.length - 1] == 'addUser' ? action : setAction('Edit')
-  }, [router])
+    const parts = router.pathname.split("/");
+    parts[parts.length - 1] == "addUser" ? action : setAction("Edit");
+  }, [router]);
 
   const passwordDisplay = () => {
     {
-      showPassword == 'text'
-        ? setShowPassword('password')
-        : setShowPassword('text')
+      showPassword == "text"
+        ? setShowPassword("password")
+        : setShowPassword("text");
     }
-  }
+  };
 
   const confirmPasswordDisplay = () => {
     {
-      showConfirmPassword == 'text'
-        ? setShowConfirmPassword('password')
-        : setShowConfirmPassword('text')
+      showConfirmPassword == "text"
+        ? setShowConfirmPassword("password")
+        : setShowConfirmPassword("text");
     }
-  }
+  };
 
-  const [showPassword, setShowPassword] = React.useState('password')
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(
-    'password',
-  )
+  const [showPassword, setShowPassword] = React.useState("password");
+  const [showConfirmPassword, setShowConfirmPassword] =
+    React.useState("password");
 
   return (
     <>
@@ -55,17 +59,21 @@ const AddNurseryOwner = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} First Name
         </InputLabel>
-        <TextField
+        <ControlledTextInput
+          control={control}
+          required
           id="firstName"
           name="firstName"
           fullWidth
           autoComplete="family-name"
+          error={errors.firstName ? true : false}
+          helperText={errors.firstName && "First Name is required"}
         />
       </Grid>
 
@@ -76,17 +84,21 @@ const AddNurseryOwner = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Last Name
         </InputLabel>
-        <TextField
+        <ControlledTextInput
+          control={control}
+          required
           id="lastName"
           name="lastName"
           fullWidth
           autoComplete="family-name"
+          error={errors.lastName ? true : false}
+          helperText={errors.lastName && "Last Name is required"}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -96,13 +108,16 @@ const AddNurseryOwner = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Email
         </InputLabel>
-        <TextField
+        <ControlledTextInput
+          control={control}
+          required
+          pattern={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
           id="email"
           name="email"
           fullWidth
@@ -114,6 +129,8 @@ const AddNurseryOwner = () => {
               </InputAdornment>
             ),
           }}
+          error={errors.email ? true : false}
+          helperText={errors.email && "Email is required"}
         />
       </Grid>
 
@@ -124,13 +141,15 @@ const AddNurseryOwner = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Phone Number
         </InputLabel>
-        <MuiTelInput
+        <ControlledTelInput
+          control={control}
+          required
           defaultCountry="PK"
           id="phoneNumber"
           name="phoneNumber"
@@ -146,13 +165,16 @@ const AddNurseryOwner = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Password
         </InputLabel>
-        <TextField
+        <ControlledTextInput
+          control={control}
+          required
+          minLength={5}
           id="password"
           name="password"
           type={showPassword}
@@ -166,7 +188,7 @@ const AddNurseryOwner = () => {
                   aria-label="toggle password visibility"
                   edge="end"
                 >
-                  {showPassword == 'password' ? (
+                  {showPassword == "password" ? (
                     <VisibilityOff />
                   ) : (
                     <Visibility />
@@ -175,6 +197,8 @@ const AddNurseryOwner = () => {
               </InputAdornment>
             ),
           }}
+          error={errors.password ? true : false}
+          helperText={errors.password && "Password is required"}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -184,14 +208,17 @@ const AddNurseryOwner = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           Confirm Password
         </InputLabel>
 
-        <TextField
+        <ControlledTextInput
+          control={control}
+          required
+          validate={(value) => value === getValues("password")}
           id="confirmPassword"
           name="confirmPassword"
           fullWidth
@@ -205,7 +232,7 @@ const AddNurseryOwner = () => {
                   aria-label="toggle password visibility"
                   edge="end"
                 >
-                  {showConfirmPassword == 'password' ? (
+                  {showConfirmPassword == "password" ? (
                     <VisibilityOff />
                   ) : (
                     <Visibility />
@@ -214,6 +241,10 @@ const AddNurseryOwner = () => {
               </InputAdornment>
             ),
           }}
+          error={errors.confirmPassword ? true : false}
+          helperText={
+            errors.confirmPassword && "Password and Confirm Password must match"
+          }
         />
       </Grid>
 
@@ -224,18 +255,26 @@ const AddNurseryOwner = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           Gender
         </InputLabel>
-        <Select id="gender" name="gender" autoComplete="gender" fullWidth>
+        <ControlledSelect
+          control={control}
+          required
+          defaultValue="male"
+          id="gender"
+          name="gender"
+          autoComplete="gender"
+          fullWidth
+        >
           <MenuItem value="male" selected>
             Male
           </MenuItem>
           <MenuItem value="female">Female</MenuItem>
-        </Select>
+        </ControlledSelect>
       </Grid>
 
       <Grid item xs={12} sm={6}>
@@ -245,13 +284,16 @@ const AddNurseryOwner = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           Nationality
         </InputLabel>
-        <Select
+        <ControlledSelect
+          control={control}
+          required
+          defaultValue="pakistan"
           id="nationality"
           name="nationality"
           autoComplete="Pakistan"
@@ -260,28 +302,30 @@ const AddNurseryOwner = () => {
           <MenuItem value="pakistan" selected>
             Pakistan
           </MenuItem>
-        </Select>
+        </ControlledSelect>
       </Grid>
       <Grid item xs={12}>
         <InputLabel
-          htmlFor="Address"
+          htmlFor="address"
           variant="standard"
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Address
         </InputLabel>
-        <TextField
-          id="Address"
-          name="Address"
-          multiline
-          rows={4}
+        <ControlledTextInput
+          control={control}
+          required
+          id="address"
+          name="address"
           fullWidth
-          autoComplete="Address"
+          autoComplete="address"
+          error={errors.address ? true : false}
+          helperText={errors.address && "Address is required"}
         />
       </Grid>
 
@@ -292,18 +336,23 @@ const AddNurseryOwner = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} CNIC
         </InputLabel>
-        <TextField
+        <ControlledPatternInput
+          control={control}
+          required
+          format="####-#######-#"
+          pattern={/^[0-9]{5}-[0-9]{7}-[0-9]$/}
           id="CNIC"
           name="CNIC"
-          required
           fullWidth
           autoComplete="CNIC"
+          error={errors.CNIC ? true : false}
+          helperText={errors.CNIC && "CNIC is required"}
         />
       </Grid>
 
@@ -314,16 +363,28 @@ const AddNurseryOwner = () => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Profile Image
         </InputLabel>
-        <DropZone />
+        <ControlledDropzone
+          control={control}
+          getValues={getValues}
+          setValue={setValue}
+          // required
+          name="image"
+          id="image"
+        />
+        {errors.image && (
+          <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+            Image is required
+          </Typography>
+        )}
       </Grid>
     </>
-  )
-}
+  );
+};
 
-export default AddNurseryOwner
+export default AddNurseryOwner;
