@@ -8,10 +8,40 @@ import SearchField from "../Generic/SearchField";
 import Export from "../Generic/Export";
 import Link from "next/link";
 import { UsersIcon } from "../../public/icons/UsersIcon";
+import Loader from "../Generic/Loader";
+
+// GraphQL
+import { useQuery, gql } from "@apollo/client";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
   { field: "image", headerName: "Image", width: 70 },
+  { field: "userType", headerName: "Role", width: 120 },
+  {
+    field: "fullName",
+    headerName: "Full name",
+    width: 200,
+    flex: 1,
+    valueGetter: (params) =>
+      `${params?.row?.details?.firstName || ""} ${
+        params?.row?.details?.lastName || ""
+      }`,
+  },
+  { field: "email", headerName: "Email Address", width: 200, flex: 1   },
+  {
+    field: "phone",
+    headerName: "Phone Number",
+    width: 200,
+    flex: 1,
+    valueGetter: (params) =>
+      params?.row?.details?.phoneNumber || "Not Provided",
+  },
+  {
+    field: "gender",
+    headerName: "Gender",
+    width: 150,
+    valueGetter: (params) => params?.row?.details?.gender || "N/A",
+  },
   { field: "role", headerName: "Role", width: 100 },
   {
     field: "fullName",
@@ -60,6 +90,7 @@ const rows = [
     lastName: "Snow",
     firstName: "Jon",
     email: "jonSnow@gmail.com",
+    phone: 35312322,
     phone: "03315406920",
     address: "Liaqatbagh Stadium Rawat Road",
     status: "Active",
@@ -67,11 +98,59 @@ const rows = [
   },
 ];
 
+const GET_USERS = gql`
+  query Users {
+    users {
+      id
+      email
+      userType
+      bannedStatus
+      details {
+        ... on Customer {
+          id
+          firstName
+          lastName
+          nationality
+          phoneNumber
+          gender
+          image
+          createdAt
+          updatedAt
+        }
+        ... on Admin {
+          id
+          firstName
+          lastName
+          nationality
+          phoneNumber
+          CNIC
+          image
+          createdAt
+          updatedAt
+        }
+        ... on Gardener {
+          id
+          firstName
+          lastName
+          nationality
+          phoneNumber
+          CNIC
+          image
+          createdAt
+          updatedAt
+        }
+      }
+    }
+  }
+`;
+
 export default function ViewUsers() {
   const [anchorElImport, setAnchorElImport] = React.useState(null);
   const [anchorElExport, setAnchorElExport] = React.useState(null);
   const importOpen = Boolean(anchorElImport);
   const exportOpen = Boolean(anchorElExport);
+
+  const { loading, error, data } = useQuery(GET_USERS);
 
   // Menu handlers
   const handleImportClick = (event) => {
@@ -87,6 +166,7 @@ export default function ViewUsers() {
     setAnchorElExport(null);
   };
 
+  if (loading) return <Loader />;
   return (
     <Box
       style={{
@@ -166,7 +246,7 @@ export default function ViewUsers() {
           boxShadow: "0 5px 5px -5px",
           border: "1px solid rgba(0,0,0,0.1)",
         }}
-        rows={rows}
+        rows={data.users}
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[7]}
