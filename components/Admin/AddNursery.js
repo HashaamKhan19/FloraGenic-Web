@@ -22,6 +22,15 @@ import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInp
 import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
 import ControlledTimePicker from "../Generic/ControlledComponents/ControlledTimePicker";
 
+// GraphQL
+import { useMutation, gql } from "@apollo/client";
+
+const ADD_NURSERY = gql`
+  mutation NurseryCreate($data: NurseryCreateInput!) {
+    nurseryCreate(data: $data)
+  }
+`;
+
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
@@ -36,7 +45,19 @@ const AddNursery = () => {
     watch,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+  });
+
+  const [nurseryCreate, { data, loading, error }] = useMutation(ADD_NURSERY, {
+    onCompleted: () => {
+      alert("Nursery Added");
+    },
+    onError: (error) => {
+      console.log(error);
+      alert(error.message);
+    },
+  });
 
   const router = useRouter();
 
@@ -60,7 +81,20 @@ const AddNursery = () => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    nurseryCreate({
+      variables: {
+        data: {
+          name: data.name,
+          address: data.address + ", " + data.city,
+          phoneNumber: data.phoneNumber,
+          email: data.email,
+          website: data.website,
+          openingHours: data.openingHours,
+          closingHours: data.closingHours,
+          details: data.details,
+        },
+      },
+    });
   };
 
   const handleTagAdder = (e) => {
@@ -91,9 +125,9 @@ const AddNursery = () => {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3} sx={{ mt: 5, px: 2 }}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <InputLabel
-                  htmlFor="nurseryName"
+                  htmlFor="name"
                   variant="standard"
                   required
                   sx={{
@@ -107,16 +141,16 @@ const AddNursery = () => {
                 <ControlledTextInput
                   control={control}
                   required
-                  id="nurseryName"
-                  name="nurseryName"
+                  id="name"
+                  name="name"
                   fullWidth
                   autoComplete="Nursery Name"
-                  error={errors.nurseryName ? true : false}
-                  helperText={errors.nurseryName && "Nursery Name is required"}
+                  error={errors.name ? true : false}
+                  helperText={errors.name && "Nursery Name is required"}
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
                 <InputLabel
                   htmlFor="nurseryTitle"
                   variant="standard"
@@ -141,11 +175,11 @@ const AddNursery = () => {
                     errors.nurseryTitle && "Nursery Title is required"
                   }
                 />
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12} sm={6}>
                 <InputLabel
-                  htmlFor="nurseryDescription"
+                  htmlFor="address"
                   variant="standard"
                   required
                   sx={{
@@ -154,20 +188,17 @@ const AddNursery = () => {
                     "& span": { color: "error.light" },
                   }}
                 >
-                  {action} Nursery Description
+                  {action} Nursery Address
                 </InputLabel>
                 <ControlledTextInput
                   control={control}
                   required
-                  id="nurseryDescription"
-                  name="nurseryDescription"
+                  id="address"
+                  name="address"
                   fullWidth
-                  autoComplete="Nursery Description"
-                  error={errors.nurseryDescription ? true : false}
-                  helperText={
-                    errors.nurseryDescription &&
-                    "Nursery Description is required"
-                  }
+                  autoComplete="Nursery Address"
+                  error={errors.address ? true : false}
+                  helperText={errors.address && "Nursery Address is required"}
                 />
               </Grid>
 
@@ -187,18 +218,18 @@ const AddNursery = () => {
                 <ControlledTextInput
                   control={control}
                   required
-                  id="nurseryCity"
-                  name="nurseryCity"
+                  id="city"
+                  name="city"
                   fullWidth
                   autoComplete="Nursery City"
-                  error={errors.nurseryCity ? true : false}
-                  helperText={errors.nurseryCity && "Nursery City is required"}
+                  error={errors.city ? true : false}
+                  helperText={errors.city && "Nursery City is required"}
                 />
               </Grid>
 
               <Grid item xs={12}>
                 <InputLabel
-                  htmlFor="nurseryAddress"
+                  htmlFor="description"
                   variant="standard"
                   required
                   sx={{
@@ -207,27 +238,27 @@ const AddNursery = () => {
                     "& span": { color: "error.light" },
                   }}
                 >
-                  {action} Nursery Address
+                  {action} Nursery Description
                 </InputLabel>
                 <ControlledTextInput
                   control={control}
                   required
-                  id="nurseryAddress"
-                  name="nurseryAddress"
+                  id="details"
+                  name="details"
                   multiline
                   rows={4}
                   fullWidth
                   autoComplete="Nursery Address"
-                  error={errors.nurseryAddress ? true : false}
+                  error={errors.details ? true : false}
                   helperText={
-                    errors.nurseryAddress && "Nursery Address is required"
+                    errors.details && "Nursery Description is required"
                   }
                 />
               </Grid>
 
               <Grid item xs={12} sm={6}>
                 <InputLabel
-                  htmlFor="nurseryPhoneNumber"
+                  htmlFor="phoneNumber"
                   variant="standard"
                   required
                   sx={{
@@ -242,14 +273,12 @@ const AddNursery = () => {
                   control={control}
                   required
                   defaultCountry="PK"
-                  id="nurseryPhoneNumber"
-                  name="nurseryPhoneNumber"
+                  id="phoneNumber"
+                  name="phoneNumber"
                   fullWidth
-                  autoComplete="nurseryPhoneNumber"
-                  error={errors.nurseryPhoneNumber ? true : false}
-                  helperText={
-                    errors.nurseryPhoneNumber && "Phone Number is required"
-                  }
+                  autoComplete="phoneNumber"
+                  error={errors.phoneNumber ? true : false}
+                  helperText={errors.phoneNumber && "Phone Number is required"}
                 />
               </Grid>
 
@@ -330,7 +359,7 @@ const AddNursery = () => {
                 <ControlledTimePicker
                   control={control}
                   required
-                  name="opening"
+                  name="openingHours"
                 />
               </Grid>
 
@@ -350,7 +379,7 @@ const AddNursery = () => {
                 <ControlledTimePicker
                   control={control}
                   required
-                  name="closing"
+                  name="closingHours"
                   fullWidth
                 />
               </Grid>

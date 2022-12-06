@@ -42,6 +42,17 @@ const columns = [
     width: 150,
     valueGetter: (params) => params?.row?.details?.gender || "N/A",
   },
+  { field: "role", headerName: "Role", width: 100 },
+  {
+    field: "fullName",
+    headerName: "Full name",
+    width: 150,
+    flex: 1,
+    valueGetter: (params) =>
+      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+  },
+  { field: "email", headerName: "Email Address", width: 180, flex: 1 },
+  { field: "phone", headerName: "Phone Number", width: 180 },
   {
     field: "status",
     headerName: "Status",
@@ -80,6 +91,7 @@ const rows = [
     firstName: "Jon",
     email: "jonSnow@gmail.com",
     phone: 35312322,
+    phone: "03315406920",
     address: "Liaqatbagh Stadium Rawat Road",
     status: "Active",
     actions: "iconsHere",
