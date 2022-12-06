@@ -86,7 +86,7 @@ const AddNursery = () => {
         data: {
           name: data.name,
           address: data.address + ", " + data.city,
-          phone: data.phone,
+          phoneNumber: data.phoneNumber,
           email: data.email,
           website: data.website,
           openingHours: data.openingHours,
