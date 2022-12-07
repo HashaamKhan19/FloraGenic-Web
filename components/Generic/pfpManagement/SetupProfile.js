@@ -17,9 +17,34 @@ import ControlledTelInput from "../ControlledComponents/ControlledTelInput";
 import ControlledPatternInput from "../ControlledComponents/ControlledPatternInput";
 import ControlledSelect from "../ControlledComponents/ControlledSelect";
 import ControlledDropzone from "../ControlledComponents/ControlledDropzone";
+import { useRouter } from "next/router";
+
+// GraphQL
+import { useMutation, gql } from "@apollo/client";
+
+const CREATE_CUSTOMER_PROFILE = gql`
+  mutation Mutation($userId: ID!, $details: CustomerCreateInput!) {
+    addCustomer(userID: $userId, details: $details)
+  }
+`;
 
 const SetupGardenerProfile = () => {
-  const [user, setUser] = React.useState("Gardener");
+  const router = useRouter();
+  const user = router.query.userType;
+  const userID = router.query.userID;
+
+  const [createCustomerProfile, { data }] = useMutation(
+    CREATE_CUSTOMER_PROFILE,
+    {
+      onCompleted: (data) => {
+        console.log(data);
+        router.push("/admin");
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
 
   const {
     register,
@@ -31,6 +56,19 @@ const SetupGardenerProfile = () => {
   } = useForm();
 
   const onSubmit = (data) => {
+    createCustomerProfile({
+      variables: {
+        userId: userID,
+        details: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          phoneNumber: data.phoneNumber,
+          gender: data.gender,
+          nationality: data.nationality,
+          image: data.image.preview,
+        },
+      },
+    });
     console.log(data);
   };
 
@@ -131,32 +169,35 @@ const SetupGardenerProfile = () => {
                 helperText={errors.phoneNumber && "Phone Number is required"}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <InputLabel
-                htmlFor="CNIC"
-                variant="standard"
-                required
-                sx={{
-                  mb: 1.5,
-                  color: "text.primary",
-                  "& span": { color: "error.light" },
-                }}
-              >
-                Enter CNIC
-              </InputLabel>
-              <ControlledPatternInput
-                control={control}
-                required
-                format="#####-#######-#"
-                pattern={/^[0-9]{5}-[0-9]{7}-[0-9]$/}
-                id="CNIC"
-                name="CNIC"
-                fullWidth
-                autoComplete="CNIC"
-                error={errors.CNIC ? true : false}
-                helperText={errors.CNIC && "CNIC is required"}
-              />
-            </Grid>
+
+            {user !== "Customer" && (
+              <Grid item xs={12} sm={6}>
+                <InputLabel
+                  htmlFor="CNIC"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
+                  }}
+                >
+                  Enter CNIC
+                </InputLabel>
+                <ControlledPatternInput
+                  control={control}
+                  required
+                  format="#####-#######-#"
+                  pattern={/^[0-9]{5}-[0-9]{7}-[0-9]$/}
+                  id="CNIC"
+                  name="CNIC"
+                  fullWidth
+                  autoComplete="CNIC"
+                  error={errors.CNIC ? true : false}
+                  helperText={errors.CNIC && "CNIC is required"}
+                />
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
               <InputLabel
                 htmlFor="gender"
@@ -185,7 +226,7 @@ const SetupGardenerProfile = () => {
                 <MenuItem value="female">Female</MenuItem>
               </ControlledSelect>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={user !== "Customer" ? 6 : 12}>
               <InputLabel
                 htmlFor="nationality"
                 variant="standard"
@@ -212,7 +253,7 @@ const SetupGardenerProfile = () => {
                 </MenuItem>
               </ControlledSelect>
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <InputLabel
                 htmlFor="address"
                 variant="standard"
@@ -235,7 +276,7 @@ const SetupGardenerProfile = () => {
                 error={errors.address ? true : false}
                 helperText={errors.address && "Address is required"}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <InputLabel
                 htmlFor="image"

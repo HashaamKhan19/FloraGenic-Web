@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 const LOGIN_QUERY = gql`
   mutation Mutation($credentials: UserLoginInput!) {
     loginCustomer(credentials: $credentials) {
+      id
       email
       userType
       bannedStatus
@@ -83,7 +84,17 @@ const SignInCard = () => {
     onCompleted: (data) => {
       console.log(data);
       localStorage.setItem("token", data.loginCustomer.token);
-      router.push("/admin");
+      if (data.loginCustomer.details) {
+        router.push("/admin");
+      } else {
+        router.push({
+          pathname: "/setupProfile",
+          query: {
+            userType: data.loginCustomer.userType,
+            userID: data.loginCustomer.id,
+          },
+        });
+      }
     },
     onError: (error) => {
       console.log(error);
