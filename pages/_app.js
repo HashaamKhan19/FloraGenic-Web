@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import Sidebar from "../components/Admin/Sidebar";
+import GardenerSidebar from "../components/Gardener/Sidebar";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
@@ -94,6 +95,18 @@ function MyApp({ Component, pageProps, router }) {
           <Sidebar>
             <Component {...pageProps} />
           </Sidebar>
+        </ThemeProvider>
+      </ApolloProvider>
+    );
+  }
+
+  if (router.pathname.startsWith("/gardener")) {
+    return (
+      <ApolloProvider client={client}>
+        <ThemeProvider theme={theme}>
+          <GardenerSidebar>
+            <Component {...pageProps} />
+          </GardenerSidebar>
         </ThemeProvider>
       </ApolloProvider>
     );
