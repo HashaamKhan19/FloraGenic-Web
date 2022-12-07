@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import Sidebar from "../components/Admin/Sidebar";
 import GardenerSidebar from "../components/Gardener/Sidebar";
+import NurserySidebar from "../components/Nursery/Sidebar";
 import { ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
@@ -107,6 +108,18 @@ function MyApp({ Component, pageProps, router }) {
           <GardenerSidebar>
             <Component {...pageProps} />
           </GardenerSidebar>
+        </ThemeProvider>
+      </ApolloProvider>
+    );
+  }
+
+  if (router.pathname.startsWith("/nursery")) {
+    return (
+      <ApolloProvider client={client}>
+        <ThemeProvider theme={theme}>
+          <NurserySidebar>
+            <Component {...pageProps} />
+          </NurserySidebar>
         </ThemeProvider>
       </ApolloProvider>
     );
