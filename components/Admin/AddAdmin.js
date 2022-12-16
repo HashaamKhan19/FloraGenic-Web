@@ -278,9 +278,7 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
           autoComplete="gender"
           fullWidth
         >
-          <MenuItem value="male" selected>
-            Male
-          </MenuItem>
+          <MenuItem value="male">Male</MenuItem>
           <MenuItem value="female">Female</MenuItem>
         </ControlledSelect>
       </Grid>
@@ -307,9 +305,7 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
           autoComplete="Pakistan"
           fullWidth
         >
-          <MenuItem value="pakistan" selected>
-            Pakistan
-          </MenuItem>
+          <MenuItem value="pakistan">Pakistan</MenuItem>
         </ControlledSelect>
       </Grid>
       <Grid item xs={12}>
