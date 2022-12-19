@@ -7,18 +7,17 @@ import BlockToggle from '../Generic/BlockToggle'
 import SearchField from '../Generic/SearchField'
 import Export from '../Generic/Export'
 import Link from 'next/link'
-import { AddProductIcon } from '../../public/icons/AddProductIcon'
+import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings'
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 50 },
   { field: 'image', headerName: 'Image', width: 70 },
-  { field: 'category', headerName: 'Category', width: 100 },
   {
-    field: 'name',
-    headerName: 'Product Name',
+    field: 'title',
+    headerName: 'Gig Title',
     width: 150,
   },
-  { field: 'nursery', headerName: 'In-Nursery', width: 280 },
+  { field: 'owner', headerName: 'Gig Owner', width: 280 },
   {
     field: 'status',
     headerName: 'Status',
@@ -36,7 +35,16 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: () => {
-      return <ActionIcons type="product" />
+      return (
+        <ActionIcons
+          text={'Are you sure you want to delete this gig?'}
+          warningText={
+            'Deleting this gig will also delete all the orders related to this gig'
+          }
+          viewText={'View Gig Details'}
+          type={'gig'}
+        />
+      )
     },
   },
 ]
@@ -45,37 +53,14 @@ const rows = [
   {
     id: 1,
     image: 'Null',
-    category: 'Tools',
-    name: 'Axe',
-    retail: 123,
-    wholeSale: 456,
-    quantity: 2,
-    nursery: 'Liaqatbagh Nursery Rawat Road',
+    title: 'aksjdhaskjdh',
+    owner: 'Hashaam',
     status: 'Active',
     actions: 'iconsHere',
   },
 ]
 
-export default function ViewProducts() {
-  const [anchorElImport, setAnchorElImport] = React.useState(null)
-  const [anchorElExport, setAnchorElExport] = React.useState(null)
-  const importOpen = Boolean(anchorElImport)
-  const exportOpen = Boolean(anchorElExport)
-
-  // Menu handlers
-  const handleImportClick = (event) => {
-    setAnchorElImport(event.currentTarget)
-  }
-  const handleImportClose = () => {
-    setAnchorElImport(null)
-  }
-  const handleExportClick = (event) => {
-    setAnchorElExport(event.currentTarget)
-  }
-  const handleExportClose = () => {
-    setAnchorElExport(null)
-  }
-
+export default function ViewGigs() {
   return (
     <Box
       style={{
@@ -113,8 +98,8 @@ export default function ViewProducts() {
             alignItems={'center'}
             sx={{ marginLeft: 1 }}
           >
-            <AddProductIcon sx={{ mt: 1 }} fontSize="large" />
-            View Products
+            <DisplaySettingsIcon sx={{ mr: 1 }} fontSize="large" />
+            View Gigs
           </Typography>
         </Box>
         <Box
@@ -128,13 +113,13 @@ export default function ViewProducts() {
         >
           <SearchField />
 
-          <Link href={'/admin/addProduct'}>
+          <Link href={'/admin/addGig'}>
             <button className="bg-floraGreen px-3 py-[2px] rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
-              <AddProductIcon
-                sx={{ color: 'white', mt: 0.8 }}
+              <DisplaySettingsIcon
+                sx={{ color: 'white', mr: 1 }}
                 fontSize="medium"
               />
-              Add Product
+              Add Gig
             </button>
           </Link>
 

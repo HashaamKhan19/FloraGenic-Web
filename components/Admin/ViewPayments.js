@@ -1,34 +1,17 @@
 import * as React from 'react'
 import { DataGrid } from '@mui/x-data-grid'
-import { Box, Button, Typography } from '@mui/material'
-import { PersonAdd } from '@mui/icons-material'
-import ActionIcons from '../Generic/ActionIcons'
-import BlockToggle from '../Generic/BlockToggle'
+import { Box, Typography } from '@mui/material'
+import PaymentActions from '../Generic/PaymentActions'
+import ComplaintStatus from '../Generic/ComplaintStatus'
 import SearchField from '../Generic/SearchField'
 import Export from '../Generic/Export'
-import Link from 'next/link'
-import { AddProductIcon } from '../../public/icons/AddProductIcon'
+import { ViewReviewsIcon } from '../../public/icons/ViewReviewsIcon'
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 50 },
-  { field: 'image', headerName: 'Image', width: 70 },
-  { field: 'category', headerName: 'Category', width: 100 },
-  {
-    field: 'name',
-    headerName: 'Product Name',
-    width: 150,
-  },
-  { field: 'nursery', headerName: 'In-Nursery', width: 280 },
-  {
-    field: 'status',
-    headerName: 'Status',
-    width: 150,
-    headerAlign: 'center',
-    align: 'center',
-    renderCell: () => {
-      return <BlockToggle />
-    },
-  },
+  { field: 'id', headerName: 'ID', width: 40 },
+  { field: 'name', headerName: 'Paid By', width: 200 },
+  { field: 'date', headerName: 'Payed On', width: 150 },
+  { field: 'method', headerName: 'Payment Via', width: 150 },
   {
     field: 'actions',
     headerName: 'Actions',
@@ -36,7 +19,14 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: () => {
-      return <ActionIcons type="product" />
+      return (
+        <PaymentActions
+          text={'Are you sure you want to delete this Payment?'}
+          warningText={'This action is irreversable!'}
+          viewText={'Payment Details here'}
+          type={'Payment'}
+        />
+      )
     },
   },
 ]
@@ -44,38 +34,14 @@ const columns = [
 const rows = [
   {
     id: 1,
-    image: 'Null',
-    category: 'Tools',
-    name: 'Axe',
-    retail: 123,
-    wholeSale: 456,
-    quantity: 2,
-    nursery: 'Liaqatbagh Nursery Rawat Road',
-    status: 'Active',
+    name: 'Hashaam Khan',
+    date: '12/12/12',
+    method: 'MasterCard',
     actions: 'iconsHere',
   },
 ]
 
-export default function ViewProducts() {
-  const [anchorElImport, setAnchorElImport] = React.useState(null)
-  const [anchorElExport, setAnchorElExport] = React.useState(null)
-  const importOpen = Boolean(anchorElImport)
-  const exportOpen = Boolean(anchorElExport)
-
-  // Menu handlers
-  const handleImportClick = (event) => {
-    setAnchorElImport(event.currentTarget)
-  }
-  const handleImportClose = () => {
-    setAnchorElImport(null)
-  }
-  const handleExportClick = (event) => {
-    setAnchorElExport(event.currentTarget)
-  }
-  const handleExportClose = () => {
-    setAnchorElExport(null)
-  }
-
+export default function ViewPayments() {
   return (
     <Box
       style={{
@@ -91,7 +57,6 @@ export default function ViewProducts() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          // mb: 5,
           p: 1.5,
           gap: 1,
           borderTopRightRadius: 5,
@@ -113,8 +78,8 @@ export default function ViewProducts() {
             alignItems={'center'}
             sx={{ marginLeft: 1 }}
           >
-            <AddProductIcon sx={{ mt: 1 }} fontSize="large" />
-            View Products
+            <ViewReviewsIcon sx={{ mt: 1 }} fontSize="large" />
+            View Payments
           </Typography>
         </Box>
         <Box
@@ -127,17 +92,6 @@ export default function ViewProducts() {
           }}
         >
           <SearchField />
-
-          <Link href={'/admin/addProduct'}>
-            <button className="bg-floraGreen px-3 py-[2px] rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
-              <AddProductIcon
-                sx={{ color: 'white', mt: 0.8 }}
-                fontSize="medium"
-              />
-              Add Product
-            </button>
-          </Link>
-
           <Export />
         </Box>
       </Box>

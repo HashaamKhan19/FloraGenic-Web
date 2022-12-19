@@ -14,7 +14,7 @@ const style = {
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
-  borderRadius: 2,
+  borderRadius: 1,
   textAlign: 'center',
 }
 
@@ -22,11 +22,10 @@ export default function ViewUserModal({
   viewText,
   viewOpen,
   handleViewClose,
-  open,
+  type,
 }) {
   return (
     <div>
-      {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -46,7 +45,7 @@ export default function ViewUserModal({
               component="h2"
               gutterBottom
             >
-              {viewText}
+              View {type} details
             </Typography>
 
             <Box
@@ -57,7 +56,7 @@ export default function ViewUserModal({
                 gap: 1,
               }}
             >
-              <Typography>User Details Here</Typography>
+              <Typography>{viewText}</Typography>
             </Box>
           </Box>
         </Fade>

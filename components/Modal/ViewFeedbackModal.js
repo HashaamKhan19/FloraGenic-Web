@@ -3,7 +3,6 @@ import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
-import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 const style = {
@@ -11,34 +10,35 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
+  width: 400,
   bgcolor: 'background.paper',
   boxShadow: 24,
-  p: 5,
+  p: 4,
   borderRadius: 1,
   textAlign: 'center',
 }
 
-export default function ActionConfirmationModal({
+export default function ViewFeedbackModal({
+  viewText,
+  viewSubject,
+  viewOpen,
+  handleViewClose,
   open,
-  handleClose,
-  text,
-  warningText,
 }) {
   return (
     <div>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
+        open={viewOpen}
+        onClose={handleViewClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        <Fade in={open}>
+        <Fade in={viewOpen}>
           <Box sx={style}>
             <Typography
               id="transition-modal-title"
@@ -46,40 +46,18 @@ export default function ActionConfirmationModal({
               component="h2"
               gutterBottom
             >
-              {text}
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              {warningText}
+              {viewSubject}
             </Typography>
 
             <Box
               sx={{
                 display: 'flex',
-                justifyContent: 'space-around',
-                mt: 4,
+                justifyContent: 'space-evenly',
+                mt: 3,
                 gap: 1,
               }}
             >
-              <Button
-                variant="contained"
-                color="primary"
-                sx={{ color: 'white' }}
-                onClick={() => {
-                  handleClose()
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                // sx={{ flex: 1 }}
-                onClick={() => {
-                  handleClose()
-                }}
-              >
-                Confirm
-              </Button>
+              <Typography>{viewText}</Typography>
             </Box>
           </Box>
         </Fade>

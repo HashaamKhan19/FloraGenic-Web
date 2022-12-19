@@ -1,8 +1,8 @@
-import { IconButton, Box } from "@mui/material";
-import React from "react";
-import { useDropzone } from "react-dropzone";
-import { AttachFile, Cancel } from "@mui/icons-material";
-import Image from "next/legacy/image";
+import { IconButton, Box } from '@mui/material'
+import React from 'react'
+import { useDropzone } from 'react-dropzone'
+import { AttachFile, Cancel } from '@mui/icons-material'
+import Image from 'next/legacy/image'
 
 export default function DropZone({ onChange, getValues, name, setValue }) {
   const {
@@ -13,36 +13,36 @@ export default function DropZone({ onChange, getValues, name, setValue }) {
     isDragAccept,
   } = useDropzone({
     accept: {
-      "image/*": [],
+      'image/*': [],
     },
     maxFiles: 1,
-  });
+  })
   return (
     <Box
       sx={{
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: getValues(name) == null ? 5 : 0,
-        overflow: "hidden",
-        borderWidth: "2px",
-        borderStyle: "dashed",
+        overflow: 'hidden',
+        borderWidth: '2px',
+        borderStyle: 'dashed',
         borderColor: isDragAccept
-          ? "success.main"
+          ? 'success.main'
           : isDragReject
-          ? "error.main"
-          : "gray",
+          ? 'error.main'
+          : 'gray',
         borderRadius: 2,
-        width: "min(100%, 400px)",
+        width: 'min(100%, 400px)',
         height: 400,
-        outline: "none",
-        transition: "border .24s ease-in-out",
-        mx: "auto",
-        textAlign: "center",
-        "&:hover": {
-          borderColor: "#2196f3",
+        outline: 'none',
+        transition: 'border .24s ease-in-out',
+        mx: 'auto',
+        textAlign: 'center',
+        '&:hover': {
+          borderColor: '#62A82C',
         },
       }}
       {...getRootProps()}
@@ -52,9 +52,9 @@ export default function DropZone({ onChange, getValues, name, setValue }) {
           <input
             {...getInputProps()}
             onChange={(e) => {
-              const file = e.target.files[0];
-              file.preview = URL.createObjectURL(file);
-              onChange(file);
+              const file = e.target.files[0]
+              file.preview = URL.createObjectURL(file)
+              onChange(file)
             }}
           />
 
@@ -77,9 +77,9 @@ export default function DropZone({ onChange, getValues, name, setValue }) {
       ) : (
         <Box
           sx={{
-            width: "100%",
-            height: "100%",
-            position: "relative",
+            width: '100%',
+            height: '100%',
+            position: 'relative',
           }}
         >
           <Image
@@ -91,15 +91,15 @@ export default function DropZone({ onChange, getValues, name, setValue }) {
 
           <IconButton
             sx={{
-              position: "absolute",
+              position: 'absolute',
               top: 5,
               right: 5,
-              color: "white",
-              backgroundColor: "rgba(0,0,0,0.3)",
-              p: "3px",
+              color: 'white',
+              backgroundColor: 'rgba(0,0,0,0.3)',
+              p: '3px',
             }}
             onClick={() => {
-              setValue(name, null);
+              setValue(name, null)
             }}
           >
             <Cancel />
@@ -107,5 +107,5 @@ export default function DropZone({ onChange, getValues, name, setValue }) {
         </Box>
       )}
     </Box>
-  );
+  )
 }

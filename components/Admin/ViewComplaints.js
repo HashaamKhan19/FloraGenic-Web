@@ -13,7 +13,6 @@ const columns = [
   { field: 'category', headerName: 'Category', width: 120 },
   { field: 'date', headerName: 'Added On', width: 150 },
   { field: 'subject', headerName: 'Subject', width: 200 },
-  { field: 'description', headerName: 'Description', width: 220 },
   {
     field: 'status',
     headerName: 'Status',
@@ -31,7 +30,15 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: () => {
-      return <ReviewActions />
+      return (
+        <ReviewActions
+          text={'Are you sure you want to delete this Complaint?'}
+          warningText={'This action is irreversable!'}
+          viewText={'Complaint Details'}
+          viewSubject={'Complaint Subject'}
+          replyText={'Complaint'}
+        />
+      )
     },
   },
 ]
@@ -43,32 +50,12 @@ const rows = [
     category: 'Nursery',
     date: '12/12/12',
     subject: 'Bug',
-    description: 'Very Bad Bug',
     status: 'Active',
     actions: 'iconsHere',
   },
 ]
 
 export default function ViewComplants() {
-  const [anchorElImport, setAnchorElImport] = React.useState(null)
-  const [anchorElExport, setAnchorElExport] = React.useState(null)
-  const importOpen = Boolean(anchorElImport)
-  const exportOpen = Boolean(anchorElExport)
-
-  // Menu handlers
-  const handleImportClick = (event) => {
-    setAnchorElImport(event.currentTarget)
-  }
-  const handleImportClose = () => {
-    setAnchorElImport(null)
-  }
-  const handleExportClick = (event) => {
-    setAnchorElExport(event.currentTarget)
-  }
-  const handleExportClose = () => {
-    setAnchorElExport(null)
-  }
-
   return (
     <Box
       style={{

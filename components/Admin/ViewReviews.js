@@ -18,7 +18,6 @@ const columns = [
     width: 150,
   },
   { field: 'date', headerName: 'Added On', width: 150 },
-  { field: 'review', headerName: 'Review', width: 180 },
   {
     field: 'ratings',
     headerName: 'Ratings',
@@ -45,7 +44,15 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: () => {
-      return <ReviewActions />
+      return (
+        <ReviewActions
+          text={'Are you sure you want to delete this Review?'}
+          warningText={'This action is irreversable!'}
+          viewText={'Review Details'}
+          viewSubject={'Total Ratings'}
+          replyText={'Review'}
+        />
+      )
     },
   },
 ]
@@ -57,7 +64,6 @@ const rows = [
     type: 'Nursery',
     name: 'Hashaam',
     date: '12/12/12',
-    review: 'Good Nursery',
     ratings: 5,
     status: 'Active',
     actions: 'iconsHere',
@@ -76,25 +82,6 @@ const rows = [
 ]
 
 export default function ViewReviews() {
-  const [anchorElImport, setAnchorElImport] = React.useState(null)
-  const [anchorElExport, setAnchorElExport] = React.useState(null)
-  const importOpen = Boolean(anchorElImport)
-  const exportOpen = Boolean(anchorElExport)
-
-  // Menu handlers
-  const handleImportClick = (event) => {
-    setAnchorElImport(event.currentTarget)
-  }
-  const handleImportClose = () => {
-    setAnchorElImport(null)
-  }
-  const handleExportClick = (event) => {
-    setAnchorElExport(event.currentTarget)
-  }
-  const handleExportClose = () => {
-    setAnchorElExport(null)
-  }
-
   return (
     <Box
       style={{

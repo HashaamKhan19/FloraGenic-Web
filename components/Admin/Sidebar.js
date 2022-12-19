@@ -10,12 +10,15 @@ import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import MenuIcon from '@mui/icons-material/Menu'
+import AddToQueueIcon from '@mui/icons-material/AddToQueue'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import PersonIcon from '@mui/icons-material/Person'
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
 import HolidayVillageIcon from '@mui/icons-material/HolidayVillage'
 import HouseSidingIcon from '@mui/icons-material/HouseSiding'
 import ReviewsIcon from '@mui/icons-material/Reviews'
+import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings'
+import LocalAtmIcon from '@mui/icons-material/LocalAtm'
 import MuiAppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
@@ -30,6 +33,7 @@ import ListItemText from '@mui/material/ListItemText'
 import { styled, useTheme } from '@mui/material/styles'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import ChatIcon from '@mui/icons-material/Chat'
 import ProfileMenu from '../Generic/ProfileMenu'
 import Link from 'next/link'
 import * as React from 'react'
@@ -88,19 +92,21 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function Sidebar({ children }) {
   const router = useRouter()
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(true)
   const [adminlistOpen, setAdminListOpen] = useState(false)
-  const [customerlistOpen, setCustomerListOpen] = useState(false)
-  const [gardenerlistOpen, setGardenerListOpen] = useState(false)
   const [nurserylistOpen, setNurseryListOpen] = useState(false)
   const [categorylistOpen, setCategoryListOpen] = useState(false)
   const [productlistOpen, setProductListOpen] = useState(false)
+  const [giglistOpen, setGigListOpen] = useState(false)
 
   const handleAdminClick = () => {
     setAdminListOpen(!adminlistOpen)
   }
   const handleCategoryClick = () => {
     setCategoryListOpen(!categorylistOpen)
+  }
+  const handleGigClick = () => {
+    setGigListOpen(!giglistOpen)
   }
   const handleProductClick = () => {
     setProductListOpen(!productlistOpen)
@@ -528,6 +534,109 @@ export default function Sidebar({ children }) {
             </Collapse>
           </Link>
 
+          {/* Gigs */}
+
+          <ListItemButton
+            onClick={handleGigClick}
+            sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+          >
+            <ListItemIcon>
+              <DisplaySettingsIcon
+                style={{ color: 'white', fontSize: '22px' }}
+              />
+            </ListItemIcon>
+            <ListItemText
+              primary="6 - Gigs"
+              primaryTypographyProps={{
+                marginLeft: -1.5,
+              }}
+            />
+            {giglistOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+
+          <Link href="/admin/addGig">
+            <Collapse in={giglistOpen} timeout="auto" unmountOnExit>
+              <List disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                >
+                  <ListItemIcon>
+                    <AddToQueueIcon
+                      style={{
+                        fontSize: '22px',
+                        color: 'white',
+                      }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="6.1 - Add Gig"
+                    primaryTypographyProps={{
+                      fontSize: '14px',
+                      marginLeft: -1.5,
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </Link>
+
+          <Link href="/admin/viewGigs">
+            <Collapse in={giglistOpen} timeout="auto" unmountOnExit>
+              <List disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                >
+                  <ListItemIcon>
+                    <DisplaySettingsIcon
+                      style={{ color: 'white', fontSize: '22px' }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="6.2 - View all Gigs"
+                    primaryTypographyProps={{
+                      fontSize: '14px',
+                      marginLeft: -1.5,
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </Link>
+
+          {/* Chats */}
+          <Link href="/admin/viewChats">
+            <ListItemButton
+              sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+            >
+              <ListItemIcon>
+                <ChatIcon style={{ color: 'white' }} />
+              </ListItemIcon>
+              <ListItemText
+                primary="7 - Chat"
+                primaryTypographyProps={{
+                  marginLeft: -1.5,
+                }}
+              />
+            </ListItemButton>
+          </Link>
+
+          {/* Payments */}
+          <Link href="/admin/viewPayments">
+            <ListItemButton
+              sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+            >
+              <ListItemIcon>
+                <LocalAtmIcon style={{ color: 'white' }} />
+              </ListItemIcon>
+              <ListItemText
+                primary="8 - Payments"
+                primaryTypographyProps={{
+                  marginLeft: -1.5,
+                }}
+              />
+            </ListItemButton>
+          </Link>
+
           {/* Reviews */}
           <Link href="/admin/viewReviews">
             <ListItemButton
@@ -537,7 +646,7 @@ export default function Sidebar({ children }) {
                 <ReviewsIcon style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText
-                primary="6 - Reviews"
+                primary="9 - Reviews"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}
@@ -554,7 +663,7 @@ export default function Sidebar({ children }) {
                 <ReportGmailerrorredIcon style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText
-                primary="7 - Complaints"
+                primary="10 - Complaints"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}
@@ -571,7 +680,7 @@ export default function Sidebar({ children }) {
                 <BarChartIcon style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText
-                primary="8 - Statistics"
+                primary="11 - Statistics"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}

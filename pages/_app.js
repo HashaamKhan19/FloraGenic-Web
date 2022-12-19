@@ -1,95 +1,105 @@
-import "../styles/globals.css";
-import Sidebar from "../components/Admin/Sidebar";
-import GardenerSidebar from "../components/Gardener/Sidebar";
-import NurserySidebar from "../components/Nursery/Sidebar";
-import { ThemeProvider } from "@mui/material";
-import { createTheme } from "@mui/material";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import '../styles/globals.css'
+import Sidebar from '../components/Admin/Sidebar'
+import GardenerSidebar from '../components/Gardener/Sidebar'
+import NurserySidebar from '../components/Nursery/Sidebar'
+import { ThemeProvider } from '@mui/material'
+import { createTheme } from '@mui/material'
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 
 function MyApp({ Component, pageProps, router }) {
   const theme = createTheme({
     typography: {
-      fontFamily: ["Poppins"].join(","),
+      fontFamily: ['Poppins'].join(','),
     },
 
+    // '&::webkit-scrollbar': {
+    //   width: 20,
+    // },
+    // '&::webkit-scrollbar-track': {
+    //   backgroundColor: 'red',
+    // },
+    // '&::webkit-scrollbar-thumb': {
+    //   backgroundColor: 'red',
+    // },
+
     neutral: {
-      100: "#F3F4F6",
-      200: "#E5E7EB",
-      300: "#D1D5DB",
-      400: "#9CA3AF",
-      500: "#6B7280",
-      600: "#4B5563",
-      700: "#374151",
-      800: "#1F2937",
-      900: "#111827",
+      100: '#F3F4F6',
+      200: '#E5E7EB',
+      300: '#D1D5DB',
+      400: '#9CA3AF',
+      500: '#6B7280',
+      600: '#4B5563',
+      700: '#374151',
+      800: '#1F2937',
+      900: '#111827',
     },
     shape: {
       borderRadius: 8,
     },
     action: {
-      active: "#6B7280",
-      focus: "rgba(55, 65, 81, 0.12)",
-      hover: "rgba(55, 65, 81, 0.08)",
-      selected: "rgba(55, 65, 81, 0.08)",
-      disabledBackground: "rgba(55, 65, 81, 0.12)",
-      disabled: "rgba(55, 65, 81, 0.26)",
+      active: '#6B7280',
+      focus: 'rgba(55, 65, 81, 0.12)',
+      hover: 'rgba(55, 65, 81, 0.08)',
+      selected: 'rgba(55, 65, 81, 0.08)',
+      disabledBackground: 'rgba(55, 65, 81, 0.12)',
+      disabled: 'rgba(55, 65, 81, 0.26)',
     },
     palette: {
       primary: {
-        main: "#62A82C",
-        light: "#b7ff80",
-        dark: "#4A761F",
-        contrastText: "#374151",
+        main: '#62A82C',
+        light: '#b7ff80',
+        dark: '#4A761F',
+        contrastText: '#374151',
       },
       secondary: {
-        main: "#1D9D45",
-        light: "#379D1D",
-        dark: "#266E14",
-        contrastText: "#d8ffba",
+        main: '#1D9D45',
+        light: '#379D1D',
+        dark: '#266E14',
+        contrastText: '#d8ffba',
       },
       background: {
-        default: "#F8FAFC",
-        paper: "#FFFFFF",
-        grey: "#eff0f2",
+        default: '#F8FAFC',
+        paper: '#FFFFFF',
+        grey: '#eff0f2',
       },
       text: {
-        primary: "#121828",
-        secondary: "#65748B",
-        disabled: "rgba(55, 65, 81, 0.48)",
+        primary: '#121828',
+        secondary: '#65748B',
+        disabled: 'rgba(55, 65, 81, 0.48)',
       },
       success: {
-        main: "#14B8A6",
-        light: "#43C6B7",
-        dark: "#0E8074",
-        contrastText: "#FFFFFF",
+        main: '#14B8A6',
+        light: '#43C6B7',
+        dark: '#0E8074',
+        contrastText: '#FFFFFF',
       },
       info: {
-        main: "#2196F3",
-        light: "#64B6F7",
-        dark: "#8238d1",
-        contrastText: "#FFFFFF",
+        main: '#2196F3',
+        light: '#64B6F7',
+        dark: '#8238d1',
+        contrastText: '#FFFFFF',
       },
       warning: {
-        main: "#FFB020",
-        light: "#FFBF4C",
-        dark: "#B27B16",
-        contrastText: "#FFFFFF",
+        main: '#FFB020',
+        light: '#FFBF4C',
+        dark: '#B27B16',
+        contrastText: '#FFFFFF',
       },
       error: {
-        main: "#D14343",
-        light: "#DA6868",
-        dark: "#922E2E",
-        contrastText: "#FFFFFF",
+        main: '#D14343',
+        light: '#DA6868',
+        dark: '#922E2E',
+        contrastText: '#FFFFFF',
       },
     },
-  });
+  })
 
   const client = new ApolloClient({
-    uri: "http://localhost:4000/graphql",
+    uri: 'http://localhost:4000/graphql',
     cache: new InMemoryCache(),
-  });
+  })
 
-  if (router.pathname.startsWith("/admin")) {
+  if (router.pathname.startsWith('/admin')) {
     return (
       <ApolloProvider client={client}>
         <ThemeProvider theme={theme}>
@@ -98,10 +108,10 @@ function MyApp({ Component, pageProps, router }) {
           </Sidebar>
         </ThemeProvider>
       </ApolloProvider>
-    );
+    )
   }
 
-  if (router.pathname.startsWith("/gardener")) {
+  if (router.pathname.startsWith('/gardener')) {
     return (
       <ApolloProvider client={client}>
         <ThemeProvider theme={theme}>
@@ -110,10 +120,10 @@ function MyApp({ Component, pageProps, router }) {
           </GardenerSidebar>
         </ThemeProvider>
       </ApolloProvider>
-    );
+    )
   }
 
-  if (router.pathname.startsWith("/nursery")) {
+  if (router.pathname.startsWith('/nursery')) {
     return (
       <ApolloProvider client={client}>
         <ThemeProvider theme={theme}>
@@ -122,7 +132,7 @@ function MyApp({ Component, pageProps, router }) {
           </NurserySidebar>
         </ThemeProvider>
       </ApolloProvider>
-    );
+    )
   }
 
   return (
@@ -131,7 +141,7 @@ function MyApp({ Component, pageProps, router }) {
         <Component {...pageProps} />
       </ThemeProvider>
     </ApolloProvider>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

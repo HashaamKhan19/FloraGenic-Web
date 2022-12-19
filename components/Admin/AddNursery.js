@@ -1,43 +1,43 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
+import React from 'react'
+import Grid from '@mui/material/Unstable_Grid2'
 import {
   TextField,
   InputLabel,
   Select,
   MenuItem,
   InputAdornment,
-} from "@mui/material";
-import { AddProductIcon } from "../../public/icons/AddProductIcon";
-import { AlternateEmail } from "@mui/icons-material";
-import { styled } from "@mui/material/styles";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { MuiTelInput } from "mui-tel-input";
-import TimeChooser from "../Generic/TimeChooser";
+} from '@mui/material'
+import { AddProductIcon } from '../../public/icons/AddProductIcon'
+import { AlternateEmail } from '@mui/icons-material'
+import { styled } from '@mui/material/styles'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { MuiTelInput } from 'mui-tel-input'
+import TimeChooser from '../Generic/TimeChooser'
 
 // Controlled Input
-import { useForm } from "react-hook-form";
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
-import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
-import ControlledTimePicker from "../Generic/ControlledComponents/ControlledTimePicker";
+import { useForm } from 'react-hook-form'
+import ControlledTextInput from '../Generic/ControlledComponents/ControlledTextInput'
+import ControlledTelInput from '../Generic/ControlledComponents/ControlledTelInput'
+import ControlledSelect from '../Generic/ControlledComponents/ControlledSelect'
+import ControlledTimePicker from '../Generic/ControlledComponents/ControlledTimePicker'
 
 // GraphQL
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql } from '@apollo/client'
 
 const ADD_NURSERY = gql`
   mutation NurseryCreate($data: NurseryCreateInput!) {
     nurseryCreate(data: $data)
   }
-`;
+`
 
-const ListItem = styled("li")(({ theme }) => ({
+const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
-}));
+}))
 
 const AddNursery = () => {
-  const [action, setAction] = React.useState("Enter");
-  const [action2, setAction2] = React.useState("Add");
+  const [action, setAction] = React.useState('Enter')
+  const [action2, setAction2] = React.useState('Add')
 
   const {
     register,
@@ -46,46 +46,46 @@ const AddNursery = () => {
     control,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
-  });
+    mode: 'onChange',
+  })
 
   const [nurseryCreate, { data, loading, error }] = useMutation(ADD_NURSERY, {
     onCompleted: () => {
-      alert("Nursery Added");
+      alert('Nursery Added')
     },
     onError: (error) => {
-      console.log(error);
-      alert(error.message);
+      console.log(error)
+      alert(error.message)
     },
-  });
+  })
 
-  const router = useRouter();
+  const router = useRouter()
 
   React.useEffect(() => {
-    const parts = router.pathname.split("/");
-    parts[parts.length - 1] == "addNursery" ? action : setAction("Edit");
-    parts[parts.length - 1] == "addNursery" ? action2 : setAction2("Edit");
-  }, [router]);
+    const parts = router.pathname.split('/')
+    parts[parts.length - 1] == 'addNursery' ? action : setAction('Edit')
+    parts[parts.length - 1] == 'addNursery' ? action2 : setAction2('Edit')
+  }, [router])
 
-  const [quantity, setQuantity] = React.useState(1);
-  const [tagsValue, setTagValue] = React.useState("");
-  const [tagsKey, setTagKey] = React.useState(0);
-  const [tags, setTag] = React.useState([]);
+  const [quantity, setQuantity] = React.useState(1)
+  const [tagsValue, setTagValue] = React.useState('')
+  const [tagsKey, setTagKey] = React.useState(0)
+  const [tags, setTag] = React.useState([])
 
   const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
+    setQuantity(quantity + 1)
+  }
 
   const handleDecrement = () => {
-    setQuantity(quantity - 1);
-  };
+    setQuantity(quantity - 1)
+  }
 
   const onSubmit = (data) => {
     nurseryCreate({
       variables: {
         data: {
           name: data.name,
-          address: data.address + ", " + data.city,
+          address: data.address + ', ' + data.city,
           phoneNumber: data.phoneNumber,
           email: data.email,
           website: data.website,
@@ -94,25 +94,25 @@ const AddNursery = () => {
           details: data.details,
         },
       },
-    });
-  };
+    })
+  }
 
   const handleTagAdder = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
+    if (e.key === 'Enter') {
+      e.preventDefault()
       tags.push({
         key: tagsKey,
         label: tagsValue,
-      });
-      setTagKey(tagsKey + 1);
+      })
+      setTagKey(tagsKey + 1)
     }
-  };
+  }
 
   //   const [chipData, setChipData] = React.useState([{ key: 0, label: tags }])
 
   const handleDelete = (chipToDelete) => () => {
-    setTag((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  };
+    setTag((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
+  }
 
   return (
     <>
@@ -127,13 +127,41 @@ const AddNursery = () => {
             <Grid container spacing={3} sx={{ mt: 5, px: 2 }}>
               <Grid item xs={12}>
                 <InputLabel
+                  htmlFor="nurseryOwner"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
+                  }}
+                >
+                  Choose NurseryOwner to handle Over this Nursery to
+                </InputLabel>
+                <ControlledSelect
+                  control={control}
+                  required
+                  id="nurseryOwner"
+                  name="nurseryOwner"
+                  autoComplete="nurseryOwner"
+                  defaultValue={'User-x'}
+                  fullWidth
+                >
+                  <MenuItem value={'User-x'}>User-x</MenuItem>
+                  <MenuItem value={'User-y'}>User-y</MenuItem>
+                  <MenuItem value={'User-z'}>User-z</MenuItem>
+                </ControlledSelect>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <InputLabel
                   htmlFor="name"
                   variant="standard"
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Nursery Name
@@ -146,59 +174,7 @@ const AddNursery = () => {
                   fullWidth
                   autoComplete="Nursery Name"
                   error={errors.name ? true : false}
-                  helperText={errors.name && "Nursery Name is required"}
-                />
-              </Grid>
-
-              {/* <Grid item xs={12} sm={6}>
-                <InputLabel
-                  htmlFor="nurseryTitle"
-                  variant="standard"
-                  required
-                  sx={{
-                    mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
-                  }}
-                >
-                  {action} Nursery Title
-                </InputLabel>
-                <ControlledTextInput
-                  control={control}
-                  required
-                  id="nurseryTitle"
-                  name="nurseryTitle"
-                  fullWidth
-                  autoComplete="Nursery Title"
-                  error={errors.nurseryTitle ? true : false}
-                  helperText={
-                    errors.nurseryTitle && "Nursery Title is required"
-                  }
-                />
-              </Grid> */}
-
-              <Grid item xs={12} sm={6}>
-                <InputLabel
-                  htmlFor="address"
-                  variant="standard"
-                  required
-                  sx={{
-                    mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
-                  }}
-                >
-                  {action} Nursery Address
-                </InputLabel>
-                <ControlledTextInput
-                  control={control}
-                  required
-                  id="address"
-                  name="address"
-                  fullWidth
-                  autoComplete="Nursery Address"
-                  error={errors.address ? true : false}
-                  helperText={errors.address && "Nursery Address is required"}
+                  helperText={errors.name && 'Nursery Name is required'}
                 />
               </Grid>
 
@@ -209,21 +185,53 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
-                  {action} Nursery City
+                  Choose Nursery City
                 </InputLabel>
-                <ControlledTextInput
+                <ControlledSelect
                   control={control}
                   required
                   id="city"
                   name="city"
-                  fullWidth
                   autoComplete="Nursery City"
+                  defaultValue={'City-x'}
+                  fullWidth
                   error={errors.city ? true : false}
-                  helperText={errors.city && "Nursery City is required"}
+                  helperText={errors.city && 'Nursery City is required'}
+                >
+                  <MenuItem value={'City-x'}>CITY-X</MenuItem>
+                  <MenuItem value={'City-y'}>CITY-Y</MenuItem>
+                  <MenuItem value={'City-z'}>CITY-Z</MenuItem>
+                </ControlledSelect>
+              </Grid>
+
+              <Grid item xs={12}>
+                <InputLabel
+                  htmlFor="address"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
+                  }}
+                >
+                  {action} Nursery Address
+                </InputLabel>
+                <ControlledTextInput
+                  control={control}
+                  required
+                  id="address"
+                  name="address"
+                  fullWidth
+                  multiline
+                  rows={2}
+                  autoComplete="Nursery Address"
+                  error={errors.address ? true : false}
+                  helperText={errors.address && 'Nursery Address is required'}
                 />
               </Grid>
 
@@ -234,8 +242,8 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Nursery Description
@@ -246,12 +254,12 @@ const AddNursery = () => {
                   id="details"
                   name="details"
                   multiline
-                  rows={4}
+                  rows={2}
                   fullWidth
                   autoComplete="Nursery Address"
                   error={errors.details ? true : false}
                   helperText={
-                    errors.details && "Nursery Description is required"
+                    errors.details && 'Nursery Description is required'
                   }
                 />
               </Grid>
@@ -263,8 +271,8 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Phone Number
@@ -278,7 +286,7 @@ const AddNursery = () => {
                   fullWidth
                   autoComplete="phoneNumber"
                   error={errors.phoneNumber ? true : false}
-                  helperText={errors.phoneNumber && "Phone Number is required"}
+                  helperText={errors.phoneNumber && 'Phone Number is required'}
                 />
               </Grid>
 
@@ -289,8 +297,8 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Email
@@ -311,36 +319,8 @@ const AddNursery = () => {
                     ),
                   }}
                   error={errors.email ? true : false}
-                  helperText={errors.email && "Email is required"}
+                  helperText={errors.email && 'Email is required'}
                 />
-              </Grid>
-
-              <Grid item xs={12}>
-                <InputLabel
-                  htmlFor="nurseryOwner"
-                  variant="standard"
-                  required
-                  sx={{
-                    mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
-                  }}
-                >
-                  Choose NurseryOwner to handle Over this Nursery to
-                </InputLabel>
-                <ControlledSelect
-                  control={control}
-                  required
-                  id="nurseryOwner"
-                  name="nurseryOwner"
-                  autoComplete="nurseryOwner"
-                  defaultValue={"User-x"}
-                  fullWidth
-                >
-                  <MenuItem value={"User-x"}>User-x</MenuItem>
-                  <MenuItem value={"User-y"}>User-y</MenuItem>
-                  <MenuItem value={"User-z"}>User-z</MenuItem>
-                </ControlledSelect>
               </Grid>
 
               <Grid item xs={12} sm={6}>
@@ -350,8 +330,8 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Nursery Opening Hours
@@ -370,8 +350,8 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Nursery Closing Hours
@@ -391,8 +371,8 @@ const AddNursery = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Nursery Website URL
@@ -405,7 +385,7 @@ const AddNursery = () => {
                   fullWidth
                   autoComplete="Website URL"
                   error={errors.website ? true : false}
-                  helperText={errors.website && "Website URL is required"}
+                  helperText={errors.website && 'Website URL is required'}
                 />
               </Grid>
 
@@ -451,7 +431,7 @@ const AddNursery = () => {
         </section>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AddNursery;
+export default AddNursery

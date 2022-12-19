@@ -1,28 +1,28 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
+import React from 'react'
+import Grid from '@mui/material/Unstable_Grid2'
 import {
   TextField,
   InputLabel,
   Select,
   MenuItem,
   Typography,
-} from "@mui/material";
-import { CategoryIcon } from "../../public/icons/CategoryIcon";
-import Link from "next/link";
-import { useRouter } from "next/router";
+} from '@mui/material'
+import { CategoryIcon } from '../../public/icons/CategoryIcon'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 // Controlled components
-import { useForm } from "react-hook-form";
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
+import { useForm } from 'react-hook-form'
+import ControlledTextInput from '../Generic/ControlledComponents/ControlledTextInput'
+import ControlledDropzone from '../Generic/ControlledComponents/ControlledDropzone'
 
 const AddCategory = () => {
   const onSubmit = (data) => {
-    console.log(data);
-  };
+    console.log(data)
+  }
 
-  const [action, setAction] = React.useState("Enter");
-  const [action2, setAction2] = React.useState("Add");
+  const [action, setAction] = React.useState('Enter')
+  const [action2, setAction2] = React.useState('Add')
 
   const {
     register,
@@ -32,15 +32,15 @@ const AddCategory = () => {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm();
+  } = useForm()
 
-  const router = useRouter();
+  const router = useRouter()
 
   React.useEffect(() => {
-    const parts = router.pathname.split("/");
-    parts[parts.length - 1] == "addCategory" ? action : setAction("Edit");
-    parts[parts.length - 1] == "addCategory" ? action2 : setAction2("Edit");
-  }, [router]);
+    const parts = router.pathname.split('/')
+    parts[parts.length - 1] == 'addCategory' ? action : setAction('Edit')
+    parts[parts.length - 1] == 'addCategory' ? action2 : setAction2('Edit')
+  }, [router])
 
   return (
     <>
@@ -60,8 +60,8 @@ const AddCategory = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Category Name
@@ -75,7 +75,7 @@ const AddCategory = () => {
                   autoComplete="Category Name"
                   error={errors.categoryName ? true : false}
                   helperText={
-                    errors.categoryName && "Category Name is required"
+                    errors.categoryName && 'Category Name is required'
                   }
                 />
               </Grid>
@@ -87,8 +87,8 @@ const AddCategory = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Category Description
@@ -100,11 +100,12 @@ const AddCategory = () => {
                   name="categoryDescription"
                   fullWidth
                   multiline
+                  rows={2}
                   autoComplete="Category Description"
                   error={errors.categoryDescription ? true : false}
                   helperText={
                     errors.categoryDescription &&
-                    "Category Description is required"
+                    'Category Description is required'
                   }
                 />
               </Grid>
@@ -116,8 +117,8 @@ const AddCategory = () => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Profile Image
@@ -176,7 +177,7 @@ const AddCategory = () => {
         </section>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AddCategory;
+export default AddCategory
