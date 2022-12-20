@@ -58,7 +58,7 @@ export default function ReplyFeedbackModal({
                   textAlign: 'left',
                 }}
               >
-                Send Response back to User's {replyText}
+                Send Response back to User&apos;s {replyText}
               </InputLabel>
               <ControlledTextInput
                 control={control}

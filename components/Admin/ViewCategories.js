@@ -34,7 +34,14 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: () => {
-      return <ActionIcons type="category" />
+      return (
+        <ActionIcons
+          type="category"
+          viewText="Details of Category"
+          text="Are you sure you want to delete this category?"
+          warningText={'This action cannot be undone.'}
+        />
+      )
     },
   },
 ]

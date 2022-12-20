@@ -36,7 +36,14 @@ const columns = [
     headerAlign: 'center',
     align: 'center',
     renderCell: () => {
-      return <ActionIcons type="product" />
+      return (
+        <ActionIcons
+          type="product"
+          text={'Are you sure you want to delete this product?'}
+          viewText={'Details of Product Here'}
+          warningText={'This action cannot be undone.'}
+        />
+      )
     },
   },
 ]

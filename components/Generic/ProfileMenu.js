@@ -12,8 +12,9 @@ import PersonAdd from '@mui/icons-material/PersonAdd'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-export default function AccountMenu() {
+export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -22,6 +23,24 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const router = useRouter()
+
+  const [userType, setUserType] = React.useState('')
+
+  React.useEffect(() => {
+    const parts = router.pathname.split('/')
+    setUserType(parts[parts.length - 1])
+  }, [router])
+
+  const handleSettings = () => {
+    switch (userType) {
+      case 'admin':
+        router.push(`admin/settings/${123}`)
+        break
+    }
+  }
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -73,7 +92,7 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem>
+        <MenuItem onClick={handleSettings}>
           <ListItemIcon>
             <Settings fontSize="small" sx={{ color: 'black' }} />
           </ListItemIcon>

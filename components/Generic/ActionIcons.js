@@ -14,9 +14,7 @@ const ActionIcons = ({ type, text, warningText, viewText }) => {
 
   // View User Modal States
   const [viewOpen, setViewOpen] = React.useState(false)
-  const handleViewOpen = () => {
-    setViewOpen(true)
-  }
+  const handleViewOpen = () => setViewOpen(true)
   const handleViewClose = () => setViewOpen(false)
 
   const router = useRouter()
@@ -79,8 +77,8 @@ const ActionIcons = ({ type, text, warningText, viewText }) => {
       />
 
       <ViewUserModal
-        open={viewOpen}
-        handleClose={handleViewClose}
+        viewOpen={viewOpen}
+        handleViewClose={handleViewClose}
         viewText={viewText}
         type={type}
       />
