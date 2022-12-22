@@ -1,40 +1,40 @@
-import React from 'react'
-import Grid from '@mui/material/Unstable_Grid2'
+import React from "react";
+import Grid from "@mui/material/Unstable_Grid2";
 
-import EditAdmin from './EditAdmin'
-import EditCustomer from './EditCustomer'
-import EditGardener from './EditGardener'
-import EditNurseryOwner from './EditNurseryOwner'
-
+import EditAdmin from "./EditAdmin";
+import EditCustomer from "./EditCustomer";
+import EditGardener from "./EditGardener";
+import EditNurseryOwner from "./EditNurseryOwner";
+import Person from "@mui/icons-material/Person";
 const ProfileSettings = ({ control, getValues, setValue, errors }) => {
-  const [userType, setUserType] = React.useState('Admin')
+  const [userType, setUserType] = React.useState("Admin");
 
   return (
     <>
       <div className="flex justify-center">
         <section className="w-[75%] p-4 bg-white rounded-md shadow-md ">
           <h1 className="text-3xl font-semibold text-gray-800 capitalize text-center p-4">
-            <UsersIcon sx={{ mr: 1 }} fontSize="large" />
+            <Person sx={{ mr: 1 }} fontSize="large" />
             Edit Profile
           </h1>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3} sx={{ mt: 5, px: 2 }}>
-              {userType == 'Admin' ? (
+              {userType == "Admin" ? (
                 <EditAdmin
                   control={control}
                   getValues={getValues}
                   setValue={setValue}
                   errors={errors}
                 />
-              ) : userType == 'Gardener' ? (
+              ) : userType == "Gardener" ? (
                 <EditGardener
                   control={control}
                   getValues={getValues}
                   setValue={setValue}
                   errors={errors}
                 />
-              ) : userType == 'NurseryOwner' ? (
+              ) : userType == "NurseryOwner" ? (
                 <EditNurseryOwner
                   control={control}
                   getValues={getValues}
@@ -83,7 +83,7 @@ const ProfileSettings = ({ control, getValues, setValue, errors }) => {
                       ></path>
                     </svg>
                   </span>
-                  <UsersIcon sx={{ mr: 1 }} fontSize="small" />
+                  <Person sx={{ mr: 1 }} fontSize="small" />
                   <span class="relative">Update Profile</span>
                 </button>
               </Grid>
@@ -92,7 +92,7 @@ const ProfileSettings = ({ control, getValues, setValue, errors }) => {
         </section>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ProfileSettings
+export default ProfileSettings;
