@@ -20,16 +20,52 @@ const ADD_CUSTOMER = gql`
   }
 `;
 
+const ADD_GARDENER = gql`
+  mutation RegisterGardener(
+    $credentials: UserRegisterInput!
+    $details: GardenerCreateInput!
+  ) {
+    registerGardener(credentials: $credentials, details: $details)
+  }
+`;
+
+const ADD_ADMIN = gql`
+  mutation RegisterAdmin(
+    $credentials: UserRegisterInput!
+    $details: AdminCreateInput!
+  ) {
+    registerAdmin(credentials: $credentials, details: $details)
+  }
+`;
+
 const AddUser = () => {
   const [userType, setUserType] = React.useState("Customer");
   const [action, setAction] = React.useState("Add");
 
-  const [addCustomer, { data, loading, error }] = useMutation(ADD_CUSTOMER, {
+  const [addCustomer] = useMutation(ADD_CUSTOMER, {
     onCompleted: () => {
       alert("Customer added successfully");
     },
     onError: (error) => {
       console.log(error);
+    },
+  });
+
+  const [addGardener] = useMutation(ADD_GARDENER, {
+    onCompleted: () => {
+      alert("Customer added successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const [addAdmin] = useMutation(ADD_ADMIN, {
+    onCompleted: () => {
+      alert("User added successfully");
+    },
+    onError: (error) => {
+      alert(error);
     },
   });
 
@@ -53,23 +89,67 @@ const AddUser = () => {
   }, [router]);
 
   const onSubmit = (data) => {
-    addCustomer({
-      variables: {
-        credentials: {
-          email: data.email,
-          password: data.password,
-          userType: userType,
+    if (userType == "Customer") {
+      addCustomer({
+        variables: {
+          credentials: {
+            email: data.email,
+            password: data.password,
+            userType: userType,
+          },
+          details: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phoneNumber: data.phoneNumber,
+            gender: data.gender,
+            nationality: data.nationality,
+            image: data.image.preview,
+          },
         },
-        details: {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          phoneNumber: data.phoneNumber,
-          gender: data.gender,
-          nationality: data.nationality,
-          image: data.image.preview,
+      });
+    }
+
+    if (userType == "Gardener") {
+      addGardener({
+        variables: {
+          credentials: {
+            email: data.email,
+            password: data.password,
+            userType: userType,
+          },
+          details: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phoneNumber: data.phoneNumber,
+            // gender: data.gender,
+            nationality: data.nationality,
+            image: data.image.preview,
+            CNIC: data.CNIC,
+          },
         },
-      },
-    });
+      });
+    }
+
+    if (userType == "Admin") {
+      addAdmin({
+        variables: {
+          credentials: {
+            email: data.email,
+            password: data.password,
+            userType: userType,
+          },
+          details: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phoneNumber: data.phoneNumber,
+            // gender: data.gender,
+            nationality: data.nationality,
+            image: data.image.preview,
+            CNIC: data.CNIC,
+          },
+        },
+      });
+    }
   };
 
   console.log(errors);

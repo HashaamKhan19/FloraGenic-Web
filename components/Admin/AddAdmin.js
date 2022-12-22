@@ -352,7 +352,7 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
           format="#####-#######-#"
           pattern={/^[0-9]{5}-[0-9]{7}-[0-9]$/}
           id="cnic"
-          name="cnic"
+          name="CNIC"
           fullWidth
           autoComplete="CNIC"
           error={errors.cnic ? true : false}
