@@ -58,31 +58,17 @@ const columns = [
     width: 150,
     headerAlign: "center",
     align: "center",
-    renderCell: () => {
+    renderCell: (params) => {
       return (
         <ActionIcons
           type="user"
           text={"Are you sure you want to delete this User?"}
           warningText={"This action is irreversable!"}
           viewText={"User Data Here"}
+          data={params?.row}
         />
       );
     },
-  },
-];
-
-const rows = [
-  {
-    id: 1,
-    image: "Null",
-    role: "Admin",
-    lastName: "Snow",
-    firstName: "Jon",
-    email: "jonSnow@gmail.com",
-    phone: 35312322,
-    address: "Liaqatbagh Stadium Rawat Road",
-    status: "Active",
-    actions: "iconsHere",
   },
 ];
 

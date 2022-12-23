@@ -38,7 +38,7 @@ const ADD_ADMIN = gql`
   }
 `;
 
-const AddUser = () => {
+const AddUser = ({ data = {} }) => {
   const [userType, setUserType] = React.useState("Customer");
   const [action, setAction] = React.useState("Add");
 
@@ -78,6 +78,7 @@ const AddUser = () => {
     control,
     getValues,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onChange",
@@ -87,6 +88,14 @@ const AddUser = () => {
     const parts = router.pathname.split("/");
     parts[parts.length - 1] == "addUser" ? action : setAction("Edit");
   }, [router]);
+
+  React.useEffect(() => {
+    if (action == "Edit") {
+      setUserType(data.userType);
+      console.log(data);
+      reset({ ...data, ...data.details });
+    }
+  }, [data, action]);
 
   const onSubmit = (data) => {
     if (userType == "Customer") {
