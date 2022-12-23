@@ -23,12 +23,24 @@ import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
 import ControlledTimePicker from "../Generic/ControlledComponents/ControlledTimePicker";
 
 // GraphQL
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, gql, useQuery } from "@apollo/client";
 import CityOptions from "../Generic/CityOptions";
+import Loader from "../Generic/Loader";
 
 const ADD_NURSERY = gql`
   mutation NurseryCreate($data: NurseryCreateInput!) {
     nurseryCreate(data: $data)
+  }
+`;
+
+const GET_NURSERY_OWNERS = gql`
+  query NurseryOwners {
+    nurseryOwners {
+      id
+      firstName
+      lastName
+      phoneNumber
+    }
   }
 `;
 
@@ -40,6 +52,8 @@ const AddNursery = () => {
   const [action, setAction] = React.useState("Enter");
   const [action2, setAction2] = React.useState("Add");
 
+  const [nurseryOwners, setNurseryOwners] = React.useState([]);
+
   const {
     register,
     handleSubmit,
@@ -50,13 +64,23 @@ const AddNursery = () => {
     mode: "onChange",
   });
 
-  const [nurseryCreate, { data, loading, error }] = useMutation(ADD_NURSERY, {
+  const [nurseryCreate] = useMutation(ADD_NURSERY, {
     onCompleted: () => {
       alert("Nursery Added");
     },
     onError: (error) => {
       console.log(error);
       alert(error.message);
+    },
+  });
+
+  const { loading, error } = useQuery(GET_NURSERY_OWNERS, {
+    onCompleted: (data) => {
+      setNurseryOwners(data.nurseryOwners);
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
 
@@ -85,6 +109,7 @@ const AddNursery = () => {
     nurseryCreate({
       variables: {
         data: {
+          nurseryOwnerID: data.nurseryOwner,
           name: data.name,
           address: data.address + ", " + data.city,
           phoneNumber: data.phoneNumber,
@@ -116,6 +141,9 @@ const AddNursery = () => {
     setTag((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
   };
 
+  if (loading) return <Loader />;
+  if (error) return <p>{"Error :("}</p>;
+
   return (
     <>
       <div className="flex justify-center">
@@ -138,7 +166,7 @@ const AddNursery = () => {
                     "& span": { color: "error.light" },
                   }}
                 >
-                  Choose NurseryOwner to handle Over this Nursery to
+                  Nursery Owner
                 </InputLabel>
                 <ControlledSelect
                   control={control}
@@ -149,9 +177,11 @@ const AddNursery = () => {
                   defaultValue={"User-x"}
                   fullWidth
                 >
-                  <MenuItem value={"User-x"}>User-x</MenuItem>
-                  <MenuItem value={"User-y"}>User-y</MenuItem>
-                  <MenuItem value={"User-z"}>User-z</MenuItem>
+                  {nurseryOwners.map((nurseryOwner) => (
+                    <MenuItem value={nurseryOwner.id} key={nurseryOwner.id}>
+                      {nurseryOwner.firstName} {nurseryOwner.lastName}
+                    </MenuItem>
+                  ))}
                 </ControlledSelect>
               </Grid>
 

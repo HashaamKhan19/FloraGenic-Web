@@ -40,6 +40,15 @@ const ADD_ADMIN = gql`
   }
 `;
 
+const ADD_NURSERY_OWNER = gql`
+  mutation RegisterNurseryOwner(
+    $credentials: UserRegisterInput!
+    $details: NurseryOwnerCreateInput!
+  ) {
+    registerNurseryOwner(credentials: $credentials, details: $details)
+  }
+`;
+
 const AddUser = ({ data = {} }) => {
   const [userType, setUserType] = React.useState("Customer");
   const [action, setAction] = React.useState("Add");
@@ -63,6 +72,15 @@ const AddUser = ({ data = {} }) => {
   });
 
   const [addAdmin] = useMutation(ADD_ADMIN, {
+    onCompleted: () => {
+      alert("User added successfully");
+    },
+    onError: (error) => {
+      alert(error);
+    },
+  });
+
+  const [addNurseryOwner] = useMutation(ADD_NURSERY_OWNER, {
     onCompleted: () => {
       alert("User added successfully");
     },
@@ -145,6 +163,27 @@ const AddUser = ({ data = {} }) => {
 
     if (userType == "Admin") {
       addAdmin({
+        variables: {
+          credentials: {
+            email: data.email,
+            password: data.password,
+            userType: userType,
+          },
+          details: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phoneNumber: data.phoneNumber,
+            gender: data.gender,
+            nationality: data.nationality,
+            image: image,
+            CNIC: data.CNIC,
+          },
+        },
+      });
+    }
+
+    if (userType == "NurseryOwner") {
+      addNurseryOwner({
         variables: {
           credentials: {
             email: data.email,

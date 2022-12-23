@@ -66,6 +66,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     });
   };
 
+  console.log(data);
   return (
     <>
       <Box
@@ -106,6 +107,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
         handleViewClose={handleViewClose}
         viewText={viewText}
         type={type}
+        data={data}
       />
     </>
   );
