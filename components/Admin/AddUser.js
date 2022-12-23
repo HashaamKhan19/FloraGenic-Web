@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useMutation, gql } from "@apollo/client";
+import { uploadImage } from "../../services/fileUpload";
 
 const ADD_CUSTOMER = gql`
   mutation RegisterCustomer(
@@ -97,7 +98,9 @@ const AddUser = ({ data = {} }) => {
     }
   }, [data, action]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    const image = await uploadImage(data.image, "user-profile-images");
+
     if (userType == "Customer") {
       addCustomer({
         variables: {
@@ -112,7 +115,7 @@ const AddUser = ({ data = {} }) => {
             phoneNumber: data.phoneNumber,
             gender: data.gender,
             nationality: data.nationality,
-            image: data.image.preview,
+            image: image,
           },
         },
       });
@@ -132,7 +135,7 @@ const AddUser = ({ data = {} }) => {
             phoneNumber: data.phoneNumber,
             // gender: data.gender,
             nationality: data.nationality,
-            image: data.image.preview,
+            image: image,
             CNIC: data.CNIC,
           },
         },
@@ -153,7 +156,7 @@ const AddUser = ({ data = {} }) => {
             phoneNumber: data.phoneNumber,
             // gender: data.gender,
             nationality: data.nationality,
-            image: data.image.preview,
+            image: image,
             CNIC: data.CNIC,
           },
         },

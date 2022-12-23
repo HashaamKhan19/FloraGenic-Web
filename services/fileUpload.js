@@ -14,7 +14,7 @@ export const uploadImage = async (file, folderName) => {
   }
 
   // const file = file[0];
-  const storageRef = ref(storage, `${folderName}/${file.name + uuidv4()}`);
+  const storageRef = ref(storage, `${folderName}/${uuidv4() + file.name}`);
   const snapshot = await uploadBytes(storageRef, file);
   return await getDownloadURL(snapshot.ref);
 };
@@ -43,7 +43,7 @@ export const uploadMultipleImages = async (files, folderName) => {
       } else {
         const storageRef = ref(
           storage,
-          `${folderName}/${file.name + uuidv4()}`
+          `${folderName}/${uuidv4() + file.name}`
         );
         const snapshot = await uploadBytes(storageRef, file);
         const url = await getDownloadURL(snapshot.ref);
