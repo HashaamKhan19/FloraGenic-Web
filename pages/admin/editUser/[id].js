@@ -2,7 +2,7 @@ import React from "react";
 import AddUser from "../../../components/Admin/AddUser";
 import { useQuery, gql } from "@apollo/client";
 import { useRouter } from "next/router";
-
+import Loader from "../../../components/Generic/Loader";
 const GET_UER_BY_ID = gql`
   query Users($userId: ID!) {
     user(id: $userId) {
@@ -56,7 +56,7 @@ export default function EditUser() {
     variables: { userId: id },
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader />;
 
   return (
     <>
