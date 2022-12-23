@@ -12,11 +12,30 @@ import Loader from "../Generic/Loader";
 
 // GraphQL
 import { useQuery, gql } from "@apollo/client";
+import Image from "next/legacy/image";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
-  { field: "image", headerName: "Image", width: 70 },
-  { field: "userType", headerName: "Role", width: 120 },
+  {
+    field: "image",
+    headerName: "Image",
+    width: 70,
+    renderCell: (params) => {
+      return (
+        <Image
+          src={params?.row?.details?.image}
+          alt={"profile"}
+          width={30}
+          height={30}
+          style={{
+            borderRadius: "50%",
+            objectFit: "cover",
+            marginRight: 10,
+          }}
+        />
+      );
+    },
+  },
   {
     field: "fullName",
     headerName: "Full name",
@@ -27,6 +46,7 @@ const columns = [
         params?.row?.details?.lastName || ""
       }`,
   },
+  { field: "userType", headerName: "Role", width: 120 },
   { field: "email", headerName: "Email Address", width: 200, flex: 1 },
   {
     field: "phone",
