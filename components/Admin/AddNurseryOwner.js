@@ -300,7 +300,7 @@ const AddNurseryOwner = ({ control, getValues, setValue, errors }) => {
           <MenuItem value="pakistan">Pakistan</MenuItem>
         </ControlledSelect>
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <InputLabel
           htmlFor="address"
           variant="standard"
@@ -323,7 +323,7 @@ const AddNurseryOwner = ({ control, getValues, setValue, errors }) => {
           error={errors.address ? true : false}
           helperText={errors.address && "Address is required"}
         />
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12}>
         <InputLabel

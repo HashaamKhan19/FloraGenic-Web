@@ -267,7 +267,7 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
             "& span": { color: "error.light" },
           }}
         >
-          {action} Gender
+          Gender
         </InputLabel>
         <ControlledSelect
           control={control}
@@ -308,7 +308,7 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
           <MenuItem value="pakistan">Pakistan</MenuItem>
         </ControlledSelect>
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <InputLabel
           htmlFor="Address"
           variant="standard"
@@ -331,7 +331,7 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
           error={errors.address ? true : false}
           helperText={errors.address && "Address is required"}
         />
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12} justifyItems={"center"}>
         <InputLabel
