@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useMutation, gql } from "@apollo/client";
 import { uploadImage } from "../../services/fileUpload";
+import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
 
 const ADD_CUSTOMER = gql`
   mutation RegisterCustomer(
@@ -133,7 +134,7 @@ const AddUser = ({ data = {} }) => {
             firstName: data.firstName,
             lastName: data.lastName,
             phoneNumber: data.phoneNumber,
-            // gender: data.gender,
+            gender: data.gender,
             nationality: data.nationality,
             image: image,
             CNIC: data.CNIC,
@@ -154,7 +155,7 @@ const AddUser = ({ data = {} }) => {
             firstName: data.firstName,
             lastName: data.lastName,
             phoneNumber: data.phoneNumber,
-            // gender: data.gender,
+            gender: data.gender,
             nationality: data.nationality,
             image: image,
             CNIC: data.CNIC,
@@ -189,9 +190,11 @@ const AddUser = ({ data = {} }) => {
               >
                 User Category
               </InputLabel>
-              <Select
-                id="userType"
+              <ControlledSelect
+                control={control}
+                required
                 name="userType"
+                id="userType"
                 autoComplete="userType"
                 defaultValue={"Customer"}
                 fullWidth
@@ -229,7 +232,7 @@ const AddUser = ({ data = {} }) => {
                 >
                   Admin
                 </MenuItem>
-              </Select>
+              </ControlledSelect>
             </Grid>
 
             {userType == "Admin" ? (

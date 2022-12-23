@@ -117,6 +117,7 @@ const GET_USERS = gql`
           lastName
           nationality
           phoneNumber
+          gender
           CNIC
           image
           createdAt
@@ -128,6 +129,7 @@ const GET_USERS = gql`
           lastName
           nationality
           phoneNumber
+          gender
           CNIC
           image
           createdAt
