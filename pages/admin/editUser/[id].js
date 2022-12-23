@@ -28,6 +28,7 @@ const GET_UER_BY_ID = gql`
           lastName
           nationality
           phoneNumber
+          gender
           CNIC
           image
           createdAt
@@ -39,6 +40,7 @@ const GET_UER_BY_ID = gql`
           lastName
           nationality
           phoneNumber
+          gender
           CNIC
           image
           createdAt
