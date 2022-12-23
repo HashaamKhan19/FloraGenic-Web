@@ -242,7 +242,7 @@ export default function ViewUsers() {
           boxShadow: "0 5px 5px -5px",
           border: "1px solid rgba(0,0,0,0.1)",
         }}
-        rows={data.users}
+        rows={data?.users || {}}
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[7]}
