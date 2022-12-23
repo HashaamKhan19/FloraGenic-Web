@@ -19,6 +19,7 @@
     "@mui/x-date-pickers": "^5.0.9",
     "apexcharts": "^3.36.3",
     "dayjs": "^1.11.6",
+    "firebase": "^9.15.0",
     "graphql": "^16.6.0",
     "mui-tel-input": "^2.0.4",
     "next": "13.0.0",
