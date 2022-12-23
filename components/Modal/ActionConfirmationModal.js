@@ -1,26 +1,27 @@
-import * as React from 'react'
-import Backdrop from '@mui/material/Backdrop'
-import Box from '@mui/material/Box'
-import Modal from '@mui/material/Modal'
-import Fade from '@mui/material/Fade'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
+import * as React from "react";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 500,
-  bgcolor: 'background.paper',
+  bgcolor: "background.paper",
   boxShadow: 24,
   p: 5,
   borderRadius: 1,
-  textAlign: 'center',
-}
+  textAlign: "center",
+};
 
 export default function ActionConfirmationModal({
   open,
+  handleConfirm,
   handleClose,
   text,
   warningText,
@@ -54,8 +55,8 @@ export default function ActionConfirmationModal({
 
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'space-around',
+                display: "flex",
+                justifyContent: "space-around",
                 mt: 4,
                 gap: 1,
               }}
@@ -63,9 +64,9 @@ export default function ActionConfirmationModal({
               <Button
                 variant="contained"
                 color="primary"
-                sx={{ color: 'white' }}
+                sx={{ color: "white" }}
                 onClick={() => {
-                  handleClose()
+                  handleClose();
                 }}
               >
                 Cancel
@@ -75,7 +76,8 @@ export default function ActionConfirmationModal({
                 color="error"
                 // sx={{ flex: 1 }}
                 onClick={() => {
-                  handleClose()
+                  handleConfirm();
+                  handleClose();
                 }}
               >
                 Confirm
@@ -85,5 +87,5 @@ export default function ActionConfirmationModal({
         </Fade>
       </Modal>
     </div>
-  )
+  );
 }

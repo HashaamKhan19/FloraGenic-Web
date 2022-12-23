@@ -5,6 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import ActionConfirmationModal from "../Modal/ActionConfirmationModal";
 import ViewUserModal from "../Modal/ViewUserModal";
+import { useMutation, gql } from "@apollo/client";
+
+const DELETE_USER_MUTATION = gql`
+  mutation Mutation($deleteUserId: ID!) {
+    deleteUser(id: $deleteUserId)
+  }
+`;
 
 const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   // Action Confirmation Modal States
@@ -16,6 +23,15 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   const [viewOpen, setViewOpen] = React.useState(false);
   const handleViewOpen = () => setViewOpen(true);
   const handleViewClose = () => setViewOpen(false);
+
+  const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
+    onCompleted: () => {
+      alert("User deleted successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
   const router = useRouter();
   const styles = {
@@ -43,20 +59,11 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   };
 
   const handleDelete = () => {
-    switch (type) {
-      case "user":
-        router.push(`deleteUser/${data.id}`);
-        break;
-      case "product":
-        router.push(`deleteProduct/${data.id}`);
-        break;
-      case "category":
-        router.push(`deleteCategory/${data.id}`);
-        break;
-      case "nursery":
-        router.push(`deleteNursery/${data.id}`);
-        break;
-    }
+    deleteUser({
+      variables: {
+        deleteUserId: data.id,
+      },
+    });
   };
 
   return (
@@ -88,6 +95,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
 
       <ActionConfirmationModal
         open={open}
+        handleConfirm={handleDelete}
         handleClose={handleClose}
         text={text}
         warningText={warningText}
