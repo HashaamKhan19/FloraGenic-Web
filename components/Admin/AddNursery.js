@@ -33,6 +33,27 @@ const ADD_NURSERY = gql`
   }
 `;
 
+const UPDATE_NURSERY = gql`
+  mutation Mutation($nurseryUpdateId: ID!, $data: NurseryUpdateInput!) {
+    nurseryUpdate(id: $nurseryUpdateId, data: $data) {
+      id
+      nurseryOwnerID
+      name
+      details
+      openingHours
+      closingHours
+      rating
+      address
+      phoneNumber
+      email
+      website
+      images
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 const GET_NURSERY_OWNERS = gql`
   query NurseryOwners {
     nurseryOwners {
@@ -40,6 +61,9 @@ const GET_NURSERY_OWNERS = gql`
       firstName
       lastName
       phoneNumber
+      userDetails {
+        email
+      }
     }
   }
 `;
@@ -48,9 +72,8 @@ const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-const AddNursery = () => {
+const AddNursery = ({ data = {} }) => {
   const [action, setAction] = React.useState("Enter");
-  const [action2, setAction2] = React.useState("Add");
 
   const [nurseryOwners, setNurseryOwners] = React.useState([]);
 
@@ -59,14 +82,23 @@ const AddNursery = () => {
     handleSubmit,
     watch,
     control,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onChange",
   });
 
-  console.log(errors);
-
   const [nurseryCreate] = useMutation(ADD_NURSERY, {
+    onCompleted: () => {
+      alert("Nursery Added");
+    },
+    onError: (error) => {
+      console.log(error);
+      alert(error.message);
+    },
+  });
+
+  const [nurseryUpdate] = useMutation(UPDATE_NURSERY, {
     onCompleted: () => {
       alert("Nursery Added");
     },
@@ -91,8 +123,14 @@ const AddNursery = () => {
   React.useEffect(() => {
     const parts = router.pathname.split("/");
     parts[parts.length - 1] == "addNursery" ? action : setAction("Edit");
-    parts[parts.length - 1] == "addNursery" ? action2 : setAction2("Edit");
-  }, [router]);
+  }, [router, action]);
+
+  React.useEffect(() => {
+    if (action == "Edit") {
+      console.log({ ...data, nurseryOwner: data.nurseryOwnerID });
+      reset({ ...data, nurseryOwner: data.nurseryOwnerID });
+    }
+  }, [data, action, reset]);
 
   const [quantity, setQuantity] = React.useState(1);
   const [tagsValue, setTagValue] = React.useState("");
@@ -107,22 +145,41 @@ const AddNursery = () => {
     setQuantity(quantity - 1);
   };
 
-  const onSubmit = (data) => {
-    nurseryCreate({
-      variables: {
-        data: {
-          nurseryOwnerID: data.nurseryOwner,
-          name: data.name,
-          address: data.address + ", " + data.city,
-          phoneNumber: data.phoneNumber,
-          email: data.email,
-          website: data.website,
-          openingHours: data.openingHours,
-          closingHours: data.closingHours,
-          details: data.details,
+  const onSubmit = (formData) => {
+    if (action == "Edit") {
+      nurseryUpdate({
+        variables: {
+          nurseryUpdateId: data.id,
+          data: {
+            nurseryOwnerID: formData.nurseryOwner,
+            name: formData.name,
+            address: formData.address + ", " + formData.city,
+            phoneNumber: formData.phoneNumber,
+            email: formData.email,
+            website: formData.website,
+            openingHours: formData.openingHours,
+            closingHours: formData.closingHours,
+            details: formData.details,
+          },
         },
-      },
-    });
+      });
+    } else {
+      nurseryCreate({
+        variables: {
+          data: {
+            nurseryOwnerID: formData.nurseryOwner,
+            name: formData.name,
+            address: formData.address + ", " + formData.city,
+            phoneNumber: formData.phoneNumber,
+            email: formData.email,
+            website: formData.website,
+            openingHours: formData.openingHours,
+            closingHours: formData.closingHours,
+            details: formData.details,
+          },
+        },
+      });
+    }
     router.push("/admin/viewNurseries");
   };
 
@@ -176,14 +233,17 @@ const AddNursery = () => {
                   id="nurseryOwner"
                   name="nurseryOwner"
                   autoComplete="nurseryOwner"
-                  defaultValue={"User-x"}
                   fullWidth
                   error={errors.nurseryOwner ? true : false}
-                  helperText={errors.nurseryOwner ? "Required" : null}
+                  helperText={
+                    errors.nurseryOwner && "Please select a nursery owner"
+                  }
                 >
                   {nurseryOwners.map((nurseryOwner) => (
                     <MenuItem value={nurseryOwner.id} key={nurseryOwner.id}>
-                      {nurseryOwner.firstName} {nurseryOwner.lastName}
+                      {nurseryOwner.firstName} {nurseryOwner.lastName} {"("}
+                      {nurseryOwner.userDetails.email}
+                      {")"}
                     </MenuItem>
                   ))}
                 </ControlledSelect>
@@ -216,7 +276,7 @@ const AddNursery = () => {
 
               <Grid item xs={12} sm={6}>
                 <InputLabel
-                  htmlFor="nurseryCity"
+                  htmlFor="city"
                   variant="standard"
                   required
                   sx={{
@@ -227,7 +287,7 @@ const AddNursery = () => {
                 >
                   Choose Nursery City
                 </InputLabel>
-                <CityOptions control={control} name="nurseryCity" />
+                <CityOptions control={control} name="city" />
               </Grid>
 
               <Grid item xs={12}>
@@ -362,6 +422,10 @@ const AddNursery = () => {
                   control={control}
                   required
                   name="openingHours"
+                  error={errors.openingHours ? true : false}
+                  helperText={
+                    errors.openingHours && "Opening Hours is required"
+                  }
                 />
               </Grid>
 
@@ -383,6 +447,10 @@ const AddNursery = () => {
                   required
                   name="closingHours"
                   fullWidth
+                  error={errors.closingHours ? true : false}
+                  helperText={
+                    errors.closingHours && "Closing Hours is required"
+                  }
                 />
               </Grid>
 
@@ -426,7 +494,7 @@ const AddNursery = () => {
                         d="M0 .3c67 2.1 134.1 4.3 186.3 37 52.2 32.7 89.6 95.8 112.8 150.6 23.2 54.8 32.3 101.4 61.2 149.9 28.9 48.4 77.7 98.8 126.4 149.2H0V.3z"
                         fill="#FFF"
                         fill-rule="nonzero"
-                        fill-opacity=".1"
+                        fillOpacity=".1"
                       ></path>
                     </svg>
                   </span>
@@ -440,12 +508,14 @@ const AddNursery = () => {
                         d="M487 486.7c-66.1-3.6-132.3-7.3-186.3-37s-95.9-85.3-126.2-137.2c-30.4-51.8-49.3-99.9-76.5-151.4C70.9 109.6 35.6 54.8.3 0H487v486.7z"
                         fill="#FFF"
                         fill-rule="nonzero"
-                        fill-opacity=".1"
+                        fillOpacity=".1"
                       ></path>
                     </svg>
                   </span>
                   <AddProductIcon sx={{ mt: 0.6 }} fontSize="medium" />
-                  <span class="relative">{action2} Nursery</span>
+                  <span class="relative">
+                    {action === "Enter" ? "Add" : "Update"} Nursery
+                  </span>
                 </button>
               </Grid>
             </Grid>
