@@ -212,6 +212,10 @@ const AddUser = ({ data = {} }) => {
   const onSubmit = async (formData) => {
     const image = await uploadImage(formData.image, "user-profile-images");
 
+    if (password === "") {
+      delete formData.password;
+    }
+
     if (userType == "Customer") {
       if (action == "Edit") {
         updateCustomer({

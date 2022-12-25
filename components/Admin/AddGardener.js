@@ -121,7 +121,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
         </InputLabel>
         <ControlledTextInput
           control={control}
-          required
+          required={action == "Enter" ? true : false}
+          disabled={action == "Enter" ? false : true}
           pattern={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
           id="email"
           name="email"

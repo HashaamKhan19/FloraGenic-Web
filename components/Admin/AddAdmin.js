@@ -109,7 +109,8 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
         <InputLabel
           htmlFor="email"
           variant="standard"
-          required
+          required={action == "Enter" ? true : false}
+          disabled={action == "Enter" ? false : true}
           sx={{
             mb: 1.5,
             color: "text.primary",
