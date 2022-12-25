@@ -64,6 +64,8 @@ const AddNursery = () => {
     mode: "onChange",
   });
 
+  console.log(errors);
+
   const [nurseryCreate] = useMutation(ADD_NURSERY, {
     onCompleted: () => {
       alert("Nursery Added");
@@ -176,6 +178,8 @@ const AddNursery = () => {
                   autoComplete="nurseryOwner"
                   defaultValue={"User-x"}
                   fullWidth
+                  error={errors.nurseryOwner ? true : false}
+                  helperText={errors.nurseryOwner ? "Required" : null}
                 >
                   {nurseryOwners.map((nurseryOwner) => (
                     <MenuItem value={nurseryOwner.id} key={nurseryOwner.id}>

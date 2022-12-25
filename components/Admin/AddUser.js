@@ -49,6 +49,62 @@ const ADD_NURSERY_OWNER = gql`
   }
 `;
 
+const UPDATE_ADMIN = gql`
+  mutation UpdateAdmin(
+    $updateAdminId: ID!
+    $credentials: UserUpdateInput!
+    $details: AdminUpdateInput!
+  ) {
+    updateAdmin(
+      id: $updateAdminId
+      credentials: $credentials
+      details: $details
+    )
+  }
+`;
+
+const UPDATE_GARDENER = gql`
+  mutation UpdateGardener(
+    $updateGardenerId: ID!
+    $credentials: UserUpdateInput!
+    $details: GardenerUpdateInput!
+  ) {
+    updateGardener(
+      id: $updateGardenerId
+      credentials: $credentials
+      details: $details
+    )
+  }
+`;
+
+const UPDATE_NURSERY_OWNER = gql`
+  mutation UpdateNurseryOwner(
+    $updateNurseryOwnerId: ID!
+    $credentials: UserUpdateInput!
+    $details: NurseryOwnerUpdateInput!
+  ) {
+    updateNurseryOwner(
+      id: $updateNurseryOwnerId
+      credentials: $credentials
+      details: $details
+    )
+  }
+`;
+
+const UPDATE_CUSTOMER = gql`
+  mutation UpdateNurseryOwner(
+    $updateCustomerId: ID!
+    $credentials: UserUpdateInput!
+    $details: CustomerUpdateInput!
+  ) {
+    updateCustomer(
+      id: $updateCustomerId
+      credentials: $credentials
+      details: $details
+    )
+  }
+`;
+
 const AddUser = ({ data = {} }) => {
   const [userType, setUserType] = React.useState("Customer");
   const [action, setAction] = React.useState("Add");
@@ -89,6 +145,42 @@ const AddUser = ({ data = {} }) => {
     },
   });
 
+  const [updateAdmin] = useMutation(UPDATE_ADMIN, {
+    onCompleted: () => {
+      alert("User updated successfully");
+    },
+    onError: (error) => {
+      alert(error);
+    },
+  });
+
+  const [updateGardener] = useMutation(UPDATE_GARDENER, {
+    onCompleted: () => {
+      alert("User updated successfully");
+    },
+    onError: (error) => {
+      alert(error);
+    },
+  });
+
+  const [updateNurseryOwner] = useMutation(UPDATE_NURSERY_OWNER, {
+    onCompleted: () => {
+      alert("User updated successfully");
+    },
+    onError: (error) => {
+      alert(error);
+    },
+  });
+
+  const [updateCustomer] = useMutation(UPDATE_CUSTOMER, {
+    onCompleted: () => {
+      alert("User updated successfully");
+    },
+    onError: (error) => {
+      alert(error);
+    },
+  });
+
   const router = useRouter();
 
   const {
@@ -107,7 +199,7 @@ const AddUser = ({ data = {} }) => {
   React.useEffect(() => {
     const parts = router.pathname.split("/");
     parts[parts.length - 1] == "addUser" ? action : setAction("Edit");
-  }, [router]);
+  }, [router, action]);
 
   React.useEffect(() => {
     if (action == "Edit") {
@@ -115,96 +207,181 @@ const AddUser = ({ data = {} }) => {
       console.log(data);
       reset({ ...data, ...data.details });
     }
-  }, [data, action]);
+  }, [data, action, reset]);
 
-  const onSubmit = async (data) => {
-    const image = await uploadImage(data.image, "user-profile-images");
+  const onSubmit = async (formData) => {
+    const image = await uploadImage(formData.image, "user-profile-images");
 
     if (userType == "Customer") {
-      addCustomer({
-        variables: {
-          credentials: {
-            email: data.email,
-            password: data.password,
-            userType: userType,
+      if (action == "Edit") {
+        updateCustomer({
+          variables: {
+            updateCustomerId: data.id,
+            credentials: {
+              email: formData.email,
+              password: formData.password,
+              userType: userType,
+            },
+            details: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              phoneNumber: formData.phoneNumber,
+              gender: formData.gender,
+              nationality: formData.nationality,
+              image: image,
+            },
           },
-          details: {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            phoneNumber: data.phoneNumber,
-            gender: data.gender,
-            nationality: data.nationality,
-            image: image,
+        });
+      } else {
+        addCustomer({
+          variables: {
+            credentials: {
+              email: formData.email,
+              password: formData.password,
+              userType: userType,
+            },
+            details: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              phoneNumber: formData.phoneNumber,
+              gender: formData.gender,
+              nationality: formData.nationality,
+              image: image,
+            },
           },
-        },
-      });
+        });
+      }
     }
 
     if (userType == "Gardener") {
-      addGardener({
-        variables: {
-          credentials: {
-            email: data.email,
-            password: data.password,
-            userType: userType,
+      if (action == "Edit") {
+        updateGardener({
+          variables: {
+            updateGardenerId: data.id,
+            credentials: {
+              email: formData.email,
+              password: formData.password,
+              userType: userType,
+            },
+            details: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              phoneNumber: formData.phoneNumber,
+              gender: formData.gender,
+              nationality: formData.nationality,
+              image: image,
+              CNIC: formData.CNIC,
+            },
           },
-          details: {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            phoneNumber: data.phoneNumber,
-            gender: data.gender,
-            nationality: data.nationality,
-            image: image,
-            CNIC: data.CNIC,
+        });
+      } else {
+        addGardener({
+          variables: {
+            credentials: {
+              email: formData.email,
+              password: formData.password,
+              userType: userType,
+            },
+            details: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              phoneNumber: formData.phoneNumber,
+              gender: formData.gender,
+              nationality: formData.nationality,
+              image: image,
+              CNIC: formData.CNIC,
+            },
           },
-        },
-      });
+        });
+      }
     }
 
     if (userType == "Admin") {
-      addAdmin({
-        variables: {
-          credentials: {
-            email: data.email,
-            password: data.password,
-            userType: userType,
+      if (action == "Edit") {
+        updateAdmin({
+          variables: {
+            updateAdminId: data.id,
+            credentials: {
+              email: formData.email,
+              password: formData.password,
+              userType: userType,
+            },
+            details: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              phoneNumber: formData.phoneNumber,
+              gender: formData.gender,
+              nationality: formData.nationality,
+              image: image,
+              CNIC: formData.CNIC,
+            },
           },
-          details: {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            phoneNumber: data.phoneNumber,
-            gender: data.gender,
-            nationality: data.nationality,
-            image: image,
-            CNIC: data.CNIC,
+        });
+      } else {
+        addAdmin({
+          variables: {
+            credentials: {
+              email: formData.email,
+              password: formData.password,
+              userType: userType,
+            },
+            details: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              phoneNumber: formData.phoneNumber,
+              gender: formData.gender,
+              nationality: formData.nationality,
+              image: image,
+              CNIC: formData.CNIC,
+            },
           },
-        },
-      });
+        });
+      }
     }
 
     if (userType == "NurseryOwner") {
-      addNurseryOwner({
-        variables: {
-          credentials: {
-            email: data.email,
-            password: data.password,
-            userType: userType,
+      if (action == "Edit") {
+        updateNurseryOwner({
+          variables: {
+            updateNurseryOwnerId: data.id,
+            credentials: {
+              email: formData.email,
+              password: formData.password,
+              userType: userType,
+            },
+            details: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              phoneNumber: formData.phoneNumber,
+              gender: formData.gender,
+              nationality: formData.nationality,
+              image: image,
+              CNIC: formData.CNIC,
+            },
           },
-          details: {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            phoneNumber: data.phoneNumber,
-            gender: data.gender,
-            nationality: data.nationality,
-            image: image,
-            CNIC: data.CNIC,
+        });
+      } else {
+        addNurseryOwner({
+          variables: {
+            credentials: {
+              email: formData.email,
+              password: formData.password,
+              userType: userType,
+            },
+            details: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              phoneNumber: formData.phoneNumber,
+              gender: formData.gender,
+              nationality: formData.nationality,
+              image: image,
+              CNIC: formData.CNIC,
+            },
           },
-        },
-      });
+        });
+      }
     }
   };
-
-  console.log(errors);
 
   return (
     <div className="flex justify-center">

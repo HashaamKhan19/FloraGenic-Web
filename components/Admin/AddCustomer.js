@@ -28,7 +28,7 @@ const AddCustomer = ({ control, getValues, setValue, errors }) => {
   React.useEffect(() => {
     const parts = router.pathname.split("/");
     parts[parts.length - 1] == "addUser" ? action : setAction("Edit");
-  }, [router]);
+  }, [router, action]);
 
   const passwordDisplay = () => {
     {
@@ -164,7 +164,7 @@ const AddCustomer = ({ control, getValues, setValue, errors }) => {
         <InputLabel
           htmlFor="password"
           variant="standard"
-          required
+          required={action == "Enter" ? true : false}
           sx={{
             mb: 1.5,
             color: "text.primary",
@@ -175,7 +175,7 @@ const AddCustomer = ({ control, getValues, setValue, errors }) => {
         </InputLabel>
         <ControlledTextInput
           control={control}
-          required
+          required={action == "Enter" ? true : false}
           minLength={5}
           name="password"
           id="password"
@@ -209,7 +209,7 @@ const AddCustomer = ({ control, getValues, setValue, errors }) => {
         <InputLabel
           htmlFor="confirmPassword"
           variant="standard"
-          required
+          required={action == "Enter" ? true : false}
           sx={{
             mb: 1.5,
             color: "text.primary",
@@ -221,7 +221,7 @@ const AddCustomer = ({ control, getValues, setValue, errors }) => {
 
         <ControlledTextInput
           control={control}
-          required
+          required={action == "Enter" ? true : false}
           validate={(value) => value === getValues("password")}
           id="confirmPassword"
           name="confirmPassword"

@@ -50,8 +50,16 @@ const columns = [
     width: 150,
     headerAlign: "center",
     align: "center",
-    renderCell: () => {
-      return <ActionIcons type="nursery" />;
+    renderCell: (params) => {
+      return (
+        <ActionIcons
+          type="nursery"
+          text={"Are you sure you want to delete this Nursery?"}
+          warningText={"This action is irreversable!"}
+          viewText={"Nursery Data Here"}
+          data={params?.row}
+        />
+      );
     },
   },
 ];

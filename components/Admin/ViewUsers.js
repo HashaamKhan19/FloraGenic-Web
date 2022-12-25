@@ -20,6 +20,7 @@ const columns = [
     field: "image",
     headerName: "Image",
     width: 70,
+    align: "center",
     renderCell: (params) => {
       return (
         <Image
@@ -27,9 +28,9 @@ const columns = [
           alt={"profile"}
           width={30}
           height={30}
+          objectFit="cover"
           style={{
             borderRadius: "50%",
-            objectFit: "cover",
             marginRight: 10,
           }}
         />
@@ -59,7 +60,7 @@ const columns = [
   {
     field: "gender",
     headerName: "Gender",
-    width: 150,
+    width: 80,
     valueGetter: (params) => params?.row?.details?.gender || "N/A",
   },
   {
@@ -145,6 +146,8 @@ export default function ViewUsers() {
   const [anchorElExport, setAnchorElExport] = React.useState(null);
   const importOpen = Boolean(anchorElImport);
   const exportOpen = Boolean(anchorElExport);
+  const [rows, setRows] = React.useState([]);
+  const [searchValue, setSearchValue] = React.useState("");
 
   const { loading, error, data } = useQuery(GET_USERS);
 
@@ -162,7 +165,28 @@ export default function ViewUsers() {
     setAnchorElExport(null);
   };
 
+  React.useEffect(() => {
+    if (data) {
+      setRows(() => {
+        return data?.users?.filter((user) => {
+          return (
+            user?.details?.firstName
+              ?.toLowerCase()
+              .includes(searchValue.toLowerCase()) ||
+            user?.details?.lastName
+              ?.toLowerCase()
+              .includes(searchValue.toLowerCase()) ||
+            user?.email?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            user?.userType?.toLowerCase().includes(searchValue.toLowerCase())
+          );
+        });
+      });
+    }
+  }, [data, searchValue]);
+
   if (loading) return <Loader />;
+  if (error) return `Error! ${error.message}`;
+
   return (
     <Box
       style={{
@@ -213,7 +237,10 @@ export default function ViewUsers() {
             boxShadow: "none",
           }}
         >
-          <SearchField />
+          <SearchField
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+          />
 
           <Link href={"/admin/addUser"}>
             <button className="bg-floraGreen px-3 py-1 rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
@@ -242,7 +269,7 @@ export default function ViewUsers() {
           boxShadow: "0 5px 5px -5px",
           border: "1px solid rgba(0,0,0,0.1)",
         }}
-        rows={data?.users || {}}
+        rows={rows}
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[7]}
