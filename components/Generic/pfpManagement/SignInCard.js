@@ -21,7 +21,7 @@ import { useMutation, gql } from "@apollo/client";
 import { useRouter } from "next/router";
 
 const LOGIN_QUERY = gql`
-  mutation Mutation($credentials: UserLoginInput!) {
+  mutation LoginCustomer($credentials: UserLoginInput!) {
     loginCustomer(credentials: $credentials) {
       id
       email
@@ -44,6 +44,7 @@ const LOGIN_QUERY = gql`
           id
           firstName
           lastName
+          gender
           nationality
           phoneNumber
           CNIC
@@ -55,6 +56,19 @@ const LOGIN_QUERY = gql`
           id
           firstName
           lastName
+          gender
+          nationality
+          phoneNumber
+          CNIC
+          image
+          createdAt
+          updatedAt
+        }
+        ... on NurseryOwner {
+          id
+          firstName
+          lastName
+          gender
           nationality
           phoneNumber
           CNIC
@@ -156,7 +170,7 @@ const SignInCard = () => {
               >
                 <MenuItem value={"Customer"}>Customer</MenuItem>
                 <MenuItem value={"Gardener"}>Gardener</MenuItem>
-                <MenuItem value={"Nursery Owner"}>Nursery Owner</MenuItem>
+                <MenuItem value={"NurseryOwner"}>Nursery Owner</MenuItem>
               </ControlledSelect>
             </FormControl>
           </div>
