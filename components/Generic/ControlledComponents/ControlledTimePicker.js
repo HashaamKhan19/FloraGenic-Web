@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { FormHelperText } from "@mui/material";
 
 const ControlledTimePicker = ({
   name,
@@ -29,6 +30,9 @@ const ControlledTimePicker = ({
             label="Time"
             renderInput={(params) => <TextField {...params} fullWidth />}
           />
+          {rest.error && (
+            <FormHelperText error> {rest.helperText}</FormHelperText>
+          )}
         </LocalizationProvider>
       )}
     />
