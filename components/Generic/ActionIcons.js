@@ -13,6 +13,12 @@ const DELETE_USER_MUTATION = gql`
   }
 `;
 
+const DELETE_NURSERY_MUTATION = gql`
+  mutation Mutation($nurseryDeleteId: ID!) {
+    nurseryDelete(id: $nurseryDeleteId)
+  }
+`;
+
 const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   // Action Confirmation Modal States
   const [open, setOpen] = React.useState(false);
@@ -27,6 +33,14 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
     onCompleted: () => {
       alert("User deleted successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+  const [deleteNursery] = useMutation(DELETE_NURSERY_MUTATION, {
+    onCompleted: () => {
+      alert("Nursery deleted successfully");
     },
     onError: (error) => {
       console.log(error);
@@ -59,14 +73,30 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   };
 
   const handleDelete = () => {
-    deleteUser({
-      variables: {
-        deleteUserId: data.id,
-      },
-    });
+    switch (type) {
+      case "user":
+        deleteUser({
+          variables: {
+            deleteUserId: data.id,
+          },
+        });
+        break;
+      case "product":
+        router.push(`editProduct/${data.id}`);
+        break;
+      case "category":
+        router.push(`editCategory/${data.id}`);
+        break;
+      case "nursery":
+        deleteNursery({
+          variables: {
+            nurseryDeleteId: data.id,
+          },
+        });
+        break;
+    }
   };
 
-  console.log(data);
   return (
     <>
       <Box
