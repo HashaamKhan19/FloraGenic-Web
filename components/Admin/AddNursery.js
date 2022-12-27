@@ -34,23 +34,8 @@ const ADD_NURSERY = gql`
 `;
 
 const UPDATE_NURSERY = gql`
-  mutation Mutation($nurseryUpdateId: ID!, $data: NurseryUpdateInput!) {
-    nurseryUpdate(id: $nurseryUpdateId, data: $data) {
-      id
-      nurseryOwnerID
-      name
-      details
-      openingHours
-      closingHours
-      rating
-      address
-      phoneNumber
-      email
-      website
-      images
-      createdAt
-      updatedAt
-    }
+  mutation NurseryUpdate($nurseryUpdateId: ID!, $data: NurseryUpdateInput!) {
+    nurseryUpdate(id: $nurseryUpdateId, data: $data)
   }
 `;
 
