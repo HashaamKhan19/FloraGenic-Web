@@ -15,12 +15,30 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
+import { gql, useMutation } from "@apollo/client";
+import { uploadImage } from "../../services/fileUpload";
 
-const AddCategory = () => {
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+const ADD_CATEGORY = gql`
+  mutation CategoryCreate($data: CategoryCreateInput!) {
+    categoryCreate(data: $data) {
+      id
+      name
+      description
+      hiddenStatus
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
 
+const UPDATE_CATEGORY = gql`
+  mutation CategoryUpdate($categoryUpdateId: ID!, $data: CategoryUpdateInput!) {
+    categoryUpdate(id: $categoryUpdateId, data: $data)
+  }
+`;
+
+const AddCategory = ({ data = {} }) => {
   const [action, setAction] = React.useState("Enter");
   const [action2, setAction2] = React.useState("Add");
 
@@ -31,16 +49,69 @@ const AddCategory = () => {
     control,
     setValue,
     getValues,
+    reset,
     formState: { errors },
   } = useForm();
 
   const router = useRouter();
 
+  const [addCategory] = useMutation(ADD_CATEGORY, {
+    onCompleted: () => {
+      alert("Category Added Successfully");
+      router.push("/admin/viewCategories");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const [updateCategory] = useMutation(UPDATE_CATEGORY, {
+    onCompleted: () => {
+      alert("Category Updated Successfully");
+      router.push("/admin/viewCategories");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const onSubmit = async (formData) => {
+    const image = await uploadImage(formData.image, "category-images");
+    if (action == "Edit") {
+      updateCategory({
+        variables: {
+          categoryUpdateId: data.id,
+          data: {
+            name: formData.name,
+            description: formData.description,
+            image: image,
+          },
+        },
+      });
+    } else {
+      addCategory({
+        variables: {
+          data: {
+            name: formData.name,
+            description: formData.description,
+            image: image,
+          },
+        },
+      });
+    }
+  };
+
   React.useEffect(() => {
     const parts = router.pathname.split("/");
     parts[parts.length - 1] == "addCategory" ? action : setAction("Edit");
     parts[parts.length - 1] == "addCategory" ? action2 : setAction2("Edit");
-  }, [router]);
+  }, [router, action, action2]);
+
+  React.useEffect(() => {
+    if (action == "Edit") {
+      reset(data);
+    }
+  }, [data, action, reset]);
 
   return (
     <>
@@ -55,7 +126,7 @@ const AddCategory = () => {
             <Grid container spacing={3} sx={{ mt: 5, px: 2 }}>
               <Grid item xs={12}>
                 <InputLabel
-                  htmlFor="categoryName"
+                  htmlFor="name"
                   variant="standard"
                   required
                   sx={{
@@ -69,20 +140,18 @@ const AddCategory = () => {
                 <ControlledTextInput
                   control={control}
                   required
-                  id="categoryName"
-                  name="categoryName"
+                  id="name"
+                  name="name"
                   fullWidth
                   autoComplete="Category Name"
-                  error={errors.categoryName ? true : false}
-                  helperText={
-                    errors.categoryName && "Category Name is required"
-                  }
+                  error={errors.name ? true : false}
+                  helperText={errors.name && "Category Name is required"}
                 />
               </Grid>
 
               <Grid item xs={12}>
                 <InputLabel
-                  htmlFor="categoryDescription"
+                  htmlFor="description"
                   variant="standard"
                   required
                   sx={{
@@ -96,16 +165,15 @@ const AddCategory = () => {
                 <ControlledTextInput
                   control={control}
                   required
-                  id="categoryDescription"
-                  name="categoryDescription"
+                  id="description"
+                  name="description"
                   fullWidth
                   multiline
                   rows={2}
                   autoComplete="Category Description"
-                  error={errors.categoryDescription ? true : false}
+                  error={errors.description ? true : false}
                   helperText={
-                    errors.categoryDescription &&
-                    "Category Description is required"
+                    errors.description && "Category Description is required"
                   }
                 />
               </Grid>

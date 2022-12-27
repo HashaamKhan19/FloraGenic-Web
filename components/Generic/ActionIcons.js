@@ -19,6 +19,12 @@ const DELETE_NURSERY_MUTATION = gql`
   }
 `;
 
+const DELETE_CATEGORY_MUTATION = gql`
+  mutation Mutation($categoryDeleteId: ID!) {
+    categoryDelete(id: $categoryDeleteId)
+  }
+`;
+
 const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   // Action Confirmation Modal States
   const [open, setOpen] = React.useState(false);
@@ -41,6 +47,15 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   const [deleteNursery] = useMutation(DELETE_NURSERY_MUTATION, {
     onCompleted: () => {
       alert("Nursery deleted successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const [deleteCategory] = useMutation(DELETE_CATEGORY_MUTATION, {
+    onCompleted: () => {
+      alert("Category deleted successfully");
     },
     onError: (error) => {
       console.log(error);
@@ -85,7 +100,11 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
         router.push(`editProduct/${data.id}`);
         break;
       case "category":
-        router.push(`editCategory/${data.id}`);
+        deleteCategory({
+          variables: {
+            categoryDeleteId: data.id,
+          },
+        });
         break;
       case "nursery":
         deleteNursery({
