@@ -396,6 +396,73 @@ export default function Sidebar({ children }) {
             </Collapse>
           </Link>
 
+          {/* Category */}
+
+          <ListItemButton
+            onClick={handleCategoryClick}
+            sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
+          >
+            <ListItemIcon>
+              <CategoryIcon style={{ color: "white", fontSize: "22px" }} />
+            </ListItemIcon>
+            <ListItemText
+              primary="4 - Category"
+              primaryTypographyProps={{
+                marginLeft: -1.5,
+              }}
+            />
+            {categorylistOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+
+          <Link href="/admin/addCategory">
+            <Collapse in={categorylistOpen} timeout="auto" unmountOnExit>
+              <List disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
+                >
+                  <ListItemIcon>
+                    <AiFillPlusSquare
+                      style={{
+                        fontSize: "22px",
+                        color: "white",
+                      }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="4.1 - Add Category"
+                    primaryTypographyProps={{
+                      fontSize: "14px",
+                      marginLeft: -1.5,
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </Link>
+
+          <Link href="/admin/viewCategories">
+            <Collapse in={categorylistOpen} timeout="auto" unmountOnExit>
+              <List disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
+                >
+                  <ListItemIcon>
+                    <CategoryIcon
+                      style={{ color: "white", fontSize: "22px" }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="4.2 - View all Categories"
+                    primaryTypographyProps={{
+                      fontSize: "14px",
+                      marginLeft: -1.5,
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </Link>
+
           {/* Products */}
 
           <ListItemButton
@@ -407,7 +474,7 @@ export default function Sidebar({ children }) {
               <FiBox style={{ fontSize: "24px", color: "white" }} />
             </ListItemIcon>
             <ListItemText
-              primary="4 - Products"
+              primary="5 - Products"
               primaryTypographyProps={{
                 marginLeft: -1.5,
               }}
@@ -430,7 +497,7 @@ export default function Sidebar({ children }) {
                     />
                   </ListItemIcon>
                   <ListItemText
-                    primary="4.1 - Add Product"
+                    primary="5.1 - Add Product"
                     primaryTypographyProps={{
                       fontSize: "14px",
                       marginLeft: -1.5,
@@ -456,74 +523,7 @@ export default function Sidebar({ children }) {
                     />
                   </ListItemIcon>
                   <ListItemText
-                    primary="4.2 - View all Products"
-                    primaryTypographyProps={{
-                      fontSize: "14px",
-                      marginLeft: -1.5,
-                    }}
-                  />
-                </ListItemButton>
-              </List>
-            </Collapse>
-          </Link>
-
-          {/* Category */}
-
-          <ListItemButton
-            onClick={handleCategoryClick}
-            sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
-          >
-            <ListItemIcon>
-              <CategoryIcon style={{ color: "white", fontSize: "22px" }} />
-            </ListItemIcon>
-            <ListItemText
-              primary="5 - Category"
-              primaryTypographyProps={{
-                marginLeft: -1.5,
-              }}
-            />
-            {categorylistOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-
-          <Link href="/admin/addCategory">
-            <Collapse in={categorylistOpen} timeout="auto" unmountOnExit>
-              <List disablePadding>
-                <ListItemButton
-                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
-                >
-                  <ListItemIcon>
-                    <AiFillPlusSquare
-                      style={{
-                        fontSize: "22px",
-                        color: "white",
-                      }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="5.1 - Add Category"
-                    primaryTypographyProps={{
-                      fontSize: "14px",
-                      marginLeft: -1.5,
-                    }}
-                  />
-                </ListItemButton>
-              </List>
-            </Collapse>
-          </Link>
-
-          <Link href="/admin/viewCategories">
-            <Collapse in={categorylistOpen} timeout="auto" unmountOnExit>
-              <List disablePadding>
-                <ListItemButton
-                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
-                >
-                  <ListItemIcon>
-                    <CategoryIcon
-                      style={{ color: "white", fontSize: "22px" }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="5.2 - View all Categories"
+                    primary="5.2 - View all Products"
                     primaryTypographyProps={{
                       fontSize: "14px",
                       marginLeft: -1.5,
