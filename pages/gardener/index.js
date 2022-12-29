@@ -1,12 +1,12 @@
-import React from "react";
-import Dashboard from "../../components/Gardener/Dashboard";
+import React from 'react'
+import Dashboard from '../../components/Gardener/Dashboard'
 
 const index = () => {
   return (
     <>
       <Dashboard />
     </>
-  );
-};
+  )
+}
 
-export default index;
+export default index
