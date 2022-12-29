@@ -621,7 +621,7 @@ export default function Sidebar({ children }) {
           </Link>
 
           {/* Payments */}
-          <Link href="/admin/viewPayments">
+          <Link href="/admin/viewOrders">
             <ListItemButton
               sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
             >
@@ -629,7 +629,7 @@ export default function Sidebar({ children }) {
                 <LocalAtmIcon style={{ color: "white" }} />
               </ListItemIcon>
               <ListItemText
-                primary="8 - Payments"
+                primary="8 - Orders"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}
