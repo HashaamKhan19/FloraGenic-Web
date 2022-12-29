@@ -1,52 +1,52 @@
-import * as React from 'react'
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import Menu from '@mui/material/Menu'
-import MenuIcon from '@mui/icons-material/Menu'
-import Container from '@mui/material/Container'
-import InputBase from '@mui/material/InputBase'
-import Button from '@mui/material/Button'
-import Tooltip from '@mui/material/Tooltip'
-import MenuItem from '@mui/material/MenuItem'
-import SearchIcon from '@mui/icons-material/Search'
-import AdbIcon from '@mui/icons-material/Adb'
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined'
-import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined'
-import Drawer from '@mui/material/Drawer'
-import HoverMenu from 'material-ui-popup-state/HoverMenu'
-import PopupState, { bindMenu, bindHover } from 'material-ui-popup-state'
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'
-import { styled, alpha } from '@mui/material/styles'
-import { Divider, NativeSelect, Paper } from '@mui/material'
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import InputBase from "@mui/material/InputBase";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import SearchIcon from "@mui/icons-material/Search";
+import AdbIcon from "@mui/icons-material/Adb";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import Drawer from "@mui/material/Drawer";
+import HoverMenu from "material-ui-popup-state/HoverMenu";
+import PopupState, { bindMenu, bindHover } from "material-ui-popup-state";
+import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import { styled, alpha } from "@mui/material/styles";
+import { Divider, NativeSelect, Paper } from "@mui/material";
 
-const pages = ['Products', 'Nurseries', 'Gardeners']
-const settings = ['Profile', 'Logout']
+const pages = ["Products", "Nurseries", "Gardeners"];
+const settings = ["Profile", "Logout"];
 
 function Header() {
-  const [anchorElUser, setAnchorElUser] = React.useState(null)
-  const [drawerOpen, setDrawerOpen] = React.useState(false)
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const toggleDrawer = () => {
-    setDrawerOpen(!drawerOpen)
-  }
+    setDrawerOpen(!drawerOpen);
+  };
 
   const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget)
-  }
+    setAnchorElUser(event.currentTarget);
+  };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
+    setAnchorElNav(null);
+  };
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
+    setAnchorElUser(null);
+  };
 
   return (
-    <AppBar position="fixed" color="transparent" sx={{ boxShadow: '1' }}>
+    <AppBar position="fixed" color="transparent" sx={{ boxShadow: "1" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -56,24 +56,24 @@ function Header() {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none',
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             LOGO
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={() => {
-                toggleDrawer()
+                toggleDrawer();
               }}
               color="inherit"
             >
@@ -82,24 +82,26 @@ function Header() {
             <Drawer
               open={drawerOpen}
               onClose={() => {
-                toggleDrawer(false)
+                toggleDrawer(false);
               }}
             >
               <Box
                 sx={{
                   m: 2,
-                  textAlign: 'center',
-                  width: { xs: '200px', sm: '400px' },
+                  textAlign: "center",
+                  width: { xs: "200px", sm: "400px" },
                 }}
               >
-                {pages.map((page) => (
-                  <Typography textAlign="center">{page}</Typography>
+                {pages.map((page, index) => (
+                  <Typography textAlign="center" key={index}>
+                    {page}
+                  </Typography>
                 ))}
               </Box>
             </Drawer>
           </Box>
           {/* Logo -------------------------------------------------------- */}
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -107,18 +109,18 @@ function Header() {
             href=""
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: 'monospace',
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) =>
               page.match(/Products/) ? (
                 <PopupState variant="popover" popupId="demo-popup-menu">
@@ -126,7 +128,7 @@ function Header() {
                     <React.Fragment>
                       <Button
                         variant="text"
-                        sx={{ my: 2, mx: 3, color: 'black', display: 'flex' }}
+                        sx={{ my: 2, mx: 3, color: "black", display: "flex" }}
                         {...bindHover(popupState)}
                       >
                         {page}
@@ -153,19 +155,19 @@ function Header() {
                 <Button
                   key={page}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, mx: 3, color: 'black', display: 'block' }}
+                  sx={{ my: 2, mx: 3, color: "black", display: "block" }}
                   variant="text"
                 >
                   {page}
                 </Button>
-              ),
+              )
             )}
           </Box>
 
           <Box
             sx={{
               flexGrow: 0,
-              display: 'flex',
+              display: "flex",
               gap: 2,
             }}
           >
@@ -175,17 +177,17 @@ function Header() {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
@@ -198,13 +200,13 @@ function Header() {
             </Menu>
             <Tooltip title="Cart">
               <IconButton sx={{ p: 1 }}>
-                <ShoppingBagOutlinedIcon sx={{ fontSize: '24px' }} />
+                <ShoppingBagOutlinedIcon sx={{ fontSize: "24px" }} />
               </IconButton>
             </Tooltip>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
-  )
+  );
 }
-export default Header
+export default Header;
