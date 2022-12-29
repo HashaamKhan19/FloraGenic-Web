@@ -93,7 +93,7 @@ function Header() {
                 }}
               >
                 {pages.map((page, index) => (
-                  <Typography key={index} textAlign="center">
+                  <Typography textAlign="center" key={index}>
                     {page}
                   </Typography>
                 ))}

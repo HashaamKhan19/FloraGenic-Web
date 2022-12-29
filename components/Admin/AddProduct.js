@@ -12,12 +12,60 @@ import { useForm } from "react-hook-form";
 import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
 import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import Loader from "../Generic/Loader";
 
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-const AddProduct = () => {
+const GET_CATEGORIES = gql`
+  query Categories {
+    categories {
+      id
+      name
+    }
+  }
+`;
+
+const GET_NURSERIES = gql`
+  query Nurseries {
+    nurseries {
+      id
+      name
+    }
+  }
+`;
+
+const CREATE_PRODUCT = gql`
+  mutation Mutation($data: ProductCreateInput!) {
+    productCreate(data: $data) {
+      id
+      nurseryID
+      name
+      description
+      category
+      hidden
+      retailPrice
+      wholesalePrice
+      stock
+      sold
+      images
+      overallRating
+      tags
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+const UPDATE_PRODUCT = gql`
+  mutation ProductUpdate($productUpdateId: ID!, $data: ProductUpdateInput!) {
+    productUpdate(id: $productUpdateId, data: $data)
+  }
+`;
+
+const AddProduct = ({ data = {} }) => {
   const [action, setAction] = React.useState("Enter");
   const [action2, setAction2] = React.useState("Add");
 
@@ -30,6 +78,9 @@ const AddProduct = () => {
     setValue,
     getValues,
     watch,
+    clearErrors,
+    setError,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onChange",
@@ -42,23 +93,100 @@ const AddProduct = () => {
     const parts = router.pathname.split("/");
     parts[parts.length - 1] == "addProduct" ? action : setAction("Edit");
     parts[parts.length - 1] == "addProduct" ? action2 : setAction2("Edit");
-  }, [router]);
+  }, [router, action, action2]);
 
-  const [quantity, setQuantity] = React.useState(1);
-  const [tagsValue, setTagValue] = React.useState("");
-  const [tagsKey, setTagKey] = React.useState(0);
-  const [tags, setTag] = React.useState([]);
+  React.useEffect(() => {
+    if (action == "Edit") {
+      reset({ ...data, nursery: data.nursery.id, category: data.category.id });
+    }
+  }, [data, action, reset]);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const {
+    data: categoryData,
+    loading: categoryLoading,
+    error: categoryError,
+  } = useQuery(GET_CATEGORIES);
+  const {
+    data: nurseryData,
+    loading: nurseryLoading,
+    error: nurseryError,
+  } = useQuery(GET_NURSERIES);
+
+  const [createProduct, { loading: loading3, error: error3 }] = useMutation(
+    CREATE_PRODUCT,
+    {
+      onCompleted: () => {
+        alert("Product created successfully");
+        router.push("/admin/viewProducts");
+      },
+      onError: (error) => {
+        alert(error.message);
+      },
+    }
+  );
+
+  const [updateProduct, { loading: loading4, error: error4 }] = useMutation(
+    UPDATE_PRODUCT,
+    {
+      onCompleted: () => {
+        alert("Product updated successfully");
+        router.push("/admin/viewProducts");
+      },
+      onError: (error) => {
+        alert(error.message);
+      },
+    }
+  );
+
+  const onSubmit = (formData) => {
+    if (action == "Edit") {
+      updateProduct({
+        variables: {
+          productUpdateId: data.id,
+          data: {
+            nurseryID: formData.nursery,
+            name: formData.name,
+            description: formData.description,
+            category: formData.category,
+            // hidden: data.hidden,
+            retailPrice: parseFloat(formData.retailPrice),
+            wholesalePrice: parseFloat(formData.wholesalePrice),
+            stock: parseInt(formData.stock),
+            // sold: data.sold,
+            images: formData.images,
+            tags: formData.tags,
+          },
+        },
+      });
+    } else {
+      createProduct({
+        variables: {
+          data: {
+            nurseryID: formData.nursery,
+            name: formData.name,
+            description: formData.description,
+            category: formData.category,
+            // hidden: data.hidden,
+            retailPrice: parseFloat(formData.retailPrice),
+            wholesalePrice: parseFloat(formData.wholesalePrice),
+            stock: parseInt(formData.stock),
+            // sold: data.sold,
+            images: formData.images,
+            tags: formData.tags,
+          },
+        },
+      });
+    }
   };
+
+  console.log(errors);
 
   const handleTagAdder = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       getValues("tags").push(e.target.value);
-      setTagKey(tagsKey + 1);
       setValue("tag", "");
+      clearErrors("tag");
     }
   };
 
@@ -70,8 +198,12 @@ const AddProduct = () => {
     const filteredTags = tags.filter((tag) => tag !== chipToDelete);
     setValue("tags", filteredTags);
     console.log(getValues("tags"));
+    if (getValues("tags").length === 0) {
+      setError("tag", { type: "required" });
+    }
   };
 
+  if (categoryLoading || nurseryLoading) return <Loader />;
   return (
     <>
       <div className="flex justify-center">
@@ -102,12 +234,14 @@ const AddProduct = () => {
                   id="category"
                   name="category"
                   autoComplete="category"
-                  defaultValue={"Plant"}
+                  // defaultValue={"Plant"}
                   fullWidth
                 >
-                  <MenuItem value={"Plant"}>Plants</MenuItem>
-                  <MenuItem value={"Tools"}>Tools</MenuItem>
-                  <MenuItem value={"Care"}>Care</MenuItem>
+                  {categoryData.categories.map((category, index) => (
+                    <MenuItem value={category.id} key={index}>
+                      {category.name}
+                    </MenuItem>
+                  ))}
                 </ControlledSelect>
               </Grid>
 
@@ -122,24 +256,28 @@ const AddProduct = () => {
                     "& span": { color: "error.light" },
                   }}
                 >
-                  Choose Nursery for this Product
+                  Choose Nursery
                 </InputLabel>
-                <Select
-                  id="nursery"
+                <ControlledSelect
+                  control={control}
+                  required
                   name="nursery"
+                  id="nursery"
                   autoComplete="Nursery"
-                  defaultValue={"Nursery-x"}
+                  // defaultValue={"Nursery-x"}
                   fullWidth
                 >
-                  <MenuItem value={"Nursery-x"}>Nursery-x</MenuItem>
-                  <MenuItem value={"Nursery-y"}>Nursery-y</MenuItem>
-                  <MenuItem value={"Nursery-z"}>Nursery-z</MenuItem>
-                </Select>
+                  {nurseryData.nurseries.map((nursery, index) => (
+                    <MenuItem value={nursery.id} key={index}>
+                      {nursery.name}
+                    </MenuItem>
+                  ))}
+                </ControlledSelect>
               </Grid>
 
               <Grid item xs={12} sm={6}>
                 <InputLabel
-                  htmlFor="productName"
+                  htmlFor="name"
                   variant="standard"
                   required
                   sx={{
@@ -153,18 +291,18 @@ const AddProduct = () => {
                 <ControlledTextInput
                   control={control}
                   required
-                  id="productName"
-                  name="productName"
+                  id="name"
+                  name="name"
                   fullWidth
                   autoComplete="Product Name"
-                  error={errors.productName ? true : false}
-                  helperText={errors.productName && "Product Name is required"}
+                  error={errors.name ? true : false}
+                  helperText={errors.name && "Product Name is required"}
                 />
               </Grid>
 
               <Grid item xs={12} sm={6}>
                 <InputLabel
-                  htmlFor="quantity"
+                  htmlFor="stock"
                   variant="standard"
                   required
                   sx={{
@@ -178,12 +316,12 @@ const AddProduct = () => {
                 <ControlledTextInput
                   control={control}
                   required
-                  id="quantity"
-                  name="quantity"
+                  id="stock"
+                  name="stock"
                   fullWidth
                   autoComplete="Product Description"
-                  error={errors.quantity ? true : false}
-                  helperText={errors.quantity && "Product Quantity is required"}
+                  error={errors.stock ? true : false}
+                  helperText={errors.stock && "Product Quantity is required"}
                   // InputProps={{
                   //   startAdornment: (
                   //     <InputAdornment position="start">
@@ -196,7 +334,7 @@ const AddProduct = () => {
 
               <Grid item xs={12} sm={6}>
                 <InputLabel
-                  htmlFor="wholeSalePrice"
+                  htmlFor="wholesalePrice"
                   variant="standard"
                   required
                   sx={{
@@ -210,13 +348,13 @@ const AddProduct = () => {
                 <ControlledTextInput
                   control={control}
                   required
-                  id="wholeSalePrice"
-                  name="wholeSalePrice"
+                  id="wholesalePrice"
+                  name="wholesalePrice"
                   fullWidth
                   autoComplete="Rs. 80"
-                  error={errors.wholeSalePrice ? true : false}
+                  error={errors.wholesalePrice ? true : false}
                   helperText={
-                    errors.wholeSalePrice && "Whole Sale Price is required"
+                    errors.wholesalePrice && "Whole Sale Price is required"
                   }
                 />
               </Grid>
