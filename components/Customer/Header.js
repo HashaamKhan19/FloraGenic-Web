@@ -160,6 +160,7 @@ function Header({ children }) {
                 ),
               )}
             </Box>
+
             <Box
               sx={{
                 flexGrow: 0,
@@ -194,7 +195,6 @@ function Header({ children }) {
                   </MenuItem>
                 ))}
               </Menu>
-              {/* Cart----------------------------- */}
               <Cart />
             </Box>
           </Toolbar>
