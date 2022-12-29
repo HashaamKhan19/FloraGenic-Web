@@ -1,18 +1,11 @@
-import React from 'react'
-import Grid from '@mui/material/Unstable_Grid2'
-import { InputLabel, MenuItem } from '@mui/material'
-import ControlledTextInput from '../Generic/ControlledComponents/ControlledTextInput'
-import ControlledSelect from '../Generic/ControlledComponents/ControlledSelect'
-import { useForm } from 'react-hook-form'
+import React from "react";
+import Grid from "@mui/material/Unstable_Grid2";
+import { InputLabel, MenuItem } from "@mui/material";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import { useForm } from "react-hook-form";
 
-const AddGigDetails = () => {
-  const {
-    control,
-    formState: { errors },
-  } = useForm({
-    mode: 'onChange',
-  })
-
+const AddGigDetails = ({ control, errors, gardeners }) => {
   return (
     <>
       <form>
@@ -24,8 +17,8 @@ const AddGigDetails = () => {
               required
               sx={{
                 mb: 1.5,
-                color: 'text.primary',
-                '& span': { color: 'error.light' },
+                color: "text.primary",
+                "& span": { color: "error.light" },
               }}
             >
               Choose Gardener to handle Over this Gig to
@@ -36,12 +29,13 @@ const AddGigDetails = () => {
               id="gigOwner"
               name="gigOwner"
               autoComplete="gigOwner"
-              defaultValue={'User-x'}
               fullWidth
             >
-              <MenuItem value={'User-x'}>User-x</MenuItem>
-              <MenuItem value={'User-y'}>User-y</MenuItem>
-              <MenuItem value={'User-z'}>User-z</MenuItem>
+              {gardeners.map((gardener) => (
+                <MenuItem key={gardener.id} value={gardener.id}>
+                  {gardener.firstName + " " + gardener.lastName}
+                </MenuItem>
+              ))}
             </ControlledSelect>
           </Grid>
 
@@ -52,8 +46,8 @@ const AddGigDetails = () => {
               required
               sx={{
                 mb: 1.5,
-                color: 'text.primary',
-                '& span': { color: 'error.light' },
+                color: "text.primary",
+                "& span": { color: "error.light" },
               }}
             >
               Enter Gig Title
@@ -66,7 +60,7 @@ const AddGigDetails = () => {
               fullWidth
               autoComplete="Gig Title"
               error={errors.name ? true : false}
-              helperText={errors.name && 'Gig Title is required'}
+              helperText={errors.name && "Gig Title is required"}
             />
           </Grid>
 
@@ -77,8 +71,8 @@ const AddGigDetails = () => {
               required
               sx={{
                 mb: 1.5,
-                color: 'text.primary',
-                '& span': { color: 'error.light' },
+                color: "text.primary",
+                "& span": { color: "error.light" },
               }}
             >
               Enter Gig Description
@@ -93,12 +87,12 @@ const AddGigDetails = () => {
               rows={2}
               autoComplete="Gig Description"
               error={errors.address ? true : false}
-              helperText={errors.address && 'Gig Description is required'}
+              helperText={errors.address && "Gig Description is required"}
             />
           </Grid>
         </Grid>
       </form>
     </>
-  )
-}
-export default AddGigDetails
+  );
+};
+export default AddGigDetails;
