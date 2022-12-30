@@ -24,14 +24,14 @@ export default function Hero() {
           display: 'flex',
           flexDirection: 'row',
           height: '400px',
-          backgroundColor: 'grey',
           px: 6,
           mt: 6,
         }}
       >
-        <Box sx={{ flex: 1, backgroundColor: 'blue' }}>
+        <Box sx={{ flex: 1 }}>
           <Typography variant="h6">50% Sale</Typography>
           <Typography variant="p">Get your plants now</Typography>
+          <br />
           <Button variant="contained" sx={{ color: 'white', borderRadius: 0 }}>
             SHOP NOW
           </Button>
