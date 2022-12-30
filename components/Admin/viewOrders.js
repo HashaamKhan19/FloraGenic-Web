@@ -8,6 +8,7 @@ import Export from "../Generic/Export";
 import { ViewReviewsIcon } from "../../public/icons/ViewReviewsIcon";
 import { gql, useQuery } from "@apollo/client";
 import Loader from "../Generic/Loader";
+import ActionIcons from "../Generic/ActionIcons";
 
 const GET_ORDERS = gql`
   query Query {
@@ -102,13 +103,14 @@ const columns = [
     width: 150,
     headerAlign: "center",
     align: "center",
-    renderCell: () => {
+    renderCell: (params) => {
       return (
-        <PaymentActions
-          text={"Are you sure you want to delete this Payment?"}
+        <ActionIcons
+          text={"Are you sure you want to delete this Order?"}
           warningText={"This action is irreversable!"}
-          viewText={"Payment Details here"}
-          type={"Payment"}
+          viewText={"Order Details here"}
+          type={"order"}
+          data={params?.row}
         />
       );
     },

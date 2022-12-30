@@ -138,7 +138,7 @@ const AddNursery = ({ data = {} }) => {
           data: {
             nurseryOwnerID: formData.nurseryOwner,
             name: formData.name,
-            address: formData.address + ", " + formData.city,
+            address: formData.address,
             phoneNumber: formData.phoneNumber,
             email: formData.email,
             website: formData.website,

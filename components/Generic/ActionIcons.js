@@ -25,6 +25,24 @@ const DELETE_CATEGORY_MUTATION = gql`
   }
 `;
 
+const DELETE_PRODUCT_MUTATION = gql`
+  mutation ProductDelete($productDeleteId: ID!) {
+    productDelete(id: $productDeleteId)
+  }
+`;
+
+const DELETE_ORDER_MUTATION = gql`
+  mutation ProductDelete($orderDeleteId: ID!) {
+    orderDelete(id: $orderDeleteId)
+  }
+`;
+
+const DELETE_COMPLAINT_MUTATION = gql`
+  mutation ComplaintDelete($complaintDeleteId: ID!) {
+    complaintDelete(id: $complaintDeleteId)
+  }
+`;
+
 const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   // Action Confirmation Modal States
   const [open, setOpen] = React.useState(false);
@@ -56,6 +74,33 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   const [deleteCategory] = useMutation(DELETE_CATEGORY_MUTATION, {
     onCompleted: () => {
       alert("Category deleted successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const [deleteProduct] = useMutation(DELETE_PRODUCT_MUTATION, {
+    onCompleted: () => {
+      alert("Product deleted successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const [deleteOrder] = useMutation(DELETE_ORDER_MUTATION, {
+    onCompleted: () => {
+      alert("Order deleted successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const [deleteComplaint] = useMutation(DELETE_COMPLAINT_MUTATION, {
+    onCompleted: () => {
+      alert("Complaint deleted successfully");
     },
     onError: (error) => {
       console.log(error);
@@ -97,7 +142,11 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
         });
         break;
       case "product":
-        router.push(`editProduct/${data.id}`);
+        deleteProduct({
+          variables: {
+            productDeleteId: data.id,
+          },
+        });
         break;
       case "category":
         deleteCategory({
@@ -110,6 +159,21 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
         deleteNursery({
           variables: {
             nurseryDeleteId: data.id,
+          },
+        });
+        break;
+      case "order":
+        deleteOrder({
+          variables: {
+            orderDeleteId: data.id,
+          },
+        });
+        break;
+
+      case "complaint":
+        deleteComplaint({
+          variables: {
+            complaintDeleteId: data.id,
           },
         });
         break;
@@ -132,9 +196,12 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
             onClick={handleViewOpen}
           />
         </Tooltip>
-        <Tooltip title="Edit">
-          <Edit sx={{ ...styles, color: "info.main" }} onClick={handleEdit} />
-        </Tooltip>
+
+        {type !== "order" && (
+          <Tooltip title="Edit">
+            <Edit sx={{ ...styles, color: "info.main" }} onClick={handleEdit} />
+          </Tooltip>
+        )}
         <Tooltip title="Delete">
           <Delete
             sx={{ ...styles, color: "error.main" }}

@@ -166,7 +166,7 @@ export default function ViewUsers() {
   };
 
   React.useEffect(() => {
-    if (data) {
+    if (data?.users?.length) {
       setRows(() => {
         return data?.users?.filter((user) => {
           return (
