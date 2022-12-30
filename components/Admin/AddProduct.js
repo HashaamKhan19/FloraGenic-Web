@@ -41,20 +41,6 @@ const CREATE_PRODUCT = gql`
   mutation Mutation($data: ProductCreateInput!) {
     productCreate(data: $data) {
       id
-      nurseryID
-      name
-      description
-      category
-      hidden
-      retailPrice
-      wholesalePrice
-      stock
-      sold
-      images
-      overallRating
-      tags
-      createdAt
-      updatedAt
     }
   }
 `;

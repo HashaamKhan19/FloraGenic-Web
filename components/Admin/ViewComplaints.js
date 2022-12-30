@@ -13,7 +13,7 @@ const columns = [
   { field: "id", headerName: "ID", width: 40 },
   {
     field: "email",
-    headerName: "Emailed By",
+    headerName: "Complaint By",
     width: 200,
     valueGetter: (params) => params.row?.userDetails?.email || "Anonymous",
   },
@@ -46,7 +46,7 @@ const columns = [
           viewSubject={"Complaint Subject"}
           replyText={"Complaint"}
           type="complaint"
-          data={params}
+          data={params?.row}
         />
       );
     },

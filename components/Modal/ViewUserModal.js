@@ -6,6 +6,10 @@ import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import { Table, TableCell, TableRow } from "@mui/material";
 import Image from "next/legacy/image";
+import UserData from "./ModalData/UserData";
+import NurseryData from "./ModalData/NurseryData";
+import CategoryData from "./ModalData/CategoryData";
+import ProductData from "./ModalData/ProductData";
 
 const style = {
   position: "absolute",
@@ -62,101 +66,10 @@ export default function ViewUserModal({
               <Typography>{viewText}</Typography>
             </Box> */}
 
-            <Image
-              src={data?.details?.image}
-              alt="Profile Image"
-              showLoading
-              duration={0}
-              width={200}
-              height={200}
-              style={{
-                height: "auto",
-                aspectRatio: "1",
-                objectFit: "cover",
-                borderRadius: "50%",
-                padding: "20px",
-                border: "1px solid rgba(0,0,0,0.1)",
-              }}
-            />
-
-            <Table
-              width="full"
-              size="small"
-              sx={{ mt: 2, "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableRow>
-                <TableCell
-                  sx={{
-                    fontWeight: "600",
-                  }}
-                >
-                  Name:
-                </TableCell>
-                <TableCell>
-                  {data?.details?.firstName + " " + data?.details?.lastName}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    fontWeight: "600",
-                  }}
-                >
-                  Role:
-                </TableCell>
-                <TableCell>{data?.userType}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    fontWeight: "600",
-                  }}
-                >
-                  Email Address:
-                </TableCell>
-                <TableCell>{data?.email}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    fontWeight: "600",
-                  }}
-                >
-                  Phone Number:
-                </TableCell>
-                <TableCell>{data?.details?.phoneNumber}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    fontWeight: "600",
-                  }}
-                >
-                  Gender:
-                </TableCell>
-                <TableCell>{data?.details?.gender}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    fontWeight: "600",
-                  }}
-                >
-                  Nationality:
-                </TableCell>
-                <TableCell>{data?.details?.nationality}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    fontWeight: "600",
-                  }}
-                >
-                  CNIC:
-                </TableCell>
-                <TableCell>{data?.details?.CNIC || "N/A"}</TableCell>
-              </TableRow>
-            </Table>
+            {type === "user" && <UserData data={data} />}
+            {type === "nursery" && <NurseryData data={data} />}
+            {type === "category" && <CategoryData data={data} />}
+            {type === "product" && <ProductData data={data} />}
           </Box>
         </Fade>
       </Modal>

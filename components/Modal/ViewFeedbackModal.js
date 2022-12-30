@@ -1,22 +1,23 @@
-import * as React from 'react'
-import Backdrop from '@mui/material/Backdrop'
-import Box from '@mui/material/Box'
-import Modal from '@mui/material/Modal'
-import Fade from '@mui/material/Fade'
-import Typography from '@mui/material/Typography'
+import * as React from "react";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
+import ComplaintData from "./ModalData/ComplaintData";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
+  bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
   borderRadius: 1,
-  textAlign: 'center',
-}
+  textAlign: "center",
+};
 
 export default function ViewFeedbackModal({
   viewText,
@@ -24,6 +25,7 @@ export default function ViewFeedbackModal({
   viewOpen,
   handleViewClose,
   open,
+  data,
 }) {
   return (
     <div>
@@ -51,17 +53,19 @@ export default function ViewFeedbackModal({
 
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'space-evenly',
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-evenly",
                 mt: 3,
                 gap: 1,
               }}
             >
               <Typography>{viewText}</Typography>
+              <ComplaintData data={data} />
             </Box>
           </Box>
         </Fade>
       </Modal>
     </div>
-  )
+  );
 }
