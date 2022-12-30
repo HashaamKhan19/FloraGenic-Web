@@ -20,50 +20,38 @@ export default function Hero() {
     return (
       <Box
         sx={{
-          width: 'full',
-          height: { xs: '200px', sm: '300px', md: '400px' },
+          width: '100%',
           display: 'flex',
+          flexDirection: 'row',
+          height: '400px',
+          backgroundColor: 'grey',
+          px: 6,
+          mt: 6,
         }}
       >
-        <Box sx={{ flex: 1, backgroundColor: 'lightgray' }}>
-          <Typography
-            sx={{ fontWeight: 'bold', fontSize: { md: 32, sm: 24, xs: 18 } }}
-          >
-            50% OFF on your first order
-          </Typography>
-          <Typography
-            sx={{
-              mt: 1,
-              width: '50%',
-              flexWrap: 'nowrap',
-              width: { md: '70%', sm: '85%', xs: '100%' },
-              fontSize: { md: 18, sm: 14, xs: 12 },
-            }}
-          >
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Unde
-            molestias, illum labore
-          </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{
-              color: 'white',
-              borderRadius: 0,
-              mt: 4,
-            }}
-          >
+        <Box sx={{ flex: 1, backgroundColor: 'blue' }}>
+          <Typography variant="h6">50% Sale</Typography>
+          <Typography variant="p">Get your plants now</Typography>
+          <Button variant="contained" sx={{ color: 'white', borderRadius: 0 }}>
             SHOP NOW
           </Button>
         </Box>
         <Box
           sx={{
             flex: 1,
-            backgroundColor: 'grey',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            p: 2,
           }}
         >
-          <div className="unset-img full-bleed">
-            <Image src={props.item.url} width={500} height={500} />
-          </div>
+          <img
+            src={props.item.url}
+            style={{
+              objectFit: 'fill',
+              height: '100%',
+            }}
+          />
         </Box>
       </Box>
     )
@@ -73,7 +61,7 @@ export default function Hero() {
       <Carousel
         duration={200}
         navButtonsAlwaysInvisible={true}
-        swipe={false}
+        // swipe={false}
         IndicatorIcon={
           <RadioButtonCheckedOutlinedIcon
             sx={{
