@@ -638,7 +638,7 @@ export default function Sidebar({ children }) {
           </Link>
 
           {/* Reviews */}
-          <Link href="/admin/viewReviews">
+          {/* <Link href="/admin/viewReviews">
             <ListItemButton
               sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
             >
@@ -652,7 +652,7 @@ export default function Sidebar({ children }) {
                 }}
               />
             </ListItemButton>
-          </Link>
+          </Link> */}
 
           {/* Complaints */}
           <Link href="/admin/viewComplaints">
@@ -663,7 +663,7 @@ export default function Sidebar({ children }) {
                 <ReportGmailerrorredIcon style={{ color: "white" }} />
               </ListItemIcon>
               <ListItemText
-                primary="10 - Complaints"
+                primary="9 - Complaints"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}
@@ -680,7 +680,7 @@ export default function Sidebar({ children }) {
                 <BarChartIcon style={{ color: "white" }} />
               </ListItemIcon>
               <ListItemText
-                primary="11 - Statistics"
+                primary="10 - Statistics"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}

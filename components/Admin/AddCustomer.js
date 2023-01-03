@@ -324,15 +324,12 @@ const AddCustomer = ({ control, getValues, setValue, errors }) => {
           control={control}
           getValues={getValues}
           setValue={setValue}
-          // required
+          required
           name="image"
           id="image"
+          error={errors.image ? true : false}
+          helperText={"Image is required"}
         />
-        {errors.image && (
-          <Typography variant="body2" color="error" sx={{ mt: 1 }}>
-            Image is required
-          </Typography>
-        )}
       </Grid>
     </>
   );
