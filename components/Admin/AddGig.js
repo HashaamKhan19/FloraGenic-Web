@@ -1,309 +1,221 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { styled } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Check from "@mui/icons-material/Check";
-import EventNoteIcon from "@mui/icons-material/EventNote";
-import LocalAtmIcon from "@mui/icons-material/LocalAtm";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import StepConnector, {
-  stepConnectorClasses,
-} from "@mui/material/StepConnector";
-import { Box } from "@mui/system";
-import { Button, Paper, Typography } from "@mui/material";
+import React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import AddGigDetails from "./AddGigDetails";
-import AddGigGallery from "./AddGigGallery";
-import AddGigPricing from "./AddGigPricing";
-import { gql, useQuery } from "@apollo/client";
-import Loader from "../Generic/Loader";
+import InputLabel from "@mui/material/InputLabel";
+import Typography from "@mui/material/Typography";
+
+import { CategoryIcon } from "../../public/icons/CategoryIcon";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+// Controlled components
 import { useForm } from "react-hook-form";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
+import { gql, useMutation } from "@apollo/client";
+import { uploadImage } from "../../services/fileUpload";
+import ButtonBackground from "../../assets/Pattern/ButtonBackground";
 
-const QontoStepIconRoot = styled("div")(({ theme, ownerState }) => ({
-  color: theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eaeaf0",
-  display: "flex",
-  height: 22,
-  alignItems: "center",
-  ...(ownerState.active && {
-    color: "#784af4",
-  }),
-  "& .QontoStepIcon-completedIcon": {
-    color: "#784af4",
-    zIndex: 1,
-    fontSize: 18,
-  },
-  "& .QontoStepIcon-circle": {
-    width: 8,
-    height: 8,
-    borderRadius: "50%",
-    backgroundColor: "currentColor",
-  },
-}));
-
-function QontoStepIcon(props) {
-  const { active, completed, className } = props;
-
-  return (
-    <QontoStepIconRoot ownerState={{ active }} className={className}>
-      {completed ? (
-        <Check className="QontoStepIcon-completedIcon" />
-      ) : (
-        <div className="QontoStepIcon-circle" />
-      )}
-    </QontoStepIconRoot>
-  );
-}
-
-QontoStepIcon.propTypes = {
-  /**
-   * Whether this step is active.
-   * @default false
-   */
-  active: PropTypes.bool,
-  className: PropTypes.string,
-  /**
-   * Mark the step as completed. Is passed to child components.
-   * @default false
-   */
-  completed: PropTypes.bool,
-};
-
-const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
-  [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 22,
-  },
-  [`&.${stepConnectorClasses.active}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage:
-        "linear-gradient(90deg, rgba(139,228,70,1) 20%, rgba(98,168,44,1) 50%, rgba(98,168,44,1) 50%)",
-    },
-  },
-  [`&.${stepConnectorClasses.completed}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage:
-        "linear-gradient(90deg, rgba(139,228,70,1) 20%, rgba(98,168,44,1) 50%, rgba(98,168,44,1) 50%)",
-    },
-  },
-  [`& .${stepConnectorClasses.line}`]: {
-    height: 3,
-    border: 0,
-    backgroundColor:
-      theme.palette.mode === "dark" ? theme.palette.grey[800] : "#eaeaf0",
-    borderRadius: 1,
-  },
-}));
-
-const ColorlibStepIconRoot = styled("div")(({ theme, ownerState }) => ({
-  backgroundColor:
-    theme.palette.mode === "dark" ? theme.palette.grey[700] : "#ccc",
-  zIndex: 1,
-  color: "#fff",
-  width: 50,
-  height: 50,
-  display: "flex",
-  borderRadius: "50%",
-  justifyContent: "center",
-  alignItems: "center",
-  ...(ownerState.active && {
-    backgroundImage:
-      "linear-gradient(270deg, rgba(98,168,44,1) 50%, rgba(98,168,44,1) 50%);",
-    boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
-  }),
-  ...(ownerState.completed && {
-    backgroundImage:
-      "linear-gradient(270deg, rgba(98,168,44,1) 50%, rgba(98,168,44,1) 50%);",
-  }),
-}));
-
-function ColorlibStepIcon(props) {
-  const { active, completed, className } = props;
-
-  const icons = {
-    1: <EventNoteIcon />,
-    2: <LocalAtmIcon />,
-    3: <AddPhotoAlternateIcon />,
-  };
-
-  return (
-    <ColorlibStepIconRoot
-      ownerState={{ completed, active }}
-      className={className}
-    >
-      {icons[String(props.icon)]}
-    </ColorlibStepIconRoot>
-  );
-}
-
-ColorlibStepIcon.propTypes = {
-  /**
-   * Whether this step is active.
-   * @default false
-   */
-  active: PropTypes.bool,
-  className: PropTypes.string,
-  /**
-   * Mark the step as completed. Is passed to child components.
-   * @default false
-   */
-  completed: PropTypes.bool,
-  /**
-   * The label displayed in the step icon.
-   */
-  icon: PropTypes.node,
-};
-
-const steps = ["Gig Details", "Package Details", "Gallery"];
-
-const GET_GARDENERS = gql`
-  query Query {
-    gardeners {
+const ADD_GIG = gql`
+  mutation GigCreate($data: GigCreateInput!) {
+    gigCreate(data: $data) {
       id
-      firstName
-      lastName
+      name
+      description
+      hiddenStatus
+      image
+      createdAt
+      updatedAt
     }
   }
 `;
 
-export default function AddGig() {
-  const [activeStep, setActiveStep] = React.useState(0);
+const UPDATE_GIG = gql`
+  mutation GigUpdate($gigUpdateId: ID!, $data: GigUpdateInput!) {
+    gigUpdate(id: $gigUpdateId, data: $data)
+  }
+`;
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  const {
-    loading: gardenersLoading,
-    error: gardenersError,
-    data: gardenersData,
-  } = useQuery(GET_GARDENERS);
+const AddGig = ({ data = {} }) => {
+  const [action, setAction] = React.useState("Enter");
+  const [action2, setAction2] = React.useState("Add");
 
   const {
     register,
     handleSubmit,
     watch,
     control,
-    getValues,
     setValue,
+    getValues,
     reset,
     formState: { errors },
-  } = useForm({
-    mode: "onChange",
+  } = useForm();
+
+  const router = useRouter();
+
+  const [addGig] = useMutation(ADD_GIG, {
+    onCompleted: () => {
+      alert("Gig Added Successfully");
+      router.push("/admin/viewCategories");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
   });
 
-  if (gardenersLoading) return <Loader />;
-  if (gardenersError) return <p>Error :(</p>;
-  if (!gardenersData.gardeners.length) return <p>No Gardeners found</p>;
+  const [updateGig] = useMutation(UPDATE_GIG, {
+    onCompleted: () => {
+      alert("Gig Updated Successfully");
+      router.push("/admin/viewCategories");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const onSubmit = async (formData) => {
+    const image = await uploadImage(formData.image, "gig-images");
+    if (action == "Edit") {
+      updateGig({
+        variables: {
+          gigUpdateId: data.id,
+          data: {
+            name: formData.name,
+            description: formData.description,
+            image: image,
+          },
+        },
+      });
+    } else {
+      addGig({
+        variables: {
+          data: {
+            name: formData.name,
+            description: formData.description,
+            image: image,
+          },
+        },
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    const parts = router.pathname.split("/");
+    parts[parts.length - 1] == "addGig" ? action : setAction("Edit");
+    parts[parts.length - 1] == "addGig" ? action2 : setAction2("Edit");
+  }, [router, action, action2]);
+
+  React.useEffect(() => {
+    if (action == "Edit") {
+      reset(data);
+    }
+  }, [data, action, reset]);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-      }}
-    >
-      <Paper
-        sx={{
-          padding: 5,
-          boxShadow: 5,
-          width: "90%",
-        }}
-      >
-        <Stepper
-          activeStep={activeStep}
-          alternativeLabel
-          connector={<ColorlibConnector />}
-        >
-          {steps.map((label, index) => {
-            return (
-              <Step key={label}>
-                <StepLabel StepIconComponent={ColorlibStepIcon}>
-                  {label}
-                </StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-        {activeStep === steps.length ? (
-          <React.Fragment>
-            <Typography sx={{ mt: 5, mb: 2, textAlign: "center" }}>
-              All steps completed - you&apos;re finished with your gig
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Box sx={{ flex: "1 1 auto" }} />
-              <Button
-                onClick={handleReset}
-                variant="contained"
-                color="secondary"
-                sx={{ color: "white" }}
-              >
-                Done
-              </Button>
-            </Box>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <Box
-              sx={{
-                mt: 5,
-              }}
-            >
-              {activeStep === 0 ? (
-                <AddGigDetails
+    <>
+      <div className="flex justify-center">
+        <section className="w-[75%] p-4 bg-white rounded-md shadow-md ">
+          <h1 className="text-3xl font-semibold text-gray-800 capitalize text-center p-4">
+            <CategoryIcon sx={{ mr: 1, mb: 0.3 }} fontSize="large" />
+            {action2} Gig
+          </h1>
+
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={3} sx={{ mt: 5, px: 2 }}>
+              <Grid item xs={12}>
+                <InputLabel
+                  htmlFor="name"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
+                  }}
+                >
+                  {action} Gig Name
+                </InputLabel>
+                <ControlledTextInput
                   control={control}
-                  errors={errors}
-                  gardeners={gardenersData?.gardeners}
+                  required
+                  id="name"
+                  name="name"
+                  fullWidth
+                  autoComplete="Gig Name"
+                  error={errors.name ? true : false}
+                  helperText={errors.name && "Gig Name is required"}
                 />
-              ) : activeStep === 1 ? (
-                <AddGigPricing control={control} errors={errors} />
-              ) : (
-                <AddGigGallery control={control} errors={errors} />
-              )}
-            </Box>
+              </Grid>
 
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                pt: 5,
-                justifyContent: "space-between",
-              }}
-            >
-              <Button
-                color="primary"
-                variant="contained"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1, color: "white" }}
-              >
-                Back
-              </Button>
+              <Grid item xs={12}>
+                <InputLabel
+                  htmlFor="description"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
+                  }}
+                >
+                  {action} Gig Description
+                </InputLabel>
+                <ControlledTextInput
+                  control={control}
+                  required
+                  id="description"
+                  name="description"
+                  fullWidth
+                  multiline
+                  rows={2}
+                  autoComplete="Gig Description"
+                  error={errors.description ? true : false}
+                  helperText={
+                    errors.description && "Gig Description is required"
+                  }
+                />
+              </Grid>
 
-              <Button
-                onClick={handleNext}
-                color="primary"
-                variant="contained"
-                sx={{ color: "white" }}
-              >
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
-            </Box>
-          </React.Fragment>
-        )}
-      </Paper>
-    </Box>
+              <Grid item xs={12}>
+                <InputLabel
+                  htmlFor="image"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
+                  }}
+                >
+                  {action} Gig Image
+                </InputLabel>
+                <ControlledDropzone
+                  control={control}
+                  getValues={getValues}
+                  setValue={setValue}
+                  // required
+                  name="image"
+                  id="image"
+                />
+                {errors.image && (
+                  <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+                    Image is required
+                  </Typography>
+                )}
+              </Grid>
+
+              <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>
+                <button class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease">
+                  <ButtonBackground />
+                  <CategoryIcon sx={{ mr: 0.3, mb: 0.2 }} fontSize="small" />
+                  <span class="relative">{action2} Gig</span>
+                </button>
+              </Grid>
+            </Grid>
+          </form>
+        </section>
+      </div>
+    </>
   );
-}
+};
+
+export default AddGig;
