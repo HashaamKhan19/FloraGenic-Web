@@ -1,15 +1,15 @@
-import React from 'react'
-import { Box } from '@mui/system'
-import Grid from '@mui/material/Unstable_Grid2/Grid2'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemText from '@mui/material/ListItemText'
+import React from "react";
+import { Box } from "@mui/system";
+import Grid from "@mui/material/Unstable_Grid2";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 
-import { Typography } from '@mui/material'
+import { Typography } from "@mui/material";
 
 const Footer = () => (
-  <Grid container justifyContent={'center'} bgcolor="lightgrey">
-    <Grid item xs={12} sm={6} md={3} justifyContent={'center'}>
+  <Grid container justifyContent={"center"} bgcolor="lightgrey">
+    <Grid item xs={12} sm={6} md={3} justifyContent={"center"}>
       <Box sx={{ p: 2 }}>
         <Typography variant="h6">FloraGenic Logo</Typography>
         <List dense={true} disablePadding disableGutters>
@@ -67,6 +67,6 @@ const Footer = () => (
       </Box>
     </Grid>
   </Grid>
-)
+);
 
-export default Footer
+export default Footer;
