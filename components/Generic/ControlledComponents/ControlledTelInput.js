@@ -23,7 +23,8 @@ const ControlledTelInput = ({
         minLength,
         maxLength,
         validate: (value) => {
-          return matchIsValidTel(value);
+          if (required) return matchIsValidTel(value);
+          else return true;
         },
       }}
       render={({ field }) => <MuiTelInput {...field} {...rest} />}
