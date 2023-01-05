@@ -54,7 +54,6 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
   const [showPassword, setShowPassword] = React.useState("password");
   const [showConfirmPassword, setShowConfirmPassword] =
     React.useState("password");
-
   return (
     <>
       <Grid item xs={12} sm={6}>

@@ -13,6 +13,7 @@ import Loader from "../Generic/Loader";
 // GraphQL
 import { useQuery, gql } from "@apollo/client";
 import Image from "next/legacy/image";
+import Placeholder from "../../assets/images/placeholder.png";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
@@ -24,7 +25,7 @@ const columns = [
     renderCell: (params) => {
       return (
         <Image
-          src={params?.row?.details?.image}
+          src={params?.row?.details?.image || Placeholder}
           alt={"profile"}
           width={30}
           height={30}

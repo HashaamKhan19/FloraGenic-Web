@@ -378,7 +378,7 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
           control={control}
           getValues={getValues}
           setValue={setValue}
-          required
+          // required
           name="image"
           id="image"
           error={errors.image ? true : false}
