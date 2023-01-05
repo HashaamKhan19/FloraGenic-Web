@@ -15,7 +15,15 @@ const ControlledDropzone = ({
     <Controller
       name={name}
       control={control}
-      rules={{ required, validate: (value) => value !== null }}
+      rules={{
+        required,
+        validate: (value) => {
+          if (required) {
+            return value !== null;
+          }
+          return true;
+        },
+      }}
       defaultValue={defaultValue}
       render={({ field }) => (
         <>
