@@ -1,19 +1,18 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
+import { gql, useMutation } from "@apollo/client";
 import InputLabel from "@mui/material/InputLabel";
 import Typography from "@mui/material/Typography";
-
-import { CategoryIcon } from "../../public/icons/CategoryIcon";
-import Link from "next/link";
+import Grid from "@mui/material/Unstable_Grid2";
 import { useRouter } from "next/router";
+import React from "react";
+import { useForm } from "react-hook-form";
+
+import ButtonBackground from "../../assets/Pattern/ButtonBackground";
+import { CategoryIcon } from "../../public/icons/CategoryIcon";
+import { uploadImage } from "../../services/fileUpload";
 
 // Controlled components
-import { useForm } from "react-hook-form";
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
-import { gql, useMutation } from "@apollo/client";
-import { uploadImage } from "../../services/fileUpload";
-import ButtonBackground from "../../assets/Pattern/ButtonBackground";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 
 const ADD_GIG = gql`
   mutation GigCreate($data: GigCreateInput!) {
