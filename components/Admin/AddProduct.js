@@ -23,6 +23,7 @@ import Loader from "../Generic/Loader";
 import MultiDropzone from "../Generic/MultiDropzone";
 import ControlledMultiDropzone from "../Generic/ControlledComponents/ControlledMultiDropzone";
 import ButtonBackground from "../../assets/Pattern/ButtonBackground";
+import { uploadMultipleImages } from "../../services/fileUpload";
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
@@ -132,7 +133,8 @@ const AddProduct = ({ data = {} }) => {
     }
   );
 
-  const onSubmit = (formData) => {
+  const onSubmit = async (formData) => {
+    const images = await uploadMultipleImages(formData.images);
     if (action == "Edit") {
       updateProduct({
         variables: {
@@ -147,7 +149,7 @@ const AddProduct = ({ data = {} }) => {
             wholesalePrice: parseFloat(formData.wholesalePrice),
             stock: parseInt(formData.stock),
             // sold: data.sold,
-            images: formData.images,
+            images: images,
             tags: formData.tags,
           },
         },
@@ -165,7 +167,7 @@ const AddProduct = ({ data = {} }) => {
             wholesalePrice: parseFloat(formData.wholesalePrice),
             stock: parseInt(formData.stock),
             // sold: data.sold,
-            images: formData.images,
+            images: images,
             tags: formData.tags,
           },
         },
@@ -230,6 +232,8 @@ const AddProduct = ({ data = {} }) => {
                   autoComplete="category"
                   // defaultValue={"Plant"}
                   fullWidth
+                  error={errors.category ? true : false}
+                  helperText={errors.category && "Please select a category"}
                 >
                   {categoryData.categories.map((category, index) => (
                     <MenuItem value={category.id} key={index}>
@@ -260,6 +264,8 @@ const AddProduct = ({ data = {} }) => {
                   autoComplete="Nursery"
                   // defaultValue={"Nursery-x"}
                   fullWidth
+                  error={errors.nursery ? true : false}
+                  helperText={errors.nursery && "Please select a nursery"}
                 >
                   {nurseryData.nurseries.map((nursery, index) => (
                     <MenuItem value={nursery.id} key={index}>
@@ -448,9 +454,9 @@ const AddProduct = ({ data = {} }) => {
                   getValues={getValues}
                   setValue={setValue}
                   required
-                  name="image"
-                  id="image"
-                  error={errors.image ? true : false}
+                  name="images"
+                  id="images"
+                  error={errors.images ? true : false}
                   helperText="At least 1 image is required"
                 />
               </Grid>

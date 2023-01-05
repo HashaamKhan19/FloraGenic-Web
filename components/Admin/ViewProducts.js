@@ -10,6 +10,8 @@ import Link from "next/link";
 import { AddProductIcon } from "../../public/icons/AddProductIcon";
 import { gql, useQuery } from "@apollo/client";
 import Loader from "../Generic/Loader";
+import Image from "next/legacy/image";
+import Placeholder from "../../assets/images/placeholder.png";
 
 const GET_PRODUCTS = gql`
   query Query($data: ProductSearchInput) {
@@ -40,8 +42,31 @@ const GET_PRODUCTS = gql`
 `;
 
 const columns = [
-  { field: "id", headerName: "ID", width: 50 },
-  { field: "image", headerName: "Image", width: 70 },
+  {
+    field: "id",
+    headerName: "ID",
+    width: 50,
+  },
+  {
+    field: "image",
+    headerName: "Image",
+    width: 70,
+    renderCell: (params) => {
+      return (
+        <Image
+          src={params?.row?.images[0] || Placeholder}
+          alt={"Nursery Image"}
+          width={30}
+          height={30}
+          objectFit="cover"
+          style={{
+            borderRadius: "50%",
+            marginRight: 10,
+          }}
+        />
+      );
+    },
+  },
   {
     field: "category",
     headerName: "Category",

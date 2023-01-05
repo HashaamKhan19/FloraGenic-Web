@@ -27,6 +27,8 @@ import { useMutation, gql, useQuery } from "@apollo/client";
 import CityOptions from "../Generic/CityOptions";
 import Loader from "../Generic/Loader";
 import ButtonBackground from "../../assets/Pattern/ButtonBackground";
+import ControlledMultiDropzone from "../Generic/ControlledComponents/ControlledMultiDropzone";
+import { uploadMultipleImages } from "../../services/fileUpload";
 
 const ADD_NURSERY = gql`
   mutation NurseryCreate($data: NurseryCreateInput!) {
@@ -66,6 +68,8 @@ const AddNursery = ({ data = {} }) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
     watch,
     control,
     reset,
@@ -131,7 +135,8 @@ const AddNursery = ({ data = {} }) => {
     setQuantity(quantity - 1);
   };
 
-  const onSubmit = (formData) => {
+  const onSubmit = async (formData) => {
+    const images = await uploadMultipleImages(formData.images);
     if (action == "Edit") {
       nurseryUpdate({
         variables: {
@@ -146,6 +151,7 @@ const AddNursery = ({ data = {} }) => {
             openingHours: formData.openingHours,
             closingHours: formData.closingHours,
             details: formData.details,
+            images: images,
           },
         },
       });
@@ -162,6 +168,7 @@ const AddNursery = ({ data = {} }) => {
             openingHours: formData.openingHours,
             closingHours: formData.closingHours,
             details: formData.details,
+            images: images,
           },
         },
       });
@@ -188,7 +195,7 @@ const AddNursery = ({ data = {} }) => {
 
   if (loading) return <Loader />;
   if (error) return <p>{"Error :("}</p>;
-
+  console.log(errors);
   return (
     <>
       <div className="flex justify-center">
@@ -345,6 +352,7 @@ const AddNursery = ({ data = {} }) => {
                   {action} Phone Number
                 </InputLabel>
                 <ControlledTelInput
+                  required={false}
                   control={control}
                   defaultCountry="PK"
                   id="phoneNumber"
@@ -459,6 +467,18 @@ const AddNursery = ({ data = {} }) => {
                   autoComplete="Website URL"
                   error={errors.website ? true : false}
                   helperText={errors.website && "Website URL is required"}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <ControlledMultiDropzone
+                  control={control}
+                  getValues={getValues}
+                  setValue={setValue}
+                  required
+                  name="images"
+                  id="images"
+                  error={errors.images ? true : false}
+                  helperText="At least 1 image is required"
                 />
               </Grid>
 
