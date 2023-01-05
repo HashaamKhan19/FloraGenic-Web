@@ -25,6 +25,15 @@ export default function MultiDropzone({ onChange, getValues, name, setValue }) {
     accept: {
       "image/*": [],
     },
+    onDrop: (files) => {
+      const array = Array.from(files);
+      array.forEach((file) => {
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        });
+      });
+      onChange(array);
+    },
     // maxFiles: 1,
   });
 
@@ -33,6 +42,7 @@ export default function MultiDropzone({ onChange, getValues, name, setValue }) {
   const desktopScreen = useMediaQuery("(min-width: 960px)");
 
   const handleFileSelect = (e) => {
+    console.log(e.target.files);
     const files = e.target.files;
     console.log(files);
     const array = Array.from(files);
@@ -129,12 +139,12 @@ export default function MultiDropzone({ onChange, getValues, name, setValue }) {
                   }}
                 >
                   <Image
-                    src={file.preview}
+                    src={file.preview || file}
                     alt="preview"
                     layout="fill"
                     objectFit="cover"
                   />
-                  <ImageListItemBar title={file.name} />
+                  {file?.name && <ImageListItemBar title={file.name} />}
                   <IconButton
                     sx={{
                       position: "absolute",
