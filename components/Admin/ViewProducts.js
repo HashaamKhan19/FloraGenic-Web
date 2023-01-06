@@ -249,7 +249,7 @@ export default function ViewProducts() {
           boxShadow: "0 5px 5px -5px",
           border: "1px solid rgba(0,0,0,0.1)",
         }}
-        rows={data.products || []}
+        rows={data?.products || []}
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[7]}

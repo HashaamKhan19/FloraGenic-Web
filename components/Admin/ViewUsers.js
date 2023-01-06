@@ -1,7 +1,9 @@
 import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, Typography } from "@mui/material";
-import { PersonAdd } from "@mui/icons-material";
+import DataGrid from "@mui/x-data-grid/DataGrid";
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Typography from "@mui/material/Typography";
+import PersonAdd from "@mui/icons-material/PersonAdd";
 import ActionIcons from "../Generic/ActionIcons";
 import BlockToggle from "../Generic/BlockToggle";
 import SearchField from "../Generic/SearchField";
@@ -149,7 +151,7 @@ export default function ViewUsers() {
   const exportOpen = Boolean(anchorElExport);
   const [rows, setRows] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState("");
-
+  const [pageSize, setPageSize] = React.useState(10);
   const { loading, error, data } = useQuery(GET_USERS);
 
   // Menu handlers
@@ -272,8 +274,10 @@ export default function ViewUsers() {
         }}
         rows={rows}
         columns={columns}
-        pageSize={7}
-        rowsPerPageOptions={[7]}
+        pagination
+        pageSize={pageSize}
+        rowsPerPageOptions={[10, 25, 50]}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         checkboxSelection
         autoHeight
         disableSelectionOnClick

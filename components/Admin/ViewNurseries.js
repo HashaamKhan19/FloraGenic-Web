@@ -206,7 +206,7 @@ export default function ViewNurseries() {
           boxShadow: "0 5px 5px -5px",
           border: "1px solid rgba(0,0,0,0.1)",
         }}
-        rows={data?.nurseries}
+        rows={data?.nurseries || []}
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[7]}
