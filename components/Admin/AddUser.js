@@ -1,18 +1,19 @@
 import React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Button, InputLabel, Select, MenuItem } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 import AddAdmin from "./AddAdmin";
 import AddCustomer from "./AddCustomer";
 import AddGardener from "./AddGardener";
 import AddNurseryOwner from "./AddNurseryOwner";
 import { UsersIcon } from "../../public/icons/UsersIcon";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useMutation, gql } from "@apollo/client";
 import { uploadImage } from "../../services/fileUpload";
 import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
 import ButtonBackground from "../../assets/Pattern/ButtonBackground";
+import ActionConfirmationModal from "../Generic/TaskConfirmationModal";
 
 const ADD_CUSTOMER = gql`
   mutation RegisterCustomer(
@@ -109,76 +110,112 @@ const UPDATE_CUSTOMER = gql`
 const AddUser = ({ data = {} }) => {
   const [userType, setUserType] = React.useState("Customer");
   const [action, setAction] = React.useState("Add");
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState(null);
+  const [successMessage, setSuccessMessage] = React.useState(null);
 
   const [addCustomer] = useMutation(ADD_CUSTOMER, {
     onCompleted: () => {
-      alert("Customer added successfully");
+      setLoading(false);
+      setSuccessMessage("Customer added successfully");
+      // alert("Customer added successfully");
     },
     onError: (error) => {
+      setLoading(false);
+      setErrorMessage(error);
       console.log(error);
     },
   });
 
   const [addGardener] = useMutation(ADD_GARDENER, {
     onCompleted: () => {
-      alert("Customer added successfully");
+      setLoading(false);
+      setSuccessMessage("Gardener added successfully");
+      // alert("Customer added successfully");
     },
     onError: (error) => {
+      setLoading(false);
+      setErrorMessage(error);
       console.log(error);
     },
   });
 
   const [addAdmin] = useMutation(ADD_ADMIN, {
     onCompleted: () => {
-      alert("User added successfully");
+      setLoading(false);
+      setSuccessMessage("Admin added successfully");
+      // alert("User added successfully");
     },
     onError: (error) => {
+      setLoading(false);
+      setErrorMessage(error);
       alert(error);
     },
   });
 
   const [addNurseryOwner] = useMutation(ADD_NURSERY_OWNER, {
     onCompleted: () => {
-      alert("User added successfully");
+      setLoading(false);
+      setSuccessMessage("Nursery Owner added successfully");
+      // alert("User added successfully");
     },
     onError: (error) => {
+      setLoading(false);
+      setErrorMessage(error);
       alert(error);
     },
   });
 
   const [updateAdmin] = useMutation(UPDATE_ADMIN, {
     onCompleted: () => {
-      alert("User updated successfully");
+      setLoading(false);
+      setSuccessMessage("Admin updated successfully");
+      // alert("User updated successfully");
     },
     onError: (error) => {
-      alert(error);
+      setLoading(false);
+      setErrorMessage(error);
+      // alert(error);
     },
   });
 
   const [updateGardener] = useMutation(UPDATE_GARDENER, {
     onCompleted: () => {
-      alert("User updated successfully");
+      setLoading(false);
+      setSuccessMessage("Gardener updated successfully");
+      // alert("User updated successfully");
     },
     onError: (error) => {
-      alert(error);
+      setLoading(false);
+      setErrorMessage(error);
+      // alert(error);
     },
   });
 
   const [updateNurseryOwner] = useMutation(UPDATE_NURSERY_OWNER, {
     onCompleted: () => {
-      alert("User updated successfully");
+      setLoading(false);
+      setSuccessMessage("Nursery Owner updated successfully");
+      // alert("User updated successfully");
     },
     onError: (error) => {
-      alert(error);
+      setLoading(false);
+      setErrorMessage(error);
+      // alert(error);
     },
   });
 
   const [updateCustomer] = useMutation(UPDATE_CUSTOMER, {
     onCompleted: () => {
-      alert("User updated successfully");
+      setLoading(false);
+      setSuccessMessage("Customer updated successfully");
+      // alert("User updated successfully");
     },
     onError: (error) => {
-      alert(error);
+      setLoading(false);
+      setErrorMessage(error);
+      // alert(error);
     },
   });
 
@@ -211,12 +248,12 @@ const AddUser = ({ data = {} }) => {
   }, [data, action, reset]);
 
   const onSubmit = async (formData) => {
+    setLoading(true);
+    setModalOpen(true);
     const image = await uploadImage(formData.image, "user-profile-images");
-
     if (password === "") {
       delete formData.password;
     }
-
     if (userType == "Customer") {
       if (action == "Edit") {
         updateCustomer({
@@ -389,120 +426,129 @@ const AddUser = ({ data = {} }) => {
   };
 
   return (
-    <div className="flex justify-center">
-      <section className="w-[75%] p-4 bg-white rounded-md shadow-md ">
-        <h1 className="text-3xl font-semibold text-gray-800 capitalize text-center p-4">
-          <UsersIcon sx={{ mr: 1 }} fontSize="large" />
-          {action} {userType}
-        </h1>
+    <>
+      <div className="flex justify-center">
+        <section className="w-[75%] p-4 bg-white rounded-md shadow-md ">
+          <h1 className="text-3xl font-semibold text-gray-800 capitalize text-center p-4">
+            <UsersIcon sx={{ mr: 1 }} fontSize="large" />
+            {action} {userType}
+          </h1>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={3} sx={{ mt: 5, px: 2 }}>
-            <Grid item xs={12}>
-              <InputLabel
-                htmlFor="userType"
-                variant="standard"
-                required
-                sx={{
-                  mb: 1.5,
-                  color: "text.primary",
-                  "& span": { color: "error.light" },
-                }}
-              >
-                User Category
-              </InputLabel>
-              <ControlledSelect
-                control={control}
-                required
-                name="userType"
-                id="userType"
-                autoComplete="userType"
-                defaultValue={"Customer"}
-                fullWidth
-              >
-                <MenuItem
-                  value={"Customer"}
-                  onClick={() => {
-                    setUserType("Customer");
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={3} sx={{ mt: 5, px: 2 }}>
+              <Grid item xs={12}>
+                <InputLabel
+                  htmlFor="userType"
+                  variant="standard"
+                  required
+                  sx={{
+                    mb: 1.5,
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
-                  Customer
-                </MenuItem>
-                <MenuItem
-                  value={"Gardener"}
-                  onClick={() => {
-                    setUserType("Gardener");
-                  }}
+                  User Category
+                </InputLabel>
+                <ControlledSelect
+                  control={control}
+                  required
+                  name="userType"
+                  id="userType"
+                  autoComplete="userType"
+                  defaultValue={"Customer"}
+                  fullWidth
                 >
-                  Gardener
-                </MenuItem>
-                <MenuItem
-                  value={"NurseryOwner"}
-                  onClick={() => {
-                    setUserType("NurseryOwner");
-                  }}
+                  <MenuItem
+                    value={"Customer"}
+                    onClick={() => {
+                      setUserType("Customer");
+                    }}
+                  >
+                    Customer
+                  </MenuItem>
+                  <MenuItem
+                    value={"Gardener"}
+                    onClick={() => {
+                      setUserType("Gardener");
+                    }}
+                  >
+                    Gardener
+                  </MenuItem>
+                  <MenuItem
+                    value={"NurseryOwner"}
+                    onClick={() => {
+                      setUserType("NurseryOwner");
+                    }}
+                  >
+                    Nursery Owner
+                  </MenuItem>
+                  <MenuItem
+                    value={"Admin"}
+                    selected="true"
+                    onClick={() => {
+                      setUserType("Admin");
+                    }}
+                  >
+                    Admin
+                  </MenuItem>
+                </ControlledSelect>
+              </Grid>
+
+              {userType == "Admin" ? (
+                <AddAdmin
+                  control={control}
+                  getValues={getValues}
+                  setValue={setValue}
+                  errors={errors}
+                />
+              ) : userType == "Gardener" ? (
+                <AddGardener
+                  control={control}
+                  getValues={getValues}
+                  setValue={setValue}
+                  errors={errors}
+                />
+              ) : userType == "NurseryOwner" ? (
+                <AddNurseryOwner
+                  control={control}
+                  getValues={getValues}
+                  setValue={setValue}
+                  errors={errors}
+                />
+              ) : (
+                <AddCustomer
+                  control={control}
+                  getValues={getValues}
+                  setValue={setValue}
+                  errors={errors}
+                />
+              )}
+
+              <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>
+                <button
+                  type="submit"
+                  class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease"
                 >
-                  Nursery Owner
-                </MenuItem>
-                <MenuItem
-                  value={"Admin"}
-                  selected="true"
-                  onClick={() => {
-                    setUserType("Admin");
-                  }}
-                >
-                  Admin
-                </MenuItem>
-              </ControlledSelect>
+                  <ButtonBackground />
+
+                  <UsersIcon sx={{ mr: 1 }} fontSize="small" />
+                  <span class="relative">
+                    {action} {userType}
+                  </span>
+                </button>
+              </Grid>
             </Grid>
-
-            {userType == "Admin" ? (
-              <AddAdmin
-                control={control}
-                getValues={getValues}
-                setValue={setValue}
-                errors={errors}
-              />
-            ) : userType == "Gardener" ? (
-              <AddGardener
-                control={control}
-                getValues={getValues}
-                setValue={setValue}
-                errors={errors}
-              />
-            ) : userType == "NurseryOwner" ? (
-              <AddNurseryOwner
-                control={control}
-                getValues={getValues}
-                setValue={setValue}
-                errors={errors}
-              />
-            ) : (
-              <AddCustomer
-                control={control}
-                getValues={getValues}
-                setValue={setValue}
-                errors={errors}
-              />
-            )}
-
-            <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>
-              <button
-                type="submit"
-                class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease"
-              >
-                <ButtonBackground />
-               
-                <UsersIcon sx={{ mr: 1 }} fontSize="small" />
-                <span class="relative">
-                  {action} {userType}
-                </span>
-              </button>
-            </Grid>
-          </Grid>
-        </form>
-      </section>
-    </div>
+          </form>
+        </section>
+      </div>
+      <ActionConfirmationModal
+        open={modalOpen}
+        redirectURL="/admin/viewUsers"
+        loading={loading}
+        successMessage={successMessage}
+        err={errorMessage}
+      />
+    </>
   );
 };
 
