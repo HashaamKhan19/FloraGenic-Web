@@ -15,12 +15,16 @@ import {
   Menu,
   Center,
   Button,
+  Drawer,
+  ScrollArea,
+  Divider,
+  Stack,
 } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
 import Image from 'next/image'
 import links from '../Generic/NavbarLinks'
-import { BiCategory, BiShoppingBag } from 'react-icons/bi'
+import { BiCategory, BiHome, BiShoppingBag, BiUser } from 'react-icons/bi'
 import { MdCategory } from 'react-icons/md'
 import { GoChevronDown } from 'react-icons/go'
 import {
@@ -29,14 +33,24 @@ import {
   BsChevronDown,
   BsFacebook,
   BsInstagram,
+  BsPerson,
   BsSearch,
   BsTwitter,
 } from 'react-icons/bs'
+import { GiGardeningShears } from 'react-icons/gi'
+import { AiOutlineShopping, AiOutlineShoppingCart } from 'react-icons/ai'
+import { SiHomeassistant } from 'react-icons/si'
 import { useState } from 'react'
 
 const useStyles = createStyles((theme) => ({
   links: {
     [theme.fn.smallerThan('sm')]: {
+      display: 'none',
+    },
+  },
+
+  hiddenDesktop: {
+    [theme.fn.largerThan('xl')]: {
       display: 'none',
     },
   },
@@ -98,10 +112,48 @@ const useStyles = createStyles((theme) => ({
       width: '200px',
     },
   },
+  mobileLink: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '80%',
+    textDecoration: 'none',
+    color: 'black',
+    fontWeight: 500,
+    fontSize: '1.2rem',
+    fontFamily: 'Poppins',
+
+    [theme.fn.smallerThan('sm')]: {
+      height: 42,
+      display: 'flex',
+      alignItems: 'center',
+      width: '85%',
+      fontWeight: 400,
+      fontSize: '1rem',
+    },
+
+    ...theme.fn.hover({
+      backgroundColor:
+        theme.colorScheme === 'dark'
+          ? theme.colors.green[6]
+          : theme.colors.green[0],
+    }),
+  },
+  mobileUserProfile: {
+    [theme.fn.smallerThan('sm')]: {
+      display: 'flex',
+      alignItems: 'center',
+      width: '80%',
+    },
+  },
 }))
 
 const HeaderMenu = () => {
   const [opened, { toggle }] = useDisclosure(false)
+  const [auth, setAuth] = useState(false)
+  const [
+    drawerOpened,
+    { toggle: toggleDrawer, close: closeDrawer },
+  ] = useDisclosure(false)
   const { classes } = useStyles()
   const theme = useMantineTheme()
   const [shoppingItemsCount, setShoppingItemsCount] = useState(0)
@@ -109,6 +161,7 @@ const HeaderMenu = () => {
   // breakPoints
   const headerHeight = useMediaQuery('(min-width: 768px)')
   const mobileSearch = useMediaQuery('(max-width: 500px)')
+  const mobileMenu = useMediaQuery('(max-width: 380px)')
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
@@ -117,7 +170,14 @@ const HeaderMenu = () => {
 
     if (menuItems) {
       return (
-        <Menu key={link.label} trigger="hover" exitTransitionDuration={0}>
+        <Menu
+          key={link.label}
+          trigger="hover"
+          transition={'scale-y'}
+          transitionDuration={300}
+          exitTransitionDuration={100}
+          withArrow
+        >
           <Menu.Target>
             <a
               href={link.link}
@@ -190,8 +250,8 @@ const HeaderMenu = () => {
           <Group className={classes.container}>
             <Group>
               <Burger
-                opened={opened}
-                onClick={toggle}
+                opened={drawerOpened}
+                onClick={toggleDrawer}
                 className={classes.burger}
                 size="sm"
                 color="green"
@@ -262,6 +322,8 @@ const HeaderMenu = () => {
               <Menu
                 transition="skew-down"
                 transitionDuration={300}
+                exitTransitionDuration={200}
+                withArrow
                 className={classes.categoryButton}
               >
                 <Menu.Target>
@@ -300,16 +362,148 @@ const HeaderMenu = () => {
                       width: '150px',
                     }}
                   >
-                    Plant
+                    Plants
                   </Menu.Item>
                   <Menu.Item>Tools</Menu.Item>
-                  <Menu.Item>Medicine</Menu.Item>
+                  <Menu.Item>Medicines</Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </Group>
             <Group className={classes.links}>{items}</Group>
           </Group>
         </Container>
+        <Drawer
+          opened={drawerOpened}
+          onClose={closeDrawer}
+          size="310px"
+          padding="md"
+          className={classes.hiddenDesktop}
+          zIndex={1000000}
+          styles={{
+            closeButton: {
+              color: '#62A82C',
+            },
+          }}
+        >
+          <ScrollArea sx={{ height: 'calc(100vh - 60px)' }} mx="-md">
+            <Divider
+              my="sm"
+              color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
+            />
+            <Group
+              spacing="lg"
+              style={{
+                justifyContent: 'center',
+              }}
+            >
+              <Button
+                variant="filled"
+                style={{
+                  backgroundColor: '#62A82C',
+                  color: 'white',
+                }}
+                className={classes.mobileLink}
+                size="md"
+                leftIcon={<BiHome />}
+                onClick={() => {
+                  closeDrawer()
+                }}
+              >
+                Home
+              </Button>
+
+              <Button
+                variant="filled"
+                style={{
+                  backgroundColor: '#62A82C',
+                  color: 'white',
+                }}
+                className={classes.mobileLink}
+                size="md"
+                leftIcon={<AiOutlineShoppingCart />}
+                onClick={() => {
+                  closeDrawer()
+                }}
+              >
+                Products
+              </Button>
+
+              <Button
+                variant="filled"
+                style={{
+                  backgroundColor: '#62A82C',
+                  color: 'white',
+                }}
+                className={classes.mobileLink}
+                size="md"
+                leftIcon={<SiHomeassistant />}
+                onClick={() => {
+                  closeDrawer()
+                }}
+              >
+                Nurseries
+              </Button>
+
+              <Button
+                variant="filled"
+                style={{
+                  backgroundColor: '#62A82C',
+                  color: 'white',
+                }}
+                className={classes.mobileLink}
+                size="md"
+                leftIcon={<GiGardeningShears />}
+                onClick={() => {
+                  closeDrawer()
+                }}
+              >
+                Gardeners
+              </Button>
+            </Group>
+
+            <Divider
+              my="sm"
+              color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
+            />
+
+            {!auth ? (
+              <Group position="center" grow px={'1.6rem'}>
+                <Button
+                  variant="outline"
+                  style={{ color: '#62A82C', borderColor: '#62A82C' }}
+                  onClick={() => {
+                    closeDrawer()
+                  }}
+                >
+                  Log in
+                </Button>
+                <Button
+                  variant="filled"
+                  style={{
+                    backgroundColor: '#62A82C',
+                    color: 'white',
+                  }}
+                  onClick={() => {
+                    closeDrawer()
+                  }}
+                >
+                  Sign up
+                </Button>
+              </Group>
+            ) : (
+              <Group position="center" grow pb="xl" px="md">
+                <Button
+                  variant="default"
+                  onClick={() => {
+                    closeDrawer()
+                  }}
+                >
+                  Sign Out
+                </Button>
+              </Group>
+            )}
+          </ScrollArea>
+        </Drawer>
       </Header>
     </>
   )
