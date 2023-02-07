@@ -161,7 +161,6 @@ const HeaderMenu = () => {
   // breakPoints
   const headerHeight = useMediaQuery('(min-width: 768px)')
   const mobileSearch = useMediaQuery('(max-width: 500px)')
-  const mobileMenu = useMediaQuery('(max-width: 380px)')
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
