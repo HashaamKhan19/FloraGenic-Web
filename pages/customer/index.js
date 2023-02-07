@@ -1,9 +1,10 @@
 import React from 'react'
+import HeaderMenu from '../../components/Customer/Layout/Navbar'
 
 export default function index() {
   return (
     <div>
-      <p>This is customer page</p>
+      <HeaderMenu />
     </div>
   )
 }

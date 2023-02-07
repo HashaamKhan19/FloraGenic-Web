@@ -1,100 +1,100 @@
-import * as React from "react";
-import DataGrid from "@mui/x-data-grid/DataGrid";
+import React from 'react'
+import DataGrid from '@mui/x-data-grid/DataGrid'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Typography from "@mui/material/Typography";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import ActionIcons from "../Generic/ActionIcons";
-import BlockToggle from "../Generic/BlockToggle";
-import SearchField from "../Generic/SearchField";
-import Export from "../Generic/Export";
-import Link from "next/link";
-import { UsersIcon } from "../../public/icons/UsersIcon";
-import Loader from "../Generic/Loader";
+import Typography from '@mui/material/Typography'
+import PersonAdd from '@mui/icons-material/PersonAdd'
+import ActionIcons from '../Generic/ActionIcons'
+import BlockToggle from '../Generic/BlockToggle'
+import SearchField from '../Generic/SearchField'
+import Export from '../Generic/Export'
+import Link from 'next/link'
+import { UsersIcon } from '../../public/icons/UsersIcon'
+import Loader from '../Generic/Loader'
 
 // GraphQL
-import { useQuery, gql } from "@apollo/client";
-import Image from "next/legacy/image";
-import Placeholder from "../../assets/images/placeholder.png";
+import { useQuery, gql } from '@apollo/client'
+import Image from 'next/legacy/image'
+import Placeholder from '../../assets/images/placeholder.png'
 
 const columns = [
-  { field: "id", headerName: "ID", width: 50 },
+  { field: 'id', headerName: 'ID', width: 50 },
   {
-    field: "image",
-    headerName: "Image",
+    field: 'image',
+    headerName: 'Image',
     width: 70,
-    align: "center",
+    align: 'center',
     renderCell: (params) => {
       return (
         <Image
           src={params?.row?.details?.image || Placeholder}
-          alt={"profile"}
+          alt={'profile'}
           width={30}
           height={30}
           objectFit="cover"
           style={{
-            borderRadius: "50%",
+            borderRadius: '50%',
             marginRight: 10,
           }}
         />
-      );
+      )
     },
   },
   {
-    field: "fullName",
-    headerName: "Full name",
+    field: 'fullName',
+    headerName: 'Full name',
     width: 200,
     flex: 1,
     valueGetter: (params) =>
-      `${params?.row?.details?.firstName || ""} ${
-        params?.row?.details?.lastName || ""
+      `${params?.row?.details?.firstName || ''} ${
+        params?.row?.details?.lastName || ''
       }`,
   },
-  { field: "userType", headerName: "Role", width: 120 },
-  { field: "email", headerName: "Email Address", width: 200, flex: 1 },
+  { field: 'userType', headerName: 'Role', width: 120 },
+  { field: 'email', headerName: 'Email Address', width: 200, flex: 1 },
   {
-    field: "phone",
-    headerName: "Phone Number",
+    field: 'phone',
+    headerName: 'Phone Number',
     width: 200,
     flex: 1,
     valueGetter: (params) =>
-      params?.row?.details?.phoneNumber || "Not Provided",
+      params?.row?.details?.phoneNumber || 'Not Provided',
   },
   {
-    field: "gender",
-    headerName: "Gender",
+    field: 'gender',
+    headerName: 'Gender',
     width: 80,
-    valueGetter: (params) => params?.row?.details?.gender || "N/A",
+    valueGetter: (params) => params?.row?.details?.gender || 'N/A',
   },
   {
-    field: "status",
-    headerName: "Status",
+    field: 'status',
+    headerName: 'Status',
     width: 150,
-    headerAlign: "center",
-    align: "center",
+    headerAlign: 'center',
+    align: 'center',
     renderCell: () => {
-      return <BlockToggle />;
+      return <BlockToggle />
     },
   },
   {
-    field: "actions",
-    headerName: "Actions",
+    field: 'actions',
+    headerName: 'Actions',
     width: 150,
-    headerAlign: "center",
-    align: "center",
+    headerAlign: 'center',
+    align: 'center',
     renderCell: (params) => {
       return (
         <ActionIcons
           type="user"
-          text={"Are you sure you want to delete this User?"}
-          warningText={"This action is irreversable!"}
-          viewText={"User Data Here"}
+          text={'Are you sure you want to delete this User?'}
+          warningText={'This action is irreversable!'}
+          viewText={'User Data Here'}
           data={params?.row}
         />
-      );
+      )
     },
   },
-];
+]
 
 const GET_USERS = gql`
   query Users {
@@ -142,31 +142,31 @@ const GET_USERS = gql`
       }
     }
   }
-`;
+`
 
-export default function ViewUsers() {
-  const [anchorElImport, setAnchorElImport] = React.useState(null);
-  const [anchorElExport, setAnchorElExport] = React.useState(null);
-  const importOpen = Boolean(anchorElImport);
-  const exportOpen = Boolean(anchorElExport);
-  const [rows, setRows] = React.useState([]);
-  const [searchValue, setSearchValue] = React.useState("");
-  const [pageSize, setPageSize] = React.useState(10);
-  const { loading, error, data } = useQuery(GET_USERS);
+const ViewUsers = () => {
+  const [anchorElImport, setAnchorElImport] = React.useState(null)
+  const [anchorElExport, setAnchorElExport] = React.useState(null)
+  // const importOpen = Boolean(anchorElImport)
+  // const exportOpen = Boolean(anchorElExport)
+  const [rows, setRows] = React.useState([])
+  const [searchValue, setSearchValue] = React.useState('')
+  const [pageSize, setPageSize] = React.useState(10)
+  const { loading, error, data } = useQuery(GET_USERS)
 
   // Menu handlers
   const handleImportClick = (event) => {
-    setAnchorElImport(event.currentTarget);
-  };
+    setAnchorElImport(event.currentTarget)
+  }
   const handleImportClose = () => {
-    setAnchorElImport(null);
-  };
+    setAnchorElImport(null)
+  }
   const handleExportClick = (event) => {
-    setAnchorElExport(event.currentTarget);
-  };
+    setAnchorElExport(event.currentTarget)
+  }
   const handleExportClose = () => {
-    setAnchorElExport(null);
-  };
+    setAnchorElExport(null)
+  }
 
   React.useEffect(() => {
     if (data?.users?.length) {
@@ -181,50 +181,50 @@ export default function ViewUsers() {
               .includes(searchValue.toLowerCase()) ||
             user?.email?.toLowerCase().includes(searchValue.toLowerCase()) ||
             user?.userType?.toLowerCase().includes(searchValue.toLowerCase())
-          );
-        });
-      });
+          )
+        })
+      })
     }
-  }, [data, searchValue]);
+  }, [data, searchValue])
 
-  if (loading) return <Loader />;
-  if (error) return `Error! ${error.message}`;
+  if (loading) return <Loader />
+  if (error) return `Error! ${error.message}`
 
   return (
     <Box
       style={{
-        display: "flex",
-        flexDirection: "column",
-        paddingRight: "5%",
-        paddingLeft: "5%",
-        width: "100%",
+        display: 'flex',
+        flexDirection: 'column',
+        paddingRight: '5%',
+        paddingLeft: '5%',
+        width: '100%',
       }}
     >
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           // mb: 5,
           p: 1.5,
           gap: 1,
           borderTopRightRadius: 5,
           borderTopLeftRadius: 5,
-          backgroundColor: "primary.light",
+          backgroundColor: 'primary.light',
         }}
       >
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
             gap: 1,
           }}
         >
           <Typography
             variant="h5"
             align="center"
-            alignItems={"center"}
+            alignItems={'center'}
             sx={{ marginLeft: 1 }}
           >
             <UsersIcon sx={{ mr: 1, mb: 0.3 }} fontSize="medium" />
@@ -233,11 +233,11 @@ export default function ViewUsers() {
         </Box>
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
             gap: 1,
-            boxShadow: "none",
+            boxShadow: 'none',
           }}
         >
           <SearchField
@@ -245,10 +245,10 @@ export default function ViewUsers() {
             setSearchValue={setSearchValue}
           />
 
-          <Link href={"/admin/addUser"}>
+          <Link href={'/admin/addUser'}>
             <button className="bg-floraGreen px-3 py-1 rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
               <UsersIcon
-                sx={{ color: "white", mr: 1, mb: 0.3 }}
+                sx={{ color: 'white', mr: 1, mb: 0.3 }}
                 fontSize="small"
               />
               Add User
@@ -260,17 +260,16 @@ export default function ViewUsers() {
       </Box>
       <DataGrid
         sx={{
-          "&.MuiDataGrid-root .MuiDataGrid-cell:focus, .MuiDataGrid-columnHeader:focus":
-            {
-              outline: "none",
-            },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: "#F0F4F6",
-            color: "black",
+          '&.MuiDataGrid-root .MuiDataGrid-cell:focus, .MuiDataGrid-columnHeader:focus': {
+            outline: 'none',
+          },
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: '#F0F4F6',
+            color: 'black',
             fontSize: 16,
           },
-          boxShadow: "0 5px 5px -5px",
-          border: "1px solid rgba(0,0,0,0.1)",
+          boxShadow: '0 5px 5px -5px',
+          border: '1px solid rgba(0,0,0,0.1)',
         }}
         rows={rows}
         columns={columns}
@@ -283,5 +282,6 @@ export default function ViewUsers() {
         disableSelectionOnClick
       />
     </Box>
-  );
+  )
 }
+export default ViewUsers

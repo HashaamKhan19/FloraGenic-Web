@@ -24,9 +24,9 @@
     "@mui/material": "^5.10.12",
     "@mui/x-data-grid": "^5.17.10",
     "@mui/x-date-pickers": "^5.0.9",
+    "@tabler/icons": "^2.2.0",
     "apexcharts": "^3.36.3",
     "dayjs": "^1.11.6",
-    "embla-carousel-react": "^7.0.9",
     "firebase": "^9.15.0",
     "graphql": "^16.6.0",
     "material-ui-popup-state": "^5.0.4",
@@ -38,7 +38,6 @@
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.40.0",
     "react-icons": "^4.6.0",
-    "react-material-ui-carousel": "^3.4.2",
     "react-number-format": "^5.1.2",
     "uuid": "^9.0.0"
   },

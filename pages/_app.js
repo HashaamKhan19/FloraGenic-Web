@@ -6,6 +6,7 @@ import { ThemeProvider } from '@mui/material'
 import { createTheme } from '@mui/material'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { theme } from '../theme/theme'
+import { MantineProvider } from '@mantine/core'
 
 function MyApp({ Component, pageProps, router }) {
   const client = new ApolloClient({
@@ -51,11 +52,13 @@ function MyApp({ Component, pageProps, router }) {
 
   if (router.pathname.startsWith('/customer')) {
     return (
-      <ApolloProvider client={client}>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </ApolloProvider>
+      <MantineProvider theme={{ fontFamily: 'Poppins' }}>
+        <ApolloProvider client={client}>
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </ApolloProvider>
+      </MantineProvider>
     )
   }
 
