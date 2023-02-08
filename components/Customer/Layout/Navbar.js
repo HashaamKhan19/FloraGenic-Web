@@ -38,6 +38,7 @@ import {
   BsTwitter,
 } from 'react-icons/bs'
 import { GiGardeningShears } from 'react-icons/gi'
+import Cart from '../Generic/Cart'
 import { AiOutlineShopping, AiOutlineShoppingCart } from 'react-icons/ai'
 import { SiHomeassistant } from 'react-icons/si'
 import { useState } from 'react'
@@ -148,7 +149,6 @@ const useStyles = createStyles((theme) => ({
 }))
 
 const HeaderMenu = () => {
-  const [opened, { toggle }] = useDisclosure(false)
   const [auth, setAuth] = useState(false)
   const [
     drawerOpened,
@@ -156,7 +156,6 @@ const HeaderMenu = () => {
   ] = useDisclosure(false)
   const { classes } = useStyles()
   const theme = useMantineTheme()
-  const [shoppingItemsCount, setShoppingItemsCount] = useState(0)
 
   // breakPoints
   const headerHeight = useMediaQuery('(min-width: 768px)')
@@ -297,16 +296,7 @@ const HeaderMenu = () => {
             {/* User and Cart */}
             <Group>
               <Avatar radius="xl" />
-              <Indicator
-                label={shoppingItemsCount}
-                inline
-                size={18}
-                color={'green'}
-              >
-                <Avatar radius={'xl'}>
-                  <BiShoppingBag size={22} />
-                </Avatar>
-              </Indicator>
+              <Cart />
             </Group>
           </Group>
         </Container>
@@ -380,14 +370,17 @@ const HeaderMenu = () => {
           zIndex={1000000}
           styles={{
             closeButton: {
-              color: '#62A82C',
+              color: '#fff',
+            },
+            drawer: {
+              backgroundImage: `url("https://images.unsplash.com/photo-1629197520635-16570fbd0bb3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=848&q=80")`,
             },
           }}
         >
           <ScrollArea sx={{ height: 'calc(100vh - 60px)' }} mx="-md">
             <Divider
               my="sm"
-              color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
+              color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.3'}
             />
             <Group
               spacing="lg"
