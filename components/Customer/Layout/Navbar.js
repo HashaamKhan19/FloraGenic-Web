@@ -148,7 +148,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-const HeaderMenu = () => {
+const HeaderMenu = ({ children }) => {
   const [auth, setAuth] = useState(false)
   const [
     drawerOpened,
@@ -288,7 +288,7 @@ const HeaderMenu = () => {
                     )}
                   </ActionIcon>
                 }
-                placeholder="Search query.."
+                placeholder="Search query..."
                 rightSectionWidth={42}
                 className={classes.searchBar}
               />
@@ -497,6 +497,7 @@ const HeaderMenu = () => {
           </ScrollArea>
         </Drawer>
       </Header>
+      {children}
     </>
   )
 }

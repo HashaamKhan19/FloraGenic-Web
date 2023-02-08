@@ -1,9 +1,13 @@
 import { Avatar, Divider, Drawer, Group, Indicator, Text } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
+import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { useState } from 'react'
 import { BiShoppingBag } from 'react-icons/bi'
+import CartItem from './CartItem'
 
 export default function Cart() {
+  const match768 = useMediaQuery('(min-width: 768px)')
+  const match576 = useMediaQuery('(min-width: 576px)')
+
   const [
     drawerOpened,
     { toggle: toggleDrawer, close: closeDrawer },
@@ -25,7 +29,7 @@ export default function Cart() {
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
-        size="380px"
+        size={match768 ? '380px' : match576 ? '300px' : null}
         position="right"
         padding="lg"
         zIndex={1000000}
@@ -59,6 +63,7 @@ export default function Cart() {
         exitTransitionDuration={300}
       >
         <Divider my="sm" />
+        <CartItem />
       </Drawer>
     </>
   )
