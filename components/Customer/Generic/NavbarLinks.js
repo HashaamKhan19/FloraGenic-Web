@@ -19,6 +19,10 @@ const links = [
         link: '/products/medicine',
         label: 'Medicine',
       },
+      {
+        link: '/products/decorations',
+        label: 'Decorations',
+      },
     ],
   },
   {

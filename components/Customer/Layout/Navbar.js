@@ -360,6 +360,7 @@ const HeaderMenu = ({ children }) => {
                   </Menu.Item>
                   <Menu.Item>Tools</Menu.Item>
                   <Menu.Item>Medicines</Menu.Item>
+                  <Menu.Item>Decorations</Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </Group>

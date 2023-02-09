@@ -6,9 +6,11 @@ import { ThemeProvider } from '@mui/material'
 import { createTheme } from '@mui/material'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { theme } from '../theme/theme'
-import { MantineProvider } from '@mantine/core'
+import { MantineProvider, createEmotionCache } from '@mantine/core'
 import Navbar from '../components/Customer/Layout/Navbar'
 import Footer from '../components/Customer/Layout/Footer'
+
+const appendCache = createEmotionCache({ key: 'mantine', prepend: false })
 
 function MyApp({ Component, pageProps, router }) {
   const client = new ApolloClient({
@@ -30,7 +32,12 @@ function MyApp({ Component, pageProps, router }) {
 
   if (router.pathname.startsWith('/customer')) {
     return (
-      <MantineProvider theme={{ fontFamily: 'Poppins' }}>
+      <MantineProvider
+        theme={{ fontFamily: 'Poppins' }}
+        emotionCache={appendCache}
+        withGlobalStyles
+        withNormalizeCSS
+      >
         <ApolloProvider client={client}>
           <ThemeProvider theme={theme}>
             {/* <Navbar /> */}
