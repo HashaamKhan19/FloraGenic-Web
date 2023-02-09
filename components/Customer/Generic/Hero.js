@@ -1,10 +1,10 @@
-import { Container } from '@mantine/core'
-import ItemCard from '../Cards/ItemCard'
-
+import ProductPage from './ProductPage'
+import ProductsCarousel from '../Carousels/ProductsCarousel'
 export default function Hero() {
   return (
-    <Container>
-      <ItemCard />
-    </Container>
+    <>
+      {/* <ProductPage /> */}
+      <ProductsCarousel />
+    </>
   )
 }

@@ -19,9 +19,9 @@ const useStyles = createStyles((theme) => ({
     backgroundColor:
       theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
     border: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
+      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4]
     }`,
-    width: 330,
+    width: 310,
   },
 
   title: {

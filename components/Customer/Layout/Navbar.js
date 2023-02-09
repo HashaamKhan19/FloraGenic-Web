@@ -241,8 +241,13 @@ const HeaderMenu = ({ children }) => {
       </Paper>
       <Header
         height={headerHeight ? 140 : 70}
-        mb={120}
+        mb={50}
         p={headerHeight ? 'md' : 'xs'}
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 20,
+        }}
       >
         <Container size={'xl'}>
           <Group className={classes.container}>

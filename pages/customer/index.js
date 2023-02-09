@@ -5,10 +5,14 @@ import Hero from '../../components/Customer/Generic/Hero'
 
 export default function index() {
   return (
-    <>
+    <div
+      style={{
+        backgroundColor: '#F6F9FC',
+      }}
+    >
       <Navbar />
       <Hero />
       <Footer />
-    </>
+    </div>
   )
 }
