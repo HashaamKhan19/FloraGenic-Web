@@ -10,8 +10,6 @@ import {
   Rating,
 } from '@mantine/core'
 import { AiOutlineHeart } from 'react-icons/ai'
-import { FiHeart } from 'react-icons/fi'
-import { MdShoppingCart } from 'react-icons/md'
 import { TbShoppingCartPlus } from 'react-icons/tb'
 
 const useStyles = createStyles((theme) => ({
@@ -21,7 +19,12 @@ const useStyles = createStyles((theme) => ({
     border: `1px solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4]
     }`,
-    width: 300,
+    width: 310,
+    '&:hover': {
+      boxShadow: `${theme.shadows.md} !important`,
+      transform: 'scale(1.01)',
+      transition: 'box-shadow 700ms ease , transform 700ms ease-out',
+    },
   },
 
   title: {

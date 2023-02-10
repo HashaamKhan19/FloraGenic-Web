@@ -2,7 +2,6 @@ import { Carousel } from '@mantine/carousel'
 import {
   Avatar,
   Badge,
-  Box,
   Button,
   Container,
   Grid,
@@ -14,12 +13,17 @@ import {
   Tabs,
   Text,
 } from '@mantine/core'
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai'
 import { MdOutlineRateReview } from 'react-icons/md'
 import { TbFileDescription } from 'react-icons/tb'
-import ProductCard from './ProductCard'
+import Autoplay from 'embla-carousel-autoplay'
+import ProductCard from '../Cards/ProductCard'
+import { useRef } from 'react'
+import { useHover } from '@mantine/hooks'
 
 export default function ProductPage() {
+  const autoplay = useRef(Autoplay({ delay: 2500 }))
+  const { hovered, ref } = useHover()
+
   const images = [
     {
       id: 1,
@@ -34,7 +38,7 @@ export default function ProductPage() {
   ]
 
   const slides = images.map((url) => (
-    <Carousel.Slide key={url.id}>
+    <Carousel.Slide key={url.id} ref={ref}>
       <Image src={url.url} height={380} />
     </Carousel.Slide>
   ))
@@ -53,8 +57,10 @@ export default function ProductPage() {
                 color: 'green',
               },
             }}
-            nextControlIcon={<AiOutlineArrowRight />}
-            previousControlIcon={<AiOutlineArrowLeft />}
+            withControls={false}
+            plugins={[autoplay.current]}
+            onMouseEnter={autoplay.current.stop}
+            onMouseLeave={autoplay.current.reset}
           >
             {slides}
           </Carousel>
@@ -262,14 +268,29 @@ export default function ProductPage() {
                 <Group spacing={'xs'}>
                   <Avatar radius="xl" size={'lg'} />
                   <Stack spacing={0}>
-                    <Text weight={500}>John Doe</Text>
+                    <Text
+                      weight={500}
+                      style={{
+                        fontSize: 14,
+                        color: 'darkslategray',
+                      }}
+                    >
+                      John Doe
+                    </Text>
                     <Group>
                       <Rating value={4.5} fractions={2} size="md" readOnly />{' '}
                       4.5
                     </Group>
                   </Stack>
                 </Group>
-                <Text mt={'xs'} pl={'xs'}>
+                <Text
+                  mt={'xs'}
+                  pl={'xs'}
+                  style={{
+                    fontSize: 14,
+                    color: 'darkslategray',
+                  }}
+                >
                   This plant is very beautiful and it is very easy to maintain.
                 </Text>
               </Stack>

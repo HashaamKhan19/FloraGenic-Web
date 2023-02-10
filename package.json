@@ -27,6 +27,7 @@
     "@tabler/icons": "^2.2.0",
     "apexcharts": "^3.36.3",
     "dayjs": "^1.11.6",
+    "embla-carousel-autoplay": "^7.0.9",
     "firebase": "^9.15.0",
     "graphql": "^16.6.0",
     "material-ui-popup-state": "^5.0.4",

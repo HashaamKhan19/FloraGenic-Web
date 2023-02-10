@@ -1,13 +1,25 @@
 import { Carousel } from '@mantine/carousel'
-import ProductCard from '../Product/ProductCard'
-import { Box, Container } from '@mantine/core'
+import ProductCard from '../Cards/ProductCard'
+import { Box, Container, Group, Text } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from 'react-icons/hi'
+import { IoIosFlash } from 'react-icons/io'
 
 export default function ProductsCarousel() {
-  const match786 = useMediaQuery('(max-width: 786px)')
   return (
-    <Container size={'xl'}>
+    <Container size={'xl'} mt={60}>
+      <Group spacing={'xs'} mb={'lg'}>
+        <IoIosFlash size={26} style={{ color: '#62A82C' }} />
+        <Text
+          style={{
+            fontSize: '26px',
+            color: 'darkslategray',
+            fontWeight: 550,
+          }}
+        >
+          Flash Deals
+        </Text>
+      </Group>
       <Carousel
         slideSize="25%"
         slideGap="md"
@@ -23,6 +35,7 @@ export default function ProductsCarousel() {
         previousControlIcon={
           <HiArrowNarrowLeft size={18} style={{ color: '#fff' }} />
         }
+        controlsOffset={-20}
         styles={{
           control: {
             backgroundColor: '#62A82C',

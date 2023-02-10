@@ -40,9 +40,9 @@ function MyApp({ Component, pageProps, router }) {
       >
         <ApolloProvider client={client}>
           <ThemeProvider theme={theme}>
-            {/* <Navbar /> */}
+            <Navbar />
             <Component {...pageProps} />
-            {/* <Footer /> */}
+            <Footer />
           </ThemeProvider>
         </ApolloProvider>
       </MantineProvider>
