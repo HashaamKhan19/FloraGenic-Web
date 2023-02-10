@@ -1,4 +1,4 @@
-import ProductPage from './ProductPage'
+import ProductPage from '../Product/ProductPage'
 import ProductsCarousel from '../Carousels/ProductsCarousel'
 export default function Hero() {
   return (

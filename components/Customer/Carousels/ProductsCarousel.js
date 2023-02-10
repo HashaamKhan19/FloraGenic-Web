@@ -1,5 +1,5 @@
 import { Carousel } from '@mantine/carousel'
-import ItemCard from '../Cards/ItemCard'
+import ProductCard from '../Product/ProductCard'
 import { Box, Container } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from 'react-icons/hi'
@@ -34,25 +34,25 @@ export default function ProductsCarousel() {
         }}
       >
         <Carousel.Slide>
-          <ItemCard />
+          <ProductCard />
         </Carousel.Slide>
         <Carousel.Slide>
-          <ItemCard />
+          <ProductCard />
         </Carousel.Slide>
         <Carousel.Slide>
-          <ItemCard />
+          <ProductCard />
         </Carousel.Slide>
         <Carousel.Slide>
-          <ItemCard />
+          <ProductCard />
         </Carousel.Slide>
         <Carousel.Slide>
-          <ItemCard />
+          <ProductCard />
         </Carousel.Slide>
         <Carousel.Slide>
-          <ItemCard />
+          <ProductCard />
         </Carousel.Slide>
         <Carousel.Slide>
-          <ItemCard />
+          <ProductCard />
         </Carousel.Slide>
       </Carousel>
     </Container>

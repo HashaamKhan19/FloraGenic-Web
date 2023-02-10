@@ -1,9 +1,4 @@
 import { createStyles, Text, Container, ActionIcon, Group } from '@mantine/core'
-import {
-  IconBrandTwitter,
-  IconBrandYoutube,
-  IconBrandInstagram,
-} from '@tabler/icons'
 import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
 import Image from 'next/image'
 import data from '../Generic/FooterLinks'
@@ -83,9 +78,8 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontSize: theme.fontSizes.lg,
     fontWeight: 700,
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     marginBottom: theme.spacing.xs / 2,
-    color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+    color: 'darkslategray',
   },
 
   afterFooter: {

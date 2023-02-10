@@ -21,7 +21,7 @@ const useStyles = createStyles((theme) => ({
     border: `1px solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4]
     }`,
-    width: 310,
+    width: 300,
   },
 
   title: {
@@ -37,7 +37,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export default function ItemCard() {
+export default function ProductCard() {
   const { classes, theme } = useStyles()
 
   return (
