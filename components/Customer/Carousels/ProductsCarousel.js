@@ -4,6 +4,7 @@ import { Box, Container, Group, Text } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from 'react-icons/hi'
 import { IoIosFlash } from 'react-icons/io'
+import Link from 'next/link'
 
 export default function ProductsCarousel() {
   return (
@@ -46,27 +47,15 @@ export default function ProductsCarousel() {
           },
         }}
       >
-        <Carousel.Slide>
-          <ProductCard />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <ProductCard />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <ProductCard />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <ProductCard />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <ProductCard />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <ProductCard />
-        </Carousel.Slide>
-        <Carousel.Slide>
-          <ProductCard />
-        </Carousel.Slide>
+        {Array(8)
+          .fill(0)
+          .map((_, index) => (
+            <Carousel.Slide key={index}>
+              <Link href={'/customer/product'}>
+                <ProductCard />
+              </Link>
+            </Carousel.Slide>
+          ))}
       </Carousel>
     </Container>
   )

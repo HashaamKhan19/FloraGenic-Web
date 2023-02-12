@@ -39,12 +39,12 @@ export default function ProductPage() {
 
   const slides = images.map((url) => (
     <Carousel.Slide key={url.id} ref={ref}>
-      <Image src={url.url} height={380} />
+      <Image radius={'md'} src={url.url} height={380} />
     </Carousel.Slide>
   ))
 
   return (
-    <Container size={'xl'}>
+    <Container size={'xl'} pt={80}>
       <Grid mb={'xl'}>
         <Grid.Col span={6}>
           <Carousel
@@ -318,6 +318,7 @@ export default function ProductPage() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 border: '1px solid #ebebeb',
+                cursor: 'pointer',
               }}
               radius={'md'}
             >
@@ -342,6 +343,7 @@ export default function ProductPage() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 border: '1px solid #ebebeb',
+                cursor: 'pointer',
               }}
             >
               <Stack align="center">
@@ -365,6 +367,7 @@ export default function ProductPage() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 border: '1px solid #ebebeb',
+                cursor: 'pointer',
               }}
             >
               <Stack align="center">
@@ -388,6 +391,7 @@ export default function ProductPage() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 border: '1px solid #ebebeb',
+                cursor: 'pointer',
               }}
             >
               <Stack align="center">
@@ -406,7 +410,7 @@ export default function ProductPage() {
           </Group>
         </Stack>
       </Container>
-      <Container size={'xl'} mt={60}>
+      <Container size={'xl'} mt={80} pb={80}>
         <Stack>
           <Text
             weight={600}
@@ -418,9 +422,11 @@ export default function ProductPage() {
             Related Products
           </Text>
           <Group spacing={50}>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            {Array(3)
+              .fill(0)
+              .map((_, i) => (
+                <ProductCard />
+              ))}
           </Group>
         </Stack>
       </Container>

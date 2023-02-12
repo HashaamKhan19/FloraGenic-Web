@@ -23,6 +23,10 @@ const links = [
         link: '/products/decorations',
         label: 'Decorations',
       },
+      {
+        link: '/products/seeds',
+        label: 'Seedlings',
+      },
     ],
   },
   {

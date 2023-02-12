@@ -53,8 +53,8 @@ export default function TopRatedProducts() {
 
   return (
     <>
-      <Paper radius={'md'}>
-        <Group spacing={'xl'} p={'md'}>
+      <Paper radius={'md'} withBorder>
+        <Group spacing={'lg'} p={'md'}>
           {products.map((product) => (
             <Stack
               key={product.id}

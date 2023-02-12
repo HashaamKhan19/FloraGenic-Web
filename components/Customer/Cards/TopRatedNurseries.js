@@ -52,7 +52,7 @@ export default function TopRatedNurseries() {
 
   return (
     <>
-      <Paper radius={'md'}>
+      <Paper radius={'md'} withBorder>
         <Group spacing={'xl'} p={'md'}>
           {nurseries.map((nursery) => (
             <Stack

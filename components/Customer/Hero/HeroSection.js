@@ -10,12 +10,16 @@ import ServiceCards from '../Cards/ServiceCards'
 
 export default function HeroSection() {
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: '#F6F9FC',
+      }}
+    >
       <HeroCarousel />
       <ProductsCarousel />
       <CategoriesCard />
       {/* Top Rated Code+components start */}
-      <Container size={'xl'} mt={60}>
+      <Container size={'xl'} mt={80}>
         <Group spacing={'xl'}>
           <Stack>
             <Group
@@ -42,6 +46,7 @@ export default function HeroSection() {
                   style={{
                     fontSize: '14px',
                     color: 'darkslategray',
+                    cursor: 'pointer',
                   }}
                 >
                   View all
@@ -84,6 +89,7 @@ export default function HeroSection() {
                   style={{
                     fontSize: '14px',
                     color: 'darkslategray',
+                    cursor: 'pointer',
                   }}
                 >
                   View all

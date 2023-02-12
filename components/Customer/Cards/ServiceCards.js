@@ -11,25 +11,26 @@ import {
 import { BsTruck } from 'react-icons/bs'
 import { AiOutlineDollar } from 'react-icons/ai'
 import { GrCertificate } from 'react-icons/gr'
+import { MdOutlineFactCheck } from 'react-icons/md'
 
 const mockdata = [
   {
-    title: 'Extreme performance',
+    title: 'Free WorldWide Delivery',
     description:
-      'This dust is actually a powerful poison that will even make a pro wrestler sick, Regice cloaks itself with frigid air of -328 degrees Fahrenheit',
+      'Free shipping on all orders over $1. We ship to over 100 countries around the world.',
     icon: BsTruck,
   },
   {
-    title: 'Privacy focused',
+    title: 'Best Quality Products',
     description:
-      'People say it can run at the same speed as lightning striking, Its icy body is so cold, it will not melt even if it is immersed in magma',
-    icon: AiOutlineDollar,
+      'We offer the best quality products at the best prices. We are committed to providing you with the best possible service.',
+    icon: MdOutlineFactCheck,
   },
   {
-    title: 'No third parties',
+    title: 'Very Affordable Prices',
     description:
-      'They’re popular, but they’re rare. Trainers who show them off recklessly may be targeted by thieves',
-    icon: GrCertificate,
+      'We offer the best quality products at the best prices. We are committed to providing you with the best possible service.',
+    icon: AiOutlineDollar,
   },
 ]
 
@@ -62,17 +63,24 @@ const useStyles = createStyles((theme) => ({
     border: `1px solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1]
     }`,
+    '&:hover': {
+      boxShadow: `${theme.shadows.md} !important`,
+      transform: 'scale(1.02)',
+      transition: 'box-shadow 700ms ease , transform 700ms ease-out',
+    },
   },
 
   cardTitle: {
     '&::after': {
       content: '""',
       display: 'block',
-      backgroundColor: theme.fn.primaryColor(),
-      width: 45,
+      backgroundColor: '#62A82C',
+      width: 50,
       height: 2,
       marginTop: theme.spacing.sm,
     },
+    color: 'darkslategray',
+    fontWeight: 600,
   },
 }))
 
@@ -86,7 +94,7 @@ export default function ServiceCards() {
       className={classes.card}
       p="xl"
     >
-      <feature.icon size={50} stroke={2} color={theme.fn.primaryColor()} />
+      <feature.icon size={50} stroke={2} color={'#62A82C'} />
       <Text size="lg" weight={500} className={classes.cardTitle} mt="md">
         {feature.title}
       </Text>
@@ -96,11 +104,10 @@ export default function ServiceCards() {
     </Card>
   ))
   return (
-    <Container size="xl">
+    <Container size="xl" mt={80} pb={80}>
       <SimpleGrid
         cols={3}
         spacing="xl"
-        mt={50}
         breakpoints={[{ maxWidth: 'md', cols: 1 }]}
       >
         {features}

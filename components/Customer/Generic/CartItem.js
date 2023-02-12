@@ -31,7 +31,7 @@ export default function CartItem() {
         <Group spacing={'lg'}>
           <Stack spacing={0}>
             <ActionIcon
-              size={32}
+              size={30}
               variant="default"
               style={{
                 borderRadius: '50%',
@@ -44,7 +44,7 @@ export default function CartItem() {
             </ActionIcon>
             <Text align="center">{value}</Text>
             <ActionIcon
-              size={32}
+              size={30}
               variant="default"
               style={{
                 borderRadius: '50%',

@@ -63,7 +63,7 @@ export default function CategoriesCard() {
   ))
 
   return (
-    <Container size={'xl'} mt={60}>
+    <Container size={'xl'} mt={80}>
       <Group spacing={'xs'} mb={'lg'}>
         <BiCategory size={26} style={{ color: '#62A82C' }} />
         <Text

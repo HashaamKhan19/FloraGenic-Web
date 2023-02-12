@@ -21,9 +21,8 @@ const useStyles = createStyles((theme) => ({
     }`,
     width: 310,
     '&:hover': {
-      boxShadow: `${theme.shadows.md} !important`,
-      transform: 'scale(1.01)',
-      transition: 'box-shadow 700ms ease , transform 700ms ease-out',
+      boxShadow: `${theme.shadows.xl} !important`,
+      cursor: 'pointer',
     },
   },
 

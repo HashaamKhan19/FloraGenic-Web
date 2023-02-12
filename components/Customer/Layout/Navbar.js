@@ -42,6 +42,7 @@ import Cart from '../Generic/Cart'
 import { AiOutlineShopping, AiOutlineShoppingCart } from 'react-icons/ai'
 import { SiHomeassistant } from 'react-icons/si'
 import { useState } from 'react'
+import Link from 'next/link'
 
 const useStyles = createStyles((theme) => ({
   links: {
@@ -259,11 +260,13 @@ const HeaderMenu = ({ children }) => {
                 size="sm"
                 color="green"
               />
-              <Image
-                src={FloraGenicLogo}
-                alt="FloraGenic Logo"
-                className={classes.imageContainer}
-              />
+              <Link href={'/customer'}>
+                <Image
+                  src={FloraGenicLogo}
+                  alt="FloraGenic Logo"
+                  className={classes.imageContainer}
+                />
+              </Link>
             </Group>
             {/* Search Bar */}
             {!mobileSearch && (
@@ -362,6 +365,7 @@ const HeaderMenu = ({ children }) => {
                   <Menu.Item>Tools</Menu.Item>
                   <Menu.Item>Medicines</Menu.Item>
                   <Menu.Item>Decorations</Menu.Item>
+                  <Menu.Item>Seedlings</Menu.Item>
                 </Menu.Dropdown>
               </Menu>
             </Group>
