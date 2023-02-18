@@ -7,7 +7,7 @@ export default function ViewSpecificNursery() {
         backgroundColor: '#F6F9FC',
       }}
     >
-      <ViewNursery />
+      <ViewNursery id="123" />
     </div>
   )
 }

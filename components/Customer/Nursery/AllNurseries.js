@@ -37,7 +37,7 @@ export default function AllNurseries() {
           {Array(9)
             .fill(0)
             .map((_, index) => (
-              <Link href={'/customer/viewNursery/123'}>
+              <Link href={`/customer/viewNursery/${123}`}>
                 <NurseryInfoCard key={index} />
               </Link>
             ))}
