@@ -346,7 +346,7 @@ const HeaderMenu = ({ children }) => {
                         color: 'rgba(0, 0, 0, 0.6)',
                       }}
                     >
-                      Categories
+                      List and Sell
                     </Text>
                   </Button>
                 </Menu.Target>

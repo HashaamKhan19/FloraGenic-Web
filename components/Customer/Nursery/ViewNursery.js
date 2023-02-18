@@ -48,7 +48,7 @@ export default function ViewNursery({ id }) {
             {Array(9)
               .fill(0)
               .map((_, index) => (
-                <Link href={`/customer/product`}>
+                <Link href={`/customer/product`} key={`product-${index}`}>
                   <ProductCard key={index} />
                 </Link>
               ))}

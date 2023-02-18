@@ -425,7 +425,7 @@ export default function ProductPage() {
             {Array(3)
               .fill(0)
               .map((_, i) => (
-                <ProductCard />
+                <ProductCard key={i} />
               ))}
           </Group>
         </Stack>
