@@ -28,15 +28,15 @@ export default function ProductsCarousel() {
         draggable={false}
         breakpoints={[
           { maxWidth: 'md', slideSize: '50%' },
-          { maxWidth: 'sm', slideSize: '100%', slideGap: 0 },
+          { maxWidth: 'xs', slideSize: '100%', slideGap: 0 },
         ]}
         align="start"
         slidesToScroll={1}
         nextControlIcon={
-          <HiArrowNarrowRight size={18} style={{ color: '#fff' }} />
+          <HiArrowNarrowRight size={20} style={{ color: '#fff' }} />
         }
         previousControlIcon={
-          <HiArrowNarrowLeft size={18} style={{ color: '#fff' }} />
+          <HiArrowNarrowLeft size={20} style={{ color: '#fff' }} />
         }
         controlsOffset={-20}
         styles={{
@@ -44,8 +44,8 @@ export default function ProductsCarousel() {
             backgroundColor: '#62A82C',
             opacity: 100,
             border: '1px solid #62A82C',
-            width: 35,
-            height: 35,
+            width: 40,
+            height: 40,
           },
         }}
         px={'lg'}

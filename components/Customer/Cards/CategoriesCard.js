@@ -12,6 +12,7 @@ import { RiPlantLine, RiSeedlingLine } from 'react-icons/ri'
 import { GiGardeningShears, GiMedicines } from 'react-icons/gi'
 import { MdOutlineGrass } from 'react-icons/md'
 import { BiCategory } from 'react-icons/bi'
+import { useMediaQuery } from '@mantine/hooks'
 
 const mockdata = [
   { title: 'Plants', icon: RiPlantLine, color: 'green' },
@@ -53,6 +54,8 @@ const useStyles = createStyles((theme) => ({
 export default function CategoriesCard() {
   const { classes, theme } = useStyles()
 
+  const match768 = useMediaQuery('(max-width: 768px)')
+
   const items = mockdata.map((item) => (
     <UnstyledButton key={item.title} className={classes.item}>
       <item.icon color={theme.colors[item.color][6]} size={32} />
@@ -76,7 +79,7 @@ export default function CategoriesCard() {
           Categories
         </Text>
       </Group>
-      <SimpleGrid cols={4} mt="md" px={'lg'}>
+      <SimpleGrid cols={match768 ? 2 : 4} mt="md" px={'lg'}>
         {items}
       </SimpleGrid>
     </Container>

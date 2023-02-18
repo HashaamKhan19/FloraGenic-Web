@@ -17,12 +17,13 @@ import { TbShoppingCartPlus } from 'react-icons/tb'
 
 const useStyles = createStyles((theme) => ({
   title: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    // fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    fontSize: 18,
   },
 
   footer: {
     padding: `${theme.spacing.xs}px ${theme.spacing.lg}px`,
-    marginTop: theme.spacing.md,
+    marginTop: theme.spacing.xs,
     borderTop: `1px solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
@@ -48,12 +49,23 @@ export default function ProductCard() {
           }
           alt="productImage"
           height={180}
+          style={{
+            position: 'relative',
+          }}
         />
+        <Badge
+          color="green"
+          style={{
+            position: 'absolute',
+            top: 10,
+            right: 10,
+          }}
+        >
+          Decorations
+        </Badge>
       </Card.Section>
 
-      <Badge color="cyan">Decorations</Badge>
-
-      <Text weight={650} className={classes.title} mt="xs">
+      <Text weight={600} className={classes.title} mt="xs">
         Sunflower Plant
       </Text>
 
@@ -77,7 +89,13 @@ export default function ProductCard() {
               maxWidth: 200,
             }}
           >
-            <Text weight={500} truncate>
+            <Text
+              weight={500}
+              style={{
+                color: 'darkslategrey',
+              }}
+              truncate
+            >
               Fazal Khan Nursery
             </Text>
           </Group>
@@ -92,6 +110,18 @@ export default function ProductCard() {
           </Group>
         </Stack>
       </Group>
+
+      <Text
+        color="red"
+        weight={600}
+        mb={0}
+        mt={'xs'}
+        style={{
+          fontSize: 20,
+        }}
+      >
+        Rs. 10000
+      </Text>
 
       <Card.Section className={classes.footer}>
         <Group position="apart">
