@@ -64,7 +64,7 @@ export default function CategoriesCard() {
 
   return (
     <Container size={'xl'} mt={80}>
-      <Group spacing={'xs'} mb={'lg'}>
+      <Group spacing={'xs'} mb={'lg'} pl={'lg'}>
         <BiCategory size={26} style={{ color: '#62A82C' }} />
         <Text
           style={{
@@ -76,7 +76,7 @@ export default function CategoriesCard() {
           Categories
         </Text>
       </Group>
-      <SimpleGrid cols={4} mt="md">
+      <SimpleGrid cols={4} mt="md" px={'lg'}>
         {items}
       </SimpleGrid>
     </Container>

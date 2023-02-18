@@ -43,6 +43,7 @@ import { AiOutlineShopping, AiOutlineShoppingCart } from 'react-icons/ai'
 import { SiHomeassistant } from 'react-icons/si'
 import { useState } from 'react'
 import Link from 'next/link'
+import { TbReportMoney } from 'react-icons/tb'
 
 const useStyles = createStyles((theme) => ({
   links: {
@@ -316,58 +317,22 @@ const HeaderMenu = ({ children }) => {
               justifyContent: 'space-between',
             }}
           >
-            <Group>
-              <Menu
-                transition="skew-down"
-                transitionDuration={300}
-                exitTransitionDuration={200}
-                withArrow
-                className={classes.categoryButton}
+            <Group className={classes.categoryButton}>
+              <Button
+                leftIcon={<TbReportMoney size={20} />}
+                style={{
+                  backgroundColor: 'rgba(98, 168, 44, 0.1)',
+                  color: 'rgba(98, 168, 44, 1)',
+                }}
               >
-                <Menu.Target>
-                  <Button
-                    leftIcon={<MdCategory />}
-                    rightIcon={<GoChevronDown size={12} stroke={1.5} />}
-                    style={{
-                      backgroundColor: 'rgba(98, 168, 44, 0.1)',
-                      color: 'rgba(98, 168, 44, 1)',
-                    }}
-                    styles={{
-                      leftIcon: {
-                        fontSize: '18px',
-                      },
-                      rightIcon: {
-                        fontSize: '22px',
-                      },
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: 'rgba(0, 0, 0, 0.6)',
-                      }}
-                    >
-                      List and Sell
-                    </Text>
-                  </Button>
-                </Menu.Target>
-                <Menu.Dropdown
+                <Text
                   style={{
-                    width: '150px',
+                    color: 'rgba(0, 0, 0, 0.6)',
                   }}
                 >
-                  <Menu.Item
-                    style={{
-                      width: '150px',
-                    }}
-                  >
-                    Plants
-                  </Menu.Item>
-                  <Menu.Item>Tools</Menu.Item>
-                  <Menu.Item>Medicines</Menu.Item>
-                  <Menu.Item>Decorations</Menu.Item>
-                  <Menu.Item>Seedlings</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
+                  List and Sell, Register with us now!
+                </Text>
+              </Button>
             </Group>
             <Group className={classes.links}>{items}</Group>
           </Group>

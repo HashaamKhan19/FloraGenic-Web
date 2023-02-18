@@ -9,7 +9,7 @@ import Link from 'next/link'
 export default function ProductsCarousel() {
   return (
     <Container size={'xl'} mt={60}>
-      <Group spacing={'xs'} mb={'lg'}>
+      <Group spacing={'xs'} mb={'lg'} pl={'lg'}>
         <IoIosFlash size={26} style={{ color: '#62A82C' }} />
         <Text
           style={{
@@ -24,6 +24,8 @@ export default function ProductsCarousel() {
       <Carousel
         slideSize="25%"
         slideGap="md"
+        dragFree={true}
+        draggable={false}
         breakpoints={[
           { maxWidth: 'md', slideSize: '50%' },
           { maxWidth: 'sm', slideSize: '100%', slideGap: 0 },
@@ -46,6 +48,7 @@ export default function ProductsCarousel() {
             height: 35,
           },
         }}
+        px={'lg'}
       >
         {Array(8)
           .fill(0)

@@ -7,30 +7,20 @@ import {
   Text,
   Avatar,
   Badge,
-  Rating,
+  Stack,
+  Box,
 } from '@mantine/core'
-import { AiOutlineHeart } from 'react-icons/ai'
+import { IconHeart, IconBookmark, IconShare } from '@tabler/icons'
+import { FiHeart } from 'react-icons/fi'
+import { MdOutlineAddShoppingCart } from 'react-icons/md'
 import { TbShoppingCartPlus } from 'react-icons/tb'
 
 const useStyles = createStyles((theme) => ({
-  card: {
-    backgroundColor:
-      theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
-    border: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[4]
-    }`,
-    width: 310,
-    '&:hover': {
-      boxShadow: `${theme.shadows.xl} !important`,
-      cursor: 'pointer',
-    },
-  },
-
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
   },
 
-  ratings: {
+  footer: {
     padding: `${theme.spacing.xs}px ${theme.spacing.lg}px`,
     marginTop: theme.spacing.md,
     borderTop: `1px solid ${
@@ -43,49 +33,77 @@ export default function ProductCard() {
   const { classes, theme } = useStyles()
 
   return (
-    <Card withBorder p="lg" radius="md" className={classes.card}>
+    <Card
+      withBorder
+      p="lg"
+      radius="md"
+      sx={{
+        maxHeight: 500,
+      }}
+    >
       <Card.Section mb="sm">
         <Image
           src={
-            'https://images.unsplash.com/photo-1477554193778-9562c28588c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80'
+            'https://images.unsplash.com/photo-1519336056116-bc0f1771dec8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHBsYW50JTIwcG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
           }
-          alt={'Image'}
+          alt="productImage"
           height={180}
         />
       </Card.Section>
 
-      <Badge>Decorations</Badge>
+      <Badge color="cyan">Decorations</Badge>
 
-      <Text weight={700} className={classes.title} mt="xs">
-        Oliver Buzz Plant
+      <Text weight={650} className={classes.title} mt="xs">
+        Sunflower Plant
       </Text>
 
-      <Group mt="lg">
-        <Text weight={500}>Hashaam Nursery</Text>
-        <Text size="xs" color="dimmed">
-          - seller
-        </Text>
+      <Group mt="lg" noWrap>
+        <Box
+          style={{
+            maxHeight: 50,
+            maxWidth: 50,
+          }}
+        >
+          <Avatar
+            src={
+              'https://images.unsplash.com/photo-1508857650881-64475119d798?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bnVyc2VyeSUyMHBsYW50c3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'
+            }
+            radius="sm"
+          />
+        </Box>
+        <Stack spacing={0}>
+          <Group
+            style={{
+              maxWidth: 200,
+            }}
+          >
+            <Text weight={500} truncate>
+              Fazal Khan Nursery
+            </Text>
+          </Group>
+          <Group
+            style={{
+              maxWidth: 200,
+            }}
+          >
+            <Text size="xs" color="dimmed" truncate>
+              We Sell the best plants at the best prices
+            </Text>
+          </Group>
+        </Stack>
       </Group>
 
-      <Text weight={600} color="red">
-        Rs. 1000
-      </Text>
-
-      <Card.Section className={classes.ratings}>
+      <Card.Section className={classes.footer}>
         <Group position="apart">
           <Text size="xs" color="dimmed">
-            <Rating value={4} size="xs" readOnly />
+            733 people bought this
           </Text>
-          <Group spacing={0}>
-            <ActionIcon>
-              <AiOutlineHeart
-                size={18}
-                color={theme.colors.red[6]}
-                stroke={1.5}
-              />
+          <Group spacing={'xs'}>
+            <ActionIcon color="red" variant="subtle">
+              <FiHeart size={18} />
             </ActionIcon>
-            <ActionIcon>
-              <TbShoppingCartPlus size={18} color={theme.colors.blue[6]} />
+            <ActionIcon color="blue" variant="subtle">
+              <MdOutlineAddShoppingCart size={16} stroke={1.5} />
             </ActionIcon>
           </Group>
         </Group>

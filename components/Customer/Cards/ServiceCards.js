@@ -109,6 +109,7 @@ export default function ServiceCards() {
         cols={3}
         spacing="xl"
         breakpoints={[{ maxWidth: 'md', cols: 1 }]}
+        px={'lg'}
       >
         {features}
       </SimpleGrid>
