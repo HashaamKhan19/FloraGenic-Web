@@ -1,6 +1,6 @@
 import ViewNursery from '../../../components/Customer/Nursery/ViewNursery'
 
-export default function () {
+export default function ViewSpecificNursery() {
   return (
     <div
       style={{
