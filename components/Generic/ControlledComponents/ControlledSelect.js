@@ -9,6 +9,7 @@ const ControlledSelect = ({
   defaultValue = "",
   validate = null,
   children,
+  helperText = null,
   ...rest
 }) => {
   return (
@@ -22,9 +23,7 @@ const ControlledSelect = ({
           <Select {...rest} {...field} inputRef={field.ref}>
             {children}
           </Select>
-          {rest.error && (
-            <FormHelperText error> {rest.helperText}</FormHelperText>
-          )}
+          {rest.error && <FormHelperText error> {helperText}</FormHelperText>}
         </FormControl>
       )}
     />
