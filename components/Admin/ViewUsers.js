@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import DataGrid from "@mui/x-data-grid/DataGrid";
-import Link from "next/link";
+import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import * as React from "react";
 import { UsersIcon } from "../../public/icons/UsersIcon";
 import ActionIcons from "../Generic/ActionIcons";
@@ -12,8 +11,9 @@ import SearchField from "../Generic/SearchField";
 
 // GraphQL
 import { gql, useQuery } from "@apollo/client";
+import { Button, Link } from "@mui/material";
 import Image from "next/legacy/image";
-import Placeholder from "../../assets/images/placeholder.png";
+import placeholder from "../../assets/images/placeholder.png";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
@@ -25,7 +25,7 @@ const columns = [
     renderCell: (params) => {
       return (
         <Image
-          src={params?.row?.details?.image || Placeholder}
+          src={params?.row?.details?.image || placeholder}
           alt={"profile"}
           width={30}
           height={30}
@@ -245,13 +245,13 @@ export default function ViewUsers() {
           />
 
           <Link href={"/admin/addUser"}>
-            <button className="bg-floraGreen px-3 py-1 rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
+            <Button className="bg-floraGreen px-3 py-1 rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
               <UsersIcon
                 sx={{ color: "white", mr: 1, mb: 0.3 }}
                 fontSize="small"
               />
               Add User
-            </button>
+            </Button>
           </Link>
 
           <Export />
