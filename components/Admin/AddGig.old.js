@@ -1,26 +1,24 @@
-import * as React from "react";
-import PropTypes from "prop-types";
-import { styled } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
+import { gql, useQuery } from "@apollo/client";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import Check from "@mui/icons-material/Check";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { Button, Paper, Typography } from "@mui/material";
+import Step from "@mui/material/Step";
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
+import StepLabel from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
+import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
-import { Button, Paper, Typography } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
+import PropTypes from "prop-types";
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import Loader from "../Generic/Loader";
 import AddGigDetails from "./AddGigDetails";
 import AddGigGallery from "./AddGigGallery";
 import AddGigPricing from "./AddGigPricing";
-import { gql, useQuery } from "@apollo/client";
-import Loader from "../Generic/Loader";
-import { useForm } from "react-hook-form";
 
 const QontoStepIconRoot = styled("div")(({ theme, ownerState }) => ({
   color: theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eaeaf0",

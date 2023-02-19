@@ -1,19 +1,17 @@
-import * as React from "react";
-import DataGrid from "@mui/x-data-grid/DataGrid";
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import PersonAdd from "@mui/icons-material/PersonAdd";
+import DataGrid from "@mui/x-data-grid/DataGrid";
+import Link from "next/link";
+import * as React from "react";
+import { UsersIcon } from "../../public/icons/UsersIcon";
 import ActionIcons from "../Generic/ActionIcons";
 import BlockToggle from "../Generic/BlockToggle";
-import SearchField from "../Generic/SearchField";
 import Export from "../Generic/Export";
-import Link from "next/link";
-import { UsersIcon } from "../../public/icons/UsersIcon";
 import Loader from "../Generic/Loader";
+import SearchField from "../Generic/SearchField";
 
 // GraphQL
-import { useQuery, gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import Image from "next/legacy/image";
 import Placeholder from "../../assets/images/placeholder.png";
 
@@ -152,6 +150,7 @@ export default function ViewUsers() {
   const [rows, setRows] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState("");
   const [pageSize, setPageSize] = React.useState(10);
+
   const { loading, error, data } = useQuery(GET_USERS);
 
   // Menu handlers
