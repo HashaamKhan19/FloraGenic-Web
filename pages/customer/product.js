@@ -1,14 +1,14 @@
 import React from 'react'
-import Hero from '../../components/Customer/Hero/Hero'
+import ProductPage from '../../components/Customer/Product/ProductPage'
 
-export default function index() {
+export default function product() {
   return (
     <div
       style={{
         backgroundColor: '#F6F9FC',
       }}
     >
-      <Hero />
+      <ProductPage />
     </div>
   )
 }
