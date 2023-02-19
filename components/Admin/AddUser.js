@@ -527,12 +527,12 @@ const AddUser = ({ data = {} }) => {
               <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>
                 <button
                   type="submit"
-                  class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease"
+                  className="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease"
                 >
                   <ButtonBackground />
 
                   <UsersIcon sx={{ mr: 1 }} fontSize="small" />
-                  <span class="relative">
+                  <span className="relative">
                     {action} {userType}
                   </span>
                 </button>

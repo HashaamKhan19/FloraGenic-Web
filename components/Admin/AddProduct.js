@@ -1,29 +1,19 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
-import {
-  TextField,
-  InputLabel,
-  Select,
-  MenuItem,
-  Typography,
-} from "@mui/material";
-import { AddProductIcon } from "../../public/icons/AddProductIcon";
-import { styled } from "@mui/material/styles";
+import { InputLabel, MenuItem } from "@mui/material";
 import Chip from "@mui/material/Chip";
-import Link from "next/link";
+import { styled } from "@mui/material/styles";
+import Grid from "@mui/material/Unstable_Grid2";
 import { useRouter } from "next/router";
-import { InputAdornment } from "@mui/material";
+import React from "react";
+import { AddProductIcon } from "../../public/icons/AddProductIcon";
 //Controlled components
-import { useForm } from "react-hook-form";
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
-import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import Loader from "../Generic/Loader";
-import MultiDropzone from "../Generic/MultiDropzone";
-import ControlledMultiDropzone from "../Generic/ControlledComponents/ControlledMultiDropzone";
+import { useForm } from "react-hook-form";
 import ButtonBackground from "../../assets/Pattern/ButtonBackground";
 import { uploadMultipleImages } from "../../services/fileUpload";
+import ControlledMultiDropzone from "../Generic/ControlledComponents/ControlledMultiDropzone";
+import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import Loader from "../Generic/Loader";
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
@@ -462,10 +452,10 @@ const AddProduct = ({ data = {} }) => {
               </Grid>
 
               <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>
-                <button class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease">
+                <button className="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease">
                   <ButtonBackground />
                   <AddProductIcon sx={{ mt: 0.6 }} fontSize="medium" />
-                  <span class="relative">{action} Product</span>
+                  <span className="relative">{action} Product</span>
                 </button>
               </Grid>
             </Grid>
