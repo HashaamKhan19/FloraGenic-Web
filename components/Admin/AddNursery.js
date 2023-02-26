@@ -19,7 +19,7 @@ import ButtonBackground from "../../assets/Pattern/ButtonBackground";
 import { uploadMultipleImages } from "../../services/fileUpload";
 import CityOptions from "../Generic/CityOptions";
 import ControlledMultiDropzone from "../Generic/ControlledComponents/ControlledMultiDropzone";
-import Loader from "../Generic/Loader";
+import LoadingScreen from "../Generic/LoadingScreen";
 
 const ADD_NURSERY = gql`
   mutation NurseryCreate($data: NurseryCreateInput!) {
@@ -184,9 +184,8 @@ const AddNursery = ({ data = {} }) => {
     setTag((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
   };
 
-  if (loading) return <Loader />;
+  if (loading) return <LoadingScreen />;
   if (error) return <p>{"Error :("}</p>;
-  console.log(errors);
   return (
     <>
       <div className="flex justify-center">

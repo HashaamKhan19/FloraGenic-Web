@@ -1,7 +1,7 @@
-import { Grid, InputLabel, Typography, Box } from "@mui/material";
+import { AddCircleOutline, Delete } from "@mui/icons-material/";
+import { Box, Grid, InputLabel, Typography } from "@mui/material";
 import React from "react";
 import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import { AddCircleOutline, Delete } from "@mui/icons-material/";
 
 const PackageForm = ({ title, control, errors, show, deletable }) => {
   const [showPackage, setShowPackage] = React.useState(show || false);

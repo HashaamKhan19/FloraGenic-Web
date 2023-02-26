@@ -1,8 +1,8 @@
-import { createStyles, Text, Container, ActionIcon, Group } from '@mantine/core'
-import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
+import { ActionIcon, Container, createStyles, Group, Text } from '@mantine/core'
 import Image from 'next/image'
-import data from '../Generic/FooterLinks'
 import { BsFacebook, BsInstagram, BsTwitter } from 'react-icons/bs'
+import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
+import data from '../Generic/FooterLinks'
 
 const useStyles = createStyles((theme) => ({
   footer: {

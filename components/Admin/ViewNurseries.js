@@ -1,20 +1,18 @@
-import * as React from "react";
+import HouseSidingIcon from "@mui/icons-material/HouseSiding";
+import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, Typography } from "@mui/material";
-import { PersonAdd } from "@mui/icons-material";
+import Link from "next/link";
+import * as React from "react";
 import ActionIcons from "../Generic/ActionIcons";
 import BlockToggle from "../Generic/BlockToggle";
-import SearchField from "../Generic/SearchField";
 import Export from "../Generic/Export";
-import Link from "next/link";
-import { AddProductIcon } from "../../public/icons/AddProductIcon";
-import HouseSidingIcon from "@mui/icons-material/HouseSiding";
+import SearchField from "../Generic/SearchField";
 
 // GraphQL
-import { useQuery, useMutation, gql } from "@apollo/client";
-import Loader from "../Generic/Loader";
+import { gql, useQuery } from "@apollo/client";
 import Image from "next/legacy/image";
 import Placeholder from "../../assets/images/placeholder.png";
+import LoadingScreen from "../Generic/LoadingScreen";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
@@ -127,7 +125,7 @@ export default function ViewNurseries() {
     setAnchorElExport(null);
   };
 
-  if (loading) return <Loader />;
+  if (loading) return <LoadingScreen />;
 
   return (
     <Box

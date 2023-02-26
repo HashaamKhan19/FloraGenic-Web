@@ -6,7 +6,6 @@ import { UsersIcon } from "../../public/icons/UsersIcon";
 import ActionIcons from "../Generic/ActionIcons";
 import BlockToggle from "../Generic/BlockToggle";
 import Export from "../Generic/Export";
-import Loader from "../Generic/Loader";
 import SearchField from "../Generic/SearchField";
 
 // GraphQL
@@ -14,6 +13,7 @@ import { gql, useQuery } from "@apollo/client";
 import { Button, Link } from "@mui/material";
 import Image from "next/legacy/image";
 import placeholder from "../../assets/images/placeholder.png";
+import LoadingScreen from "../Generic/LoadingScreen";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
@@ -186,8 +186,13 @@ export default function ViewUsers() {
     }
   }, [data, searchValue]);
 
-  if (loading) return <Loader />;
-  if (error) return `Error! ${error.message}`;
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
+  if (error) {
+    return `Error! ${error.message}`;
+  }
 
   return (
     <Box

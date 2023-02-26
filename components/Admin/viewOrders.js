@@ -1,14 +1,12 @@
-import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { Box, Chip, Typography } from "@mui/material";
-import PaymentActions from "../Generic/PaymentActions";
-import ComplaintStatus from "../Generic/ComplaintStatus";
-import SearchField from "../Generic/SearchField";
-import Export from "../Generic/Export";
-import { ViewReviewsIcon } from "../../public/icons/ViewReviewsIcon";
 import { gql, useQuery } from "@apollo/client";
-import Loader from "../Generic/Loader";
+import { Box, Chip, Typography } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import * as React from "react";
+import { ViewReviewsIcon } from "../../public/icons/ViewReviewsIcon";
 import ActionIcons from "../Generic/ActionIcons";
+import Export from "../Generic/Export";
+import LoadingScreen from "../Generic/LoadingScreen";
+import SearchField from "../Generic/SearchField";
 
 const GET_ORDERS = gql`
   query Query {
@@ -129,7 +127,7 @@ const rows = [
 
 export default function ViewOrders() {
   const { loading, error, data } = useQuery(GET_ORDERS);
-  if (loading) return <Loader />;
+  if (loading) return <LoadingScreen />;
   return (
     <Box
       style={{

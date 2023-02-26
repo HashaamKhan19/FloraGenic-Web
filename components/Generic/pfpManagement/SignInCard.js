@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from "react";
-import sideImage from "../../../public/images/SignIn-removebg.jpg";
-import Image from "next/image";
-import Link from "next/link";
-import { BsFacebook } from "react-icons/bs";
-import { FcGoogle } from "react-icons/fc";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
+import { gql, useMutation } from "@apollo/client";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import mainLogo from "../../../public/images/Logo.png";
-import ControlledTextInput from "../ControlledComponents/ControlledTextInput";
-import ControlledSelect from "../ControlledComponents/ControlledSelect";
-import { useForm } from "react-hook-form";
-import { useMutation, gql } from "@apollo/client";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { BsFacebook } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+import mainLogo from "../../../public/images/Logo.png";
+import sideImage from "../../../public/images/SignIn-removebg.jpg";
+import ControlledSelect from "../ControlledComponents/ControlledSelect";
+import ControlledTextInput from "../ControlledComponents/ControlledTextInput";
 
 const LOGIN_QUERY = gql`
   mutation LoginCustomer($credentials: UserLoginInput!) {

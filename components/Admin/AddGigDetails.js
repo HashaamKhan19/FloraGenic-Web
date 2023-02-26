@@ -1,9 +1,8 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
 import { InputLabel, MenuItem } from "@mui/material";
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import Grid from "@mui/material/Unstable_Grid2";
+import React from "react";
 import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
-import { useForm } from "react-hook-form";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 
 const AddGigDetails = ({ control, errors, gardeners }) => {
   return (

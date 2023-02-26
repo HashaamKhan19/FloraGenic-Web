@@ -1,15 +1,15 @@
-import React from "react";
 import Grid from "@mui/material/Grid";
-import GrowthChart from "../Charts/GrowthChart";
-import FeedbackChart from "../Charts/FeedbackChart";
-import StatisticsCards from "../Charts/StatisticsCards";
+import React from "react";
 import AreaChart from "../Charts/AreaChart";
+import FeedbackChart from "../Charts/FeedbackChart";
+import GrowthChart from "../Charts/GrowthChart";
 import LineChart from "../Charts/LineChart";
+import StatisticsCards from "../Charts/StatisticsCards";
 
+import InventoryIcon from "@mui/icons-material/Inventory";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import PeopleIcon from "@mui/icons-material/People";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
-import InventoryIcon from "@mui/icons-material/Inventory";
 
 const Dashboard = () => {
   return (

@@ -1,13 +1,13 @@
-import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { Box, Typography } from "@mui/material";
-import ReviewActions from "../Generic/ReviewActions";
-import ComplaintStatus from "../Generic/ComplaintStatus";
-import SearchField from "../Generic/SearchField";
-import Export from "../Generic/Export";
-import { ViewReviewsIcon } from "../../public/icons/ViewReviewsIcon";
 import { gql, useQuery } from "@apollo/client";
-import Loader from "../Generic/Loader";
+import { Box, Typography } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import * as React from "react";
+import { ViewReviewsIcon } from "../../public/icons/ViewReviewsIcon";
+import ComplaintStatus from "../Generic/ComplaintStatus";
+import Export from "../Generic/Export";
+import LoadingScreen from "../Generic/LoadingScreen";
+import ReviewActions from "../Generic/ReviewActions";
+import SearchField from "../Generic/SearchField";
 
 const columns = [
   { field: "id", headerName: "ID", width: 40 },
@@ -85,7 +85,7 @@ const GET_COMPLAINTS = gql`
 export default function ViewComplants() {
   const { loading, error, data } = useQuery(GET_COMPLAINTS);
 
-  if (loading) return <Loader />;
+  if (loading) return <LoadingScreen />;
 
   return (
     <Box

@@ -1,16 +1,8 @@
-import { useState, useRef } from 'react'
 import {
-  NumberInput,
-  Group,
-  ActionIcon,
-  Text,
-  Stack,
-  Box,
-  Paper,
-  Divider,
-  CloseButton,
+    ActionIcon, CloseButton, Divider, Group, Paper, Stack, Text
 } from '@mantine/core'
 import Image from 'next/image'
+import { useState } from 'react'
 import { FiMinus, FiPlus } from 'react-icons/fi'
 
 export default function CartItem() {

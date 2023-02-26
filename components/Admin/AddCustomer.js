@@ -1,24 +1,18 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
-import { MuiTelInput } from "mui-tel-input";
+import { AlternateEmail, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  Button,
-  TextField,
-  InputAdornment,
-  IconButton,
-  Typography,
-  InputLabel,
-  Select,
-  MenuItem,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    MenuItem
 } from "@mui/material";
-import { VisibilityOff, Visibility, AlternateEmail } from "@mui/icons-material";
-import Dropzone from "../Generic/Dropzone";
+import Grid from "@mui/material/Unstable_Grid2";
 import { useRouter } from "next/router";
+import React from "react";
 
+import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
+import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
 import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
 import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
-import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
 
 const AddCustomer = ({ control, getValues, setValue, errors }) => {
   const [action, setAction] = React.useState("Enter");
@@ -103,9 +97,10 @@ const AddCustomer = ({ control, getValues, setValue, errors }) => {
       </Grid>
       <Grid item xs={12} sm={6}>
         <InputLabel
+          required={action == "Enter" ? true : false}
+          disabled={action == "Enter" ? false : true}
           htmlFor="email"
           variant="standard"
-          required
           sx={{
             mb: 1.5,
             color: "text.primary",

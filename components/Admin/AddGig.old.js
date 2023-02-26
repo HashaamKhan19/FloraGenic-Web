@@ -6,7 +6,7 @@ import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import { Button, Paper, Typography } from "@mui/material";
 import Step from "@mui/material/Step";
 import StepConnector, {
-  stepConnectorClasses,
+    stepConnectorClasses
 } from "@mui/material/StepConnector";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
@@ -15,7 +15,7 @@ import { Box } from "@mui/system";
 import PropTypes from "prop-types";
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import Loader from "../Generic/Loader";
+import LoadingScreen from "../Generic/LoadingScreen";
 import AddGigDetails from "./AddGigDetails";
 import AddGigGallery from "./AddGigGallery";
 import AddGigPricing from "./AddGigPricing";
@@ -199,7 +199,7 @@ export default function AddGig() {
     mode: "onChange",
   });
 
-  if (gardenersLoading) return <Loader />;
+  if (gardenersLoading) return <LoadingScreen />;
   if (gardenersError) return <p>Error :(</p>;
   if (!gardenersData.gardeners.length) return <p>No Gardeners found</p>;
 

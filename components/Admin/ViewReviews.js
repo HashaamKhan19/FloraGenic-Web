@@ -1,12 +1,12 @@
-import * as React from 'react'
-import { DataGrid } from '@mui/x-data-grid'
 import { Box, Typography } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid'
+import * as React from 'react'
+import { ViewReviewsIcon } from '../../public/icons/ViewReviewsIcon'
 import BlockToggle from '../Generic/BlockToggle'
+import Export from '../Generic/Export'
+import Ratings from '../Generic/Ratings'
 import ReviewActions from '../Generic/ReviewActions'
 import SearchField from '../Generic/SearchField'
-import Export from '../Generic/Export'
-import { ViewReviewsIcon } from '../../public/icons/ViewReviewsIcon'
-import Ratings from '../Generic/Ratings'
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 40 },

@@ -1,8 +1,8 @@
-import React from "react";
-import AddCategory from "../../../components/Admin/AddCategory";
 import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import Loader from "../../../components/Generic/Loader";
+import React from "react";
+import AddCategory from "../../../components/Admin/AddCategory";
+import LoadingScreen from "../../../components/Generic/LoadingScreen";
 
 const GET_CATEGORY_BY_ID = gql`
   query Category($categoryId: ID!) {
@@ -25,7 +25,7 @@ export default function EditCategory() {
     variables: { categoryId: id },
   });
 
-  if (loading) return <Loader />;
+  if (loading) return <LoadingScreen />;
   console.log(data);
   return (
     <>

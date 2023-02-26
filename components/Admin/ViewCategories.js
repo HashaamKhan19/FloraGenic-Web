@@ -1,15 +1,15 @@
-import * as React from "react";
+import { gql, useQuery } from "@apollo/client";
+import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, Typography } from "@mui/material";
+import Image from "next/legacy/image";
+import Link from "next/link";
+import * as React from "react";
+import { CategoryIcon } from "../../public/icons/CategoryIcon";
 import ActionIcons from "../Generic/ActionIcons";
 import BlockToggle from "../Generic/BlockToggle";
-import SearchField from "../Generic/SearchField";
 import Export from "../Generic/Export";
-import Link from "next/link";
-import { CategoryIcon } from "../../public/icons/CategoryIcon";
-import { gql, useQuery } from "@apollo/client";
-import Loader from "../Generic/Loader";
-import Image from "next/legacy/image";
+import LoadingScreen from "../Generic/LoadingScreen";
+import SearchField from "../Generic/SearchField";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
@@ -99,7 +99,7 @@ const rows = [
 export default function ViewCategories() {
   const { data, loading, error } = useQuery(GET_CATEGORIES);
 
-  if (loading) return <Loader />;
+  if (loading) return <LoadingScreen />;
   if (error) return <p>ERROR: {error.message}</p>;
 
   return (

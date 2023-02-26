@@ -1,28 +1,26 @@
-import React, { useState } from "react";
-import sideImage from "../../../public/images/SignIn-removebg.jpg";
-import Image from "next/image";
-import Link from "next/link";
-import { BsFacebook } from "react-icons/bs";
-import { FcGoogle } from "react-icons/fc";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import mainLogo from "../../../public/images/Logo.png";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { BsFacebook } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
+import mainLogo from "../../../public/images/Logo.png";
+import sideImage from "../../../public/images/SignIn-removebg.jpg";
 
 // Forms
-import { useForm, Controller } from "react-hook-form";
-import ControlledTextField from "../../Generic/ControlledComponents/ControlledTextInput";
+import { useForm } from "react-hook-form";
 import ControlledSelect from "../../Generic/ControlledComponents/ControlledSelect";
+import ControlledTextField from "../../Generic/ControlledComponents/ControlledTextInput";
 
 // GraphQL
-import { useMutation, gql } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 
 const SIGN_UP = gql`
   mutation Register($credentials: UserRegisterInput!) {

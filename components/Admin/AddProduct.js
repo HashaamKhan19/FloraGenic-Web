@@ -13,7 +13,7 @@ import { uploadMultipleImages } from "../../services/fileUpload";
 import ControlledMultiDropzone from "../Generic/ControlledComponents/ControlledMultiDropzone";
 import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
 import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import Loader from "../Generic/Loader";
+import LoadingScreen from "../Generic/LoadingScreen";
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
@@ -189,7 +189,7 @@ const AddProduct = ({ data = {} }) => {
     }
   };
 
-  if (categoryLoading || nurseryLoading) return <Loader />;
+  if (categoryLoading || nurseryLoading) return <LoadingScreen />;
   return (
     <>
       <div className="flex justify-center">
