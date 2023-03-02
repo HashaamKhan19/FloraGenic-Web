@@ -159,8 +159,8 @@ const HeaderMenu = ({ children }) => {
   const mobileSearch = useMediaQuery('(max-width: 500px)')
 
   const items = links.map((link) => {
-    const menuItems = link.links?.map((item) => (
-      <Link href={item.link}>
+    const menuItems = link.links?.map((item, index) => (
+      <Link href={item.link} key={index}>
         <Menu.Item key={item.link}>{item.label}</Menu.Item>
       </Link>
     ))
