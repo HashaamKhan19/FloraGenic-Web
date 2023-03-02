@@ -7,7 +7,7 @@ const ByPrice = () => {
   const match1200 = useMediaQuery('(max-width: 1200px)')
 
   const [minPrice, setMinPrice] = useState(20)
-  const [maxPrice, setMaxPrice] = useState(10000)
+  const [maxPrice, setMaxPrice] = useState(100)
 
   const handleSliderChange = (value) => {
     setMinPrice(value[0])

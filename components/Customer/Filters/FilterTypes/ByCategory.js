@@ -19,6 +19,7 @@ const ByCategory = () => {
           orientation="vertical"
           value={categoryValue}
           onChange={setCategoryValue}
+          key={index}
         >
           <Checkbox
             label={category.label}

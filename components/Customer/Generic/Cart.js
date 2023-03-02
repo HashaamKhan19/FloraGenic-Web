@@ -1,4 +1,13 @@
-import { Avatar, Divider, Drawer, Group, Indicator, Text } from '@mantine/core'
+import {
+  Avatar,
+  Button,
+  Divider,
+  Drawer,
+  Group,
+  Indicator,
+  Stack,
+  Text,
+} from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { useState } from 'react'
 import { BiShoppingBag } from 'react-icons/bi'
@@ -29,14 +38,19 @@ export default function Cart() {
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
-        size={match768 ? '380px' : match576 ? '300px' : null}
+        size={'350px'}
         position="right"
-        padding="lg"
+        // padding={'lg'}
         zIndex={1000000}
         styles={{
-          closeButton: {
-            color: '#62A82C',
+          closeButton: { '& svg': { width: 25, height: 25, color: '#62A82C' } },
+          header: {
+            padding: '1.2rem',
+            marginBottom: 0,
           },
+        }}
+        style={{
+          overflowY: 'hidden',
         }}
         title={
           <Group
@@ -48,8 +62,8 @@ export default function Cart() {
             <BiShoppingBag size={'1.8rem'} color="#62A82C" />
             <Text
               style={{
-                fontSize: '.95rem',
-                fontWeight: 600,
+                fontSize: '.90rem',
+                fontWeight: 550,
               }}
             >
               {shoppingItemsCount} Items
@@ -64,6 +78,35 @@ export default function Cart() {
       >
         <Divider my="sm" />
         <CartItem />
+
+        <Stack
+          style={{
+            position: 'absolute',
+            bottom: 5,
+            left: 0,
+            right: 0,
+            padding: '1rem',
+          }}
+          spacing={'sm'}
+        >
+          <Button
+            style={{
+              backgroundColor: '#62A82C',
+              color: 'white',
+            }}
+          >
+            Checkout Now (Rs. 1000)
+          </Button>
+          <Button
+            style={{
+              backgroundColor: 'white',
+              color: '#62A82C',
+              border: '1px solid #62A82C',
+            }}
+          >
+            View Cart
+          </Button>
+        </Stack>
       </Drawer>
     </>
   )

@@ -1,5 +1,11 @@
 import {
-    ActionIcon, CloseButton, Divider, Group, Paper, Stack, Text
+  ActionIcon,
+  CloseButton,
+  Divider,
+  Group,
+  Paper,
+  Stack,
+  Text,
 } from '@mantine/core'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -19,8 +25,8 @@ export default function CartItem() {
 
   return (
     <>
-      <Paper py={'sm'}>
-        <Group spacing={'lg'}>
+      <Paper py={'sm'} px={'sm'}>
+        <Group spacing={'xs'}>
           <Stack spacing={0}>
             <ActionIcon
               size={30}

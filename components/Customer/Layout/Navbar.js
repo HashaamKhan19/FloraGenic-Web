@@ -325,7 +325,7 @@ const HeaderMenu = ({ children }) => {
                     color: 'rgba(0, 0, 0, 0.6)',
                   }}
                 >
-                  List and Sell. Register with us now!
+                  List and Sell. Register now!
                 </Text>
               </Button>
             </Group>
