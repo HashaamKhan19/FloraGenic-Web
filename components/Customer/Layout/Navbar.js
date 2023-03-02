@@ -1,49 +1,44 @@
 import {
-  createStyles,
-  Header,
-  Group,
-  Burger,
-  Container,
-  TextInput,
   ActionIcon,
-  useMantineTheme,
   Avatar,
-  Paper,
   Badge,
-  Text,
-  Indicator,
-  Menu,
-  Center,
+  Burger,
   Button,
-  Drawer,
-  ScrollArea,
+  Center,
+  Container,
+  createStyles,
   Divider,
-  Stack,
+  Drawer,
+  Group,
+  Header,
+  Menu,
+  Paper,
+  ScrollArea,
+  Text,
+  TextInput,
+  useMantineTheme,
 } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import Image from 'next/image'
-import links from '../Generic/NavbarLinks'
-import { BiCategory, BiHome, BiShoppingBag, BiUser } from 'react-icons/bi'
-import { MdCategory } from 'react-icons/md'
-import { GoChevronDown } from 'react-icons/go'
+import links from './NavbarLinks'
+import { BiHome } from 'react-icons/bi'
 import {
   BsArrowLeft,
   BsArrowRight,
   BsChevronDown,
   BsFacebook,
   BsInstagram,
-  BsPerson,
   BsSearch,
   BsTwitter,
 } from 'react-icons/bs'
 import { GiGardeningShears } from 'react-icons/gi'
 import Cart from '../Generic/Cart'
-import { AiOutlineShopping, AiOutlineShoppingCart } from 'react-icons/ai'
+import { AiOutlineShoppingCart } from 'react-icons/ai'
+import Link from 'next/link'
+import { useState } from 'react'
 import { SiHomeassistant } from 'react-icons/si'
 import { TbReportMoney } from 'react-icons/tb'
 import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
-import Cart from '../Generic/Cart'
-import links from '../Generic/NavbarLinks'
 
 const useStyles = createStyles((theme) => ({
   links: {
