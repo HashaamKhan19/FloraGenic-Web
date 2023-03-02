@@ -1,5 +1,5 @@
-import { Controller } from "react-hook-form";
 import { FormControl, FormHelperText, Select } from "@mui/material";
+import { Controller } from "react-hook-form";
 
 const ControlledSelect = ({
   name,
@@ -9,6 +9,7 @@ const ControlledSelect = ({
   defaultValue = "",
   validate = null,
   children,
+  helperText = null,
   ...rest
 }) => {
   return (
@@ -19,12 +20,10 @@ const ControlledSelect = ({
       defaultValue={defaultValue}
       render={({ field }) => (
         <FormControl fullWidth>
-          <Select {...rest} {...field}>
+          <Select {...rest} {...field} inputRef={field.ref}>
             {children}
           </Select>
-          {rest.error && (
-            <FormHelperText error> {rest.helperText}</FormHelperText>
-          )}
+          {rest.error && <FormHelperText error> {helperText}</FormHelperText>}
         </FormControl>
       )}
     />

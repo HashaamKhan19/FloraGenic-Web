@@ -1,14 +1,11 @@
 import {
-  Container,
-  Group,
-  Image,
-  Paper,
-  Rating,
-  Stack,
-  Text,
-  createStyles,
+    createStyles, Group,
+    Image,
+    Paper,
+    Rating,
+    Stack,
+    Text
 } from '@mantine/core'
-import { GiStarsStack } from 'react-icons/gi'
 
 const useStyles = createStyles((theme) => ({
   item: {

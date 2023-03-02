@@ -1,18 +1,11 @@
 import { Carousel } from '@mantine/carousel'
 import {
-  ActionIcon,
-  Container,
-  Group,
-  Image,
-  Paper,
-  Rating,
-  Stack,
-  Text,
-  createStyles,
+    Container,
+    Group, Text
 } from '@mantine/core'
+import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 import { TbStars } from 'react-icons/tb'
 import NurseryCard from './NurseryCard'
-import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 
 export default function TopRatedNurseries() {
   const nurseries = [

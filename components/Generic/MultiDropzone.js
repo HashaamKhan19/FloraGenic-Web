@@ -1,20 +1,18 @@
+import { AttachFile, Cancel } from "@mui/icons-material";
 import {
-  IconButton,
   Box,
-  Grid,
+  Button,
+  IconButton,
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Button,
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import Image from "next/legacy/image";
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import { AttachFile, Cancel } from "@mui/icons-material";
-import Image from "next/legacy/image";
-import { Info } from "@mui/icons-material";
-export default function MultiDropzone({ onChange, getValues, name, setValue }) {
+const MultiDropzone = ({ onChange, getValues, name, setValue }, ref) => {
   const {
     getRootProps,
     getInputProps,
@@ -69,6 +67,7 @@ export default function MultiDropzone({ onChange, getValues, name, setValue }) {
   return (
     <>
       <Box
+        ref={ref}
         sx={{
           position: "relative",
           display: "flex",
@@ -175,4 +174,6 @@ export default function MultiDropzone({ onChange, getValues, name, setValue }) {
       )}
     </>
   );
-}
+};
+
+export default React.forwardRef(MultiDropzone);

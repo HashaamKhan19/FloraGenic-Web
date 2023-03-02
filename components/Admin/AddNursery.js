@@ -1,34 +1,25 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
-import {
-  TextField,
-  InputLabel,
-  Select,
-  MenuItem,
-  InputAdornment,
-} from "@mui/material";
-import { AddProductIcon } from "../../public/icons/AddProductIcon";
 import { AlternateEmail } from "@mui/icons-material";
+import { InputAdornment, InputLabel, MenuItem } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Link from "next/link";
+import Grid from "@mui/material/Unstable_Grid2";
 import { useRouter } from "next/router";
-import { MuiTelInput } from "mui-tel-input";
-import TimeChooser from "../Generic/TimeChooser";
+import React from "react";
+import { AddProductIcon } from "../../public/icons/AddProductIcon";
 
 // Controlled Input
 import { useForm } from "react-hook-form";
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
 import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 import ControlledTimePicker from "../Generic/ControlledComponents/ControlledTimePicker";
 
 // GraphQL
-import { useMutation, gql, useQuery } from "@apollo/client";
-import CityOptions from "../Generic/CityOptions";
-import Loader from "../Generic/Loader";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import ButtonBackground from "../../assets/Pattern/ButtonBackground";
-import ControlledMultiDropzone from "../Generic/ControlledComponents/ControlledMultiDropzone";
 import { uploadMultipleImages } from "../../services/fileUpload";
+import CityOptions from "../Generic/CityOptions";
+import ControlledMultiDropzone from "../Generic/ControlledComponents/ControlledMultiDropzone";
+import LoadingScreen from "../Generic/LoadingScreen";
 
 const ADD_NURSERY = gql`
   mutation NurseryCreate($data: NurseryCreateInput!) {
@@ -193,9 +184,8 @@ const AddNursery = ({ data = {} }) => {
     setTag((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
   };
 
-  if (loading) return <Loader />;
+  if (loading) return <LoadingScreen />;
   if (error) return <p>{"Error :("}</p>;
-  console.log(errors);
   return (
     <>
       <div className="flex justify-center">
@@ -485,11 +475,11 @@ const AddNursery = ({ data = {} }) => {
               <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>
                 <button
                   type="submit"
-                  class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease"
+                  className="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease"
                 >
                   <ButtonBackground />
                   <AddProductIcon sx={{ mt: 0.6 }} fontSize="medium" />
-                  <span class="relative">
+                  <span className="relative">
                     {action === "Enter" ? "Add" : "Update"} Nursery
                   </span>
                 </button>

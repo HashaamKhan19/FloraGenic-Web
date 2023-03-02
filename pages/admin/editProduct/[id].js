@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import React from "react";
 import AddProduct from "../../../components/Admin/AddProduct";
-import Loader from "../../../components/Generic/Loader";
+import LoadingScreen from "../../../components/Generic/LoadingScreen";
 
 const GET_PRODUCT_BY_ID = gql`
   query Product($productId: ID!) {
@@ -40,7 +40,7 @@ export default function EditProduct() {
     variables: { productId: id },
   });
 
-  if (loading) return <Loader />;
+  if (loading) return <LoadingScreen />;
   console.log(data);
   return (
     <>

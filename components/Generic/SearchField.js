@@ -1,7 +1,7 @@
-import React from "react";
-import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+import { alpha, styled } from "@mui/material/styles";
+import React from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -55,7 +55,6 @@ const SearchField = ({ searchValue, setSearchValue }) => {
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
-          defaultValue=""
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />

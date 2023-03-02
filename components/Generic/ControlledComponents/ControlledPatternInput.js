@@ -1,5 +1,5 @@
-import { Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
+import { Controller } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
 
 const ControlledPatternInput = ({
@@ -21,6 +21,7 @@ const ControlledPatternInput = ({
       render={({ field }) => (
         <PatternFormat
           format={format}
+          inputRef={field.ref}
           {...rest}
           {...field}
           customInput={TextField}

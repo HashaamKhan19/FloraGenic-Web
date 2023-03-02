@@ -1,24 +1,21 @@
-import { FiBox } from "react-icons/fi";
-import mainLogo from "../../public/images/Logo.png";
-import { AiFillPlusSquare } from "react-icons/ai";
+import AddToQueueIcon from "@mui/icons-material/AddToQueue";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import CategoryIcon from "@mui/icons-material/Category";
+import ChatIcon from "@mui/icons-material/Chat";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import DisplaySettingsIcon from "@mui/icons-material/DisplaySettings";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
+import HouseSidingIcon from "@mui/icons-material/HouseSiding";
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import MenuIcon from "@mui/icons-material/Menu";
-import AddToQueueIcon from "@mui/icons-material/AddToQueue";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import PersonIcon from "@mui/icons-material/Person";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
-import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
-import HouseSidingIcon from "@mui/icons-material/HouseSiding";
-import ReviewsIcon from "@mui/icons-material/Reviews";
-import DisplaySettingsIcon from "@mui/icons-material/DisplaySettings";
-import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -33,32 +30,43 @@ import ListItemText from "@mui/material/ListItemText";
 import { styled, useTheme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import ChatIcon from "@mui/icons-material/Chat";
-import ProfileMenu from "../Generic/ProfileMenu";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { useState } from "react";
-import { Router } from "@mui/icons-material";
-import { useRouter } from "next/router";
-import Image from "next/image";
+import { AiFillPlusSquare } from "react-icons/ai";
+import { FiBox } from "react-icons/fi";
+import mainLogo from "../../public/images/Logo.png";
+import ProfileMenu from "../Generic/ProfileMenu";
 
-const drawerWidth = 280;
+const drawerWidth = 320;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
+    marginTop: 64,
     padding: theme.spacing(3),
-    transition: theme.transitions.create("margin", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+    "@media (min-width:769px)": {
+      transition: theme.transitions.create("margin", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+    },
     marginLeft: `-${drawerWidth}px`,
     ...(open && {
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
       marginLeft: 0,
+      width: `calc(100% - ${drawerWidth}px)`,
+      "@media (min-width:769px)": {
+        transition: theme.transitions.create("margin", {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen,
+        }),
+      },
+      "@media (max-width: 768px)": {
+        width: "100vw",
+        position: "absolute",
+      },
     }),
   })
 );
@@ -66,17 +74,21 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
+  "@media (min-width:769px)": {
     transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
     }),
+  },
+  ...(open && {
+    "@media (min-width:769px)": {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: `${drawerWidth}px`,
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
   }),
 }));
 
@@ -122,7 +134,7 @@ export default function Sidebar({ children }) {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ backgroundColor: "white" }}>
         <Toolbar sx={{ color: "#0d5209" }}>
@@ -691,10 +703,7 @@ export default function Sidebar({ children }) {
           {/* ending of list */}
         </List>
       </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
-        {children}
-      </Main>
+      <Main open={open}>{children}</Main>
     </Box>
   );
 }

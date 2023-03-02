@@ -1,4 +1,4 @@
-import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
+import { matchIsValidTel, MuiTelInput } from "mui-tel-input";
 import { Controller } from "react-hook-form";
 
 const ControlledTelInput = ({
@@ -27,7 +27,9 @@ const ControlledTelInput = ({
           else return true;
         },
       }}
-      render={({ field }) => <MuiTelInput {...field} {...rest} />}
+      render={({ field }) => (
+        <MuiTelInput {...field} {...rest} inputRef={field.ref} />
+      )}
     />
   );
 };

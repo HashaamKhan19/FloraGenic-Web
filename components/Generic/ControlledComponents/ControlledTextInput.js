@@ -1,5 +1,5 @@
-import { Controller } from "react-hook-form";
 import { TextField } from "@mui/material";
+import { Controller } from "react-hook-form";
 
 const ControlledTextInput = ({
   name,
@@ -18,7 +18,9 @@ const ControlledTextInput = ({
       control={control}
       rules={{ required, pattern, minLength, maxLength, validate }}
       defaultValue={defaultValue}
-      render={({ field }) => <TextField {...rest} {...field} />}
+      render={({ field }) => (
+        <TextField {...rest} {...field} inputRef={field.ref} />
+      )}
     />
   );
 };

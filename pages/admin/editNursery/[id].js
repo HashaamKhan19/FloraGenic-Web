@@ -1,8 +1,8 @@
+import { gql, useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
 import React from "react";
 import AddNursery from "../../../components/Admin/AddNursery";
-import { useQuery, gql } from "@apollo/client";
-import { useRouter } from "next/router";
-import Loader from "../../../components/Generic/Loader";
+import LoadingScreen from "../../../components/Generic/LoadingScreen";
 const GET_NURSERY_BY_ID = gql`
   query Nursery($nurseryId: ID!) {
     nursery(id: $nurseryId) {
@@ -31,7 +31,7 @@ export default function EditNursery() {
     variables: { nurseryId: id },
   });
 
-  if (loading) return <Loader />;
+  if (loading) return <LoadingScreen />;
   console.log(data);
   return (
     <>

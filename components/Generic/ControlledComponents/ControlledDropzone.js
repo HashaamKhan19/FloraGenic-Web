@@ -1,6 +1,6 @@
-import DropZone from "../Dropzone";
-import { Controller } from "react-hook-form";
 import { FormHelperText } from "@mui/material";
+import { Controller } from "react-hook-form";
+import DropZone from "../Dropzone";
 
 const ControlledDropzone = ({
   name,

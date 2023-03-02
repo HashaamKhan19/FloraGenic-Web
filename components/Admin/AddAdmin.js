@@ -1,27 +1,21 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
+import { AlternateEmail, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  Button,
-  TextField,
-  InputAdornment,
-  IconButton,
-  Typography,
-  InputLabel,
-  Select,
-  MenuItem,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    MenuItem
 } from "@mui/material";
-import { VisibilityOff, Visibility, AlternateEmail } from "@mui/icons-material";
-import DropZone from "../Generic/Dropzone";
+import Grid from "@mui/material/Unstable_Grid2";
 import { useRouter } from "next/router";
+import React from "react";
 
 // Controlled component
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
-import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
 import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
+import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 
 // Pattern input
-import { PatternFormat } from "react-number-format";
 import ControlledPatternInput from "../Generic/ControlledComponents/ControlledPatternInput";
 
 const AddAdmin = ({ control, getValues, setValue, errors }) => {
@@ -120,8 +114,9 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
           {action} Email
         </InputLabel>
         <ControlledTextInput
+          required={action == "Enter" ? true : false}
+          disabled={action == "Enter" ? false : true}
           control={control}
-          required
           pattern={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
           name="email"
           id="email"

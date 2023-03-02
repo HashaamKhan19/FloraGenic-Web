@@ -1,29 +1,20 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
-import { MuiTelInput } from "mui-tel-input";
+import { AlternateEmail, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
-  Button,
-  TextField,
-  InputAdornment,
-  IconButton,
-  Checkbox,
-  Typography,
-  Paper,
-  InputLabel,
-  Box,
-  Select,
-  MenuItem,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    MenuItem
 } from "@mui/material";
-import { VisibilityOff, Visibility, AlternateEmail } from "@mui/icons-material";
+import Grid from "@mui/material/Unstable_Grid2";
 import { useRouter } from "next/router";
-import DropZone from "../Generic/Dropzone";
+import React from "react";
 
 // Controlled components
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
-import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
-import ControlledPatternInput from "../Generic/ControlledComponents/ControlledPatternInput";
 import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
+import ControlledPatternInput from "../Generic/ControlledComponents/ControlledPatternInput";
+import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 
 const AddGardener = ({ control, getValues, setValue, errors }) => {
   const router = useRouter();
@@ -109,7 +100,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
         <InputLabel
           htmlFor="email"
           variant="standard"
-          required
+          required={action == "Enter" ? true : false}
+          disabled={action == "Enter" ? false : true}
           sx={{
             mb: 1.5,
             color: "text.primary",

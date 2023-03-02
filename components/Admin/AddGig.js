@@ -203,10 +203,10 @@ const AddGig = ({ data = {} }) => {
               </Grid>
 
               <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>
-                <button class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease">
+                <button className="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease">
                   <ButtonBackground />
                   <CategoryIcon sx={{ mr: 0.3, mb: 0.2 }} fontSize="small" />
-                  <span class="relative">{action2} Gig</span>
+                  <span className="relative">{action2} Gig</span>
                 </button>
               </Grid>
             </Grid>

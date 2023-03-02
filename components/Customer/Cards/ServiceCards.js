@@ -1,16 +1,8 @@
 import {
-  createStyles,
-  Badge,
-  Group,
-  Title,
-  Text,
-  Card,
-  SimpleGrid,
-  Container,
+    Card, Container, createStyles, SimpleGrid, Text
 } from '@mantine/core'
-import { BsTruck } from 'react-icons/bs'
 import { AiOutlineDollar } from 'react-icons/ai'
-import { GrCertificate } from 'react-icons/gr'
+import { BsTruck } from 'react-icons/bs'
 import { MdOutlineFactCheck } from 'react-icons/md'
 
 const mockdata = [

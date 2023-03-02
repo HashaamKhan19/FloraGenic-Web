@@ -1,23 +1,16 @@
-import React from "react";
+import { InputLabel, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import {
-  TextField,
-  InputLabel,
-  Select,
-  MenuItem,
-  Typography,
-} from "@mui/material";
-import { CategoryIcon } from "../../public/icons/CategoryIcon";
-import Link from "next/link";
 import { useRouter } from "next/router";
+import React from "react";
+import { CategoryIcon } from "../../public/icons/CategoryIcon";
 
 // Controlled components
-import { useForm } from "react-hook-form";
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
 import { gql, useMutation } from "@apollo/client";
-import { uploadImage } from "../../services/fileUpload";
+import { useForm } from "react-hook-form";
 import ButtonBackground from "../../assets/Pattern/ButtonBackground";
+import { uploadImage } from "../../services/fileUpload";
+import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 
 const ADD_CATEGORY = gql`
   mutation CategoryCreate($data: CategoryCreateInput!) {
@@ -208,10 +201,10 @@ const AddCategory = ({ data = {} }) => {
               </Grid>
 
               <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>
-                <button class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease">
+                <button className="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease">
                   <ButtonBackground />
                   <CategoryIcon sx={{ mr: 0.3, mb: 0.2 }} fontSize="small" />
-                  <span class="relative">{action2} Category</span>
+                  <span className="relative">{action2} Category</span>
                 </button>
               </Grid>
             </Grid>

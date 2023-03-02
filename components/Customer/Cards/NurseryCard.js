@@ -1,13 +1,5 @@
 import {
-  createStyles,
-  Card,
-  Overlay,
-  Button,
-  Text,
-  Rating,
-  Group,
-  Stack,
-  useMantineTheme,
+    Button, Card, createStyles, Group, Overlay, Rating, Text, useMantineTheme
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 

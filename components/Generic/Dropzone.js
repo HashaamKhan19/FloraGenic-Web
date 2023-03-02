@@ -1,10 +1,10 @@
-import { IconButton, Box } from "@mui/material";
+import { AttachFile, Cancel } from "@mui/icons-material";
+import { Box, IconButton } from "@mui/material";
+import Image from "next/legacy/image";
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import { AttachFile, Cancel } from "@mui/icons-material";
-import Image from "next/legacy/image";
 
-export default function DropZone({ onChange, getValues, name, setValue }) {
+const DropZone = ({ onChange, getValues, name, setValue }, ref) => {
   const {
     getRootProps,
     getInputProps,
@@ -19,6 +19,7 @@ export default function DropZone({ onChange, getValues, name, setValue }) {
   });
   return (
     <Box
+      ref={ref}
       sx={{
         position: "relative",
         display: "flex",
@@ -108,4 +109,6 @@ export default function DropZone({ onChange, getValues, name, setValue }) {
       )}
     </Box>
   );
-}
+};
+
+export default React.forwardRef(DropZone);

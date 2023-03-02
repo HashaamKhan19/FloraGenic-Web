@@ -1,19 +1,19 @@
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
+import { gql, useMutation } from "@apollo/client";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import Grid from "@mui/material/Unstable_Grid2";
+import { useRouter } from "next/router";
+import React from "react";
+import { useForm } from "react-hook-form";
+import ButtonBackground from "../../assets/Pattern/ButtonBackground";
+import { UsersIcon } from "../../public/icons/UsersIcon";
+import { uploadImage } from "../../services/fileUpload";
+import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import ActionConfirmationModal from "../Generic/TaskConfirmationModal";
 import AddAdmin from "./AddAdmin";
 import AddCustomer from "./AddCustomer";
 import AddGardener from "./AddGardener";
 import AddNurseryOwner from "./AddNurseryOwner";
-import { UsersIcon } from "../../public/icons/UsersIcon";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-import { useMutation, gql } from "@apollo/client";
-import { uploadImage } from "../../services/fileUpload";
-import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
-import ButtonBackground from "../../assets/Pattern/ButtonBackground";
-import ActionConfirmationModal from "../Generic/TaskConfirmationModal";
 
 const ADD_CUSTOMER = gql`
   mutation RegisterCustomer(
@@ -484,7 +484,7 @@ const AddUser = ({ data = {} }) => {
                   </MenuItem>
                   <MenuItem
                     value={"Admin"}
-                    selected="true"
+                    selected
                     onClick={() => {
                       setUserType("Admin");
                     }}
@@ -527,12 +527,12 @@ const AddUser = ({ data = {} }) => {
               <Grid item xs={12} textAlign="center" sx={{ mt: 2, p: 2 }}>
                 <button
                   type="submit"
-                  class="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease"
+                  className="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease"
                 >
                   <ButtonBackground />
 
                   <UsersIcon sx={{ mr: 1 }} fontSize="small" />
-                  <span class="relative">
+                  <span className="relative">
                     {action} {userType}
                   </span>
                 </button>

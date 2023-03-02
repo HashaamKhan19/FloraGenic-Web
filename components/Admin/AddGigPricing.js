@@ -1,6 +1,5 @@
-import { Box, Grid, InputLabel, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 import PackageForm from "./PackageForm";
 
 const AddGigPricing = ({ control, errors }) => {
