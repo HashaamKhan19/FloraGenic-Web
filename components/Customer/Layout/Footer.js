@@ -1,7 +1,7 @@
 import { createStyles, Text, Container, ActionIcon, Group } from '@mantine/core'
 import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
 import Image from 'next/image'
-import data from '../Generic/FooterLinks'
+import data from './FooterLinks'
 import { BsFacebook, BsInstagram, BsTwitter } from 'react-icons/bs'
 
 const useStyles = createStyles((theme) => ({

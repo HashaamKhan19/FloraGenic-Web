@@ -39,7 +39,7 @@ export default function ProductCard() {
       p="lg"
       radius="md"
       sx={{
-        maxHeight: 500,
+        maxHeight: 400,
       }}
     >
       <Card.Section mb="sm">
@@ -48,7 +48,7 @@ export default function ProductCard() {
             'https://images.unsplash.com/photo-1519336056116-bc0f1771dec8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHBsYW50JTIwcG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
           }
           alt="productImage"
-          height={180}
+          height={190}
           style={{
             position: 'relative',
           }}

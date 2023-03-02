@@ -11,35 +11,30 @@ import {
   Paper,
   Badge,
   Text,
-  Indicator,
   Menu,
   Center,
   Button,
   Drawer,
   ScrollArea,
   Divider,
-  Stack,
 } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
 import Image from 'next/image'
-import links from '../Generic/NavbarLinks'
-import { BiCategory, BiHome, BiShoppingBag, BiUser } from 'react-icons/bi'
-import { MdCategory } from 'react-icons/md'
-import { GoChevronDown } from 'react-icons/go'
+import links from './NavbarLinks'
+import { BiHome } from 'react-icons/bi'
 import {
   BsArrowLeft,
   BsArrowRight,
   BsChevronDown,
   BsFacebook,
   BsInstagram,
-  BsPerson,
   BsSearch,
   BsTwitter,
 } from 'react-icons/bs'
 import { GiGardeningShears } from 'react-icons/gi'
 import Cart from '../Generic/Cart'
-import { AiOutlineShopping, AiOutlineShoppingCart } from 'react-icons/ai'
+import { AiOutlineShoppingCart } from 'react-icons/ai'
 import { SiHomeassistant } from 'react-icons/si'
 import { useState } from 'react'
 import Link from 'next/link'
@@ -165,7 +160,9 @@ const HeaderMenu = ({ children }) => {
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
-      <Menu.Item key={item.link}>{item.label}</Menu.Item>
+      <Link href={item.link}>
+        <Menu.Item key={item.link}>{item.label}</Menu.Item>
+      </Link>
     ))
 
     if (menuItems) {
@@ -179,11 +176,7 @@ const HeaderMenu = ({ children }) => {
           withArrow
         >
           <Menu.Target>
-            <a
-              href={link.link}
-              className={classes.link}
-              onClick={(event) => event.preventDefault()}
-            >
+            <a href={link.link} className={classes.link}>
               <Center>
                 <span className={classes.linkLabel}>{link.label}</span>
                 <BsChevronDown size={12} stroke={1.5} />
@@ -196,14 +189,9 @@ const HeaderMenu = ({ children }) => {
     }
 
     return (
-      <a
-        key={link.label}
-        href={link.link}
-        className={classes.link}
-        onClick={(event) => event.preventDefault()}
-      >
+      <Link key={link.label} href={link.link} className={classes.link}>
         {link.label}
-      </a>
+      </Link>
     )
   })
 
@@ -300,6 +288,13 @@ const HeaderMenu = ({ children }) => {
                 placeholder="Search query..."
                 rightSectionWidth={42}
                 className={classes.searchBar}
+                styles={(theme) => ({
+                  input: {
+                    '&:focus-within': {
+                      borderColor: theme.colors.green[7],
+                    },
+                  },
+                })}
               />
             )}
             {/* User and Cart */}
@@ -330,7 +325,7 @@ const HeaderMenu = ({ children }) => {
                     color: 'rgba(0, 0, 0, 0.6)',
                   }}
                 >
-                  List and Sell, Register with us now!
+                  List and Sell. Register with us now!
                 </Text>
               </Button>
             </Group>

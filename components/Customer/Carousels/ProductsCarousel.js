@@ -49,6 +49,7 @@ export default function ProductsCarousel() {
           },
         }}
         px={'lg'}
+        loop
       >
         {Array(8)
           .fill(0)

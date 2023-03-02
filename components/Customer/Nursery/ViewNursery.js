@@ -3,6 +3,7 @@ import {
   Grid,
   Group,
   Input,
+  Pagination,
   Paper,
   SimpleGrid,
   Text,
@@ -12,12 +13,13 @@ import ProductCard from '../Cards/ProductCard'
 import { useMediaQuery } from '@mantine/hooks'
 import { BiSearch } from 'react-icons/bi'
 import Link from 'next/link'
+import Filter from '../Filters/Filter'
 
 export default function ViewNursery({ id }) {
   const match1200 = useMediaQuery('(max-width: 1200px)')
 
   return (
-    <Container size={'xl'} pt={'xl'}>
+    <Container size={'xl'} pt={'xl'} mb={'xl'}>
       <Paper
         style={{
           width: '100%',
@@ -28,14 +30,29 @@ export default function ViewNursery({ id }) {
       </Paper>
       <Grid mt={'xl'}>
         <Grid.Col md={3} hidden={match1200 ? true : false}>
-          <Paper>
-            <Text>Filters Here</Text>
-          </Paper>
+          <Filter />
         </Grid.Col>
         <Grid.Col md={!match1200 ? 9 : 12}>
           <Group position="apart">
-            <Text>9 Products</Text>
-            <Input placeholder="search..." icon={<BiSearch />} />
+            <Text
+              style={{
+                fontWeight: 500,
+                color: 'darkslategray',
+              }}
+            >
+              9 Products
+            </Text>
+            <Input
+              placeholder="search..."
+              icon={<BiSearch />}
+              styles={(theme) => ({
+                input: {
+                  '&:focus-within': {
+                    borderColor: theme.colors.green[7],
+                  },
+                },
+              })}
+            />
           </Group>
           <SimpleGrid
             cols={3}
@@ -53,6 +70,22 @@ export default function ViewNursery({ id }) {
                 </Link>
               ))}
           </SimpleGrid>
+          <Group position="right" pt={'xl'}>
+            <Pagination
+              total={10}
+              position="center"
+              styles={(theme) => ({
+                item: {
+                  '&[data-active]': {
+                    backgroundImage: theme.fn.gradient({
+                      from: 'green',
+                      to: 'green',
+                    }),
+                  },
+                },
+              })}
+            />
+          </Group>
         </Grid.Col>
       </Grid>
     </Container>
