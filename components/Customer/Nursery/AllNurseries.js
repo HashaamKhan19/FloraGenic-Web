@@ -69,8 +69,8 @@ export default function AllNurseries() {
             item: {
               '&[data-active]': {
                 backgroundImage: theme.fn.gradient({
-                  from: 'green',
-                  to: 'green',
+                  from: '#62A82C',
+                  to: '#62A82C',
                 }),
               },
             },

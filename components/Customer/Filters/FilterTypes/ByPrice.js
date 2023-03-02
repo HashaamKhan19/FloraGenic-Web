@@ -1,8 +1,11 @@
 import { Divider, Group, Input, RangeSlider, Stack, Text } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
 import React from 'react'
 import { ImLeaf } from 'react-icons/im'
 
 const ByPrice = () => {
+  const match1200 = useMediaQuery('(max-width: 1200px)')
+
   return (
     <Stack px={'xs'} mt={'xs'}>
       <Text
@@ -23,9 +26,9 @@ const ByPrice = () => {
               },
             },
           })}
-          w={100}
+          w={match1200 ? 150 : 100}
         />
-        <Divider w={8} size={2} />
+        <Divider w={match1200 ? 10 : 8} size={match1200 ? 3 : 2} />
         <Input
           placeholder="Max"
           styles={(theme) => ({
@@ -35,7 +38,7 @@ const ByPrice = () => {
               },
             },
           })}
-          w={100}
+          w={match1200 ? 150 : 100}
         />
       </Group>
       <RangeSlider

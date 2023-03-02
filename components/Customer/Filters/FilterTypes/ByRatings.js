@@ -1,6 +1,14 @@
 import { Checkbox, Group, Rating, Stack, Text } from '@mantine/core'
 import React from 'react'
 
+const ratings = [
+  { value: 5 },
+  { value: 4 },
+  { value: 3 },
+  { value: 2 },
+  { value: 1 },
+]
+
 const ByRatings = () => {
   return (
     <>
@@ -13,11 +21,12 @@ const ByRatings = () => {
         >
           Ratings
         </Text>
-        <Group>
+        {ratings.map((rating, index) => (
           <Checkbox
+            key={index}
             label={
               <>
-                <Rating value={5} readOnly />
+                <Rating value={rating.value} readOnly />
               </>
             }
             radius={'xs'}
@@ -34,95 +43,7 @@ const ByRatings = () => {
               },
             }}
           />
-        </Group>
-        <Group>
-          <Checkbox
-            label={
-              <>
-                <Rating value={4} readOnly />
-              </>
-            }
-            radius={'xs'}
-            styles={{
-              input: {
-                '&:checked': {
-                  backgroundColor: '#62A82C',
-                  borderColor: '#62A82C',
-                },
-                '&:hover': {
-                  cursor: 'pointer',
-                },
-                borderColor: '#62A82C',
-              },
-            }}
-          />
-        </Group>
-        <Group>
-          <Checkbox
-            label={
-              <>
-                <Rating value={3} readOnly />
-              </>
-            }
-            radius={'xs'}
-            styles={{
-              input: {
-                '&:checked': {
-                  backgroundColor: '#62A82C',
-                  borderColor: '#62A82C',
-                },
-                '&:hover': {
-                  cursor: 'pointer',
-                },
-                borderColor: '#62A82C',
-              },
-            }}
-          />
-        </Group>
-        <Group>
-          <Checkbox
-            label={
-              <>
-                <Rating value={2} readOnly />
-              </>
-            }
-            radius={'xs'}
-            styles={{
-              input: {
-                '&:checked': {
-                  backgroundColor: '#62A82C',
-                  borderColor: '#62A82C',
-                },
-                '&:hover': {
-                  cursor: 'pointer',
-                },
-                borderColor: '#62A82C',
-              },
-            }}
-          />
-        </Group>
-        <Group>
-          <Checkbox
-            label={
-              <>
-                <Rating value={1} readOnly />
-              </>
-            }
-            radius={'xs'}
-            styles={{
-              input: {
-                '&:checked': {
-                  backgroundColor: '#62A82C',
-                  borderColor: '#62A82C',
-                },
-                '&:hover': {
-                  cursor: 'pointer',
-                },
-                borderColor: '#62A82C',
-              },
-            }}
-          />
-        </Group>
+        ))}
       </Stack>
     </>
   )

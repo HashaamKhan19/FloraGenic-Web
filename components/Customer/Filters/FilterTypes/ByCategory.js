@@ -1,37 +1,49 @@
-import { Box, NavLink } from '@mantine/core'
-import { useState } from 'react'
-
-const categories = [
-  { label: 'All' },
-  { label: 'Plants' },
-  { label: 'Medicines' },
-  { label: 'Tools' },
-  { label: 'Decorations' },
-  { label: 'Seeds' },
-]
+import { Checkbox } from '@mantine/core'
+import { React, useState } from 'react'
 
 const ByCategory = () => {
-  const [active, setActive] = useState([0])
+  const [categoryValue, setCategoryValue] = useState([])
 
-  const isSelected = (index) => active.length === 0 || active.includes(index)
+  const categories = [
+    { label: 'Plants' },
+    { label: 'Medicines' },
+    { label: 'Tools' },
+    { label: 'Decorations' },
+    { label: 'Seeds' },
+  ]
 
-  const items = categories.map((item, index) => (
-    <NavLink
-      key={item.label}
-      active={isSelected(index)}
-      label={item.label}
-      onClick={() => {
-        if (isSelected(index)) {
-          setActive(active.filter((i) => i !== index))
-        } else {
-          setActive([...active, index])
-        }
-      }}
-      color="green"
-      variant="subtle"
-    />
-  ))
-
-  return <Box>{items}</Box>
+  return (
+    <>
+      {categories.map((category, index) => (
+        <Checkbox.Group
+          orientation="vertical"
+          value={categoryValue}
+          onChange={setCategoryValue}
+        >
+          <Checkbox
+            label={category.label}
+            value={category.label.toLowerCase()}
+            key={index}
+            radius={'xs'}
+            my={1}
+            styles={{
+              input: {
+                '&:checked': {
+                  backgroundColor: '#62A82C',
+                  borderColor: '#62A82C',
+                },
+                '&:hover': {
+                  cursor: 'pointer',
+                },
+                borderColor: '#62A82C',
+              },
+            }}
+            unselectable="on"
+          />
+        </Checkbox.Group>
+      ))}
+    </>
+  )
 }
+
 export default ByCategory
