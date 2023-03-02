@@ -41,7 +41,12 @@ const Filter = () => {
             mx={'xl'}
             mt={'xs'}
             disabled
-            sx={{ '&[disabled]': { opacity: 0.4 } }}
+            sx={{
+              '&[disabled]': {
+                opacity: 0.3,
+                pointerEvents: 'all',
+              },
+            }}
           >
             Clear Filters
           </Button>
