@@ -108,6 +108,7 @@ export default function Cart() {
                 border: '1px solid #62A82C',
                 width: '100%',
               }}
+              onClick={closeDrawer}
             >
               View Cart
             </Button>

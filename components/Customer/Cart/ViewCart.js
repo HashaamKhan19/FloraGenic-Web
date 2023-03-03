@@ -1,5 +1,6 @@
-import { Box, Center, Container, Stepper } from '@mantine/core'
+import { Box, Center, Container, Grid, Paper, Stepper } from '@mantine/core'
 import { React, useState } from 'react'
+import MyCartItems from './MyCartItems'
 
 const StepIcon = ({ active, completed, icon }) => {
   const bgColor = completed ? 'green' : 'transparent'
@@ -32,7 +33,7 @@ const ViewCart = () => {
       <Center>
         <Box
           sx={{
-            width: '50%',
+            width: '100%',
           }}
         >
           <Stepper
@@ -40,18 +41,26 @@ const ViewCart = () => {
             onStepClick={setActive}
             breakpoint="sm"
             styles={{
+              root: {
+                width: '100%',
+              },
               separator: {
-                color: '#9fda72',
-                borderColor: '#9fda72',
-                border: '4px solid #9fda72',
+                color: '#bfe6a1',
+                borderColor: '#bfe6a1',
+                border: '4px solid #bfe6a1',
                 borderRadius: '200px',
                 width: '100%',
               },
               separatorActive: {
                 width: '100%',
-                color: '#9fda72',
+                color: '#bfe6a1',
                 border: `4px solid #62A82C`,
                 transition: 'all 1s ease',
+              },
+              steps: {
+                width: '100%',
+                paddingLeft: '20rem',
+                paddingRight: '20rem',
               },
               step: {
                 backgroundColor: '#62A82C',
@@ -83,16 +92,21 @@ const ViewCart = () => {
           >
             <Stepper.Step
               style={{
-                backgroundColor: active >= 0 ? '#62A82C' : '##9fda72',
+                backgroundColor: active >= 0 ? '#62A82C' : '#bfe6a1',
                 transition: 'all 0.7s ease',
               }}
               label="1. Cart"
             >
-              {active}
+              <Grid>
+                <Grid.Col sm={8}>
+                  <MyCartItems />
+                </Grid.Col>
+                <Grid.Col sm={4}>mai ny apny app ko mar dena ha</Grid.Col>
+              </Grid>
             </Stepper.Step>
             <Stepper.Step
               style={{
-                backgroundColor: active >= 1 ? '#62A82C' : '#9fda72',
+                backgroundColor: active >= 1 ? '#62A82C' : '#bfe6a1',
                 transition: 'all 0.7s ease',
               }}
               label="2. Details"
@@ -101,7 +115,7 @@ const ViewCart = () => {
             </Stepper.Step>
             <Stepper.Step
               style={{
-                backgroundColor: active >= 2 ? '#62A82C' : '#9fda72',
+                backgroundColor: active >= 2 ? '#62A82C' : '#bfe6a1',
                 transition: 'all 0.7s ease',
               }}
               label="3. Payment"
@@ -110,7 +124,7 @@ const ViewCart = () => {
             </Stepper.Step>
             <Stepper.Step
               style={{
-                backgroundColor: active >= 3 ? '#62A82C' : '#9fda72',
+                backgroundColor: active >= 3 ? '#62A82C' : '#bfe6a1',
                 transition: 'all 0.7s ease',
               }}
               label="4. Reviews"
