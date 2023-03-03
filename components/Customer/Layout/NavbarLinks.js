@@ -4,7 +4,7 @@ const links = [
     label: 'Home',
   },
   {
-    link: '#1',
+    link: '/customer/products',
     label: 'Products',
     links: [
       {

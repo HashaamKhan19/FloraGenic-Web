@@ -48,7 +48,7 @@ const RelatedNurseries = () => {
         </Text>
         <Grid>
           {cardsData.map((card, index) => (
-            <Grid.Col lg={3} sm={6}>
+            <Grid.Col lg={3} sm={6} key={index}>
               <Paper h={120} key={index}>
                 <Stack align="center" py={'xs'} spacing={'md'}>
                   <Avatar size={'lg'} radius={'xl'} />

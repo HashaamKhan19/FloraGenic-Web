@@ -176,12 +176,12 @@ const HeaderMenu = ({ children }) => {
           withArrow
         >
           <Menu.Target>
-            <a href={link.link} className={classes.link}>
+            <Link href={link.link} className={classes.link}>
               <Center>
                 <span className={classes.linkLabel}>{link.label}</span>
                 <BsChevronDown size={12} stroke={1.5} />
               </Center>
-            </a>
+            </Link>
           </Menu.Target>
           <Menu.Dropdown>{menuItems}</Menu.Dropdown>
         </Menu>
