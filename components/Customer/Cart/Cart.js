@@ -8,15 +8,13 @@ import {
   Stack,
   Text,
 } from '@mantine/core'
-import { useDisclosure, useMediaQuery } from '@mantine/hooks'
+import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
 import { BiShoppingBag } from 'react-icons/bi'
 import CartItem from './CartItem'
+import Link from 'next/link'
 
 export default function Cart() {
-  const match768 = useMediaQuery('(min-width: 768px)')
-  const match576 = useMediaQuery('(min-width: 576px)')
-
   const [
     drawerOpened,
     { toggle: toggleDrawer, close: closeDrawer },
@@ -97,15 +95,23 @@ export default function Cart() {
           >
             Checkout Now (Rs. 1000)
           </Button>
-          <Button
+          <Link
+            href={'/customer/viewCart'}
             style={{
-              backgroundColor: 'white',
-              color: '#62A82C',
-              border: '1px solid #62A82C',
+              width: '100%',
             }}
           >
-            View Cart
-          </Button>
+            <Button
+              style={{
+                backgroundColor: 'white',
+                color: '#62A82C',
+                border: '1px solid #62A82C',
+                width: '100%',
+              }}
+            >
+              View Cart
+            </Button>
+          </Link>
         </Stack>
       </Drawer>
     </>

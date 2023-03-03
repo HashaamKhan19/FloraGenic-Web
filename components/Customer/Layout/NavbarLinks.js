@@ -8,23 +8,23 @@ const links = [
     label: 'Products',
     links: [
       {
-        link: '/products/plants',
+        link: '/customer/products',
         label: 'Plants',
       },
       {
-        link: '/products/tools',
+        link: '/customer/products',
         label: 'Tools',
       },
       {
-        link: '/products/medicine',
+        link: '/customer/products',
         label: 'Medicine',
       },
       {
-        link: '/products/decorations',
+        link: '/customer/products',
         label: 'Decorations',
       },
       {
-        link: '/products/seeds',
+        link: '/customer/products',
         label: 'Seedlings',
       },
     ],

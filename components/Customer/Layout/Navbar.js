@@ -32,7 +32,7 @@ import {
   BsTwitter,
 } from 'react-icons/bs'
 import { GiGardeningShears } from 'react-icons/gi'
-import Cart from '../Generic/Cart'
+import Cart from '../Cart/Cart'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import Link from 'next/link'
 import { useState } from 'react'
