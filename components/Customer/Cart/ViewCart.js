@@ -5,6 +5,7 @@ import {
   Container,
   Grid,
   Paper,
+  Stack,
   Stepper,
 } from '@mantine/core'
 import { React, useState } from 'react'
@@ -13,6 +14,7 @@ import CartDetails from './CartDetails'
 import ShippingDetails from './ShippingDetails'
 import PaymentDetails from './PaymentDetails'
 import OrderConfirmation from './OrderConfirmation'
+import Link from 'next/link'
 
 const StepIcon = ({ active, completed, icon }) => {
   const bgColor = completed ? 'green' : 'transparent'
@@ -135,17 +137,29 @@ const ViewCart = () => {
             </Grid.Col>
             <Grid.Col sm={4} pb={'xl'}>
               <CartDetails />
-              <Button
-                fullWidth
-                mb={'xl'}
-                style={{
-                  backgroundColor: '#62A82C',
-                  color: '#fff',
-                }}
-                onClick={() => setActive(2)}
-              >
-                <Center>Proceed to Payment</Center>
-              </Button>
+              <Stack spacing={'xs'} mb={'xl'}>
+                <Button
+                  fullWidth
+                  style={{
+                    backgroundColor: '#62A82C',
+                    color: '#fff',
+                  }}
+                  onClick={() => setActive(2)}
+                >
+                  <Center>Proceed to Payment</Center>
+                </Button>
+                <Button
+                  fullWidth
+                  style={{
+                    border: '1px solid #62A82C',
+                    color: '#62A82C',
+                    backgroundColor: '#fff',
+                  }}
+                  onClick={() => setActive(0)}
+                >
+                  <Center>Back to Cart</Center>
+                </Button>
+              </Stack>
             </Grid.Col>
           </Grid>
         </Stepper.Step>
@@ -162,36 +176,41 @@ const ViewCart = () => {
             </Grid.Col>
             <Grid.Col sm={4} pb={'xl'}>
               <CartDetails />
-              <Button
-                fullWidth
-                mb={'xl'}
-                style={{
-                  backgroundColor: '#62A82C',
-                  color: '#fff',
-                }}
-                onClick={() => setActive(3)}
-              >
-                <Center>Review Order</Center>
-              </Button>
+              <Stack mb={'xl'} spacing={'xs'}>
+                <Link href={'/customer/checkout'}>
+                  <Button
+                    fullWidth
+                    style={{
+                      backgroundColor: '#62A82C',
+                      color: '#fff',
+                    }}
+                  >
+                    <Center>Review Order</Center>
+                  </Button>
+                </Link>
+                <Button
+                  fullWidth
+                  style={{
+                    border: '1px solid #62A82C',
+                    color: '#62A82C',
+                    backgroundColor: '#fff',
+                  }}
+                  onClick={() => setActive(1)}
+                >
+                  <Center>Back to Details</Center>
+                </Button>
+              </Stack>
             </Grid.Col>
           </Grid>
         </Stepper.Step>
-        <Stepper.Step
+        {/* <Stepper.Step
           style={{
             backgroundColor: active >= 3 ? '#62A82C' : '#bfe6a1',
             transition: 'all 0.7s ease',
           }}
-          label="4. Reviews"
-        >
-          <Grid>
-            <Grid.Col sm={8}>
-              <OrderConfirmation />
-            </Grid.Col>
-            <Grid.Col sm={4} pb={'xl'}>
-              <CartDetails />
-            </Grid.Col>
-          </Grid>
-        </Stepper.Step>
+          label="4. Checkout"
+          disabled={true}
+        ></Stepper.Step> */}
       </Stepper>
     </Container>
   )
