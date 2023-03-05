@@ -14,11 +14,13 @@ import {
   Text,
   createStyles,
 } from '@mantine/core'
+import Link from 'next/link'
 import React, { useState } from 'react'
 import { AiOutlineCheckCircle, AiTwotoneCheckCircle } from 'react-icons/ai'
 import { BiPackage } from 'react-icons/bi'
 import { BsBagCheckFill, BsCheckCircleFill, BsTruck } from 'react-icons/bs'
 import { FaGifts } from 'react-icons/fa'
+import ProductReview from './ProductReview'
 
 const useStyles = createStyles(() => ({
   customText: {
@@ -46,6 +48,7 @@ const useStyles = createStyles(() => ({
 const OrderDetails = () => {
   const [active, setActive] = useState(1)
   const { classes } = useStyles()
+  const [opened, setOpened] = useState(false)
 
   const items = [
     {
@@ -126,7 +129,12 @@ const OrderDetails = () => {
             Order Details
           </Text>
         </Group>
-        <Button variant="light" c={'#62A82C'}>
+        <Button
+          variant="light"
+          c={'#62A82C'}
+          component={Link}
+          href={'/customer/products'}
+        >
           Order Again
         </Button>
       </Group>
@@ -221,7 +229,14 @@ const OrderDetails = () => {
                   </Text>
                 </Group>
 
-                <Button variant="light" c={'#62A82C'} mr={'lg'}>
+                <Button
+                  variant="light"
+                  c={'#62A82C'}
+                  mr={'lg'}
+                  onClick={() => {
+                    setOpened(true)
+                  }}
+                >
                   <Text weight={400}>Write a Review</Text>
                 </Button>
               </Group>
@@ -273,6 +288,8 @@ const OrderDetails = () => {
           </Paper>
         </Grid.Col>
       </Grid>
+
+      <ProductReview opened={opened} setOpened={setOpened} />
     </>
   )
 }
