@@ -153,7 +153,7 @@ const DashboardItems = () => {
           </Stack>
         </Paper>
       </Grid.Col>
-      <Grid.Col md={!match768 ? 9 : 12}>
+      <Grid.Col md={!match768 ? 9 : 12} pl={'xl'}>
         {active === 'orders' ? (
           <Orders />
         ) : active === 'wishlist' ? (
