@@ -299,7 +299,9 @@ const HeaderMenu = ({ children }) => {
             )}
             {/* User and Cart */}
             <Group>
-              <Avatar radius="xl" />
+              <Link href={'/customer/dashboard'}>
+                <Avatar radius="xl" />
+              </Link>
               <Cart />
             </Group>
           </Group>
