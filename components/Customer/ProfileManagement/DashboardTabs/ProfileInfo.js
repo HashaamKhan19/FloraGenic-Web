@@ -1,16 +1,22 @@
 import {
   ActionIcon,
   Avatar,
+  Box,
   Button,
   Center,
+  Grid,
   Group,
+  Input,
   Modal,
   Paper,
+  SimpleGrid,
   Stack,
   Text,
+  TextInput,
   Tooltip,
   createStyles,
 } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
 import { React, useState } from 'react'
 import { AiOutlineEye } from 'react-icons/ai'
 import { BsFillPersonFill } from 'react-icons/bs'
@@ -25,17 +31,21 @@ const useStyles = createStyles(() => ({
     color: 'gray',
     fontWeight: 400,
     fontSize: '14px',
+    maxWidth: '230px',
   },
 }))
 
 const ProfileInfo = () => {
   const { classes } = useStyles()
+  const match600 = useMediaQuery('(max-width: 600px)')
+  const match1000 = useMediaQuery('(max-width: 1100px)')
 
   const [opened, setOpened] = useState(false)
+  const [editOpened, setEditOpened] = useState(false)
 
   return (
     <>
-      <Group position="apart">
+      <Group position="apart" mt={match1000 ? 'xl' : '0'}>
         <Group spacing={'xs'}>
           <BsFillPersonFill size={22} color="#62A82C" />
           <Text
@@ -49,37 +59,61 @@ const ProfileInfo = () => {
           </Text>
         </Group>
 
-        <Button variant="light" c={'#62A82C'}>
+        <Button
+          variant="light"
+          c={'#62A82C'}
+          onClick={() => setEditOpened(true)}
+        >
           <Text weight={400}>Edit Profile</Text>
         </Button>
       </Group>
 
-      <Paper p={'md'} mt={'xl'}>
-        <Group position="apart" spacing={'xl'}>
-          <Avatar size={'lg'} radius={'xl'} src="https://i.pravatar.cc/300" />
-          <Stack spacing={'xs'}>
-            <Text className={classes.title}>Username</Text>
-            <Text className={classes.text}>Hashaam Khan</Text>
-          </Stack>
-          <Stack spacing={'xs'}>
-            <Text className={classes.title}>Email Address</Text>
-            <Text className={classes.text}>Hashaamkhan4247@gmail.com</Text>
-          </Stack>
-          <Stack spacing={'xs'}>
-            <Text className={classes.title}>Total Orders</Text>
-            <Text className={classes.text}>420</Text>
-          </Stack>
-          <Stack spacing={'xs'}>
-            <Text className={classes.title}>Awaiting Delivery</Text>
-            <Text className={classes.text}>69</Text>
-          </Stack>
-          <Tooltip label="View Details">
-            <ActionIcon onClick={() => setOpened(true)}>
-              <AiOutlineEye size={28} color="#62A" />
-            </ActionIcon>
-          </Tooltip>
-        </Group>
-      </Paper>
+      <Grid>
+        <Grid.Col md={7}>
+          <Paper p={'lg'} mt={'xl'} shadow="xs" radius={'md'}>
+            <Group position="apart">
+              <Avatar
+                size={'lg'}
+                radius={'xl'}
+                src="https://i.pravatar.cc/300"
+              />
+              {!match600 && (
+                <Stack spacing={'xs'}>
+                  <Text className={classes.title}>Username</Text>
+                  <Text className={classes.text} truncate>
+                    Hashaam Khan
+                  </Text>
+                </Stack>
+              )}
+              {match600 && (
+                <ActionIcon onClick={() => setOpened(true)}>
+                  <AiOutlineEye size={22} color="#62A" />
+                </ActionIcon>
+              )}
+              <Stack spacing={'xs'}>
+                <Text className={classes.title}>Email Address</Text>
+                <Text className={classes.text} truncate>
+                  hashaamkhan4247@gmail.com
+                </Text>
+              </Stack>
+            </Group>
+          </Paper>
+        </Grid.Col>
+        <Grid.Col md={5}>
+          <Paper p={'lg'} mt={'xl'} shadow="xs" radius={'md'}>
+            <Group position="apart">
+              <Stack spacing={'xs'}>
+                <Text className={classes.title}>Total Orders</Text>
+                <Text className={classes.text}>69</Text>
+              </Stack>
+              <Stack spacing={'xs'}>
+                <Text className={classes.title}>Total Spent</Text>
+                <Text className={classes.text}>$ 420</Text>
+              </Stack>
+            </Group>
+          </Paper>
+        </Grid.Col>
+      </Grid>
 
       <Modal
         opened={opened}
@@ -89,6 +123,7 @@ const ProfileInfo = () => {
         transitionDuration={700}
         transitionTimingFunction="ease"
         exitTransitionDuration={700}
+        centered
       >
         <Stack>
           <Center mb={'xl'}>
@@ -111,6 +146,46 @@ const ProfileInfo = () => {
             <Text className={classes.text}>69</Text>
           </Group>
         </Stack>
+      </Modal>
+
+      <Modal
+        opened={editOpened}
+        onClose={() => setEditOpened(false)}
+        title="Edit Profile"
+        transition={'fade'}
+        transitionDuration={700}
+        transitionTimingFunction="ease"
+        exitTransitionDuration={700}
+        centered
+      >
+        <TextInput
+          label="Username"
+          styles={(theme) => ({
+            input: {
+              '&:focus-within': {
+                borderColor: theme.colors.green[7],
+              },
+            },
+          })}
+        />
+        <TextInput
+          label="Email"
+          styles={(theme) => ({
+            input: {
+              '&:focus-within': {
+                borderColor: theme.colors.green[7],
+              },
+            },
+          })}
+        />
+        <Group position="right" pt={'sm'}>
+          <Button bg={'dark'} onClick={() => setEditOpened(false)}>
+            <Text weight={400}>Cancel</Text>
+          </Button>
+          <Button bg={'#62A82C'}>
+            <Text weight={400}>Save</Text>
+          </Button>
+        </Group>
       </Modal>
     </>
   )
