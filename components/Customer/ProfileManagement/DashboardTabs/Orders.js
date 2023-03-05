@@ -4,6 +4,7 @@ import {
   Avatar,
   Badge,
   Box,
+  Burger,
   Group,
   Pagination,
   Paper,
@@ -17,9 +18,11 @@ import Link from 'next/link'
 import { React, useState } from 'react'
 import { BsArrowRight, BsBagCheckFill } from 'react-icons/bs'
 import OrderDetails from './OrderDetails'
+import { useMediaQuery } from '@mantine/hooks'
 
 const Orders = () => {
   const [orderDetails, setOrderDetails] = useState(false)
+  const match768 = useMediaQuery('(max-width: 768px)')
 
   const data = [
     {

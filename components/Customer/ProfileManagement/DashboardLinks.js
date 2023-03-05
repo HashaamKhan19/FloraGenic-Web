@@ -1,9 +1,12 @@
 import {
+  ActionIcon,
   Box,
+  Burger,
   Button,
   Center,
   Grid,
   Group,
+  Modal,
   Paper,
   SegmentedControl,
   Stack,
@@ -16,7 +19,7 @@ import { useMediaQuery } from '@mantine/hooks'
 import { useState } from 'react'
 import { AiOutlineUser } from 'react-icons/ai'
 import { BiMap } from 'react-icons/bi'
-import { BsBagCheck, BsBookmarkHeart } from 'react-icons/bs'
+import { BsBagCheck, BsBookmarkHeart, BsThreeDots } from 'react-icons/bs'
 import { MdOutlinePayment } from 'react-icons/md'
 import Orders from './DashboardTabs/Orders'
 import Wishlist from './DashboardTabs/Wishlist'
@@ -25,6 +28,7 @@ import Address from './DashboardTabs/Address'
 import Payment from './DashboardTabs/Payment'
 import { useRouter } from 'next/router'
 import OrderDetails from './DashboardTabs/OrderDetails'
+import MobileDashboard from './MobileDashboard'
 
 const useStyles = createStyles(() => ({
   title: {
@@ -59,6 +63,8 @@ const DashboardLinks = () => {
   const match768 = useMediaQuery('(max-width: 768px)')
   const [active, setActive] = useState('orders')
 
+  const [opened, setOpened] = useState(false)
+
   const { classes } = useStyles()
 
   const handleButtonClick = (buttonName) => {
@@ -68,7 +74,32 @@ const DashboardLinks = () => {
   const orderDetails = false
 
   return (
-    <Grid py={'xl'}>
+    <Grid py={match768 ? 'md' : 'xl'}>
+      {match768 && (
+        <Paper
+          style={{ width: '100%' }}
+          px={'xs'}
+          mb={'xl'}
+          mx={'lg'}
+          withBorder
+        >
+          <Group>
+            <Text pl={'xs'}>User Dashboard</Text>
+            <ActionIcon
+              variant="transparent"
+              color="gray"
+              size="lg"
+              style={{ marginLeft: 'auto' }}
+            >
+              <Burger
+                color="#62A82C"
+                size={'sm'}
+                onClick={() => setOpened(true)}
+              />
+            </ActionIcon>
+          </Group>
+        </Paper>
+      )}
       <Grid.Col md={3} hidden={match768 ? true : false}>
         <Paper p={'xl'} shadow="xs">
           <Text className={classes.title}>DASHBOARD</Text>
@@ -80,8 +111,8 @@ const DashboardLinks = () => {
               }`}
               onClick={() => handleButtonClick('orders')}
             >
-              <Group position="apart">
-                <Group spacing={'xs'}>
+              <Group position="apart" noWrap>
+                <Group spacing={'xs'} noWrap>
                   <BsBagCheck />
                   <Text>Orders</Text>
                 </Group>
@@ -95,8 +126,8 @@ const DashboardLinks = () => {
               }`}
               onClick={() => handleButtonClick('wishlist')}
             >
-              <Group position="apart">
-                <Group spacing={'xs'}>
+              <Group position="apart" noWrap>
+                <Group spacing={'xs'} noWrap>
                   <BsBookmarkHeart />
                   <Text>WishList</Text>
                 </Group>
@@ -116,8 +147,8 @@ const DashboardLinks = () => {
               }`}
               onClick={() => handleButtonClick('profile')}
             >
-              <Group position="apart">
-                <Group spacing={'xs'}>
+              <Group position="apart" noWrap>
+                <Group spacing={'xs'} noWrap>
                   <AiOutlineUser />
                   <Text>Profile Info</Text>
                 </Group>
@@ -130,8 +161,8 @@ const DashboardLinks = () => {
               }`}
               onClick={() => handleButtonClick('addresses')}
             >
-              <Group position="apart">
-                <Group spacing={'xs'}>
+              <Group position="apart" noWrap>
+                <Group spacing={'xs'} noWrap>
                   <BiMap />
                   <Text>Addresses</Text>
                 </Group>
@@ -145,8 +176,8 @@ const DashboardLinks = () => {
               }`}
               onClick={() => handleButtonClick('payment')}
             >
-              <Group position="apart">
-                <Group spacing={'xs'}>
+              <Group position="apart" noWrap>
+                <Group spacing={'xs'} noWrap>
                   <MdOutlinePayment />
                   <Text>Payment Methods</Text>
                 </Group>
@@ -175,6 +206,22 @@ const DashboardLinks = () => {
           <Address />
         )}
       </Grid.Col>
+
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        transition={'fade'}
+        transitionDuration={700}
+        transitionTimingFunction="ease"
+        exitTransitionDuration={700}
+      >
+        <MobileDashboard
+          active={active}
+          setActive={setActive}
+          opened={opened}
+          setOpened={setOpened}
+        />
+      </Modal>
     </Grid>
   )
 }

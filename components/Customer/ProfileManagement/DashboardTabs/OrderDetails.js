@@ -1,6 +1,8 @@
 import {
+  ActionIcon,
   Badge,
   Box,
+  Burger,
   Button,
   Divider,
   Grid,
@@ -21,6 +23,7 @@ import { BiPackage } from 'react-icons/bi'
 import { BsBagCheckFill, BsCheckCircleFill, BsTruck } from 'react-icons/bs'
 import { FaGifts } from 'react-icons/fa'
 import ProductReview from './ProductReview'
+import { useMediaQuery } from '@mantine/hooks'
 
 const useStyles = createStyles(() => ({
   customText: {
@@ -49,6 +52,8 @@ const OrderDetails = () => {
   const [active, setActive] = useState(1)
   const { classes } = useStyles()
   const [opened, setOpened] = useState(false)
+
+  const match768 = useMediaQuery('(max-width: 768px)')
 
   const items = [
     {
