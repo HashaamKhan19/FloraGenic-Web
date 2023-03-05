@@ -10,14 +10,11 @@ import {
   Stack,
   Box,
 } from '@mantine/core'
-import { IconHeart, IconBookmark, IconShare } from '@tabler/icons'
 import { FiHeart } from 'react-icons/fi'
 import { MdOutlineAddShoppingCart } from 'react-icons/md'
-import { TbShoppingCartPlus } from 'react-icons/tb'
 
 const useStyles = createStyles((theme) => ({
   title: {
-    // fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontSize: 18,
   },
 
@@ -30,7 +27,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export default function ProductCard() {
+export default function ProductCard({ heart }) {
   const { classes, theme } = useStyles()
 
   return (
@@ -129,10 +126,26 @@ export default function ProductCard() {
             733 people bought this
           </Text>
           <Group spacing={'xs'}>
-            <ActionIcon color="red" variant="subtle">
-              <FiHeart size={18} />
-            </ActionIcon>
-            <ActionIcon color="blue" variant="subtle">
+            {!heart && (
+              <ActionIcon
+                color="red"
+                variant="subtle"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  e.preventDefault()
+                }}
+              >
+                <FiHeart size={18} />
+              </ActionIcon>
+            )}
+            <ActionIcon
+              color="blue"
+              variant="subtle"
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+              }}
+            >
               <MdOutlineAddShoppingCart size={16} stroke={1.5} />
             </ActionIcon>
           </Group>
