@@ -23,6 +23,8 @@ import Wishlist from './DashboardTabs/Wishlist'
 import ProfileInfo from './DashboardTabs/ProfileInfo'
 import Address from './DashboardTabs/Address'
 import Payment from './DashboardTabs/Payment'
+import { useRouter } from 'next/router'
+import OrderDetails from './DashboardTabs/OrderDetails'
 
 const useStyles = createStyles(() => ({
   title: {
@@ -53,7 +55,7 @@ const useStyles = createStyles(() => ({
   },
 }))
 
-const DashboardItems = () => {
+const DashboardLinks = () => {
   const match768 = useMediaQuery('(max-width: 768px)')
   const [active, setActive] = useState('orders')
 
@@ -62,6 +64,8 @@ const DashboardItems = () => {
   const handleButtonClick = (buttonName) => {
     setActive(buttonName)
   }
+
+  const orderDetails = false
 
   return (
     <Grid py={'xl'}>
@@ -117,7 +121,6 @@ const DashboardItems = () => {
                   <AiOutlineUser />
                   <Text>Profile Info</Text>
                 </Group>
-                {/* <Text>3</Text> */}
               </Group>
             </UnstyledButton>
 
@@ -155,7 +158,11 @@ const DashboardItems = () => {
       </Grid.Col>
       <Grid.Col md={!match768 ? 9 : 12} pl={'xl'}>
         {active === 'orders' ? (
-          <Orders />
+          orderDetails ? (
+            <OrderDetails />
+          ) : (
+            <Orders />
+          )
         ) : active === 'wishlist' ? (
           <Wishlist />
         ) : active === 'profile' ? (
@@ -171,4 +178,4 @@ const DashboardItems = () => {
     </Grid>
   )
 }
-export default DashboardItems
+export default DashboardLinks
