@@ -84,7 +84,17 @@ const DashboardLinks = () => {
           withBorder
         >
           <Group>
-            <Text pl={'xs'}>User Dashboard</Text>
+            <Group spacing={0}>
+              <AiOutlineUser size={'1.2rem'} />
+              <Text
+                pl={'xs'}
+                style={{
+                  color: 'darkslategray',
+                }}
+              >
+                User Dashboard
+              </Text>
+            </Group>
             <ActionIcon
               variant="transparent"
               color="gray"

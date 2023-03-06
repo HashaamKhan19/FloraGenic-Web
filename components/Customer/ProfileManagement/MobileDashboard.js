@@ -43,8 +43,6 @@ const useStyles = createStyles(() => ({
 }))
 
 const MobileDashboard = ({ active, setActive, opened, setOpened }) => {
-  //   const [active, setActive] = useState(active)
-
   const { classes } = useStyles()
 
   const handleButtonClick = (buttonName) => {
