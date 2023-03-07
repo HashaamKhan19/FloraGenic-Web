@@ -24,6 +24,7 @@ import { BsBagCheckFill, BsCheckCircleFill, BsTruck } from 'react-icons/bs'
 import { FaGifts } from 'react-icons/fa'
 import ProductReview from './ProductReview'
 import { useMediaQuery } from '@mantine/hooks'
+import { HiOutlineDownload } from 'react-icons/hi'
 
 const useStyles = createStyles(() => ({
   customText: {
@@ -141,7 +142,7 @@ const OrderDetails = () => {
           component={Link}
           href={'/customer/products'}
         >
-          Order Again
+          <Text weight={400}>Order Again</Text>
         </Button>
       </Group>
 
@@ -263,6 +264,17 @@ const OrderDetails = () => {
               </Text>
             </Stack>
           </Paper>
+          <Group position="right" mt={'md'}>
+            <Button
+              leftIcon={<HiOutlineDownload size={20} />}
+              style={{
+                backgroundColor: '#62A82C',
+                color: 'White',
+              }}
+            >
+              Export Data to CSV
+            </Button>
+          </Group>
         </Grid.Col>
         <Grid.Col md={6}>
           <Paper mt={'xl'} radius={'md'} withBorder p={'xl'}>

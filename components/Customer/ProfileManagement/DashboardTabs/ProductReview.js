@@ -21,9 +21,33 @@ const ProductReview = ({ opened, setOpened }) => {
           placeholder="Write your review here"
           required
           style={{ width: '100%' }}
+          styles={{
+            input: {
+              '&:focus-within': {
+                borderColor: '#62A82C',
+              },
+            },
+          }}
         />
         <Group position="right">
-          <Button variant="outline" color="green" mt={'xs'}>
+          <Button
+            style={{
+              backgroundColor: '#111',
+              color: 'white',
+            }}
+            mt={'xs'}
+            onClick={() => {
+              setOpened(false)
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              backgroundColor: '#62A82C',
+            }}
+            mt={'xs'}
+          >
             Submit
           </Button>
         </Group>
