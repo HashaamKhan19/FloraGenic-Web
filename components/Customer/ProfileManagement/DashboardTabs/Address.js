@@ -58,13 +58,15 @@ const Address = () => {
                   justifyContent: 'space-between',
                 }}
               >
-                <Text maw={100} truncate>
+                <Text maw={100} truncate color="darkslategray">
                   {address.name}
                 </Text>
-                <Text truncate maw={200}>
+                <Text truncate maw={200} color="darkslategray">
                   {address.address}
                 </Text>
-                <Text hidden={match768 ? true : false}>{address.phone}</Text>
+                <Text hidden={match768 ? true : false} color="darkslategray">
+                  {address.phone}
+                </Text>
               </Group>
             </Grid.Col>
             <Grid.Col span={4}>
@@ -130,6 +132,7 @@ const Address = () => {
               backgroundColor: '#111',
               color: 'white',
             }}
+            onClick={() => setOpened(false)}
           >
             Cancel
           </Button>
