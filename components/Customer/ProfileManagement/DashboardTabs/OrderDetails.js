@@ -54,6 +54,7 @@ const OrderDetails = () => {
   const [opened, setOpened] = useState(false)
 
   const match768 = useMediaQuery('(max-width: 768px)')
+  const match550 = useMediaQuery('(max-width: 550px)')
 
   const items = [
     {
@@ -220,7 +221,7 @@ const OrderDetails = () => {
                   </Stack>
                 </Group>
 
-                <Group>
+                <Group hidden={match768 ? true : false}>
                   <Text className={classes.customText3}>
                     Product Category:{' '}
                   </Text>
@@ -234,16 +235,18 @@ const OrderDetails = () => {
                   </Text>
                 </Group>
 
-                <Button
-                  variant="light"
-                  c={'#62A82C'}
-                  mr={'lg'}
-                  onClick={() => {
-                    setOpened(true)
-                  }}
-                >
-                  <Text weight={400}>Write a Review</Text>
-                </Button>
+                <Group ml={match550 ? 'xl' : 0}>
+                  <Button
+                    variant="light"
+                    c={'#62A82C'}
+                    mr={'lg'}
+                    onClick={() => {
+                      setOpened(true)
+                    }}
+                  >
+                    <Text weight={400}>Write a Review</Text>
+                  </Button>
+                </Group>
               </Group>
             </Paper>
           )

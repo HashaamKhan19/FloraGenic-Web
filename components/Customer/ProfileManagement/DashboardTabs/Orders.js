@@ -56,7 +56,13 @@ const Orders = () => {
   ]
 
   const rows = data.map((item) => (
-    <tr key={item.id}>
+    <tr
+      key={item.id}
+      onClick={() => setOrderDetails(true)}
+      style={{
+        cursor: 'pointer',
+      }}
+    >
       <td>
         <Text
           style={{
