@@ -50,6 +50,7 @@ const GardenerInfoCard = () => {
           }}
           my={'xl'}
           className={classes.card}
+          key={gardener.id}
         >
           <Badge
             variant="dot"

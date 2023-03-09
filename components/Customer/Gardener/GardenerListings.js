@@ -123,6 +123,11 @@ export default function GardenerListings() {
         </Box>
         <ByRatings />
         <ByAvailability />
+        <Box pl={8} pt={'lg'}>
+          <Button disabled fullWidth>
+            Clear Filters
+          </Button>
+        </Box>
       </Modal>
     </Container>
   )
