@@ -179,10 +179,21 @@ const ProfileInfo = () => {
           })}
         />
         <Group position="right" pt={'sm'}>
-          <Button bg={'dark'} onClick={() => setEditOpened(false)}>
+          <Button
+            style={{
+              backgroundColor: '#000',
+              color: '#fff',
+            }}
+            onClick={() => setEditOpened(false)}
+          >
             <Text weight={400}>Cancel</Text>
           </Button>
-          <Button bg={'#62A82C'}>
+          <Button
+            style={{
+              backgroundColor: '#62A82C',
+              color: '#fff',
+            }}
+          >
             <Text weight={400}>Save</Text>
           </Button>
         </Group>

@@ -4,6 +4,7 @@ import {
   Grid,
   Group,
   Input,
+  Modal,
   Pagination,
   SimpleGrid,
   Text,
@@ -12,11 +13,13 @@ import { useMediaQuery } from '@mantine/hooks'
 import Filter from '../../Filters/Filter'
 import ProductCard from '../../Cards/ProductCard'
 import { BiSearch } from 'react-icons/bi'
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 
 const ProductListings = () => {
   const match1200 = useMediaQuery('(max-width: 1200px)')
+
+  const [opened, setOpened] = useState(false)
 
   return (
     <Container size={'xl'} pb={'xl'}>
@@ -97,6 +100,17 @@ const ProductListings = () => {
           </Group>
         </Grid.Col>
       </Grid>
+
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        transition={'fade'}
+        transitionDuration={700}
+        transitionTimingFunction="ease"
+        exitTransitionDuration={700}
+      >
+        <Filter />
+      </Modal>
     </Container>
   )
 }
