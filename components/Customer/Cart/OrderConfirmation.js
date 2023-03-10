@@ -74,30 +74,34 @@ const OrderConfirmation = () => {
                 }}
               >
                 <Stack spacing={5} py={'xs'} pl={'lg'}>
-                  <Text>Home</Text>
-                  <Text className={classes.normalText}>
-                    Zaki Center, i8, Islamabad
-                  </Text>
-                  <Text className={classes.normalText}>+9212312312</Text>
-                </Stack>
+                  <Group spacing={'xs'} noWrap>
+                    <Text
+                      weight={425}
+                      style={{
+                        color: 'darkslategray',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Address:{' '}
+                    </Text>
+                    <Text className={classes.normalText}>
+                      Zaki Center, i8, Islamabad
+                    </Text>
+                  </Group>
 
-                <Group
-                  spacing={'xs'}
-                  style={{
-                    position: 'absolute',
-                    top: '10px',
-                    right: '10px',
-                  }}
-                >
-                  <ActionIcon
-                    variant="light"
-                    color="blue"
-                    radius={'lg'}
-                    size={'lg'}
-                  >
-                    <MdOutlineModeEditOutline size={20} />
-                  </ActionIcon>
-                </Group>
+                  <Group spacing={'xs'} noWrap>
+                    <Text
+                      weight={425}
+                      style={{
+                        color: 'darkslategray',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Phone Number:{' '}
+                    </Text>
+                    <Text className={classes.normalText}>+9212312312</Text>
+                  </Group>
+                </Stack>
               </Paper>
             </Paper>
 
@@ -140,30 +144,48 @@ const OrderConfirmation = () => {
                 }}
               >
                 <Stack spacing={5} py={'xs'} pl={'lg'}>
-                  <Text>Home</Text>
-                  <Text className={classes.normalText}>
-                    Zaki Center, i8, Islamabad
+                  <Text weight={500} italic>
+                    Via Card
                   </Text>
-                  <Text className={classes.normalText}>+9212312312</Text>
+                  <Group spacing={'xs'} noWrap>
+                    <Text
+                      weight={425}
+                      style={{
+                        color: 'darkslategray',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Card Number:{' '}
+                    </Text>
+                    <Text className={classes.normalText}>
+                      1234 1234 1234 1234
+                    </Text>
+                  </Group>
+                  <Group spacing={'xs'} noWrap>
+                    <Text
+                      weight={425}
+                      style={{
+                        color: 'darkslategray',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Expiry Date:{' '}
+                    </Text>
+                    <Text className={classes.normalText}>12/22</Text>
+                  </Group>
+                  <Group spacing={'xs'} noWrap>
+                    <Text
+                      weight={425}
+                      style={{
+                        color: 'darkslategray',
+                        fontSize: '14px',
+                      }}
+                    >
+                      CVV:{' '}
+                    </Text>
+                    <Text className={classes.normalText}>123</Text>
+                  </Group>
                 </Stack>
-
-                <Group
-                  spacing={'xs'}
-                  style={{
-                    position: 'absolute',
-                    top: '10px',
-                    right: '10px',
-                  }}
-                >
-                  <ActionIcon
-                    variant="light"
-                    color="blue"
-                    radius={'lg'}
-                    size={'lg'}
-                  >
-                    <MdOutlineModeEditOutline size={20} />
-                  </ActionIcon>
-                </Group>
               </Paper>
             </Paper>
           </Stack>

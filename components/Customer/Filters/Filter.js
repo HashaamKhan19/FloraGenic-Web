@@ -4,24 +4,21 @@ import { useState } from 'react'
 import ByPrice from './FilterTypes/ByPrice'
 import ByRatings from './FilterTypes/ByRatings'
 import { useMediaQuery } from '@mantine/hooks'
+import ByCity from './FilterTypes/ByCity'
 
 const Filter = () => {
   const [navlinkOpened, setNavLinkOpened] = useState(true)
   const match1200 = useMediaQuery('(max-width: 1200px)')
 
   return (
-    <Box
-      style={{
-        padding: match1200 ? 20 : 0,
-      }}
-    >
+    <>
       <Paper
         mt={'xs'}
         pb={match1200 ? 0 : 'xl'}
         withBorder={match1200 ? false : true}
-        w={'auto'}
+        // w={'auto'}
       >
-        {match1200 && (
+        {/* {match1200 && (
           <Text
             style={{
               fontSize: 20,
@@ -30,7 +27,7 @@ const Filter = () => {
           >
             Advance Filters
           </Text>
-        )}
+        )} */}
         {!match1200 && (
           <Button
             style={{
@@ -86,7 +83,7 @@ const Filter = () => {
           </Group>
         )}
       </Paper>
-    </Box>
+    </>
   )
 }
 
