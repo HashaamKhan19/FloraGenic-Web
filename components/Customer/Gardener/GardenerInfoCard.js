@@ -117,6 +117,10 @@ const GardenerInfoCard = () => {
                         }}
                       />
                     }
+                    onClick={(e) => {
+                      e.preventDefault()
+                      // e.stopPropagation()
+                    }}
                   >
                     Skills
                   </Badge>

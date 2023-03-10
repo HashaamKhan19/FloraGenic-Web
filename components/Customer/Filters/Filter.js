@@ -18,16 +18,6 @@ const Filter = () => {
         withBorder={match1200 ? false : true}
         // w={'auto'}
       >
-        {/* {match1200 && (
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: 'bold',
-            }}
-          >
-            Advance Filters
-          </Text>
-        )} */}
         {!match1200 && (
           <Button
             style={{

@@ -108,6 +108,7 @@ const ProductListings = () => {
         transitionDuration={700}
         transitionTimingFunction="ease"
         exitTransitionDuration={700}
+        size={match1200 ? 'xs' : ''}
         centered
       >
         <Filter />
