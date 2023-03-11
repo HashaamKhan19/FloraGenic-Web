@@ -91,12 +91,12 @@ export default function NurseryCard() {
           mt={'lg'}
         >
           <Button
-            variant="filled"
-            style={{
-              backgroundColor: '#bfe6a1',
-              color: '#62A82C',
-            }}
             fullWidth
+            color="green"
+            style={{
+              backgroundColor: '#62A82C',
+              color: '#fff',
+            }}
           >
             Contact Nursery
           </Button>

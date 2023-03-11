@@ -10,14 +10,11 @@ import {
   Stack,
   Box,
 } from '@mantine/core'
-import { IconHeart, IconBookmark, IconShare } from '@tabler/icons'
 import { FiHeart } from 'react-icons/fi'
 import { MdOutlineAddShoppingCart } from 'react-icons/md'
-import { TbShoppingCartPlus } from 'react-icons/tb'
 
 const useStyles = createStyles((theme) => ({
   title: {
-    // fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontSize: 18,
   },
 
@@ -30,7 +27,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export default function ProductCard() {
+export default function ProductCard({ heart }) {
   const { classes, theme } = useStyles()
 
   return (
@@ -39,7 +36,7 @@ export default function ProductCard() {
       p="lg"
       radius="md"
       sx={{
-        maxHeight: 500,
+        maxHeight: 400,
       }}
     >
       <Card.Section mb="sm">
@@ -48,7 +45,7 @@ export default function ProductCard() {
             'https://images.unsplash.com/photo-1519336056116-bc0f1771dec8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHBsYW50JTIwcG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
           }
           alt="productImage"
-          height={180}
+          height={190}
           style={{
             position: 'relative',
           }}
@@ -129,10 +126,26 @@ export default function ProductCard() {
             733 people bought this
           </Text>
           <Group spacing={'xs'}>
-            <ActionIcon color="red" variant="subtle">
-              <FiHeart size={18} />
-            </ActionIcon>
-            <ActionIcon color="blue" variant="subtle">
+            {!heart && (
+              <ActionIcon
+                color="red"
+                variant="subtle"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  e.preventDefault()
+                }}
+              >
+                <FiHeart size={18} />
+              </ActionIcon>
+            )}
+            <ActionIcon
+              color="blue"
+              variant="subtle"
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+              }}
+            >
               <MdOutlineAddShoppingCart size={16} stroke={1.5} />
             </ActionIcon>
           </Group>

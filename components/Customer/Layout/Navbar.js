@@ -1,26 +1,44 @@
 import {
-    ActionIcon, Avatar, Badge, Burger, Button, Center, Container, createStyles, Divider, Drawer, Group, Header, Menu, Paper, ScrollArea, Text, TextInput, useMantineTheme
+  ActionIcon,
+  Avatar,
+  Badge,
+  Burger,
+  Button,
+  Center,
+  Container,
+  createStyles,
+  Divider,
+  Drawer,
+  Group,
+  Header,
+  Menu,
+  Paper,
+  ScrollArea,
+  Text,
+  TextInput,
+  useMantineTheme,
 } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import Image from 'next/image'
-import Link from 'next/link'
-import { useState } from 'react'
-import { AiOutlineShoppingCart } from 'react-icons/ai'
+import links from './NavbarLinks'
 import { BiHome } from 'react-icons/bi'
 import {
-    BsArrowLeft,
-    BsArrowRight,
-    BsChevronDown,
-    BsFacebook,
-    BsInstagram, BsSearch,
-    BsTwitter
+  BsArrowLeft,
+  BsArrowRight,
+  BsChevronDown,
+  BsFacebook,
+  BsInstagram,
+  BsSearch,
+  BsTwitter,
 } from 'react-icons/bs'
 import { GiGardeningShears } from 'react-icons/gi'
+import Cart from '../Cart/Cart'
+import { AiOutlineShoppingCart } from 'react-icons/ai'
+import Link from 'next/link'
+import { useState } from 'react'
 import { SiHomeassistant } from 'react-icons/si'
 import { TbReportMoney } from 'react-icons/tb'
 import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
-import Cart from '../Generic/Cart'
-import links from '../Generic/NavbarLinks'
 
 const useStyles = createStyles((theme) => ({
   links: {
@@ -141,8 +159,10 @@ const HeaderMenu = ({ children }) => {
   const mobileSearch = useMediaQuery('(max-width: 500px)')
 
   const items = links.map((link) => {
-    const menuItems = link.links?.map((item) => (
-      <Menu.Item key={item.link}>{item.label}</Menu.Item>
+    const menuItems = link.links?.map((item, index) => (
+      <Link href={item.link} key={index}>
+        <Menu.Item key={item.link}>{item.label}</Menu.Item>
+      </Link>
     ))
 
     if (menuItems) {
@@ -156,16 +176,12 @@ const HeaderMenu = ({ children }) => {
           withArrow
         >
           <Menu.Target>
-            <a
-              href={link.link}
-              className={classes.link}
-              onClick={(event) => event.preventDefault()}
-            >
+            <Link href={link.link} className={classes.link}>
               <Center>
                 <span className={classes.linkLabel}>{link.label}</span>
                 <BsChevronDown size={12} stroke={1.5} />
               </Center>
-            </a>
+            </Link>
           </Menu.Target>
           <Menu.Dropdown>{menuItems}</Menu.Dropdown>
         </Menu>
@@ -173,14 +189,9 @@ const HeaderMenu = ({ children }) => {
     }
 
     return (
-      <a
-        key={link.label}
-        href={link.link}
-        className={classes.link}
-        onClick={(event) => event.preventDefault()}
-      >
+      <Link key={link.label} href={link.link} className={classes.link}>
         {link.label}
-      </a>
+      </Link>
     )
   })
 
@@ -277,11 +288,20 @@ const HeaderMenu = ({ children }) => {
                 placeholder="Search query..."
                 rightSectionWidth={42}
                 className={classes.searchBar}
+                styles={(theme) => ({
+                  input: {
+                    '&:focus-within': {
+                      borderColor: theme.colors.green[7],
+                    },
+                  },
+                })}
               />
             )}
             {/* User and Cart */}
             <Group>
-              <Avatar radius="xl" />
+              <Link href={'/customer/dashboard'}>
+                <Avatar radius="xl" />
+              </Link>
               <Cart />
             </Group>
           </Group>
@@ -307,7 +327,7 @@ const HeaderMenu = ({ children }) => {
                     color: 'rgba(0, 0, 0, 0.6)',
                   }}
                 >
-                  List and Sell, Register with us now!
+                  List and Sell. Register now!
                 </Text>
               </Button>
             </Group>

@@ -33,7 +33,9 @@ function MyApp({ Component, pageProps, router }) {
   if (router.pathname.startsWith("/customer")) {
     return (
       <MantineProvider
-        theme={{ fontFamily: "Poppins" }}
+        theme={{
+          fontFamily: 'Poppins',
+        }}
         emotionCache={appendCache}
         withGlobalStyles
         withNormalizeCSS

@@ -13,13 +13,14 @@ import { GiGardeningShears, GiMedicines } from 'react-icons/gi'
 import { MdOutlineGrass } from 'react-icons/md'
 import { BiCategory } from 'react-icons/bi'
 import { useMediaQuery } from '@mantine/hooks'
+import { AiFillCaretRight } from 'react-icons/ai'
 
 const mockdata = [
   { title: 'Plants', icon: RiPlantLine, color: 'green' },
   { title: 'Tools', icon: GiGardeningShears, color: 'yellow' },
   { title: 'Medicine', icon: GiMedicines, color: 'red' },
   { title: 'Decorations', icon: MdOutlineGrass, color: 'green' },
-  { title: 'Seedlings', icon: RiSeedlingLine, color: 'blue' },
+  // { title: 'Seedlings', icon: RiSeedlingLine, color: 'blue' },
 ]
 
 const useStyles = createStyles((theme) => ({
@@ -67,17 +68,30 @@ export default function CategoriesCard() {
 
   return (
     <Container size={'xl'} mt={80}>
-      <Group spacing={'xs'} mb={'lg'} pl={'lg'}>
-        <BiCategory size={26} style={{ color: '#62A82C' }} />
-        <Text
-          style={{
-            fontSize: '26px',
-            color: 'darkslategray',
-            fontWeight: 550,
-          }}
-        >
-          Categories
-        </Text>
+      <Group spacing={'xs'} mb={'lg'} pl={'lg'} position="apart">
+        <Group>
+          <BiCategory size={26} style={{ color: '#62A82C' }} />
+          <Text
+            style={{
+              fontSize: '26px',
+              color: 'darkslategray',
+              fontWeight: 550,
+            }}
+          >
+            Categories
+          </Text>
+        </Group>
+        <Group spacing={2} mr={'lg'}>
+          <Text
+            style={{
+              color: 'darkslategray',
+              fontSize: '14px',
+            }}
+          >
+            View All
+          </Text>
+          <AiFillCaretRight size={16} style={{ color: 'gray' }} />
+        </Group>
       </Group>
       <SimpleGrid cols={match768 ? 2 : 4} mt="md" px={'lg'}>
         {items}

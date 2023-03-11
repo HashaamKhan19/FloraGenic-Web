@@ -31,7 +31,32 @@ export default function HeroCarousel() {
           height: '500px',
           borderRadius: '0px',
         }}
-      ></Paper>
+      >
+        <Carousel
+          sx={{ maxWidth: 320 }}
+          mx="auto"
+          withIndicators
+          styles={{
+            indicator: {
+              width: 12,
+              height: 4,
+              transition: 'width 250ms ease',
+
+              '&[data-active]': {
+                width: 40,
+              },
+            },
+          }}
+          bg={'red'}
+          style={{
+            height: '450px',
+            width: '100%',
+          }}
+        >
+          <Carousel.Slide>1</Carousel.Slide>
+          <Carousel.Slide>2</Carousel.Slide>
+        </Carousel>
+      </Paper>
     </>
   )
 }

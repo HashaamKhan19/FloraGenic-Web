@@ -1,13 +1,20 @@
-import { Avatar, Divider, Drawer, Group, Indicator, Text } from '@mantine/core'
-import { useDisclosure, useMediaQuery } from '@mantine/hooks'
+import {
+  Avatar,
+  Button,
+  Divider,
+  Drawer,
+  Group,
+  Indicator,
+  Stack,
+  Text,
+} from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
 import { useState } from 'react'
 import { BiShoppingBag } from 'react-icons/bi'
 import CartItem from './CartItem'
+import Link from 'next/link'
 
 export default function Cart() {
-  const match768 = useMediaQuery('(min-width: 768px)')
-  const match576 = useMediaQuery('(min-width: 576px)')
-
   const [
     drawerOpened,
     { toggle: toggleDrawer, close: closeDrawer },
@@ -29,14 +36,19 @@ export default function Cart() {
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
-        size={match768 ? '380px' : match576 ? '300px' : null}
+        size={'350px'}
         position="right"
-        padding="lg"
+        // padding={'lg'}
         zIndex={1000000}
         styles={{
-          closeButton: {
-            color: '#62A82C',
+          closeButton: { '& svg': { width: 25, height: 25, color: '#62A82C' } },
+          header: {
+            padding: '1.2rem',
+            marginBottom: 0,
           },
+        }}
+        style={{
+          overflowY: 'hidden',
         }}
         title={
           <Group
@@ -48,8 +60,8 @@ export default function Cart() {
             <BiShoppingBag size={'1.8rem'} color="#62A82C" />
             <Text
               style={{
-                fontSize: '.95rem',
-                fontWeight: 600,
+                fontSize: '.90rem',
+                fontWeight: 550,
               }}
             >
               {shoppingItemsCount} Items
@@ -64,6 +76,44 @@ export default function Cart() {
       >
         <Divider my="sm" />
         <CartItem />
+
+        <Stack
+          style={{
+            position: 'absolute',
+            bottom: 5,
+            left: 0,
+            right: 0,
+            padding: '1rem',
+          }}
+          spacing={'sm'}
+        >
+          <Button
+            style={{
+              backgroundColor: '#62A82C',
+              color: 'white',
+            }}
+          >
+            Checkout Now (Rs. 1000)
+          </Button>
+          <Link
+            href={'/customer/viewCart'}
+            style={{
+              width: '100%',
+            }}
+          >
+            <Button
+              style={{
+                backgroundColor: 'white',
+                color: '#62A82C',
+                border: '1px solid #62A82C',
+                width: '100%',
+              }}
+              onClick={closeDrawer}
+            >
+              View Cart
+            </Button>
+          </Link>
+        </Stack>
       </Drawer>
     </>
   )
