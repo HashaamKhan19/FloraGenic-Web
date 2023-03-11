@@ -7,12 +7,12 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDu1aWudUNTF5uD1ukOE3PzTyPMZdZPHWk",
-  authDomain: "floragenic-999b7.firebaseapp.com",
-  projectId: "floragenic-999b7",
-  storageBucket: "floragenic-999b7.appspot.com",
-  messagingSenderId: "735695415103",
-  appId: "1:735695415103:web:87a2772a9f3a58f6b4958a",
+  apiKey: "AIzaSyDmMW3_PRDRUIn9uH8Ip2bDpPO-4QdIq5I",
+  authDomain: "floragenic-8d08b.firebaseapp.com",
+  projectId: "floragenic-8d08b",
+  storageBucket: "floragenic-8d08b.appspot.com",
+  messagingSenderId: "618445016386",
+  appId: "1:618445016386:web:753783fe3f809f3248ccdb",
 };
 
 // Initialize Firebase

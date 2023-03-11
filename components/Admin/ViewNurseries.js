@@ -59,8 +59,14 @@ const columns = [
     width: 150,
     headerAlign: "center",
     align: "center",
-    renderCell: () => {
-      return <BlockToggle />;
+    renderCell: (params) => {
+      return (
+        <BlockToggle
+          blocked={params.row.bannedStatus}
+          id={params.row.id}
+          type="nursery"
+        />
+      );
     },
   },
   {
