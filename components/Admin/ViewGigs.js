@@ -1,24 +1,54 @@
+import { gql, useQuery } from "@apollo/client";
 import DisplaySettingsIcon from "@mui/icons-material/DisplaySettings";
 import { Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import * as React from "react";
+import placeholder from "../../assets/images/placeholder.png";
 import ActionIcons from "../Generic/ActionIcons";
 import BlockToggle from "../Generic/BlockToggle";
 import Export from "../Generic/Export";
+import LoadingScreen from "../Generic/LoadingScreen";
 import SearchField from "../Generic/SearchField";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
-  { field: "image", headerName: "Image", width: 70 },
   {
-    field: "title",
+    field: "image",
+    headerName: "Image",
+    width: 70,
+    align: "center",
+    renderCell: (params) => {
+      return (
+        <Image
+          src={params?.row?.image || placeholder}
+          alt={"profile"}
+          width={30}
+          height={30}
+          objectFit="cover"
+          style={{
+            borderRadius: "50%",
+            marginRight: 10,
+            border: "1px solid black",
+          }}
+        />
+      );
+    },
+  },
+  {
+    field: "name",
     headerName: "Gig Title",
     width: 150,
   },
-  { field: "owner", headerName: "Gig Owner", width: 280 },
   {
-    field: "status",
+    field: "description",
+    headerName: "Description",
+    minWidth: 200,
+    flex: 1,
+  },
+  {
+    field: "hidden",
     headerName: "Status",
     width: 150,
     headerAlign: "center",
@@ -33,7 +63,8 @@ const columns = [
     width: 150,
     headerAlign: "center",
     align: "center",
-    renderCell: () => {
+    renderCell: (params) => {
+      console.log(params);
       return (
         <ActionIcons
           text={"Are you sure you want to delete this gig?"}
@@ -42,11 +73,24 @@ const columns = [
           }
           viewText={"View Gig Details"}
           type={"gig"}
+          data={params?.row}
         />
       );
     },
   },
 ];
+
+const GET_GIGS = gql`
+  query Query {
+    gigs {
+      id
+      name
+      description
+      image
+      hidden
+    }
+  }
+`;
 
 const rows = [
   {
@@ -60,6 +104,11 @@ const rows = [
 ];
 
 export default function ViewGigs() {
+  const { loading, error, data } = useQuery(GET_GIGS);
+
+  if (loading) return <LoadingScreen />;
+  if (error) return <p>Error</p>;
+
   return (
     <Box
       style={{
@@ -139,7 +188,7 @@ export default function ViewGigs() {
           boxShadow: "0 5px 5px -5px",
           border: "1px solid rgba(0,0,0,0.1)",
         }}
-        rows={rows}
+        rows={data.gigs}
         columns={columns}
         pageSize={7}
         rowsPerPageOptions={[7]}

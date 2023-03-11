@@ -1,29 +1,78 @@
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import Button from '@mui/material/Button'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { gql, useMutation } from "@apollo/client";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import * as React from "react";
+import { useState } from "react";
 
-export default function BlockToggle() {
-  const [status, setStatus] = useState(true)
+const BLOCK_USER = gql`
+  mutation BlockUser($blockUserId: ID!) {
+    blockUser(id: $blockUserId)
+  }
+`;
+
+const BLOCK_NURSERY = gql`
+  mutation NurseryBlock($nurseryBlockId: ID!) {
+    nurseryBlock(id: $nurseryBlockId)
+  }
+`;
+
+export default function BlockToggle({ blocked, id, type }) {
+  const [status, setStatus] = useState(blocked);
+
+  const [blockUser] = useMutation(BLOCK_USER, {
+    variables: { blockUserId: id },
+  });
+
+  const [blockNursery] = useMutation(BLOCK_NURSERY, {
+    variables: { blockUserId: id },
+  });
+
   const [buttonTextColor, setButtonTextColor] = useState(
-    { status } ? 'error' : 'primary',
-  )
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
+    blocked ? "error" : "primary"
+  );
 
-  useEffect(() => {
-    setStatus(!status)
-    setButtonTextColor({ status } ? 'primary' : 'error')
-  }, [])
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+    setAnchorEl(event.currentTarget);
+  };
   const handleClose = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
+
+  const handleBlock = async () => {
+    switch (type) {
+      case "user": {
+        const res = await blockUser();
+        if (res.data.blockUser) {
+          setStatus(!status);
+          setButtonTextColor((prev) => {
+            return prev === "primary" ? "error" : "primary";
+          });
+        } else {
+          alert("Something went wrong");
+        }
+        handleClose();
+        break;
+      }
+      case "nursery": {
+        const res = await blockNursery();
+        if (res.data.blockUser) {
+          setStatus(!status);
+          setButtonTextColor((prev) => {
+            return prev === "primary" ? "error" : "primary";
+          });
+        } else {
+          alert("Something went wrong");
+        }
+        handleClose();
+        break;
+      }
+    }
+  };
 
   return (
     <>
@@ -36,46 +85,38 @@ export default function BlockToggle() {
         }
         size="small"
         sx={{
-          padding: '1px 0',
-          borderWidth: '1px',
-          justifyContent: 'center',
-          fontFamily: 'poppins',
-          fontSize: '10px',
-          maxWidth: '80px',
+          padding: "1px 0",
+          borderWidth: "1px",
+          justifyContent: "center",
+          fontFamily: "poppins",
+          fontSize: "10px",
+          maxWidth: "80px",
           paddingLeft: 1,
         }}
       >
-        {status ? 'Blocked' : 'Active'}
+        {status ? "Blocked" : "Active"}
       </Button>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {status ? (
           <MenuItem
-            onClick={() => {
-              handleClose()
-              setStatus(!status)
-              setButtonTextColor('primary')
-            }}
+            onClick={handleBlock}
             sx={{
-              minWidth: '60px',
-              justifyContent: 'center',
-              maxHeight: '10px',
-              fontSize: '14px',
+              minWidth: "60px",
+              justifyContent: "center",
+              maxHeight: "10px",
+              fontSize: "14px",
             }}
           >
             Unblock
           </MenuItem>
         ) : (
           <MenuItem
-            onClick={() => {
-              handleClose()
-              setStatus(!status)
-              setButtonTextColor('error')
-            }}
+            onClick={handleBlock}
             sx={{
-              minWidth: '65px',
-              justifyContent: 'center',
-              maxHeight: '10px',
-              fontSize: '14px',
+              minWidth: "65px",
+              justifyContent: "center",
+              maxHeight: "10px",
+              fontSize: "14px",
             }}
           >
             Block
@@ -83,5 +124,5 @@ export default function BlockToggle() {
         )}
       </Menu>
     </>
-  )
+  );
 }

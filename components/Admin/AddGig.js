@@ -15,22 +15,19 @@ import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzo
 import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 
 const ADD_GIG = gql`
-  mutation GigCreate($data: GigCreateInput!) {
-    gigCreate(data: $data) {
+  mutation Mutation($input: GigCreateInput!) {
+    gigCreate(input: $input) {
       id
       name
       description
-      hiddenStatus
       image
-      createdAt
-      updatedAt
     }
   }
 `;
 
 const UPDATE_GIG = gql`
-  mutation GigUpdate($gigUpdateId: ID!, $data: GigUpdateInput!) {
-    gigUpdate(id: $gigUpdateId, data: $data)
+  mutation GigUpdate($gigUpdateId: ID!, $input: GigUpdateInput!) {
+    gigUpdate(id: $gigUpdateId, input: $input)
   }
 `;
 
@@ -54,7 +51,7 @@ const AddGig = ({ data = {} }) => {
   const [addGig] = useMutation(ADD_GIG, {
     onCompleted: () => {
       alert("Gig Added Successfully");
-      router.push("/admin/viewCategories");
+      router.push("/admin/viewGigs");
     },
     onError: (error) => {
       console.log(error);
@@ -64,7 +61,7 @@ const AddGig = ({ data = {} }) => {
   const [updateGig] = useMutation(UPDATE_GIG, {
     onCompleted: () => {
       alert("Gig Updated Successfully");
-      router.push("/admin/viewCategories");
+      router.push("/admin/viewGigs");
     },
     onError: (error) => {
       console.log(error);
@@ -74,10 +71,11 @@ const AddGig = ({ data = {} }) => {
   const onSubmit = async (formData) => {
     const image = await uploadImage(formData.image, "gig-images");
     if (action == "Edit") {
+      console.log("Edit");
       updateGig({
         variables: {
           gigUpdateId: data.id,
-          data: {
+          input: {
             name: formData.name,
             description: formData.description,
             image: image,
@@ -87,7 +85,7 @@ const AddGig = ({ data = {} }) => {
     } else {
       addGig({
         variables: {
-          data: {
+          input: {
             name: formData.name,
             description: formData.description,
             image: image,
