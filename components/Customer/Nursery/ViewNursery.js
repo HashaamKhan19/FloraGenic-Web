@@ -111,7 +111,16 @@ export default function ViewNursery({ id }) {
           </Grid.Col>
         </Grid>
       </Container>
-      <Modal opened={opened} onClose={() => setOpened(false)}>
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        size={match1200 ? 'xs' : ''}
+        transition={'fade'}
+        transitionDuration={700}
+        transitionTimingFunction="ease"
+        exitTransitionDuration={700}
+        centered
+      >
         <Filter />
       </Modal>
     </>

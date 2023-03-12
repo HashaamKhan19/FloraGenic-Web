@@ -14,6 +14,7 @@ import { MdOutlineGrass } from 'react-icons/md'
 import { BiCategory } from 'react-icons/bi'
 import { useMediaQuery } from '@mantine/hooks'
 import { AiFillCaretRight } from 'react-icons/ai'
+import Link from 'next/link'
 
 const mockdata = [
   { title: 'Plants', icon: RiPlantLine, color: 'green' },
@@ -82,14 +83,16 @@ export default function CategoriesCard() {
           </Text>
         </Group>
         <Group spacing={2} mr={'lg'}>
-          <Text
-            style={{
-              color: 'darkslategray',
-              fontSize: '14px',
-            }}
-          >
-            View All
-          </Text>
+          <Link href={'/customer/productCategories'}>
+            <Text
+              style={{
+                color: 'darkslategray',
+                fontSize: '14px',
+              }}
+            >
+              View All
+            </Text>
+          </Link>
           <AiFillCaretRight size={16} style={{ color: 'gray' }} />
         </Group>
       </Group>

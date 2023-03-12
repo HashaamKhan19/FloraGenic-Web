@@ -37,6 +37,7 @@ export default function ProductCard({ heart }) {
       radius="md"
       sx={{
         maxHeight: 400,
+        border: '1px solid #62A82C',
       }}
     >
       <Card.Section mb="sm">

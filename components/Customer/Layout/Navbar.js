@@ -16,12 +16,13 @@ import {
   ScrollArea,
   Text,
   TextInput,
+  UnstyledButton,
   useMantineTheme,
 } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import Image from 'next/image'
 import links from './NavbarLinks'
-import { BiHome } from 'react-icons/bi'
+import { BiChevronDown, BiHome } from 'react-icons/bi'
 import {
   BsArrowLeft,
   BsArrowRight,
@@ -39,6 +40,7 @@ import { useState } from 'react'
 import { SiHomeassistant } from 'react-icons/si'
 import { TbReportMoney } from 'react-icons/tb'
 import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
+import { FiChevronDown } from 'react-icons/fi'
 
 const useStyles = createStyles((theme) => ({
   links: {
@@ -284,6 +286,35 @@ const HeaderMenu = ({ children }) => {
                       <BsArrowLeft size={18} stroke={1.5} />
                     )}
                   </ActionIcon>
+                  // <Menu
+                  //   withArrow
+                  //   transition={'scale-y'}
+                  //   transitionDuration={500}
+                  //   exitTransitionDuration={500}
+                  //   arrowOffset={20}
+                  //   width={130}
+                  // >
+                  //   <Menu.Target>
+                  //     <UnstyledButton>
+                  //       <Group spacing={'xs'}>
+                  //         <Text
+                  //           style={{
+                  //             color: 'darkslategray',
+                  //             fontSize: '14px',
+                  //           }}
+                  //         >
+                  //           All Categories
+                  //         </Text>
+                  //         <FiChevronDown size={16} />
+                  //       </Group>
+                  //     </UnstyledButton>
+                  //   </Menu.Target>
+                  //   <Menu.Dropdown>
+                  //     <Menu.Item>Category 1</Menu.Item>
+                  //     <Menu.Item>Category 2</Menu.Item>
+                  //     <Menu.Item>Category 3</Menu.Item>
+                  //   </Menu.Dropdown>
+                  // </Menu>
                 }
                 placeholder="Search query..."
                 rightSectionWidth={42}
@@ -294,6 +325,13 @@ const HeaderMenu = ({ children }) => {
                       borderColor: theme.colors.green[7],
                     },
                   },
+                  // rightSection: {
+                  //   width: 150,
+                  //   border: '1px solid #E2E8F0',
+                  //   backgroundColor: '#F7FAFC',
+                  //   borderTopRightRadius: 20,
+                  //   borderBottomRightRadius: 20,
+                  // },
                 })}
               />
             )}

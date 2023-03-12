@@ -1,4 +1,4 @@
-import { Chip, Divider, Stack, Text } from '@mantine/core'
+import { Chip, Divider, Space, Stack, Text } from '@mantine/core'
 import React, { useState } from 'react'
 
 const GardenerEndorsements = () => {
@@ -7,6 +7,16 @@ const GardenerEndorsements = () => {
 
   return (
     <>
+      <Text
+        style={{
+          fontSize: '1.3rem',
+          fontWeight: 525,
+          color: 'darkslategray',
+        }}
+      >
+        Skills
+      </Text>
+      <Space mt={'xl'} />
       <Stack>
         <Text
           style={{
