@@ -36,11 +36,12 @@ import { GiGardeningShears } from 'react-icons/gi'
 import Cart from '../Cart/Cart'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { SiHomeassistant } from 'react-icons/si'
 import { TbReportMoney } from 'react-icons/tb'
 import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
 import { FiChevronDown } from 'react-icons/fi'
+import { useRouter } from 'next/router'
 
 const useStyles = createStyles((theme) => ({
   links: {
@@ -155,12 +156,16 @@ const HeaderMenu = ({ children }) => {
   ] = useDisclosure(false)
   const { classes } = useStyles()
   const theme = useMantineTheme()
+  const router = useRouter()
+
+  const [activeLink, setActiveLink] = useState(null)
 
   // breakPoints
   const headerHeight = useMediaQuery('(min-width: 768px)')
   const mobileSearch = useMediaQuery('(max-width: 500px)')
 
   const items = links.map((link) => {
+    // const isActive = router.pathname === link.link
     const menuItems = link.links?.map((item, index) => (
       <Link href={item.link} key={index}>
         <Menu.Item key={item.link}>{item.label}</Menu.Item>
@@ -180,8 +185,20 @@ const HeaderMenu = ({ children }) => {
           <Menu.Target>
             <Link href={link.link} className={classes.link}>
               <Center>
-                <span className={classes.linkLabel}>{link.label}</span>
-                <BsChevronDown size={12} stroke={1.5} />
+                <span
+                  className={`${classes.linkLabel} ${
+                    activeLink === link.link ? 'text-floraGreen' : ''
+                  }`}
+                >
+                  {link.label}
+                </span>
+                <BsChevronDown
+                  size={12}
+                  stroke={1.5}
+                  style={{
+                    color: activeLink === link.link ? '#62A82C' : 'black',
+                  }}
+                />
               </Center>
             </Link>
           </Menu.Target>
@@ -192,10 +209,20 @@ const HeaderMenu = ({ children }) => {
 
     return (
       <Link key={link.label} href={link.link} className={classes.link}>
-        {link.label}
+        <span
+          className={`${classes.linkLabel} ${
+            activeLink === link.link ? 'text-floraGreen' : ''
+          }`}
+        >
+          {link.label}
+        </span>
       </Link>
     )
   })
+
+  useEffect(() => {
+    setActiveLink(router.pathname)
+  }, [router.pathname])
 
   return (
     <>
@@ -228,7 +255,9 @@ const HeaderMenu = ({ children }) => {
             <BsInstagram color="white" />
           </Group>
 
-          <Text color={'white'}>Contact Us</Text>
+          <Link href={'/contact'}>
+            <Text color={'white'}>Contact Us</Text>
+          </Link>
         </Group>
       </Paper>
       <Header

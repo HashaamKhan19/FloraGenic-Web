@@ -30,7 +30,7 @@ const CategoriesList = () => {
   ]
 
   return (
-    <Container size={'xl'} pt={'xl'}>
+    <Container size={'xl'} pt={'xl'} pb={'xl'}>
       <SimpleGrid
         cols={3}
         breakpoints={[
