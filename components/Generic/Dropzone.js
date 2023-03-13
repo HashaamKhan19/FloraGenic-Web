@@ -4,7 +4,7 @@ import Image from "next/legacy/image";
 import React from "react";
 import { useDropzone } from "react-dropzone";
 
-const DropZone = ({ onChange, getValues, name, setValue }, ref) => {
+export default function DropZone({ onChange, getValues, name, setValue }) {
   const {
     getRootProps,
     getInputProps,
@@ -16,10 +16,14 @@ const DropZone = ({ onChange, getValues, name, setValue }, ref) => {
       "image/*": [],
     },
     maxFiles: 1,
+    onDrop: (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      file.preview = URL.createObjectURL(file);
+      onChange(file);
+    },
   });
   return (
     <Box
-      ref={ref}
       sx={{
         position: "relative",
         display: "flex",
@@ -99,8 +103,9 @@ const DropZone = ({ onChange, getValues, name, setValue }, ref) => {
               backgroundColor: "rgba(0,0,0,0.3)",
               p: "3px",
             }}
-            onClick={() => {
+            onClick={(e) => {
               setValue(name, null);
+              e.preventDefault();
             }}
           >
             <Cancel />
@@ -109,6 +114,4 @@ const DropZone = ({ onChange, getValues, name, setValue }, ref) => {
       )}
     </Box>
   );
-};
-
-export default React.forwardRef(DropZone);
+}

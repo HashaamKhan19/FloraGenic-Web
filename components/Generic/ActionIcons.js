@@ -1,11 +1,10 @@
-import React from "react";
-import { Box, IconButton, Tooltip } from "@mui/material";
-import { Visibility, Edit, Delete } from "@mui/icons-material";
-import Link from "next/link";
+import { gql, useMutation } from "@apollo/client";
+import { Delete, Edit, Visibility } from "@mui/icons-material";
+import { Box, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
+import React from "react";
 import ActionConfirmationModal from "../Modal/ActionConfirmationModal";
 import ViewUserModal from "../Modal/ViewUserModal";
-import { useMutation, gql } from "@apollo/client";
 
 const DELETE_USER_MUTATION = gql`
   mutation Mutation($deleteUserId: ID!) {
@@ -43,7 +42,20 @@ const DELETE_COMPLAINT_MUTATION = gql`
   }
 `;
 
-const ActionIcons = ({ type, text, warningText, viewText, data }) => {
+const DELETE_GIG_MUTATION = gql`
+  mutation GigDelete($gigDeleteId: ID!) {
+    gigDelete(id: $gigDeleteId)
+  }
+`;
+
+const ActionIcons = ({
+  type,
+  text,
+  warningText,
+  viewText,
+  data,
+  updateRows,
+}) => {
   // Action Confirmation Modal States
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -107,6 +119,16 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     },
   });
 
+  const [deleteGig] = useMutation(DELETE_GIG_MUTATION, {
+    onCompleted: () => {
+      alert("Gig deleted successfully");
+
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   const router = useRouter();
   const styles = {
     cursor: "pointer",
@@ -128,6 +150,9 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
         break;
       case "nursery":
         router.push(`editNursery/${data.id}`);
+        break;
+      case "gig":
+        router.push(`editGig/${data.id}`);
         break;
     }
   };
@@ -174,6 +199,13 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
         deleteComplaint({
           variables: {
             complaintDeleteId: data.id,
+          },
+        });
+        break;
+      case "gig":
+        deleteGig({
+          variables: {
+            gigDeleteId: data.id,
           },
         });
         break;
