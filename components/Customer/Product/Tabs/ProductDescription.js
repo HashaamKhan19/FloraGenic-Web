@@ -1,7 +1,12 @@
-import { Stack, Text } from '@mantine/core'
-import React from 'react'
+import { Badge, Chip, Group, Stack, Text } from '@mantine/core'
+import React, { useState } from 'react'
+import { FiHash } from 'react-icons/fi'
 
-const ProductDescription = () => {
+const ProductDescription = ({ data }) => {
+  console.log('====================================')
+  console.log(data)
+  console.log('====================================')
+
   return (
     <>
       <Stack mt={'lg'} spacing={0}>
@@ -10,60 +15,107 @@ const ProductDescription = () => {
             color: 'darkslategray',
           }}
         >
-          Oliver Buzz Plant
+          {data?.name || 'Product Name'}
         </Text>
         <Text
           style={{
             color: 'darkslategray',
           }}
+          mt={'xs'}
         >
-          Eryngium x oliverianum (Oliver Sea Holly) is an upright perennial with
-          basal rosettes of heart-shaped, strongly toothed, dark green leaves.
-          From mid-summer to early fall, sturdy leafy violet-blue stems bear
-          large, cone-shaped, thistle-like, blue to lavender-blue flower heads.
+          {data?.description || 'Product Description'}
         </Text>
+
         <Text
           style={{
             color: 'darkslategray',
           }}
+          mt={'xs'}
         >
-          This plant comes with a pot
+          Posted on:{' '}
+          {new Date(data?.createdAt).toLocaleDateString('en-US', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })}
         </Text>
+
         <Text
           style={{
             color: 'darkslategray',
           }}
+          mt={'xs'}
         >
-          Height: 1.5 feet
+          Seller: {data?.nursery?.name || 'Nursery Name'}
         </Text>
+
         <Text
           style={{
             color: 'darkslategray',
           }}
+          mt={'xs'}
         >
-          Width: 1.5 feet
+          Nursery Email: {data?.nursery?.email || 'Nursery Email'}
         </Text>
+
         <Text
           style={{
             color: 'darkslategray',
           }}
+          mt={'xs'}
         >
-          Watering: Once a week
+          Nursery Phone: {data?.nursery?.phoneNumber || 'Nursery Phone'}
         </Text>
+
         <Text
           style={{
             color: 'darkslategray',
           }}
+          mt={'xs'}
         >
-          Light: Full sun
+          Nursery Address: {data?.nursery?.address || 'Nursery Address'}
         </Text>
+
         <Text
           style={{
             color: 'darkslategray',
           }}
+          mt={'xs'}
         >
-          Soil: Well-drained
+          Nursery Opening Hours:{' '}
+          {new Date(data?.nursery?.openingHours).toLocaleTimeString('en-US')}
         </Text>
+
+        <Text
+          style={{
+            color: 'darkslategray',
+          }}
+          mt={'xs'}
+        >
+          Nursery Closing Hours:{' '}
+          {new Date(data?.nursery?.closingHours).toLocaleTimeString('en-US')}
+        </Text>
+
+        <Group spacing={'xs'} mt={'xs'}>
+          <Text
+            style={{
+              color: 'darkslategray',
+            }}
+          >
+            Tags:
+          </Text>
+          {data?.tags?.map((tag, index) => (
+            <Badge
+              variant="light"
+              key={index}
+              pl={3}
+              // leftSection={<FiHash size={12} />}
+              color="green"
+            >
+              {tag}
+            </Badge>
+          ))}
+        </Group>
       </Stack>
     </>
   )

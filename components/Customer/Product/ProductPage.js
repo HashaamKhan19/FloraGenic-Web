@@ -4,19 +4,27 @@ import RelatedNurseries from './Tabs/RelatedNurseries'
 import ProductDetails from './ProductDetails'
 import ProductImageSlider from './ProductImageSlider'
 
-export default function ProductPage() {
+export default function ProductPage({ data, loading, error }) {
   return (
     <Container size={'xl'} pt={60}>
       <Grid mb={'xl'}>
         <Grid.Col sm={6}>
-          <ProductImageSlider />
+          <ProductImageSlider
+            data={data?.product?.images}
+            loading={loading}
+            error={error}
+          />
         </Grid.Col>
         <Grid.Col sm={6}>
-          <ProductDetails />
+          <ProductDetails
+            data={data?.product}
+            loading={loading}
+            error={error}
+          />
         </Grid.Col>
       </Grid>
       <Container size={'xl'} mt={50}>
-        <ProductTabs />
+        <ProductTabs data={data?.product} loading={loading} error={error} />
       </Container>
       <Container size={'xl'} mt={80} pb={'xl'}>
         <RelatedNurseries />

@@ -5,7 +5,7 @@ import { TbFileDescription } from 'react-icons/tb'
 import ProductDescription from './ProductDescription'
 import ProductReviews from './ProductReviews'
 
-const ProductTabs = () => {
+const ProductTabs = ({ data }) => {
   return (
     <>
       <Tabs defaultValue="description" color="green">
@@ -33,11 +33,11 @@ const ProductTabs = () => {
         </Tabs.List>
 
         <Tabs.Panel value="description" pt="xs">
-          <ProductDescription />
+          <ProductDescription data={data} />
         </Tabs.Panel>
 
         <Tabs.Panel value="reviews" pt="xs">
-          <ProductReviews />
+          <ProductReviews data={data} />
         </Tabs.Panel>
       </Tabs>
     </>

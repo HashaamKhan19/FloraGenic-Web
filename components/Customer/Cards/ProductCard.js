@@ -27,7 +27,7 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export default function ProductCard({ heart }) {
+export default function ProductCard({ heart, data }) {
   const { classes, theme } = useStyles()
 
   return (
@@ -42,10 +42,8 @@ export default function ProductCard({ heart }) {
     >
       <Card.Section mb="sm">
         <Image
-          src={
-            'https://images.unsplash.com/photo-1519336056116-bc0f1771dec8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHBsYW50JTIwcG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
-          }
-          alt="productImage"
+          src={data?.images[0] || 'no image'}
+          alt="Product image"
           height={190}
           style={{
             position: 'relative',
@@ -59,12 +57,12 @@ export default function ProductCard({ heart }) {
             right: 10,
           }}
         >
-          Decorations
+          {data?.category?.name}
         </Badge>
       </Card.Section>
 
       <Text weight={600} className={classes.title} mt="xs">
-        Sunflower Plant
+        {data?.name}
       </Text>
 
       <Group mt="lg" noWrap>
@@ -74,12 +72,7 @@ export default function ProductCard({ heart }) {
             maxWidth: 50,
           }}
         >
-          <Avatar
-            src={
-              'https://images.unsplash.com/photo-1508857650881-64475119d798?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bnVyc2VyeSUyMHBsYW50c3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'
-            }
-            radius="sm"
-          />
+          <Avatar src={data?.nursery?.images[0]} radius="sm" />
         </Box>
         <Stack spacing={0}>
           <Group
@@ -94,7 +87,7 @@ export default function ProductCard({ heart }) {
               }}
               truncate
             >
-              Fazal Khan Nursery
+              {data?.nursery?.name}
             </Text>
           </Group>
           <Group
@@ -103,7 +96,7 @@ export default function ProductCard({ heart }) {
             }}
           >
             <Text size="xs" color="dimmed" truncate>
-              We Sell the best plants at the best prices
+              {data?.nursery?.details}
             </Text>
           </Group>
         </Stack>
@@ -118,13 +111,13 @@ export default function ProductCard({ heart }) {
           fontSize: 20,
         }}
       >
-        Rs. 10000
+        Rs. {data?.retailPrice}
       </Text>
 
       <Card.Section className={classes.footer}>
         <Group position="apart">
           <Text size="xs" color="dimmed">
-            733 people bought this
+            {data?.sold} people bought this
           </Text>
           <Group spacing={'xs'}>
             {!heart && (
@@ -146,6 +139,7 @@ export default function ProductCard({ heart }) {
                 e.stopPropagation()
                 e.preventDefault()
               }}
+              disabled={data?.stock === 0}
             >
               <MdOutlineAddShoppingCart size={16} stroke={1.5} />
             </ActionIcon>

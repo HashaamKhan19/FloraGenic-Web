@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Container,
   Grid,
@@ -15,11 +16,61 @@ import ProductCard from '../../Cards/ProductCard'
 import { BiSearch } from 'react-icons/bi'
 import React, { useState } from 'react'
 import Link from 'next/link'
+import { gql, useQuery } from '@apollo/client'
+import CardLoading from '../../Generic/Skeletons/CardLoading'
+import SixCardsLoading from '../../Generic/Skeletons/SixCardsLoading'
+
+const GET_PRODUCTS = gql`
+  query ExampleQuery {
+    products {
+      id
+      nurseryID
+      nursery {
+        name
+        id
+        details
+        images
+      }
+      name
+      description
+      category {
+        name
+      }
+      hidden
+      retailPrice
+      wholesalePrice
+      stock
+      sold
+      images
+      overallRating
+      tags
+      createdAt
+      updatedAt
+      reviews {
+        createdAt
+        likes
+        rating
+        review
+        customerDetails {
+          details {
+            ... on Customer {
+              firstName
+              image
+              lastName
+            }
+          }
+        }
+      }
+    }
+  }
+`
 
 const ProductListings = () => {
   const match1200 = useMediaQuery('(max-width: 1200px)')
 
   const [opened, setOpened] = useState(false)
+
+  const { loading, error, data } = useQuery(GET_PRODUCTS)
 
   return (
     <Container size={'xl'} pb={'xl'}>
@@ -28,7 +79,13 @@ const ProductListings = () => {
           <Filter />
         </Grid.Col>
         <Grid.Col md={!match1200 ? 9 : 12}>
-          <Group position="apart" noWrap>
+          {loading && (
+            <Box mt={'xs'}>
+              <SixCardsLoading />
+            </Box>
+          )}
+
+          {error && (
             <Text
               style={{
                 fontWeight: 500,
@@ -36,36 +93,50 @@ const ProductListings = () => {
                 whiteSpace: 'nowrap',
               }}
             >
-              9 Products
+              Error loading products
             </Text>
-            <Input
-              placeholder="search..."
-              icon={<BiSearch />}
-              styles={(theme) => ({
-                input: {
-                  '&:focus-within': {
-                    borderColor: theme.colors.green[7],
-                  },
-                },
-              })}
-              style={{
-                width: match1200 ? '100%' : '250px',
-              }}
-            />
-            {match1200 && (
-              <Button
-                onClick={() => {
-                  setOpened(true)
-                }}
+          )}
+
+          {!loading && !error && (
+            <Group position="apart" noWrap>
+              <Text
                 style={{
-                  backgroundColor: '#62A82C',
-                  color: 'white',
+                  fontWeight: 500,
+                  color: 'darkslategray',
+                  whiteSpace: 'nowrap',
                 }}
               >
-                Filters
-              </Button>
-            )}
-          </Group>
+                {data?.products?.length} Products
+              </Text>
+              <Input
+                placeholder="search..."
+                icon={<BiSearch />}
+                styles={(theme) => ({
+                  input: {
+                    '&:focus-within': {
+                      borderColor: theme.colors.green[7],
+                    },
+                  },
+                })}
+                style={{
+                  width: match1200 ? '100%' : '250px',
+                }}
+              />
+              {match1200 && (
+                <Button
+                  onClick={() => {
+                    setOpened(true)
+                  }}
+                  style={{
+                    backgroundColor: '#62A82C',
+                    color: 'white',
+                  }}
+                >
+                  Filters
+                </Button>
+              )}
+            </Group>
+          )}
           <SimpleGrid
             cols={3}
             breakpoints={[
@@ -74,14 +145,13 @@ const ProductListings = () => {
             ]}
             mt={'xl'}
           >
-            {Array(9)
-              .fill(0)
-              .map((_, index) => (
-                <Link href={`/customer/product`} key={`product-${index}`}>
-                  <ProductCard key={index} />
-                </Link>
-              ))}
+            {data?.products?.map((data, index) => (
+              <Link href={`/customer/viewProduct/${data?.id}`} key={index}>
+                <ProductCard key={index} data={data} />
+              </Link>
+            ))}
           </SimpleGrid>
+
           <Group position="center" pt={'xl'}>
             <Pagination
               total={10}

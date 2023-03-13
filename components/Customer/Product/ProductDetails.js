@@ -2,7 +2,7 @@ import { Badge, Box, Button, Group, Rating, Stack, Text } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import React from 'react'
 
-const ProductDetails = () => {
+const ProductDetails = ({ data, loading, error }) => {
   const matches768 = useMediaQuery('(max-width: 768px)')
 
   return (
@@ -14,10 +14,10 @@ const ProductDetails = () => {
           color: 'darkslategray',
         }}
       >
-        Oliver Buzz Plant
+        {data?.name || 'Product Name'}
       </Text>
       <Group align="center" spacing={'sm'}>
-        <Rating value={4} size="md" readOnly />
+        <Rating value={data?.overallRating} size="md" readOnly />
         <Text
           weight={400}
           style={{
@@ -25,7 +25,7 @@ const ProductDetails = () => {
             color: 'darkslategray',
           }}
         >
-          4.0 (10 Reviews)
+          {data?.overallRating} ({data?.sold || 0})
         </Text>
       </Group>
       <Group mt={'lg'}>
@@ -39,7 +39,7 @@ const ProductDetails = () => {
           Category:{' '}
         </Text>
         <Badge color="green" variant="filled">
-          Decorations
+          {data?.category?.name || 'Category'}
         </Badge>
       </Group>
       <Group spacing={'xs'} mt={'sm'}>
@@ -60,7 +60,7 @@ const ProductDetails = () => {
           weight={600}
           c={'green'}
         >
-          TRA Nursery
+          {data?.nursery?.name || 'null'}
         </Text>
       </Group>
       <Stack spacing={0}>
@@ -74,17 +74,22 @@ const ProductDetails = () => {
         >
           Description:
         </Text>
-        <Text
-          mt={'xs'}
-          style={{
-            color: 'darkslategray',
-            fontSize: 14,
+        <Box
+          sx={{
+            minHeight: 75,
           }}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut omnis in
-          ullam repudiandae laboriosam quas, fuga similique ipsa! Nemo a facere
-          cupiditate labore totam dignissimos quisquam enim dolore nam dolor.
-        </Text>
+          <Text
+            mt={'xs'}
+            style={{
+              color: 'darkslategray',
+              fontSize: 14,
+            }}
+            lineClamp={3}
+          >
+            {data?.description || 'null'}
+          </Text>
+        </Box>
       </Stack>
       <Stack spacing={0}>
         <Text
@@ -95,7 +100,7 @@ const ProductDetails = () => {
           }}
           mt={'md'}
         >
-          Rs. 1000
+          Rs. {data?.retailPrice || 0}
         </Text>
         <Text
           weight={600}
@@ -104,10 +109,14 @@ const ProductDetails = () => {
             color: 'darkslategray',
           }}
         >
-          Stock Available: 10
+          Stock Available: {data?.stock || 0}
         </Text>
       </Stack>
-      <Button mt={'lg'} color="green">
+      <Button
+        mt={'lg'}
+        color="green"
+        disabled={loading || error || data?.stock === 0}
+      >
         Add To Cart
       </Button>
     </Box>
