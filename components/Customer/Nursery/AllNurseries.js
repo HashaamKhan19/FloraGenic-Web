@@ -18,10 +18,28 @@ import { useMediaQuery } from '@mantine/hooks'
 import { useState } from 'react'
 import ByCity from '../Filters/FilterTypes/ByCity'
 import ByRatings from '../Filters/FilterTypes/ByRatings'
+import { gql, useQuery } from '@apollo/client'
+import NurseryCardLoading from '../Generic/Skeletons/NurseryCardLoading'
+import SixNurseryLoaders from '../Generic/Skeletons/SixNurseryLoaders'
+
+const GET_NURSERIES = gql`
+  query Query {
+    nurseries {
+      id
+      address
+      name
+      rating
+      phoneNumber
+      images
+    }
+  }
+`
 
 export default function AllNurseries() {
   const matches575 = useMediaQuery('(max-width: 575px)')
   const [opened, setOpened] = useState(false)
+
+  const { loading, error, data } = useQuery(GET_NURSERIES)
 
   return (
     <Container size={'xl'} pt={60} pb={50}>
@@ -36,37 +54,59 @@ export default function AllNurseries() {
           >
             All Nurseries
           </Text>
-          <Group
-            noWrap
+
+          {!loading && !error && (
+            <Group
+              noWrap
+              style={{
+                width: matches575 ? '100%' : 'auto',
+              }}
+            >
+              <Input
+                placeholder="search a nursery..."
+                icon={<BiSearch />}
+                styles={(theme) => ({
+                  input: {
+                    '&:focus-within': {
+                      borderColor: theme.colors.green[7],
+                    },
+                  },
+                })}
+                style={{
+                  width: matches575 ? '100%' : 250,
+                }}
+              />
+              <Button
+                leftIcon={<BiFilterAlt size={17} />}
+                style={{
+                  backgroundColor: '#62A82C',
+                }}
+                onClick={() => setOpened(true)}
+              >
+                Filters
+              </Button>
+            </Group>
+          )}
+        </Group>
+
+        {loading && (
+          <Box mt={'xs'}>
+            <SixNurseryLoaders />
+          </Box>
+        )}
+
+        {error && (
+          <Text
             style={{
-              width: matches575 ? '100%' : 'auto',
+              fontWeight: 500,
+              color: 'darkslategray',
+              whiteSpace: 'nowrap',
             }}
           >
-            <Input
-              placeholder="search a nursery..."
-              icon={<BiSearch />}
-              styles={(theme) => ({
-                input: {
-                  '&:focus-within': {
-                    borderColor: theme.colors.green[7],
-                  },
-                },
-              })}
-              style={{
-                width: matches575 ? '100%' : 250,
-              }}
-            />
-            <Button
-              leftIcon={<BiFilterAlt size={17} />}
-              style={{
-                backgroundColor: '#62A82C',
-              }}
-              onClick={() => setOpened(true)}
-            >
-              Filters
-            </Button>
-          </Group>
-        </Group>
+            Error loading nurseries
+          </Text>
+        )}
+
         <SimpleGrid
           cols={3}
           spacing="xl"
@@ -78,33 +118,30 @@ export default function AllNurseries() {
             },
           ]}
         >
-          {Array(9)
-            .fill(0)
-            .map((_, index) => (
-              <Link
-                href={`/customer/viewNursery/${123}`}
-                key={`nursery-${index}`}
-              >
-                <NurseryInfoCard key={index} />
-              </Link>
-            ))}
+          {data?.nurseries.map((data, index) => (
+            <Link href={`/customer/viewNursery/${data?.id}`} key={index}>
+              <NurseryInfoCard key={index} data={data} />
+            </Link>
+          ))}
         </SimpleGrid>
       </Stack>
       <Group position="right" pt={'xl'}>
-        <Pagination
-          total={10}
-          position="center"
-          styles={(theme) => ({
-            item: {
-              '&[data-active]': {
-                backgroundImage: theme.fn.gradient({
-                  from: '#62A82C',
-                  to: '#62A82C',
-                }),
+        {data?.nurseries.length > 0 && (
+          <Pagination
+            total={10}
+            position="center"
+            styles={(theme) => ({
+              item: {
+                '&[data-active]': {
+                  backgroundImage: theme.fn.gradient({
+                    from: '#62A82C',
+                    to: '#62A82C',
+                  }),
+                },
               },
-            },
-          })}
-        />
+            })}
+          />
+        )}
       </Group>
 
       <Modal

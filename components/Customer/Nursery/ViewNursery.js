@@ -18,7 +18,7 @@ import Link from 'next/link'
 import Filter from '../Filters/Filter'
 import { useState } from 'react'
 
-export default function ViewNursery({ id }) {
+export default function ViewNursery({ data, loading, error }) {
   const match1200 = useMediaQuery('(max-width: 1200px)')
   const [opened, setOpened] = useState(false)
 
@@ -31,51 +31,66 @@ export default function ViewNursery({ id }) {
             height: '300px',
           }}
         >
-          <NurseryInfoCard />
+          <NurseryInfoCard data={data} />
         </Paper>
         <Grid mt={'xl'}>
           <Grid.Col md={3} hidden={match1200 ? true : false}>
             <Filter />
           </Grid.Col>
           <Grid.Col md={!match1200 ? 9 : 12}>
-            <Group position="apart" noWrap>
-              <Text
-                style={{
-                  fontWeight: 500,
-                  color: 'darkslategray',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                9 Products
-              </Text>
-              <Input
-                placeholder="search..."
-                icon={<BiSearch />}
-                styles={(theme) => ({
-                  input: {
-                    '&:focus-within': {
-                      borderColor: theme.colors.green[7],
-                    },
-                  },
-                })}
-                style={{
-                  width: match1200 ? '100%' : '250px',
-                }}
-              />
-              {match1200 && (
-                <Button
-                  onClick={() => {
-                    setOpened(true)
-                  }}
+            {data?.products?.length > 0 ? (
+              <Group position="apart" noWrap>
+                <Text
                   style={{
-                    backgroundColor: '#62A82C',
-                    color: 'white',
+                    fontWeight: 500,
+                    color: 'darkslategray',
+                    whiteSpace: 'nowrap',
                   }}
                 >
-                  Filters
-                </Button>
-              )}
-            </Group>
+                  {data?.products?.length}{' '}
+                  {data?.products?.length > 1 ? 'products' : 'product'} found
+                </Text>
+                <Input
+                  placeholder="search..."
+                  icon={<BiSearch />}
+                  styles={(theme) => ({
+                    input: {
+                      '&:focus-within': {
+                        borderColor: theme.colors.green[7],
+                      },
+                    },
+                  })}
+                  style={{
+                    width: match1200 ? '100%' : '250px',
+                  }}
+                />
+                {match1200 && (
+                  <Button
+                    onClick={() => {
+                      setOpened(true)
+                    }}
+                    style={{
+                      backgroundColor: '#62A82C',
+                      color: 'white',
+                    }}
+                  >
+                    Filters
+                  </Button>
+                )}
+              </Group>
+            ) : (
+              <Text
+                style={{
+                  fontWeight: 525,
+                  color: 'darkslategray',
+                  whiteSpace: 'nowrap',
+                  textAlign: 'center',
+                  fontSize: '20px',
+                }}
+              >
+                {loading ? 'Loading products...' : 'No products found'}
+              </Text>
+            )}
             <SimpleGrid
               cols={3}
               breakpoints={[
@@ -84,29 +99,29 @@ export default function ViewNursery({ id }) {
               ]}
               mt={'xl'}
             >
-              {Array(9)
-                .fill(0)
-                .map((_, index) => (
-                  <Link href={`/customer/product`} key={`product-${index}`}>
-                    <ProductCard key={index} />
-                  </Link>
-                ))}
+              {data?.products?.map((prodData, index) => (
+                <Link href={`/customer/viewProduct/${prodData.id}`} key={index}>
+                  <ProductCard key={index} data={prodData} />
+                </Link>
+              ))}
             </SimpleGrid>
             <Group position="center" pt={'xl'}>
-              <Pagination
-                total={10}
-                position="center"
-                styles={(theme) => ({
-                  item: {
-                    '&[data-active]': {
-                      backgroundImage: theme.fn.gradient({
-                        from: '#62A82C',
-                        to: '#62A82C',
-                      }),
+              {data?.products?.length > 0 && (
+                <Pagination
+                  total={10}
+                  position="center"
+                  styles={(theme) => ({
+                    item: {
+                      '&[data-active]': {
+                        backgroundImage: theme.fn.gradient({
+                          from: '#62A82C',
+                          to: '#62A82C',
+                        }),
+                      },
                     },
-                  },
-                })}
-              />
+                  })}
+                />
+              )}
             </Group>
           </Grid.Col>
         </Grid>
