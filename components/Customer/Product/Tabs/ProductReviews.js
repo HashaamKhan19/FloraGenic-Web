@@ -19,8 +19,8 @@ const ProductReviews = ({ data }) => {
           No reviews yet
         </Text>
       )}
-      {data?.reviews?.map((review) => (
-        <Group>
+      {data?.reviews?.map((review, index) => (
+        <Group key={index}>
           <Stack mt={'lg'}>
             <Group spacing={'xs'}>
               <Avatar

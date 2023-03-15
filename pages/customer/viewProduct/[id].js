@@ -59,9 +59,10 @@ const GET_PRODUCT = gql`
   }
 `
 
-export default function viewProduct() {
+export default function ViewProduct() {
   const router = useRouter()
   const { id } = router.query
+
   const { loading, error, data } = useQuery(GET_PRODUCT, {
     variables: { productId: id },
   })
