@@ -115,9 +115,10 @@ export default function Hero() {
 
         <Container size={600}>
           <Text size="lg" className={classes.description}>
-            We're here to help you with all your gardening and nursery needs.
-            Whether you're a seasoned gardener or just starting out, we've got
-            the expertise and products you need to make your garden flourish.
+            We&apos;re here to help you with all your gardening and nursery
+            needs. Whether you&apos;re a seasoned gardener or just starting out,
+            we&apos;ve got the expertise and products you need to make your
+            garden flourish.
           </Text>
         </Container>
       </div>
