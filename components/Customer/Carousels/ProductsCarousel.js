@@ -1,12 +1,46 @@
 import { Carousel } from '@mantine/carousel'
 import ProductCard from '../Cards/ProductCard'
 import { Box, Container, Group, Text } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
 import { HiArrowNarrowRight, HiArrowNarrowLeft } from 'react-icons/hi'
 import { IoIosFlash } from 'react-icons/io'
 import Link from 'next/link'
+import { gql, useQuery } from '@apollo/client'
+import CardLoading from '../Generic/Skeletons/CardLoading'
+import ProductsCardHero from '../Cards/ProductsCardHero'
+import { useRef } from 'react'
+import Autoplay from 'embla-carousel-autoplay'
+
+const GET_PRODUCTS = gql`
+  query Query {
+    products {
+      category {
+        name
+      }
+      description
+      id
+      hidden
+      images
+      name
+      nursery {
+        images
+        name
+        details
+      }
+      overallRating
+      retailPrice
+      sold
+      stock
+    }
+  }
+`
 
 export default function ProductsCarousel() {
+  const { loading, error, data } = useQuery(GET_PRODUCTS)
+
+  const autoplay = useRef(Autoplay({ delay: 3000 }))
+
+  const firstEightProducts = data?.products.slice(0, 8)
+
   return (
     <Container size={'xl'} mt={60}>
       <Group spacing={'xs'} mb={'lg'} pl={'lg'}>
@@ -26,6 +60,7 @@ export default function ProductsCarousel() {
         slideGap="md"
         dragFree={true}
         draggable={false}
+        withControls={false}
         breakpoints={[
           { maxWidth: 'md', slideSize: '50%' },
           { maxWidth: 'xs', slideSize: '100%', slideGap: 0 },
@@ -50,16 +85,36 @@ export default function ProductsCarousel() {
         }}
         px={'lg'}
         loop
+        plugins={[autoplay.current]}
+        onMouseEnter={autoplay.current.stop}
+        onMouseLeave={autoplay.current.reset}
       >
-        {Array(8)
-          .fill(0)
-          .map((_, index) => (
-            <Carousel.Slide key={index}>
-              <Link href={'/customer/product'}>
-                <ProductCard />
-              </Link>
-            </Carousel.Slide>
-          ))}
+        {loading && (
+          <Group position="center">
+            <CardLoading />
+            <CardLoading />
+            <CardLoading />
+            <CardLoading />
+          </Group>
+        )}
+        {error && (
+          <Text
+            style={{
+              fontWeight: 500,
+              color: 'darkslategray',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Error loading products
+          </Text>
+        )}
+        {firstEightProducts?.map((product, index) => (
+          <Carousel.Slide key={index}>
+            <Link href={`/customer/viewProduct/${product?.id}`}>
+              <ProductsCardHero data={product} />
+            </Link>
+          </Carousel.Slide>
+        ))}
       </Carousel>
     </Container>
   )

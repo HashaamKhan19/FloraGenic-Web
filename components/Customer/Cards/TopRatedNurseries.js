@@ -1,43 +1,30 @@
 import { Carousel } from '@mantine/carousel'
-import {
-    Container,
-    Group, Text
-} from '@mantine/core'
+import { Container, Group, Text } from '@mantine/core'
 import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 import { TbStars } from 'react-icons/tb'
 import NurseryCard from './NurseryCard'
+import { gql, useQuery } from '@apollo/client'
+import NurseryCardLoading from '../Generic/Skeletons/NurseryCardLoading'
+import NurseryCarouselLoader from '../Generic/Skeletons/NurseryCarouselLoader'
+import Link from 'next/link'
+
+const GET_NURSERIES = gql`
+  query Nurseries {
+    nurseries {
+      images
+      name
+      rating
+      id
+      openingHours
+      closingHours
+    }
+  }
+`
 
 export default function TopRatedNurseries() {
-  const nurseries = [
-    {
-      id: 1,
-      name: 'Nursery 1',
-      ratings: 4.5,
-      image:
-        'https://images.unsplash.com/photo-1611843467160-25afb8df1074?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-    },
-    {
-      id: 1,
-      name: 'Nursery 1',
-      ratings: 4.5,
-      image:
-        'https://images.unsplash.com/photo-1593412369977-d3b53ca6b53a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-    },
-    {
-      id: 1,
-      name: 'Nursery 1',
-      ratings: 4.5,
-      image:
-        'https://images.unsplash.com/photo-1457530378978-8bac673b8062?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-    },
-    {
-      id: 1,
-      name: 'Nursery 1',
-      ratings: 4.5,
-      image:
-        'https://images.unsplash.com/photo-1593412369977-d3b53ca6b53a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-    },
-  ]
+  const { loading, error, data } = useQuery(GET_NURSERIES)
+
+  const firstSixNurseries = data?.nurseries.slice(0, 6)
 
   return (
     <Container size={'xl'} mt={80}>
@@ -64,6 +51,7 @@ export default function TopRatedNurseries() {
         ]}
         align="start"
         slidesToScroll={1}
+        containScroll="trimSnaps"
         controlsOffset={-20}
         styles={{
           control: {
@@ -92,13 +80,32 @@ export default function TopRatedNurseries() {
           />
         }
       >
-        {Array(8)
-          .fill(0)
-          .map((_, index) => (
-            <Carousel.Slide key={index}>
-              <NurseryCard />
-            </Carousel.Slide>
-          ))}
+        {loading && (
+          <Group position="center">
+            <NurseryCarouselLoader />
+            <NurseryCarouselLoader />
+            <NurseryCarouselLoader />
+            <NurseryCarouselLoader />
+          </Group>
+        )}
+        {error && (
+          <Text
+            style={{
+              fontWeight: 500,
+              color: 'darkslategray',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Error loading nurseries
+          </Text>
+        )}
+        {firstSixNurseries?.map((nursery, index) => (
+          <Carousel.Slide key={index}>
+            <Link href={`/customer/viewNursery/${nursery.id}`} key={index}>
+              <NurseryCard data={nursery} />
+            </Link>
+          </Carousel.Slide>
+        ))}
       </Carousel>
     </Container>
   )

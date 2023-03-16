@@ -1,11 +1,21 @@
 import {
-    Button, Card, createStyles, Group, Overlay, Rating, Text, useMantineTheme
+  Badge,
+  Button,
+  Card,
+  createStyles,
+  Group,
+  Overlay,
+  Rating,
+  Text,
+  ThemeIcon,
+  useMantineTheme,
 } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
+import { AiOutlineClockCircle } from 'react-icons/ai'
 
 const useStyles = createStyles((theme) => ({
   card: {
-    height: 180,
+    height: 185,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
@@ -43,52 +53,78 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export default function NurseryCard() {
+export default function NurseryCard({ data }) {
   const { classes } = useStyles()
   const theme = useMantineTheme()
-
-  const match1080 = useMediaQuery('(max-width: 1080px)')
-  const match768 = useMediaQuery('(max-width: 768px)')
-  const match576 = useMediaQuery('(max-width: 576px)')
 
   return (
     <Card
       radius="md"
       style={{
-        backgroundImage: `url(${'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'})`,
+        backgroundImage: `url(${data?.images[0]})`,
       }}
       className={classes.card}
     >
       <Overlay
-        gradient={`linear-gradient(105deg, ${theme.black} 20%, #312f2f 50%, ${theme.colors.gray[4]} 100%)`}
-        opacity={0.55}
+        gradient={`linear-gradient(105deg, ${theme.black} 30%, #312f2f 60%, ${theme.colors.gray[4]} 100%)`}
+        opacity={0.25}
         zIndex={0}
       />
 
       <div className={classes.content}>
         <Group noWrap>
           <Text weight={600} className={classes.title}>
-            Hashaam Nursery
+            {data?.name}
           </Text>
         </Group>
 
         <Group spacing={'xs'}>
-          <Rating value={4} readOnly size="md" />
+          <Rating value={data?.rating} readOnly size="md" />
           <Text
             style={{
               color: theme.white,
             }}
             mt={1}
           >
-            4.0
+            {data?.rating}
           </Text>
+        </Group>
+
+        <Group noWrap pt={'xs'}>
+          <ThemeIcon variant="filled" color="dark">
+            <AiOutlineClockCircle />
+          </ThemeIcon>
+
+          <Group spacing={'xs'}>
+            <Text
+              style={{
+                color: theme.white,
+              }}
+            >
+              {new Date(data?.openingHours).toLocaleTimeString('en-US')}
+            </Text>
+            <Text
+              style={{
+                color: theme.white,
+              }}
+            >
+              -
+            </Text>
+            <Text
+              style={{
+                color: theme.white,
+              }}
+            >
+              {new Date(data?.closingHours).toLocaleTimeString('en-US')}
+            </Text>
+          </Group>
         </Group>
 
         <Group
           style={{
             width: '100%',
           }}
-          mt={'lg'}
+          pt={'xs'}
         >
           <Button
             fullWidth
