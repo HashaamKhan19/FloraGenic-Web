@@ -1,37 +1,37 @@
-import { AlternateEmail } from "@mui/icons-material";
-import { InputAdornment, InputLabel, MenuItem } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import Grid from "@mui/material/Unstable_Grid2";
-import { useRouter } from "next/router";
-import React from "react";
-import { AddProductIcon } from "../../public/icons/AddProductIcon";
+import { AlternateEmail } from '@mui/icons-material'
+import { InputAdornment, InputLabel, MenuItem } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import Grid from '@mui/material/Unstable_Grid2'
+import { useRouter } from 'next/router'
+import React from 'react'
+import { AddProductIcon } from '../../public/icons/AddProductIcon'
 
 // Controlled Input
-import { useForm } from "react-hook-form";
-import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
-import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import ControlledTimePicker from "../Generic/ControlledComponents/ControlledTimePicker";
+import { useForm } from 'react-hook-form'
+import ControlledSelect from '../Generic/ControlledComponents/ControlledSelect'
+import ControlledTelInput from '../Generic/ControlledComponents/ControlledTelInput'
+import ControlledTextInput from '../Generic/ControlledComponents/ControlledTextInput'
+import ControlledTimePicker from '../Generic/ControlledComponents/ControlledTimePicker'
 
 // GraphQL
-import { gql, useMutation, useQuery } from "@apollo/client";
-import ButtonBackground from "../../assets/Pattern/ButtonBackground";
-import { uploadMultipleImages } from "../../services/fileUpload";
-import CityOptions from "../Generic/CityOptions";
-import ControlledMultiDropzone from "../Generic/ControlledComponents/ControlledMultiDropzone";
-import LoadingScreen from "../Generic/LoadingScreen";
+import { gql, useMutation, useQuery } from '@apollo/client'
+import ButtonBackground from '../../assets/Pattern/ButtonBackground'
+import { uploadMultipleImages } from '../../services/fileUpload'
+import CityOptions from '../Generic/CityOptions'
+import ControlledMultiDropzone from '../Generic/ControlledComponents/ControlledMultiDropzone'
+import LoadingScreen from '../Generic/LoadingScreen'
 
 const ADD_NURSERY = gql`
   mutation NurseryCreate($data: NurseryCreateInput!) {
     nurseryCreate(data: $data)
   }
-`;
+`
 
 const UPDATE_NURSERY = gql`
   mutation NurseryUpdate($nurseryUpdateId: ID!, $data: NurseryUpdateInput!) {
     nurseryUpdate(id: $nurseryUpdateId, data: $data)
   }
-`;
+`
 
 const GET_NURSERY_OWNERS = gql`
   query NurseryOwners {
@@ -45,16 +45,16 @@ const GET_NURSERY_OWNERS = gql`
       }
     }
   }
-`;
+`
 
-const ListItem = styled("li")(({ theme }) => ({
+const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
-}));
+}))
 
 const AddNursery = ({ data = {} }) => {
-  const [action, setAction] = React.useState("Enter");
+  const [action, setAction] = React.useState('Enter')
 
-  const [nurseryOwners, setNurseryOwners] = React.useState([]);
+  const [nurseryOwners, setNurseryOwners] = React.useState([])
 
   const {
     register,
@@ -66,69 +66,69 @@ const AddNursery = ({ data = {} }) => {
     reset,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
-  });
+    mode: 'onChange',
+  })
 
   const [nurseryCreate] = useMutation(ADD_NURSERY, {
     onCompleted: () => {
-      alert("Nursery Added");
+      alert('Nursery Added')
     },
     onError: (error) => {
-      console.log(error);
-      alert(error.message);
+      console.log(error)
+      alert(error.message)
     },
-  });
+  })
 
   const [nurseryUpdate] = useMutation(UPDATE_NURSERY, {
     onCompleted: () => {
-      alert("Nursery Added");
+      alert('Nursery Added')
     },
     onError: (error) => {
-      console.log(error);
-      alert(error.message);
+      console.log(error)
+      alert(error.message)
     },
-  });
+  })
 
   const { loading, error } = useQuery(GET_NURSERY_OWNERS, {
     onCompleted: (data) => {
-      setNurseryOwners(data.nurseryOwners);
-      console.log(data);
+      setNurseryOwners(data.nurseryOwners)
+      console.log(data)
     },
     onError: (error) => {
-      console.log(error);
+      console.log(error)
     },
-  });
+  })
 
-  const router = useRouter();
-
-  React.useEffect(() => {
-    const parts = router.pathname.split("/");
-    parts[parts.length - 1] == "addNursery" ? action : setAction("Edit");
-  }, [router, action]);
+  const router = useRouter()
 
   React.useEffect(() => {
-    if (action == "Edit") {
-      console.log({ ...data, nurseryOwner: data.nurseryOwnerID });
-      reset({ ...data, nurseryOwner: data.nurseryOwnerID });
+    const parts = router.pathname.split('/')
+    parts[parts.length - 1] == 'addNursery' ? action : setAction('Edit')
+  }, [router, action])
+
+  React.useEffect(() => {
+    if (action == 'Edit') {
+      console.log({ ...data, nurseryOwner: data.nurseryOwnerID })
+      reset({ ...data, nurseryOwner: data.nurseryOwnerID })
     }
-  }, [data, action, reset]);
+  }, [data, action, reset])
 
-  const [quantity, setQuantity] = React.useState(1);
-  const [tagsValue, setTagValue] = React.useState("");
-  const [tagsKey, setTagKey] = React.useState(0);
-  const [tags, setTag] = React.useState([]);
+  const [quantity, setQuantity] = React.useState(1)
+  const [tagsValue, setTagValue] = React.useState('')
+  const [tagsKey, setTagKey] = React.useState(0)
+  const [tags, setTag] = React.useState([])
 
   const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
+    setQuantity(quantity + 1)
+  }
 
   const handleDecrement = () => {
-    setQuantity(quantity - 1);
-  };
+    setQuantity(quantity - 1)
+  }
 
   const onSubmit = async (formData) => {
-    const images = await uploadMultipleImages(formData.images);
-    if (action == "Edit") {
+    const images = await uploadMultipleImages(formData.images)
+    if (action == 'Edit') {
       nurseryUpdate({
         variables: {
           nurseryUpdateId: data.id,
@@ -145,14 +145,14 @@ const AddNursery = ({ data = {} }) => {
             images: images,
           },
         },
-      });
+      })
     } else {
       nurseryCreate({
         variables: {
           data: {
             nurseryOwnerID: formData.nurseryOwner,
             name: formData.name,
-            address: formData.address + ", " + formData.city,
+            address: formData.address + ', ' + formData.city,
             phoneNumber: formData.phoneNumber,
             email: formData.email,
             website: formData.website,
@@ -162,30 +162,30 @@ const AddNursery = ({ data = {} }) => {
             images: images,
           },
         },
-      });
+      })
     }
-    router.push("/admin/viewNurseries");
-  };
+    router.push('/admin/viewNurseries')
+  }
 
   const handleTagAdder = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
+    if (e.key === 'Enter') {
+      e.preventDefault()
       tags.push({
         key: tagsKey,
         label: tagsValue,
-      });
-      setTagKey(tagsKey + 1);
+      })
+      setTagKey(tagsKey + 1)
     }
-  };
+  }
 
   //   const [chipData, setChipData] = React.useState([{ key: 0, label: tags }])
 
   const handleDelete = (chipToDelete) => () => {
-    setTag((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-  };
+    setTag((chips) => chips.filter((chip) => chip.key !== chipToDelete.key))
+  }
 
-  if (loading) return <LoadingScreen />;
-  if (error) return <p>{"Error :("}</p>;
+  if (loading) return <LoadingScreen />
+  if (error) return <p>{'Error :('}</p>
   return (
     <>
       <div className="flex justify-center">
@@ -204,8 +204,8 @@ const AddNursery = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   Nursery Owner
@@ -219,14 +219,14 @@ const AddNursery = ({ data = {} }) => {
                   fullWidth
                   error={errors.nurseryOwner ? true : false}
                   helperText={
-                    errors.nurseryOwner && "Please select a nursery owner"
+                    errors.nurseryOwner && 'Please select a nursery owner'
                   }
                 >
                   {nurseryOwners.map((nurseryOwner) => (
                     <MenuItem value={nurseryOwner.id} key={nurseryOwner.id}>
-                      {nurseryOwner.firstName} {nurseryOwner.lastName} {"("}
+                      {nurseryOwner.firstName} {nurseryOwner.lastName} {'('}
                       {nurseryOwner.userDetails.email}
-                      {")"}
+                      {')'}
                     </MenuItem>
                   ))}
                 </ControlledSelect>
@@ -239,8 +239,8 @@ const AddNursery = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Nursery Name
@@ -250,10 +250,11 @@ const AddNursery = ({ data = {} }) => {
                   required
                   id="name"
                   name="name"
+                  placeholder="Jane Nursery"
                   fullWidth
                   autoComplete="Nursery Name"
                   error={errors.name ? true : false}
-                  helperText={errors.name && "Nursery Name is required"}
+                  helperText={errors.name && 'Nursery Name is required'}
                 />
               </Grid>
 
@@ -264,8 +265,8 @@ const AddNursery = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   Choose Nursery City
@@ -280,8 +281,8 @@ const AddNursery = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Nursery Address
@@ -291,12 +292,13 @@ const AddNursery = ({ data = {} }) => {
                   required
                   id="address"
                   name="address"
+                  placeholder="1234 Main St"
                   fullWidth
                   multiline
                   rows={2}
                   autoComplete="Nursery Address"
                   error={errors.address ? true : false}
-                  helperText={errors.address && "Nursery Address is required"}
+                  helperText={errors.address && 'Nursery Address is required'}
                 />
               </Grid>
 
@@ -307,8 +309,8 @@ const AddNursery = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Nursery Description
@@ -318,13 +320,14 @@ const AddNursery = ({ data = {} }) => {
                   required
                   id="details"
                   name="details"
+                  placeholder="Nursery Description/Details"
                   multiline
                   rows={2}
                   fullWidth
                   autoComplete="Nursery Address"
                   error={errors.details ? true : false}
                   helperText={
-                    errors.details && "Nursery Description is required"
+                    errors.details && 'Nursery Description is required'
                   }
                 />
               </Grid>
@@ -335,8 +338,8 @@ const AddNursery = ({ data = {} }) => {
                   variant="standard"
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Phone Number
@@ -350,7 +353,7 @@ const AddNursery = ({ data = {} }) => {
                   fullWidth
                   autoComplete="phoneNumber"
                   error={errors.phoneNumber ? true : false}
-                  helperText={errors.phoneNumber && "Phone Number is required"}
+                  helperText={errors.phoneNumber && 'Phone Number is required'}
                 />
               </Grid>
 
@@ -360,8 +363,8 @@ const AddNursery = ({ data = {} }) => {
                   variant="standard"
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Email
@@ -373,6 +376,7 @@ const AddNursery = ({ data = {} }) => {
                   name="email"
                   fullWidth
                   autoComplete="email"
+                  placeholder="yourEmail@gmail.com"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -381,7 +385,7 @@ const AddNursery = ({ data = {} }) => {
                     ),
                   }}
                   error={errors.email ? true : false}
-                  helperText={errors.email && "Email is required"}
+                  helperText={errors.email && 'Email is required'}
                 />
               </Grid>
 
@@ -392,8 +396,8 @@ const AddNursery = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Nursery Opening Hours
@@ -404,7 +408,7 @@ const AddNursery = ({ data = {} }) => {
                   name="openingHours"
                   error={errors.openingHours ? true : false}
                   helperText={
-                    errors.openingHours && "Opening Hours is required"
+                    errors.openingHours && 'Opening Hours is required'
                   }
                 />
               </Grid>
@@ -416,8 +420,8 @@ const AddNursery = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Nursery Closing Hours
@@ -429,7 +433,7 @@ const AddNursery = ({ data = {} }) => {
                   fullWidth
                   error={errors.closingHours ? true : false}
                   helperText={
-                    errors.closingHours && "Closing Hours is required"
+                    errors.closingHours && 'Closing Hours is required'
                   }
                 />
               </Grid>
@@ -440,8 +444,8 @@ const AddNursery = ({ data = {} }) => {
                   variant="standard"
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Nursery Website URL
@@ -450,13 +454,14 @@ const AddNursery = ({ data = {} }) => {
                   control={control}
                   id="website"
                   name="website"
+                  placeholder="https://www.example.com"
                   pattern={
                     /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
                   }
                   fullWidth
                   autoComplete="Website URL"
                   error={errors.website ? true : false}
-                  helperText={errors.website && "Website URL is required"}
+                  helperText={errors.website && 'Website URL is required'}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -480,7 +485,7 @@ const AddNursery = ({ data = {} }) => {
                   <ButtonBackground />
                   <AddProductIcon sx={{ mt: 0.6 }} fontSize="medium" />
                   <span className="relative">
-                    {action === "Enter" ? "Add" : "Update"} Nursery
+                    {action === 'Enter' ? 'Add' : 'Update'} Nursery
                   </span>
                 </button>
               </Grid>
@@ -489,7 +494,7 @@ const AddNursery = ({ data = {} }) => {
         </section>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AddNursery;
+export default AddNursery

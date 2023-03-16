@@ -1,11 +1,11 @@
-import { AddCircleOutline, Delete } from "@mui/icons-material/";
-import { Box, Grid, InputLabel, Typography } from "@mui/material";
-import React from "react";
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import { AddCircleOutline, Delete } from '@mui/icons-material/'
+import { Box, Grid, InputLabel, Typography } from '@mui/material'
+import React from 'react'
+import ControlledTextInput from '../Generic/ControlledComponents/ControlledTextInput'
 
 const PackageForm = ({ title, control, errors, show, deletable }) => {
-  const [showPackage, setShowPackage] = React.useState(show || false);
-  const packageTitle = React.useRef("");
+  const [showPackage, setShowPackage] = React.useState(show || false)
+  const packageTitle = React.useRef('')
   return (
     <Box
       sx={{
@@ -18,15 +18,15 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
       {!showPackage && (
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            cursor: "pointer",
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            cursor: 'pointer',
           }}
           onClick={() => {
-            setShowPackage(true);
+            setShowPackage(true)
           }}
         >
           <AddCircleOutline
@@ -46,10 +46,10 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
             variant="h6"
             gutterBottom
             sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
           >
             {title}
@@ -58,10 +58,10 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
                 sx={{
                   fontSize: 30,
                   mb: 2,
-                  cursor: "pointer",
+                  cursor: 'pointer',
                 }}
                 onClick={() => {
-                  setShowPackage(false);
+                  setShowPackage(false)
                 }}
               />
             )}
@@ -74,8 +74,8 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
                 required
                 sx={{
                   mb: 1.5,
-                  color: "text.primary",
-                  "& span": { color: "error.light" },
+                  color: 'text.primary',
+                  '& span': { color: 'error.light' },
                 }}
               >
                 Enter Package Title
@@ -85,6 +85,7 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
                 required
                 id="packageTitle"
                 name="packageTitle"
+                placeholder="Package Title"
                 fullWidth
               />
             </Grid>
@@ -95,8 +96,8 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
                 required
                 sx={{
                   mb: 1.5,
-                  color: "text.primary",
-                  "& span": { color: "error.light" },
+                  color: 'text.primary',
+                  '& span': { color: 'error.light' },
                 }}
               >
                 Enter Package Details
@@ -106,6 +107,7 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
                 required
                 id="packageDetails"
                 name="packageDetails"
+                placeholder="Package Details/Description"
                 multiline
                 rows={4}
                 fullWidth
@@ -118,8 +120,8 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
                 required
                 sx={{
                   mb: 1.5,
-                  color: "text.primary",
-                  "& span": { color: "error.light" },
+                  color: 'text.primary',
+                  '& span': { color: 'error.light' },
                 }}
               >
                 Enter Delivery Time
@@ -129,6 +131,7 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
                 required
                 id="deliveryTime"
                 name="deliveryTime"
+                placeholder="Delivery Time in Days/Hours"
                 fullWidth
               />
             </Grid>
@@ -139,8 +142,8 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
                 required
                 sx={{
                   mb: 1.5,
-                  color: "text.primary",
-                  "& span": { color: "error.light" },
+                  color: 'text.primary',
+                  '& span': { color: 'error.light' },
                 }}
               >
                 Enter Package Price
@@ -150,6 +153,7 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
                 required
                 id="packagePrice"
                 name="packagePrice"
+                placeholder="Package Price"
                 fullWidth
               />
             </Grid>
@@ -157,7 +161,7 @@ const PackageForm = ({ title, control, errors, show, deletable }) => {
         </>
       )}
     </Box>
-  );
-};
+  )
+}
 
-export default PackageForm;
+export default PackageForm

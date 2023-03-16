@@ -1,22 +1,22 @@
-import { InputLabel, MenuItem } from "@mui/material";
-import Chip from "@mui/material/Chip";
-import { styled } from "@mui/material/styles";
-import Grid from "@mui/material/Unstable_Grid2";
-import { useRouter } from "next/router";
-import React from "react";
-import { AddProductIcon } from "../../public/icons/AddProductIcon";
+import { InputLabel, MenuItem } from '@mui/material'
+import Chip from '@mui/material/Chip'
+import { styled } from '@mui/material/styles'
+import Grid from '@mui/material/Unstable_Grid2'
+import { useRouter } from 'next/router'
+import React from 'react'
+import { AddProductIcon } from '../../public/icons/AddProductIcon'
 //Controlled components
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { useForm } from "react-hook-form";
-import ButtonBackground from "../../assets/Pattern/ButtonBackground";
-import { uploadMultipleImages } from "../../services/fileUpload";
-import ControlledMultiDropzone from "../Generic/ControlledComponents/ControlledMultiDropzone";
-import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
-import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
-import LoadingScreen from "../Generic/LoadingScreen";
-const ListItem = styled("li")(({ theme }) => ({
+import { gql, useMutation, useQuery } from '@apollo/client'
+import { useForm } from 'react-hook-form'
+import ButtonBackground from '../../assets/Pattern/ButtonBackground'
+import { uploadMultipleImages } from '../../services/fileUpload'
+import ControlledMultiDropzone from '../Generic/ControlledComponents/ControlledMultiDropzone'
+import ControlledSelect from '../Generic/ControlledComponents/ControlledSelect'
+import ControlledTextInput from '../Generic/ControlledComponents/ControlledTextInput'
+import LoadingScreen from '../Generic/LoadingScreen'
+const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
-}));
+}))
 
 const GET_CATEGORIES = gql`
   query Categories {
@@ -25,7 +25,7 @@ const GET_CATEGORIES = gql`
       name
     }
   }
-`;
+`
 
 const GET_NURSERIES = gql`
   query Nurseries {
@@ -34,7 +34,7 @@ const GET_NURSERIES = gql`
       name
     }
   }
-`;
+`
 
 const CREATE_PRODUCT = gql`
   mutation Mutation($data: ProductCreateInput!) {
@@ -42,19 +42,19 @@ const CREATE_PRODUCT = gql`
       id
     }
   }
-`;
+`
 
 const UPDATE_PRODUCT = gql`
   mutation ProductUpdate($productUpdateId: ID!, $data: ProductUpdateInput!) {
     productUpdate(id: $productUpdateId, data: $data)
   }
-`;
+`
 
 const AddProduct = ({ data = {} }) => {
-  const [action, setAction] = React.useState("Enter");
-  const [action2, setAction2] = React.useState("Add");
+  const [action, setAction] = React.useState('Enter')
+  const [action2, setAction2] = React.useState('Add')
 
-  const router = useRouter();
+  const router = useRouter()
 
   const {
     register,
@@ -68,64 +68,64 @@ const AddProduct = ({ data = {} }) => {
     reset,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues: {
       tags: [],
     },
-  });
+  })
 
   React.useEffect(() => {
-    const parts = router.pathname.split("/");
-    parts[parts.length - 1] == "addProduct" ? action : setAction("Edit");
-    parts[parts.length - 1] == "addProduct" ? action2 : setAction2("Edit");
-  }, [router, action, action2]);
+    const parts = router.pathname.split('/')
+    parts[parts.length - 1] == 'addProduct' ? action : setAction('Edit')
+    parts[parts.length - 1] == 'addProduct' ? action2 : setAction2('Edit')
+  }, [router, action, action2])
 
   React.useEffect(() => {
-    if (action == "Edit") {
-      reset({ ...data, nursery: data.nursery.id, category: data.category.id });
+    if (action == 'Edit') {
+      reset({ ...data, nursery: data.nursery.id, category: data.category.id })
     }
-  }, [data, action, reset]);
+  }, [data, action, reset])
 
   const {
     data: categoryData,
     loading: categoryLoading,
     error: categoryError,
-  } = useQuery(GET_CATEGORIES);
+  } = useQuery(GET_CATEGORIES)
   const {
     data: nurseryData,
     loading: nurseryLoading,
     error: nurseryError,
-  } = useQuery(GET_NURSERIES);
+  } = useQuery(GET_NURSERIES)
 
   const [createProduct, { loading: loading3, error: error3 }] = useMutation(
     CREATE_PRODUCT,
     {
       onCompleted: () => {
-        alert("Product created successfully");
-        router.push("/admin/viewProducts");
+        alert('Product created successfully')
+        router.push('/admin/viewProducts')
       },
       onError: (error) => {
-        alert(error.message);
+        alert(error.message)
       },
-    }
-  );
+    },
+  )
 
   const [updateProduct, { loading: loading4, error: error4 }] = useMutation(
     UPDATE_PRODUCT,
     {
       onCompleted: () => {
-        alert("Product updated successfully");
-        router.push("/admin/viewProducts");
+        alert('Product updated successfully')
+        router.push('/admin/viewProducts')
       },
       onError: (error) => {
-        alert(error.message);
+        alert(error.message)
       },
-    }
-  );
+    },
+  )
 
   const onSubmit = async (formData) => {
-    const images = await uploadMultipleImages(formData.images);
-    if (action == "Edit") {
+    const images = await uploadMultipleImages(formData.images)
+    if (action == 'Edit') {
       updateProduct({
         variables: {
           productUpdateId: data.id,
@@ -143,7 +143,7 @@ const AddProduct = ({ data = {} }) => {
             tags: formData.tags,
           },
         },
-      });
+      })
     } else {
       createProduct({
         variables: {
@@ -161,35 +161,35 @@ const AddProduct = ({ data = {} }) => {
             tags: formData.tags,
           },
         },
-      });
+      })
     }
-  };
+  }
 
-  console.log(errors);
+  console.log(errors)
 
   const handleTagAdder = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      getValues("tags").push(e.target.value);
-      setValue("tag", "");
-      clearErrors("tag");
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      getValues('tags').push(e.target.value)
+      setValue('tag', '')
+      clearErrors('tag')
     }
-  };
+  }
 
   //   const [chipData, setChipData] = React.useState([{ key: 0, label: tags }])
 
   const handleDelete = (chipToDelete) => () => {
     // setTag((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
-    const tags = getValues("tags");
-    const filteredTags = tags.filter((tag) => tag !== chipToDelete);
-    setValue("tags", filteredTags);
-    console.log(getValues("tags"));
-    if (getValues("tags").length === 0) {
-      setError("tag", { type: "required" });
+    const tags = getValues('tags')
+    const filteredTags = tags.filter((tag) => tag !== chipToDelete)
+    setValue('tags', filteredTags)
+    console.log(getValues('tags'))
+    if (getValues('tags').length === 0) {
+      setError('tag', { type: 'required' })
     }
-  };
+  }
 
-  if (categoryLoading || nurseryLoading) return <LoadingScreen />;
+  if (categoryLoading || nurseryLoading) return <LoadingScreen />
   return (
     <>
       <div className="flex justify-center">
@@ -208,8 +208,8 @@ const AddProduct = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   Choose Product Category
@@ -223,7 +223,7 @@ const AddProduct = ({ data = {} }) => {
                   // defaultValue={"Plant"}
                   fullWidth
                   error={errors.category ? true : false}
-                  helperText={errors.category && "Please select a category"}
+                  helperText={errors.category && 'Please select a category'}
                 >
                   {categoryData.categories.map((category, index) => (
                     <MenuItem value={category.id} key={index}>
@@ -240,8 +240,8 @@ const AddProduct = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   Choose Nursery
@@ -255,7 +255,7 @@ const AddProduct = ({ data = {} }) => {
                   // defaultValue={"Nursery-x"}
                   fullWidth
                   error={errors.nursery ? true : false}
-                  helperText={errors.nursery && "Please select a nursery"}
+                  helperText={errors.nursery && 'Please select a nursery'}
                 >
                   {nurseryData.nurseries.map((nursery, index) => (
                     <MenuItem value={nursery.id} key={index}>
@@ -272,8 +272,8 @@ const AddProduct = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Product Name
@@ -283,10 +283,11 @@ const AddProduct = ({ data = {} }) => {
                   required
                   id="name"
                   name="name"
+                  placeholder="plant"
                   fullWidth
                   autoComplete="Product Name"
                   error={errors.name ? true : false}
-                  helperText={errors.name && "Product Name is required"}
+                  helperText={errors.name && 'Product Name is required'}
                 />
               </Grid>
 
@@ -297,8 +298,8 @@ const AddProduct = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Product Quantity
@@ -308,10 +309,11 @@ const AddProduct = ({ data = {} }) => {
                   required
                   id="stock"
                   name="stock"
+                  placeholder="10"
                   fullWidth
                   autoComplete="Product Description"
                   error={errors.stock ? true : false}
-                  helperText={errors.stock && "Product Quantity is required"}
+                  helperText={errors.stock && 'Product Quantity is required'}
                   // InputProps={{
                   //   startAdornment: (
                   //     <InputAdornment position="start">
@@ -329,8 +331,8 @@ const AddProduct = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Whole Sale Price
@@ -340,11 +342,12 @@ const AddProduct = ({ data = {} }) => {
                   required
                   id="wholesalePrice"
                   name="wholesalePrice"
+                  placeholder="Rs. 80"
                   fullWidth
                   autoComplete="Rs. 80"
                   error={errors.wholesalePrice ? true : false}
                   helperText={
-                    errors.wholesalePrice && "Whole Sale Price is required"
+                    errors.wholesalePrice && 'Whole Sale Price is required'
                   }
                 />
               </Grid>
@@ -356,8 +359,8 @@ const AddProduct = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Retail Price
@@ -369,8 +372,9 @@ const AddProduct = ({ data = {} }) => {
                   name="retailPrice"
                   fullWidth
                   autoComplete="Rs. 100"
+                  placeholder="Rs. 100"
                   error={errors.retailPrice ? true : false}
-                  helperText={errors.retailPrice && "Retail Price is required"}
+                  helperText={errors.retailPrice && 'Retail Price is required'}
                 />
               </Grid>
 
@@ -381,8 +385,8 @@ const AddProduct = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Product Description
@@ -392,12 +396,13 @@ const AddProduct = ({ data = {} }) => {
                   required
                   id="description"
                   name="description"
+                  placeholder="Product Description/Details"
                   fullWidth
                   multiline
                   rows={3}
                   error={errors.description ? true : false}
                   helperText={
-                    errors.description && "Product Description is required"
+                    errors.description && 'Product Description is required'
                   }
                 />
               </Grid>
@@ -409,8 +414,8 @@ const AddProduct = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: "text.primary",
-                    "& span": { color: "error.light" },
+                    color: 'text.primary',
+                    '& span': { color: 'error.light' },
                   }}
                 >
                   {action} Product Tags
@@ -422,19 +427,19 @@ const AddProduct = ({ data = {} }) => {
                   fullWidth
                   autoComplete="off"
                   onKeyDown={handleTagAdder}
-                  validate={() => watch("tags").length > 0}
+                  validate={() => watch('tags').length > 0}
                   placeholder="Press Enter to add a new Tag"
                   error={errors.tag ? true : false}
-                  helperText={errors.tag && "At least one tag is required"}
+                  helperText={errors.tag && 'At least one tag is required'}
                 />
 
                 <div className="flex flex-wrap justify-start list-none p-2 m-0">
-                  {watch("tags")?.map((data) => {
+                  {watch('tags')?.map((data) => {
                     return (
                       <ListItem key={data.key}>
                         <Chip label={data} onDelete={handleDelete(data)} />
                       </ListItem>
-                    );
+                    )
                   })}
                 </div>
               </Grid>
@@ -463,7 +468,7 @@ const AddProduct = ({ data = {} }) => {
         </section>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AddProduct;
+export default AddProduct
