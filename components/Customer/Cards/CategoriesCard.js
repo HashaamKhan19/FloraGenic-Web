@@ -47,8 +47,8 @@ const useStyles = createStyles((theme) => ({
 
     '&:hover': {
       boxShadow: `${theme.shadows.md} !important`,
-      transform: 'scale(1.05)',
-      transition: 'box-shadow 700ms ease , transform 700ms ease-out',
+      transform: 'scale(1.02)',
+      transition: 'box-shadow 400ms ease , transform 400ms ease-out',
     },
   },
 }))
@@ -68,7 +68,7 @@ export default function CategoriesCard() {
   ))
 
   return (
-    <Container size={'xl'} mt={80}>
+    <Container size={'xl'} mt={80} pb={'xl'}>
       <Group spacing={'xs'} mb={'lg'} pl={'lg'} position="apart">
         <Group>
           <BiCategory size={26} style={{ color: '#62A82C' }} />

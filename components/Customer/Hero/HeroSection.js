@@ -3,6 +3,7 @@ import CategoriesCard from '../Cards/CategoriesCard'
 import ProductsCarousel from '../Carousels/ProductsCarousel'
 import TopRatedNurseries from '../Cards/TopRatedNurseries'
 import ServiceCards from '../Cards/ServiceCards'
+import Banner from './Banner'
 
 export default function HeroSection() {
   return (
@@ -12,10 +13,11 @@ export default function HeroSection() {
       }}
     >
       <HeroCarousel />
-      <ProductsCarousel />
-      <TopRatedNurseries />
-      <CategoriesCard />
       <ServiceCards />
+      <ProductsCarousel />
+      <CategoriesCard />
+      <TopRatedNurseries />
+      <Banner />
     </div>
   )
 }

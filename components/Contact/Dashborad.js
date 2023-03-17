@@ -13,6 +13,7 @@ import { AiFillInstagram, AiOutlineTwitter } from 'react-icons/ai'
 import { BsFacebook } from 'react-icons/bs'
 import Image from 'next/image'
 import FloraGenicLogo from '../../public/Logo/floraGenic.png'
+import Link from 'next/link'
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -128,11 +129,13 @@ export default function Dashboard() {
           {items}
         </Group>
 
-        <Image
-          src={FloraGenicLogo}
-          alt="FloraGenic Logo"
-          className={classes.imageContainer}
-        />
+        <Link href={'/customer'}>
+          <Image
+            src={FloraGenicLogo}
+            alt="FloraGenic Logo"
+            className={classes.imageContainer}
+          />
+        </Link>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>
           <ActionIcon size="lg">

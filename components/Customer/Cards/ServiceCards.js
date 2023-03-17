@@ -1,106 +1,108 @@
 import {
-    Card, Container, createStyles, SimpleGrid, Text
+  Card,
+  Container,
+  createStyles,
+  Group,
+  SimpleGrid,
+  Stack,
+  Text,
 } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
 import { AiOutlineDollar } from 'react-icons/ai'
+import { BiTimer } from 'react-icons/bi'
 import { BsTruck } from 'react-icons/bs'
+import { GiReceiveMoney } from 'react-icons/gi'
 import { MdOutlineFactCheck } from 'react-icons/md'
+import { RiSecurePaymentLine } from 'react-icons/ri'
 
 const mockdata = [
   {
-    title: 'Free WorldWide Delivery',
-    description:
-      'Free shipping on all orders over $1. We ship to over 100 countries around the world.',
+    title: 'Fast Delivery',
+    description: 'Start from Rs. 99',
     icon: BsTruck,
   },
   {
-    title: 'Best Quality Products',
-    description:
-      'We offer the best quality products at the best prices. We are committed to providing you with the best possible service.',
-    icon: MdOutlineFactCheck,
+    title: 'Money Guarantee',
+    description: '7 Days Back',
+    icon: GiReceiveMoney,
   },
   {
-    title: 'Very Affordable Prices',
-    description:
-      'We offer the best quality products at the best prices. We are committed to providing you with the best possible service.',
-    icon: AiOutlineDollar,
+    title: '3 Days',
+    description: 'For Free Return',
+    icon: BiTimer,
+  },
+  {
+    title: 'Payment',
+    description: 'Secure System',
+    icon: RiSecurePaymentLine,
   },
 ]
 
 const useStyles = createStyles((theme) => ({
-  title: {
-    fontSize: 34,
-    fontWeight: 900,
-    [theme.fn.smallerThan('sm')]: {
-      fontSize: 24,
-    },
-  },
-
-  description: {
-    maxWidth: 600,
-    margin: 'auto',
-
-    '&::after': {
-      content: '""',
-      display: 'block',
-      backgroundColor: theme.fn.primaryColor(),
-      width: 45,
-      height: 2,
-      marginTop: theme.spacing.sm,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-  },
-
   card: {
-    border: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1]
-    }`,
+    border: `1px solid ${theme.colors.gray[3]}`,
+    transition: 'all 0.3s ease',
     '&:hover': {
-      boxShadow: `${theme.shadows.md} !important`,
-      transform: 'scale(1.02)',
-      transition: 'box-shadow 700ms ease , transform 700ms ease-out',
+      transform: 'translateY(-10px)',
     },
-  },
-
-  cardTitle: {
-    '&::after': {
-      content: '""',
-      display: 'block',
-      backgroundColor: '#62A82C',
-      width: 50,
-      height: 2,
-      marginTop: theme.spacing.sm,
-    },
-    color: 'darkslategray',
-    fontWeight: 600,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
 }))
 
 export default function ServiceCards() {
-  const { classes, theme } = useStyles()
+  const match768 = useMediaQuery('(max-width: 768px)')
+
+  const { classes } = useStyles()
   const features = mockdata.map((feature) => (
     <Card
       key={feature.title}
-      shadow="md"
+      shadow="xs"
       radius="md"
       className={classes.card}
-      p="xl"
+      style={{
+        height: 100,
+        width: match768 ? '100%' : 295,
+      }}
     >
-      <feature.icon size={50} stroke={2} color={'#62A82C'} />
-      <Text size="lg" weight={500} className={classes.cardTitle} mt="md">
-        {feature.title}
-      </Text>
-      <Text size="sm" color="dimmed" mt="sm">
-        {feature.description}
-      </Text>
+      <Group>
+        <Group pl={'xs'}>
+          <feature.icon size={50} stroke={2} color={'gray'} />
+        </Group>
+        <Stack spacing={2}>
+          <Text
+            size="lg"
+            style={{
+              color: 'darkslategray',
+              fontWeight: 500,
+            }}
+          >
+            {feature.title}
+          </Text>
+          <Text
+            size="sm"
+            style={{
+              color: 'darkslategray',
+              fontWeight: 400,
+            }}
+          >
+            {feature.description}
+          </Text>
+        </Stack>
+      </Group>
     </Card>
   ))
   return (
-    <Container size="xl" mt={80} pb={80}>
+    <Container size="xl" mt={80} pb={'xl'}>
       <SimpleGrid
-        cols={3}
+        cols={4}
         spacing="xl"
-        breakpoints={[{ maxWidth: 'md', cols: 1 }]}
+        breakpoints={[
+          { maxWidth: 768, cols: 1 },
+          { maxWidth: 940, cols: 2 },
+          { maxWidth: 1200, cols: 3 },
+        ]}
         px={'lg'}
       >
         {features}

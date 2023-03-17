@@ -37,7 +37,7 @@ export default function ProductsCardHero({ heart, data }) {
       radius="md"
       sx={{
         maxHeight: 400,
-        border: '1px solid #62A82C',
+        // border: '1px solid #62A82C',
       }}
     >
       <Card.Section mb="sm">
@@ -65,55 +65,32 @@ export default function ProductsCardHero({ heart, data }) {
         {data?.name}
       </Text>
 
-      {/* <Group mt="lg" noWrap>
-          <Box
-            style={{
-              maxHeight: 50,
-              maxWidth: 50,
-            }}
-          >
-            <Avatar src={data?.nursery?.images[0]} radius="sm" />
-          </Box>
-          <Stack spacing={0}>
-            <Group
-              style={{
-                maxWidth: 200,
-              }}
-            >
-              <Text
-                weight={500}
-                style={{
-                  color: 'darkslategrey',
-                }}
-                truncate
-              >
-                {data?.nursery?.name}
-              </Text>
-            </Group>
-            <Group
-              style={{
-                maxWidth: 200,
-              }}
-            >
-              <Text size="xs" color="dimmed" truncate>
-                {data?.nursery?.details}
-              </Text>
-            </Group>
-          </Stack>
-        </Group> */}
+      <Group noWrap spacing={'xs'}>
+        <Text
+          color="red"
+          weight={600}
+          mb={0}
+          my={'xs'}
+          style={{
+            fontSize: 18,
+          }}
+          strikethrough
+        >
+          Rs. {data?.retailPrice + 100}
+        </Text>
 
-      <Text
-        color="red"
-        weight={600}
-        mb={0}
-        my={'xs'}
-        style={{
-          fontSize: 20,
-        }}
-      >
-        Rs. {data?.retailPrice}
-      </Text>
-
+        <Text
+          color="red"
+          weight={600}
+          mb={0}
+          my={'xs'}
+          style={{
+            fontSize: 18,
+          }}
+        >
+          Rs. {data?.retailPrice}
+        </Text>
+      </Group>
       <Card.Section className={classes.footer}>
         <Group position="apart">
           <Text size="xs" color="dimmed">

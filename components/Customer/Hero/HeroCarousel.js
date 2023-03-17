@@ -1,54 +1,22 @@
-import ProductPage from '../Product/ProductPage'
-import ProductsCarousel from '../Carousels/ProductsCarousel'
-import {
-  Button,
-  Container,
-  Grid,
-  Group,
-  Image,
-  Paper,
-  Stack,
-  Text,
-} from '@mantine/core'
+import React, { useRef } from 'react'
+import { Image, Paper, Grid, Text, Button, Center } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import Autoplay from 'embla-carousel-autoplay'
-import { useRef } from 'react'
 
-export default function HeroCarousel() {
-  // const autoplay = useRef(Autoplay({ delay: 5000 }))
-  const images = [
-    {
-      id: 1,
-      url:
-        'https://images.unsplash.com/photo-1591495913229-12bcd022097b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-      description:
-        'Buy now to revamp your garden. Get 20% off on all plants here.',
-      buttonLabel: 'Shop Now',
-    },
-    {
-      id: 2,
-      url:
-        'https://images.unsplash.com/photo-1587131766835-e5dfaf70ea20?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80',
-      description:
-        'Buy now to revamp your garden. Get 50% off on all plants here.',
-      buttonLabel: 'Shop Now',
-    },
-  ]
+const HeroCarousel = () => {
+  const autoplay = useRef(Autoplay({ delay: 3000 }))
 
   return (
-    <>
+    <Paper style={{ width: '100%' }}>
       <Carousel
         withIndicators
-        height={500}
-        style={{
-          width: '100%',
-        }}
-        slideSize="100%"
-        align="center"
         withControls={false}
-        // plugins={[autoplay.current]}
-        // onMouseEnter={autoplay.current.stop}
-        // onMouseLeave={autoplay.current.reset}
+        mx="auto"
+        loop
+        maw={1000}
+        plugins={[autoplay.current]}
+        onMouseEnter={autoplay.current.stop}
+        onMouseLeave={autoplay.current.reset}
         styles={{
           indicator: {
             width: 12,
@@ -62,19 +30,99 @@ export default function HeroCarousel() {
           },
         }}
       >
-        {images.map((image) => (
-          <Carousel.Slide>
-            <Image
-              src={image.url}
-              alt="hero"
-              style={{
-                width: '100%',
-                objectFit: 'contain',
-              }}
-            />
-          </Carousel.Slide>
-        ))}
+        <Carousel.Slide>
+          <Grid mt={'xl'} mx="auto">
+            <Grid.Col md={6} xs={12} mt={'xl'}>
+              <Text
+                style={{
+                  fontWeight: 600,
+                  color: 'darkslategray',
+                  fontSize: '2.7rem',
+                }}
+              >
+                50% Off For Your First Shopping
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 400,
+                  color: 'darkslategray',
+                  fontSize: '1rem',
+                }}
+                mb={'xl'}
+                mt={'xs'}
+              >
+                Revamp your garden with our wide range of plants and gardening
+                tools. Shop now and get 50% off on your first purchase.
+              </Text>
+              <Button
+                style={{
+                  backgroundColor: '#62A82C',
+                  color: 'white',
+                }}
+                mt={'xs'}
+              >
+                Shop Now
+              </Button>
+            </Grid.Col>
+            <Grid.Col md={6} xs={12}>
+              <Center>
+                <Image
+                  src={'/images/HeroDeal/test2.png'}
+                  width={470}
+                  height={430}
+                />
+              </Center>
+            </Grid.Col>
+          </Grid>
+        </Carousel.Slide>
+        <Carousel.Slide>
+          <Grid mt={'xl'} mx="auto">
+            <Grid.Col md={6} xs={12} mt={'xl'}>
+              <Text
+                style={{
+                  fontWeight: 600,
+                  color: 'darkslategray',
+                  fontSize: '2.7rem',
+                }}
+              >
+                50% Off For Your First Shopping
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 400,
+                  color: 'darkslategray',
+                  fontSize: '1rem',
+                }}
+                mb={'xl'}
+                mt={'xs'}
+              >
+                Revamp your garden with our wide range of plants and gardening
+                tools. Shop now and get 50% off on your first purchase.
+              </Text>
+              <Button
+                style={{
+                  backgroundColor: '#62A82C',
+                  color: 'white',
+                }}
+                mt={'xs'}
+              >
+                Shop Now
+              </Button>
+            </Grid.Col>
+            <Grid.Col md={6} xs={12}>
+              <Center>
+                <Image
+                  src={'/images/HeroDeal/test1.png'}
+                  width={400}
+                  height={400}
+                />
+              </Center>
+            </Grid.Col>
+          </Grid>
+        </Carousel.Slide>
       </Carousel>
-    </>
+    </Paper>
   )
 }
+
+export default HeroCarousel
