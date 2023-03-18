@@ -12,6 +12,8 @@ import PeopleIcon from "@mui/icons-material/People";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
 import { gql, useQuery } from "@apollo/client";
 
+import LoadingScreen from "../Generic/LoadingScreen";
+
 const GET_ADMIN_STATS = gql`
   query Stats {
     stats {
@@ -38,7 +40,7 @@ const GET_ADMIN_STATS = gql`
 const Dashboard = () => {
   const { loading, error, data } = useQuery(GET_ADMIN_STATS);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <LoadingScreen />;
 
   if (error) return <p>Error :(</p>;
 
