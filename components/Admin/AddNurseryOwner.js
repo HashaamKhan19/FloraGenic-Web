@@ -114,7 +114,7 @@ const AddNurseryOwner = ({ control, getValues, setValue, errors }) => {
           pattern={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
           id="email"
           name="email"
-          placeholder="yourEmail@gmail.com"
+          placeholder="janedoe@gmail.com"
           fullWidth
           autoComplete="email"
           InputProps={{

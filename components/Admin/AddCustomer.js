@@ -114,7 +114,7 @@ const AddCustomer = ({ control, getValues, setValue, errors }) => {
           pattern={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
           name="email"
           id="email"
-          placeholder="yourEmail@gmail.com"
+          placeholder="janedoe@gmail.com"
           fullWidth
           autoComplete="email"
           InputProps={{

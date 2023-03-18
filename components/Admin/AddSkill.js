@@ -31,7 +31,7 @@ const UPDATE_GIG = gql`
   }
 `
 
-const AddGig = ({ data = {} }) => {
+const AddSkill = ({ data = {} }) => {
   const [action, setAction] = React.useState('Enter')
   const [action2, setAction2] = React.useState('Add')
 
@@ -97,8 +97,8 @@ const AddGig = ({ data = {} }) => {
 
   React.useEffect(() => {
     const parts = router.pathname.split('/')
-    parts[parts.length - 1] == 'addGig' ? action : setAction('Edit')
-    parts[parts.length - 1] == 'addGig' ? action2 : setAction2('Edit')
+    parts[parts.length - 1] == 'addSkill' ? action : setAction('Edit')
+    parts[parts.length - 1] == 'addSkill' ? action2 : setAction2('Edit')
   }, [router, action, action2])
 
   React.useEffect(() => {
@@ -113,7 +113,7 @@ const AddGig = ({ data = {} }) => {
         <section className="w-[75%] p-4 bg-white rounded-md shadow-md ">
           <h1 className="text-3xl font-semibold text-gray-800 capitalize text-center p-4">
             <CategoryIcon sx={{ mr: 1, mb: 0.3 }} fontSize="large" />
-            {action2} Gig
+            {action2} Skill
           </h1>
 
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -129,18 +129,18 @@ const AddGig = ({ data = {} }) => {
                     '& span': { color: 'error.light' },
                   }}
                 >
-                  {action} Gig Name
+                  {action} Skill Name
                 </InputLabel>
                 <ControlledTextInput
                   control={control}
                   required
                   id="name"
                   name="name"
-                  placeholder="Gig Name"
+                  placeholder="Skill Name"
                   fullWidth
-                  autoComplete="Gig Name"
+                  autoComplete="Skill Name"
                   error={errors.name ? true : false}
-                  helperText={errors.name && 'Gig Name is required'}
+                  helperText={errors.name && 'Skill Name is required'}
                 />
               </Grid>
 
@@ -155,21 +155,21 @@ const AddGig = ({ data = {} }) => {
                     '& span': { color: 'error.light' },
                   }}
                 >
-                  {action} Gig Description
+                  {action} Skill Description
                 </InputLabel>
                 <ControlledTextInput
                   control={control}
                   required
                   id="description"
                   name="description"
-                  placeholder="Gig Description"
+                  placeholder="Skill Description"
                   fullWidth
                   multiline
                   rows={2}
-                  autoComplete="Gig Description"
+                  autoComplete="Skill Description"
                   error={errors.description ? true : false}
                   helperText={
-                    errors.description && 'Gig Description is required'
+                    errors.description && 'Skill Description is required'
                   }
                 />
               </Grid>
@@ -185,7 +185,7 @@ const AddGig = ({ data = {} }) => {
                     '& span': { color: 'error.light' },
                   }}
                 >
-                  {action} Gig Image
+                  {action} Skill Image
                 </InputLabel>
                 <ControlledDropzone
                   control={control}
@@ -206,7 +206,7 @@ const AddGig = ({ data = {} }) => {
                 <button className="relative px-6 py-2 font-medium text-white transition duration-300 bg-green-500 rounded-md hover:bg-floraGreen ease">
                   <ButtonBackground />
                   <CategoryIcon sx={{ mr: 0.3, mb: 0.2 }} fontSize="small" />
-                  <span className="relative">{action2} Gig</span>
+                  <span className="relative">{action2} Skill</span>
                 </button>
               </Grid>
             </Grid>
@@ -217,4 +217,4 @@ const AddGig = ({ data = {} }) => {
   )
 }
 
-export default AddGig
+export default AddSkill

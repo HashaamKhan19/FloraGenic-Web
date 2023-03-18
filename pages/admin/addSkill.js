@@ -1,10 +1,10 @@
 import React from 'react'
-import AddGig from '../../components/Admin/AddGig'
+import AddSkill from '../../components/Admin/AddSkill'
 
 const addGig = () => {
   return (
     <>
-      <AddGig />
+      <AddSkill />
     </>
   )
 }

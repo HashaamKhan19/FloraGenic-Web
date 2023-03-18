@@ -113,7 +113,7 @@ const GET_USERS = gql`
           id
           firstName
           lastName
-          nationality
+
           phoneNumber
           gender
           image
@@ -124,7 +124,7 @@ const GET_USERS = gql`
           id
           firstName
           lastName
-          nationality
+
           phoneNumber
           gender
           CNIC
@@ -136,7 +136,7 @@ const GET_USERS = gql`
           id
           firstName
           lastName
-          nationality
+          city
           phoneNumber
           gender
           CNIC

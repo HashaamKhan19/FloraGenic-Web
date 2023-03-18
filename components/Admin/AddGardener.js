@@ -3,6 +3,7 @@ import { IconButton, InputAdornment, InputLabel, MenuItem } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useRouter } from 'next/router'
 import React from 'react'
+import CityOptions from '../Generic/CityOptions'
 
 // Controlled components
 import ControlledDropzone from '../Generic/ControlledComponents/ControlledDropzone'
@@ -10,6 +11,7 @@ import ControlledPatternInput from '../Generic/ControlledComponents/ControlledPa
 import ControlledSelect from '../Generic/ControlledComponents/ControlledSelect'
 import ControlledTelInput from '../Generic/ControlledComponents/ControlledTelInput'
 import ControlledTextInput from '../Generic/ControlledComponents/ControlledTextInput'
+import CheckableChips from '../Generic/ControlledComponents/ControlledChips'
 
 const AddGardener = ({ control, getValues, setValue, errors }) => {
   const router = useRouter()
@@ -115,7 +117,7 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           pattern={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
           id="email"
           name="email"
-          placeholder="yourEmail@gmail.com"
+          placeholder="janedoe@gmail.com"
           fullWidth
           autoComplete="email"
           InputProps={{
@@ -272,7 +274,7 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
 
       <Grid item xs={12} sm={6}>
         <InputLabel
-          htmlFor="nationality"
+          htmlFor="city"
           variant="standard"
           required
           sx={{
@@ -281,43 +283,91 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
             '& span': { color: 'error.light' },
           }}
         >
-          Nationality
+          Choose City
         </InputLabel>
-        <ControlledSelect
-          control={control}
-          required
-          id="nationality"
-          name="nationality"
-          autoComplete="Pakistan"
-          fullWidth
-        >
-          <MenuItem value="pakistan">Pakistan</MenuItem>
-        </ControlledSelect>
+        <CityOptions control={control} name="city" />
       </Grid>
-      {/* <Grid item xs={12}>
+
+      <Grid item xs={12} sm={6}>
         <InputLabel
-          htmlFor="address"
+          htmlFor="price"
           variant="standard"
           required
           sx={{
             mb: 1.5,
-            color: "text.primary",
-            "& span": { color: "error.light" },
+            color: 'text.primary',
+            '& span': { color: 'error.light' },
           }}
         >
-          {action} Address
+          {action} Price
         </InputLabel>
         <ControlledTextInput
           control={control}
           required
-          id="address"
-          name="address"
+          id="price"
+          name="price"
+          placeholder="Rs. 1000"
           fullWidth
-          autoComplete="address"
-          error={errors.address ? true : false}
-          helperText={errors.address && "Address is required"}
+          // autoComplete="Product Description"
+          // error={errors.stock ? true : false}
+          // helperText={errors.stock && 'Product Quantity is required'}
         />
-      </Grid> */}
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+        <InputLabel
+          htmlFor="duration"
+          variant="standard"
+          required
+          sx={{
+            mb: 1.5,
+            color: 'text.primary',
+            '& span': { color: 'error.light' },
+          }}
+        >
+          {action} Price Duration
+        </InputLabel>
+        <ControlledSelect
+          control={control}
+          required
+          id="duration"
+          name="duration"
+          autoComplete="duration"
+          fullWidth
+          defaultValue="hourly"
+        >
+          <MenuItem value="hourly">Hourly</MenuItem>
+          <MenuItem value="daily">Daily</MenuItem>
+          <MenuItem value="weekly">Weekly</MenuItem>
+          <MenuItem value="monthly">Monthly</MenuItem>
+        </ControlledSelect>
+      </Grid>
+
+      <Grid item xs={12}>
+        <InputLabel
+          htmlFor="experience"
+          variant="standard"
+          required
+          sx={{
+            mb: 1.5,
+            color: 'text.primary',
+            '& span': { color: 'error.light' },
+          }}
+        >
+          {action} Experience in Years
+        </InputLabel>
+        <ControlledTextInput
+          control={control}
+          required
+          id="experience"
+          name="experience"
+          placeholder="1 Year"
+          fullWidth
+          // autoComplete="Product Description"
+          // error={errors.stock ? true : false}
+          // helperText={errors.stock && 'Product Quantity is required'}
+        />
+      </Grid>
 
       <Grid item xs={12}>
         <InputLabel
@@ -345,6 +395,22 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           error={errors.CNIC ? true : false}
           helperText={errors.CNIC && 'CNIC is required'}
         />
+      </Grid>
+
+      <Grid item xs={12}>
+        <InputLabel
+          htmlFor="Chips"
+          variant="standard"
+          required
+          sx={{
+            mb: 1.5,
+            color: 'text.primary',
+            '& span': { color: 'error.light' },
+          }}
+        >
+          Select Skills
+        </InputLabel>
+        <CheckableChips control={control} name="skills" />
       </Grid>
 
       <Grid item xs={12}>

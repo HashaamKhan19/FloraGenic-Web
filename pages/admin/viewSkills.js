@@ -1,10 +1,10 @@
 import React from 'react'
-import ViewGigs from '../../components/Admin/ViewGigs'
+import ViewSkills from '../../components/Admin/ViewSkills'
 
 export default function viewGigs() {
   return (
     <>
-      <ViewGigs />
+      <ViewSkills />
     </>
   )
 }

@@ -20,29 +20,9 @@ import ByAvailability from '../Filters/FilterTypes/ByAvailability'
 import ByCity from '../Filters/FilterTypes/ByCity'
 import { gql, useQuery } from '@apollo/client'
 
-const GET_GARDENERS = gql`
-  query Query {
-    gardeners {
-      city
-      firstName
-      lastName
-      image
-      skills {
-        endorsements
-        skill {
-          name
-        }
-      }
-      id
-    }
-  }
-`
-
 export default function GardenerListings() {
   const matches575 = useMediaQuery('(max-width:575px)')
   const [opened, setOpened] = useState(false)
-
-  const { loading, error, data } = useQuery(GET_GARDENERS)
 
   return (
     <Container size={'xl'} pt={60} pb={50}>

@@ -1,6 +1,17 @@
-import React from "react";
-import { MenuItem, Select } from "@mui/material";
-import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import React from 'react'
+import { MenuItem, Select } from '@mui/material'
+import ControlledSelect from '../Generic/ControlledComponents/ControlledSelect'
+
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+}
 
 export default function CityOptions({ control, name }) {
   return (
@@ -11,7 +22,8 @@ export default function CityOptions({ control, name }) {
       id={name}
       autoComplete={name}
       fullWidth
-      defaultValue={"Islamabad"}
+      defaultValue={'Islamabad'}
+      MenuProps={MenuProps}
     >
       <MenuItem value="Islamabad">Islamabad</MenuItem>
       <MenuItem value="" disabled>
@@ -263,5 +275,5 @@ export default function CityOptions({ control, name }) {
       <MenuItem value="Zhob">Zhob</MenuItem>
       <MenuItem value="Ziarat">Ziarat</MenuItem>
     </ControlledSelect>
-  );
+  )
 }

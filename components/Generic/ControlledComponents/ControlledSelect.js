@@ -1,12 +1,12 @@
-import { FormControl, FormHelperText, Select } from "@mui/material";
-import { Controller } from "react-hook-form";
+import { FormControl, FormHelperText, Select } from '@mui/material'
+import { Controller } from 'react-hook-form'
 
 const ControlledSelect = ({
   name,
   control,
-  pattern = "",
+  pattern = '',
   required = false,
-  defaultValue = "",
+  defaultValue = '',
   validate = null,
   children,
   helperText = null,
@@ -27,7 +27,7 @@ const ControlledSelect = ({
         </FormControl>
       )}
     />
-  );
-};
+  )
+}
 
-export default ControlledSelect;
+export default ControlledSelect
