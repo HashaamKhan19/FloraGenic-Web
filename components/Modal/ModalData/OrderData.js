@@ -1,28 +1,10 @@
-import { Table, TableCell, TableRow } from "@mui/material";
+import { Chip, Table, TableCell, TableRow } from "@mui/material";
 import Image from "next/legacy/image";
 import React from "react";
-import placeholder from "../../../assets/images/placeholder.png";
 
-const NurseryData = ({ data }) => {
+const OrderData = ({ data }) => {
   return (
     <>
-      <Image
-        src={data?.images?.[0] || placeholder}
-        alt="Profile Image"
-        showLoading
-        duration={0}
-        width={200}
-        height={200}
-        style={{
-          height: "auto",
-          aspectRatio: "1",
-          objectFit: "cover",
-          borderRadius: "50%",
-          padding: "20px",
-          border: "1px solid rgba(0,0,0,0.1)",
-        }}
-      />
-
       <Table
         width="full"
         size="small"
@@ -34,60 +16,12 @@ const NurseryData = ({ data }) => {
               fontWeight: "600",
             }}
           >
-            Name:
-          </TableCell>
-          <TableCell>{data?.name}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell
-            sx={{
-              fontWeight: "600",
-            }}
-          >
-            Details:
-          </TableCell>
-          <TableCell>{data?.details}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell
-            sx={{
-              fontWeight: "600",
-            }}
-          >
-            Nursery Address:
-          </TableCell>
-          <TableCell>{data?.address}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell
-            sx={{
-              fontWeight: "600",
-            }}
-          >
-            Email Address:
-          </TableCell>
-          <TableCell>{data?.email}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell
-            sx={{
-              fontWeight: "600",
-            }}
-          >
-            Phone Number:
-          </TableCell>
-          <TableCell>{data?.phoneNumber}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell
-            sx={{
-              fontWeight: "600",
-            }}
-          >
-            Opening Hours:
+            Customer Name:
           </TableCell>
           <TableCell>
-            {new Date(data?.openingHours).toLocaleTimeString()}
+            {data?.customerDetails?.firstName +
+              " " +
+              data?.customerDetails?.lastName}
           </TableCell>
         </TableRow>
         <TableRow>
@@ -96,10 +30,50 @@ const NurseryData = ({ data }) => {
               fontWeight: "600",
             }}
           >
-            Closing Hours:
+            Ordered On :
+          </TableCell>
+          <TableCell>{new Date(data?.orderingDate).toString()}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell
+            sx={{
+              fontWeight: "600",
+            }}
+          >
+            Total Price:
+          </TableCell>
+          <TableCell>{`Rs. ${data?.totalPrice}`}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell
+            sx={{
+              fontWeight: "600",
+            }}
+          >
+            Discount:
+          </TableCell>
+          <TableCell>{`${data?.discount}%`}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell
+            sx={{
+              fontWeight: "600",
+            }}
+          >
+            After Discount:
+          </TableCell>
+          <TableCell>{`Rs. ${data?.totalPriceAfterDiscount}`}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell
+            sx={{
+              fontWeight: "600",
+            }}
+          >
+            Order Status:
           </TableCell>
           <TableCell>
-            {new Date(data?.closingHours).toLocaleTimeString()}
+            <Chip label={data?.orderStatus} />
           </TableCell>
         </TableRow>
         <TableRow>
@@ -108,13 +82,15 @@ const NurseryData = ({ data }) => {
               fontWeight: "600",
             }}
           >
-            Website:
+            Payment Status:
           </TableCell>
-          <TableCell>{data?.website || "N/A"}</TableCell>
+          <TableCell>
+            <Chip label={data?.paymentStatus} />
+          </TableCell>
         </TableRow>
       </Table>
     </>
   );
 };
 
-export default NurseryData;
+export default OrderData;

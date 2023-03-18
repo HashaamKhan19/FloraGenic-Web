@@ -2,12 +2,11 @@ import { Table, TableCell, TableRow } from "@mui/material";
 import Image from "next/legacy/image";
 import React from "react";
 
-const CategoryData = ({ data }) => {
-  console.log(data);
+const SkillData = ({ data }) => {
   return (
     <>
       <Image
-        src={data?.customer?.image}
+        src={data?.image}
         alt="Profile Image"
         showLoading
         duration={0}
@@ -63,4 +62,4 @@ const CategoryData = ({ data }) => {
   );
 };
 
-export default CategoryData;
+export default SkillData;

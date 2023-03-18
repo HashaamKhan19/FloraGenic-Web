@@ -1,13 +1,14 @@
 import { Table, TableCell, TableRow } from "@mui/material";
 import Image from "next/legacy/image";
 import React from "react";
+import placeholder from "../../../assets/images/placeholder.png";
 
 const ProductData = ({ data }) => {
   console.log(data);
   return (
     <>
       <Image
-        src={data?.image}
+        src={data?.images?.[0] || placeholder}
         alt="Profile Image"
         showLoading
         duration={0}
