@@ -4,7 +4,7 @@ import Image from "next/legacy/image";
 import React from "react";
 import { useDropzone } from "react-dropzone";
 
-export default function DropZone({ onChange, getValues, name, setValue }) {
+const DropZone = ({ onChange, getValues, name, setValue }, ref) => {
   const {
     getRootProps,
     getInputProps,
@@ -24,6 +24,7 @@ export default function DropZone({ onChange, getValues, name, setValue }) {
   });
   return (
     <Box
+      ref={ref}
       sx={{
         position: "relative",
         display: "flex",
@@ -114,4 +115,6 @@ export default function DropZone({ onChange, getValues, name, setValue }) {
       )}
     </Box>
   );
-}
+};
+
+export default React.forwardRef(DropZone);

@@ -38,7 +38,7 @@ const GET_UER_BY_ID = gql`
           id
           firstName
           lastName
-          nationality
+          city
           phoneNumber
           gender
           CNIC
