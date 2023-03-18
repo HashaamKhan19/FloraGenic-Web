@@ -119,12 +119,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Customer added successfully");
-      // alert("Customer added successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      console.log(error);
     },
   });
 
@@ -132,12 +130,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Gardener added successfully");
-      // alert("Customer added successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      console.log(error);
     },
   });
 
@@ -145,12 +141,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Admin added successfully");
-      // alert("User added successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      alert(error);
     },
   });
 
@@ -158,12 +152,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Nursery Owner added successfully");
-      // alert("User added successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      alert(error);
     },
   });
 
@@ -171,12 +163,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Admin updated successfully");
-      // alert("User updated successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      // alert(error);
     },
   });
 
@@ -184,12 +174,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Gardener updated successfully");
-      // alert("User updated successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      // alert(error);
     },
   });
 
@@ -197,12 +185,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Nursery Owner updated successfully");
-      // alert("User updated successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      // alert(error);
     },
   });
 
@@ -210,12 +196,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Customer updated successfully");
-      // alert("User updated successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      // alert(error);
     },
   });
 

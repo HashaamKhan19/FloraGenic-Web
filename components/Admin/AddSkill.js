@@ -14,6 +14,7 @@ import { uploadImage } from "../../services/fileUpload";
 // Controlled components
 import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
 import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import TaskConfirmationModal from "../Generic/TaskConfirmationModal";
 
 const ADD_SKILL = gql`
   mutation SkillCreate($data: SkillCreateInput!) {
@@ -35,6 +36,10 @@ const UPDATE_GIG = gql`
 const AddSkill = ({ data = {} }) => {
   const [action, setAction] = React.useState("Enter");
   const [action2, setAction2] = React.useState("Add");
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState(null);
+  const [successMessage, setSuccessMessage] = React.useState(null);
 
   const {
     register,
@@ -51,26 +56,29 @@ const AddSkill = ({ data = {} }) => {
 
   const [addSkill] = useMutation(ADD_SKILL, {
     onCompleted: () => {
-      toast.success("Skill Added Successfully");
-      router.push("/admin/viewGigs");
+      setLoading(false);
+      setSuccessMessage("Skill added successfully");
     },
     onError: (error) => {
-      toast.error(error.response.data.message);
+      setLoading(false);
+      setErrorMessage(error);
     },
   });
 
   const [updateGig] = useMutation(UPDATE_GIG, {
     onCompleted: () => {
-      toast.success("Gig Updated Successfully");
-      router.push("/admin/viewSkills");
+      setLoading(false);
+      setSuccessMessage("Skill updated successfully");
     },
     onError: (error) => {
-      console.log(error);
-      toast.error(error.response.data.message);
+      setLoading(false);
+      setErrorMessage(error);
     },
   });
 
   const onSubmit = async (formData) => {
+    setLoading(true);
+    setModalOpen(true);
     const image = await uploadImage(formData.image, "skill-images");
     if (action == "Edit") {
       console.log("Edit");
@@ -215,6 +223,13 @@ const AddSkill = ({ data = {} }) => {
           </form>
         </section>
       </div>
+      <TaskConfirmationModal
+        open={modalOpen}
+        redirectURL="/admin/viewSkills"
+        loading={loading}
+        successMessage={successMessage}
+        err={errorMessage}
+      />
     </>
   );
 };

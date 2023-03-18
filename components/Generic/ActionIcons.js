@@ -181,6 +181,7 @@ const ActionIcons = ({
         });
         break;
       case "product":
+        console.log(data.id);
         deleteProduct({
           variables: {
             productDeleteId: data.id,

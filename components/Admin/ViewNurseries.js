@@ -212,8 +212,8 @@ export default function ViewNurseries() {
         }}
         rows={data?.nurseries || []}
         columns={columns}
-        pageSize={7}
-        rowsPerPageOptions={[7]}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
         checkboxSelection
         autoHeight
         disableSelectionOnClick
