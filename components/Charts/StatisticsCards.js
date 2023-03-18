@@ -1,7 +1,7 @@
-import React from 'react'
-import { Card, CardContent, Typography, IconButton, Box } from '@mui/material'
-import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp'
-import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown'
+import React from "react";
+import { Card, CardContent, Typography, IconButton, Box } from "@mui/material";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 export default function StatisticsCards({
   amount,
@@ -14,16 +14,17 @@ export default function StatisticsCards({
     <Card>
       <CardContent
         sx={{
-          backgroundColor: 'primary.light',
+          backgroundColor: "primary.light",
         }}
       >
         <Box
           sx={{
-            color: 'black',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            color: "black",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "0.5rem",
           }}
         >
           <Box>
@@ -31,18 +32,20 @@ export default function StatisticsCards({
               variant="caption"
               component="div"
               sx={{
-                textTransform: 'uppercase',
-                fontWeight: 'semibold',
+                textTransform: "uppercase",
+                fontWeight: 400,
+                marginBottom: "0.5rem",
               }}
             >
               {text}
             </Typography>
             <Typography
               variant="h5"
+              fontWeight={500}
               component="div"
               sx={{
-                display: 'flex',
-                alignItems: 'center',
+                display: "flex",
+                alignItems: "center",
               }}
             >
               {amount}
@@ -50,38 +53,18 @@ export default function StatisticsCards({
           </Box>
           <Box
             sx={{
-              backgroundColor: 'secondary.contrastText',
-              aspectRatio: '1',
-              borderRadius: '50%',
-              height: 40,
-              display: 'grid',
-              placeItems: 'center',
+              backgroundColor: "secondary.contrastText",
+              aspectRatio: "1",
+              borderRadius: "50%",
+              height: 50,
+              display: "grid",
+              placeItems: "center",
             }}
           >
             {icon}
           </Box>
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            mt: 1,
-            // color: '#295e00'
-          }}
-        >
-          {trend === 'up' ? (
-            <KeyboardDoubleArrowUpIcon sx={{ color: '#418f04' }} size={16} />
-          ) : (
-            <KeyboardDoubleArrowDownIcon sx={{ color: '#a61c2c' }} size={16} />
-          )}
-
-          <Typography variant="caption">
-            <span>{percentage}% </span>
-            <span>Since Last Month</span>
-          </Typography>
-        </Box>
       </CardContent>
     </Card>
-  )
+  );
 }
