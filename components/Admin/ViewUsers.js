@@ -158,7 +158,7 @@ export default function ViewUsers() {
   const [searchValue, setSearchValue] = React.useState("");
   const [pageSize, setPageSize] = React.useState(10);
 
-  const { loading, error, data } = useQuery(GET_USERS);
+  const { loading, error, data, refetch } = useQuery(GET_USERS);
 
   // Menu handlers
   const handleImportClick = (event) => {
@@ -179,11 +179,8 @@ export default function ViewUsers() {
       setRows(() => {
         return data?.users?.filter((user) => {
           return (
-            user?.details?.firstName
-              ?.toLowerCase()
-              .includes(searchValue.toLowerCase()) ||
-            user?.details?.lastName
-              ?.toLowerCase()
+            (user?.details?.firstName + " " + user?.details?.lastName)
+              .toLowerCase()
               .includes(searchValue.toLowerCase()) ||
             user?.email?.toLowerCase().includes(searchValue.toLowerCase()) ||
             user?.userType?.toLowerCase().includes(searchValue.toLowerCase())
