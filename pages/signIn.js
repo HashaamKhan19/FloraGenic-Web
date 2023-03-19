@@ -43,7 +43,7 @@ const SignIn = () => {
         borderRadius={"30px"}
         overflow={"hidden"}
         bgcolor={"white"}
-        mx={2}
+        m={2}
       >
         <Box
           position={"relative"}
