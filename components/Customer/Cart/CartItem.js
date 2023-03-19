@@ -47,52 +47,65 @@ export default function CartItem({ closeDrawer }) {
 
   const { cartItems } = useContext(ShopContext)
 
+  // Calculate total amount
+  const totalAmount = cartItems.reduce((total, item) => {
+    const product = data?.products.find((p) => p.id === item.id)
+    if (product) {
+      return total + product.retailPrice * item.quantity
+    }
+    return total
+  }, 0)
+
   return (
     <Box style={{ height: 'calc(100vh - 200px)', overflowY: 'scroll' }}>
       {data?.products
         ?.filter((product) => {
           return cartItems.some((item) => item.id === product.id)
         })
-        .map((product) => {
-          return <CartItemsDrawer product={product} key={product.id} />
+        .map((product, index) => {
+          return (
+            <CartItemsDrawer product={product} index={index} key={product.id} />
+          )
         })}
-      <Stack
-        style={{
-          position: 'absolute',
-          bottom: 5,
-          left: 0,
-          right: 0,
-          padding: '1rem',
-        }}
-        spacing={'sm'}
-      >
-        <Button
+      {cartItems.length !== 0 && (
+        <Stack
           style={{
-            backgroundColor: '#62A82C',
-            color: 'white',
+            position: 'absolute',
+            bottom: 5,
+            left: 0,
+            right: 0,
+            padding: '1rem',
           }}
-        >
-          Checkout Now (Rs. 1000)
-        </Button>
-        <Link
-          href={'/customer/viewCart'}
-          style={{
-            width: '100%',
-          }}
+          spacing={'sm'}
         >
           <Button
             style={{
-              backgroundColor: 'white',
-              color: '#62A82C',
-              border: '1px solid #62A82C',
+              backgroundColor: '#62A82C',
+              color: 'white',
+            }}
+          >
+            Checkout Now (Rs. {totalAmount})
+          </Button>
+          <Link
+            href={'/customer/viewCart'}
+            style={{
               width: '100%',
             }}
-            onClick={closeDrawer}
           >
-            View Cart
-          </Button>
-        </Link>
-      </Stack>
+            <Button
+              style={{
+                backgroundColor: 'white',
+                color: '#62A82C',
+                border: '1px solid #62A82C',
+                width: '100%',
+              }}
+              onClick={closeDrawer}
+            >
+              View Cart ({cartItems.reduce((total, item) => total + 1, 0)})
+            </Button>
+          </Link>
+        </Stack>
+      )}
     </Box>
   )
 }

@@ -10,7 +10,7 @@ import {
   Stack,
   Box,
 } from '@mantine/core'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { FiHeart } from 'react-icons/fi'
 import { MdOutlineAddShoppingCart } from 'react-icons/md'
 import { ShopContext } from '../../../context/shopContextProvider'
@@ -31,6 +31,8 @@ const useStyles = createStyles((theme) => ({
 
 export default function ProductCard({ heart, data }) {
   const { classes, theme } = useStyles()
+
+  const [heartChecked, setHeartChecked] = useState(heart || false)
 
   const { addToCart } = useContext(ShopContext)
 
@@ -131,9 +133,20 @@ export default function ProductCard({ heart, data }) {
                 onClick={(e) => {
                   e.stopPropagation()
                   e.preventDefault()
+                  setHeartChecked(!heartChecked)
                 }}
               >
-                <FiHeart size={18} />
+                <FiHeart
+                  size={18}
+                  style={{
+                    color: heartChecked ? 'red' : '',
+                    fill: heartChecked ? '#D92228' : '',
+                    transition: 'fill 0.5s ease-in-out',
+                    animation: `${
+                      heartChecked ? 'sparkle 0.5s ease-in-out' : ''
+                    }`,
+                  }}
+                />
               </ActionIcon>
             )}
             <ActionIcon
@@ -142,20 +155,33 @@ export default function ProductCard({ heart, data }) {
               onClick={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
+                addToCart(data?.id)
               }}
               disabled={data?.stock === 0}
             >
-              <MdOutlineAddShoppingCart
-                size={16}
-                stroke={1.5}
-                onClick={() => {
-                  addToCart(data?.id)
-                }}
-              />
+              <MdOutlineAddShoppingCart size={16} stroke={1.5} />
             </ActionIcon>
           </Group>
         </Group>
       </Card.Section>
+      <style>
+        {`
+          @keyframes sparkle {
+            0% {
+              transform: scale(1);
+              opacity: 1;
+            }
+            50% {
+              transform: scale(1.2);
+              opacity: 0.5;
+            }
+            100% {
+              transform: scale(1);
+              opacity: 1;
+            }
+          }
+          `}
+      </style>
     </Card>
   )
 }
