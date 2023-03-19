@@ -97,15 +97,16 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6}>
           <FeedbackChart
+            title="Users by Type"
             data={
-              stats.feedbackByType &&
-              stats.feedbackByType.map((item) => {
+              stats.usersByType &&
+              stats.usersByType.map((item) => {
                 return item.count;
               })
             }
             labels={
-              stats.feedbackByType &&
-              stats.feedbackByType.map((item) => {
+              stats.usersByType &&
+              stats.usersByType.map((item) => {
                 return item.type;
               })
             }
@@ -130,16 +131,15 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={6}>
           <FeedbackChart
-            title="Users by Type"
             data={
-              stats.usersByType &&
-              stats.usersByType.map((item) => {
+              stats.feedbackByType &&
+              stats.feedbackByType.map((item) => {
                 return item.count;
               })
             }
             labels={
-              stats.usersByType &&
-              stats.usersByType.map((item) => {
+              stats.feedbackByType &&
+              stats.feedbackByType.map((item) => {
                 return item.type;
               })
             }

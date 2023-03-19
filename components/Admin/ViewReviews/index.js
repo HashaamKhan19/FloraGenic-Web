@@ -1,6 +1,7 @@
 import * as React from "react";
 import DataTable from "../../Generic/DataTable";
 import { columns } from "./columns";
+import HouseSidingIcon from "@mui/icons-material/HouseSiding";
 
 const rows = [
   {
@@ -27,6 +28,8 @@ const rows = [
 ];
 
 export default function ViewReviews() {
+  const [searchValue, setSearchValue] = React.useState("");
+
   return (
     <DataTable
       rows={rows}
