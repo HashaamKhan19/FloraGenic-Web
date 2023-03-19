@@ -1,12 +1,23 @@
+import { useMutation } from "@apollo/client";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
-import Image from "next/legacy/image";
-import { Button, MenuItem, Typography, useMediaQuery } from "@mui/material";
-import ControlledTextInput from "../../Generic/ControlledComponents/ControlledTextInput";
-import { useForm } from "react-hook-form";
-import ControlledSelect from "../../Generic/ControlledComponents/ControlledSelect";
 import Link from "next/link";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import ControlledSelect from "../../Generic/ControlledComponents/ControlledSelect";
+import ControlledTextInput from "../../Generic/ControlledComponents/ControlledTextInput";
 import AuthLayout from "../AuthLayout";
+import { LOGIN_QUERY } from "./queries";
 
 const SignInCard = () => {
   const {
@@ -22,11 +33,30 @@ const SignInCard = () => {
     mode: "onChange",
   });
 
+  const [visible, setVisible] = React.useState(false);
+
   const isTablet = useMediaQuery("(max-width: 1000px)");
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  const [login, { data, loading, error }] = useMutation(LOGIN_QUERY, {
+    onCompleted: (data) => {
+      toast.success("Login Successful!");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const onSubmit = (data) => {
-    console.log(data);
+    login({
+      variables: {
+        credentials: {
+          email: data.email,
+          password: data.password,
+          userType: data.userType,
+        },
+      },
+    });
   };
 
   return (
@@ -66,13 +96,35 @@ const SignInCard = () => {
           required
           fullWidth
           placeholder="Email"
+          pattern={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
+          error={errors.email ? true : false}
+          helperText={errors.email && "Please Enter a Valid Email Address"}
         />
         <ControlledTextInput
           control={control}
-          name="email"
+          name="password"
           required
           fullWidth
           placeholder="Password"
+          type={visible ? "text" : "password"}
+          validate={(value) => value.length > 5}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={(e) => {
+                    setVisible(!visible);
+                  }}
+                >
+                  {visible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          error={errors.password ? true : false}
+          helperText={
+            errors.password && "Password can't be less than 5 characters"
+          }
         />
       </Box>
       <Box width={"100%"} px={isMobile ? 5 : 10}>
@@ -86,6 +138,7 @@ const SignInCard = () => {
             color: "white",
             mb: 2,
           }}
+          type="submit"
         >
           Login
         </Button>
