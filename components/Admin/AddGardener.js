@@ -1,48 +1,52 @@
-import { AlternateEmail, Visibility, VisibilityOff } from '@mui/icons-material'
-import { IconButton, InputAdornment, InputLabel, MenuItem } from '@mui/material'
-import Grid from '@mui/material/Unstable_Grid2'
-import { useRouter } from 'next/router'
-import React from 'react'
-import CityOptions from '../Generic/CityOptions'
+import { AlternateEmail, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+} from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
+import { useRouter } from "next/router";
+import React from "react";
+import CityOptions from "../Generic/CityOptions";
 
 // Controlled components
-import ControlledDropzone from '../Generic/ControlledComponents/ControlledDropzone'
-import ControlledPatternInput from '../Generic/ControlledComponents/ControlledPatternInput'
-import ControlledSelect from '../Generic/ControlledComponents/ControlledSelect'
-import ControlledTelInput from '../Generic/ControlledComponents/ControlledTelInput'
-import ControlledTextInput from '../Generic/ControlledComponents/ControlledTextInput'
-import CheckableChips from '../Generic/ControlledComponents/ControlledChips'
+import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
+import ControlledPatternInput from "../Generic/ControlledComponents/ControlledPatternInput";
+import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInput";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import CheckableChips from "../Generic/ControlledComponents/ControlledChips";
 
 const AddGardener = ({ control, getValues, setValue, errors }) => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [action, setAction] = React.useState('Enter')
+  const [action, setAction] = React.useState("Enter");
 
   React.useEffect(() => {
-    const parts = router.pathname.split('/')
-    parts[parts.length - 1] == 'addUser' ? action : setAction('Edit')
-  }, [router, action])
+    const parts = router.pathname.split("/");
+    parts[parts.length - 1] == "addUser" ? action : setAction("Edit");
+  }, [router, action]);
 
   const passwordDisplay = () => {
     {
-      showPassword == 'text'
-        ? setShowPassword('password')
-        : setShowPassword('text')
+      showPassword == "text"
+        ? setShowPassword("password")
+        : setShowPassword("text");
     }
-  }
+  };
 
   const confirmPasswordDisplay = () => {
     {
-      showConfirmPassword == 'text'
-        ? setShowConfirmPassword('password')
-        : setShowConfirmPassword('text')
+      showConfirmPassword == "text"
+        ? setShowConfirmPassword("password")
+        : setShowConfirmPassword("text");
     }
-  }
+  };
 
-  const [showPassword, setShowPassword] = React.useState('password')
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(
-    'password',
-  )
+  const [showPassword, setShowPassword] = React.useState("password");
+  const [showConfirmPassword, setShowConfirmPassword] =
+    React.useState("password");
   return (
     <>
       <Grid item xs={12} sm={6}>
@@ -52,8 +56,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} First Name
@@ -67,7 +71,7 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           fullWidth
           autoComplete="family-name"
           error={errors.firstName ? true : false}
-          helperText={errors.firstName && 'First name is required'}
+          helperText={errors.firstName && "First name is required"}
         />
       </Grid>
 
@@ -78,8 +82,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Last Name
@@ -93,27 +97,27 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           fullWidth
           autoComplete="family-name"
           error={errors.lastName ? true : false}
-          helperText={errors.lastName && 'Last name is required'}
+          helperText={errors.lastName && "Last name is required"}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
         <InputLabel
           htmlFor="email"
           variant="standard"
-          required={action == 'Enter' ? true : false}
-          disabled={action == 'Enter' ? false : true}
+          required={action == "Enter" ? true : false}
+          disabled={action == "Enter" ? false : true}
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Email
         </InputLabel>
         <ControlledTextInput
           control={control}
-          required={action == 'Enter' ? true : false}
-          disabled={action == 'Enter' ? false : true}
+          required={action == "Enter" ? true : false}
+          disabled={action == "Enter" ? false : true}
           pattern={/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/}
           id="email"
           name="email"
@@ -128,7 +132,7 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
             ),
           }}
           error={errors.email ? true : false}
-          helperText={errors.email && 'Email is required'}
+          helperText={errors.email && "Email is required"}
         />
       </Grid>
 
@@ -139,8 +143,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Phone Number
@@ -160,24 +164,25 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
         <InputLabel
           htmlFor="password"
           variant="standard"
-          required={action == 'Enter' ? true : false}
+          required={action == "Enter" ? true : false}
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Password
         </InputLabel>
         <ControlledTextInput
           control={control}
-          required={action == 'Enter' ? true : false}
+          required={action == "Enter" ? true : false}
           minLength={5}
           name="password"
           id="password"
           type={showPassword}
           fullWidth
           autoComplete="password"
+          placeholder="••••••••••"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -186,7 +191,7 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
                   aria-label="toggle password visibility"
                   edge="end"
                 >
-                  {showPassword == 'password' ? (
+                  {showPassword == "password" ? (
                     <VisibilityOff />
                   ) : (
                     <Visibility />
@@ -196,18 +201,18 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
             ),
           }}
           error={errors.password ? true : false}
-          helperText={errors.password && 'Password is required'}
+          helperText={errors.password && "Password is required"}
         />
       </Grid>
       <Grid item xs={12} sm={6}>
         <InputLabel
           htmlFor="confirmPassword"
           variant="standard"
-          required={action == 'Enter' ? true : false}
+          required={action == "Enter" ? true : false}
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           Confirm Password
@@ -215,13 +220,15 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
 
         <ControlledTextInput
           control={control}
-          required={action == 'Enter' ? true : false}
-          validate={(value) => value === getValues('password')}
+          required={action == "Enter" ? true : false}
+          validate={(value) => value === getValues("password")}
           id="confirmPassword"
           name="confirmPassword"
           fullWidth
           autoComplete="confirmPassword"
           type={showConfirmPassword}
+          placeholder="••••••••••"
+
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -230,7 +237,7 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
                   aria-label="toggle password visibility"
                   edge="end"
                 >
-                  {showConfirmPassword == 'password' ? (
+                  {showConfirmPassword == "password" ? (
                     <VisibilityOff />
                   ) : (
                     <Visibility />
@@ -241,7 +248,7 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           }}
           error={errors.confirmPassword ? true : false}
           helperText={
-            errors.confirmPassword && 'Password and confirm password must match'
+            errors.confirmPassword && "Password and confirm password must match"
           }
         />
       </Grid>
@@ -253,8 +260,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           Gender
@@ -279,8 +286,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           Choose City
@@ -295,8 +302,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Price
@@ -321,8 +328,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Price Duration
@@ -350,8 +357,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Experience in Years
@@ -376,8 +383,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} CNIC
@@ -393,7 +400,7 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           fullWidth
           autoComplete="CNIC"
           error={errors.CNIC ? true : false}
-          helperText={errors.CNIC && 'CNIC is required'}
+          helperText={errors.CNIC && "CNIC is required"}
         />
       </Grid>
 
@@ -404,8 +411,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           Select Skills
@@ -420,8 +427,8 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           required
           sx={{
             mb: 1.5,
-            color: 'text.primary',
-            '& span': { color: 'error.light' },
+            color: "text.primary",
+            "& span": { color: "error.light" },
           }}
         >
           {action} Profile Image
@@ -433,11 +440,11 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           name="image"
           id="image"
           error={errors.image ? true : false}
-          helperText={'Image is required'}
+          helperText={"Image is required"}
         />
       </Grid>
     </>
-  )
-}
+  );
+};
 
-export default AddGardener
+export default AddGardener;
