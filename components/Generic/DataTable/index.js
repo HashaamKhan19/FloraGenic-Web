@@ -81,12 +81,17 @@ const DataTable = ({
             setSearchValue={setSearchValue}
           />
 
-          <Link href={buttonLink}>
-            <button className="bg-floraGreen px-3 py-1 rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
-              <Icon sx={{ color: "white", mr: 1, mb: 0.3 }} fontSize="small" />
-              {buttonText}
-            </button>
-          </Link>
+          {buttonLink && buttonText && (
+            <Link href={buttonLink}>
+              <button className="bg-floraGreen px-3 py-1 rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
+                <Icon
+                  sx={{ color: "white", mr: 1, mb: 0.3 }}
+                  fontSize="small"
+                />
+                {buttonText}
+              </button>
+            </Link>
+          )}
 
           <Export />
         </Box>

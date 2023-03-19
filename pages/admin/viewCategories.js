@@ -1,12 +1,8 @@
-import React from 'react'
-import ViewCategories from '../../components/Admin/ViewCategories'
+import React from "react";
+import ViewCategories from "../../components/Admin/ViewCategories";
 
 const viewCategories = () => {
-  return (
-    <>
-      <ViewCategories />
-    </>
-  )
-}
+  return <ViewCategories />;
+};
 
-export default viewCategories
+export default viewCategories;
