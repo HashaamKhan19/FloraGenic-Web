@@ -616,7 +616,7 @@ export default function Sidebar({ children }) {
           </Link>
 
           {/* Chats */}
-          <Link href="/admin/viewChats">
+          {/* <Link href="/admin/viewChats">
             <ListItemButton
               sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
             >
@@ -630,7 +630,7 @@ export default function Sidebar({ children }) {
                 }}
               />
             </ListItemButton>
-          </Link>
+          </Link> */}
 
           {/* Payments */}
           <Link href="/admin/viewOrders">
@@ -641,7 +641,7 @@ export default function Sidebar({ children }) {
                 <LocalAtmIcon style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText
-                primary="8 - Orders"
+                primary="7 - Orders"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}
@@ -675,7 +675,7 @@ export default function Sidebar({ children }) {
                 <ReportGmailerrorredIcon style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText
-                primary="9 - Complaints"
+                primary="8 - Complaints"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}
@@ -692,7 +692,7 @@ export default function Sidebar({ children }) {
                 <BarChartIcon style={{ color: 'white' }} />
               </ListItemIcon>
               <ListItemText
-                primary="10 - Statistics"
+                primary="9 - Statistics"
                 primaryTypographyProps={{
                   marginLeft: -1.5,
                 }}

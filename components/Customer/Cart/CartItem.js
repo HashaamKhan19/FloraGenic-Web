@@ -1,5 +1,8 @@
+import { gql, useQuery } from '@apollo/client'
 import {
   ActionIcon,
+  Box,
+  Button,
   CloseButton,
   Divider,
   Group,
@@ -8,80 +11,88 @@ import {
   Text,
 } from '@mantine/core'
 import Image from 'next/image'
-import { useState } from 'react'
+import Link from 'next/link'
+import { useContext, useState } from 'react'
 import { FiMinus, FiPlus } from 'react-icons/fi'
+import { ShopContext } from '../../../context/shopContextProvider'
+import CartItemsDrawer from './CartItemsDrawer'
 
-export default function CartItem() {
-  const [value, setValue] = useState(1)
-
-  const increase = () => {
-    setValue((val) => val + 1)
+const GET_PRODUCTS = gql`
+  query Query {
+    products {
+      category {
+        name
+      }
+      description
+      hidden
+      id
+      images
+      name
+      nursery {
+        id
+        images
+        name
+        details
+      }
+      overallRating
+      retailPrice
+      sold
+      stock
+    }
   }
+`
 
-  const decrease = () => {
-    if (value === 0) return
-    setValue((val) => val - 1)
-  }
+export default function CartItem({ closeDrawer }) {
+  const { data, loading, error } = useQuery(GET_PRODUCTS)
+
+  const { cartItems } = useContext(ShopContext)
 
   return (
-    <>
-      <Paper py={'sm'} px={'sm'}>
-        <Group spacing={'xs'}>
-          <Stack spacing={0}>
-            <ActionIcon
-              size={30}
-              variant="default"
-              style={{
-                borderRadius: '50%',
-                borderColor: '#62A82C',
-                color: '#62A82C',
-              }}
-              onClick={increase}
-            >
-              <FiPlus />
-            </ActionIcon>
-            <Text align="center">{value}</Text>
-            <ActionIcon
-              size={30}
-              variant="default"
-              style={{
-                borderRadius: '50%',
-              }}
-              onClick={decrease}
-              disabled={value === 1}
-            >
-              <FiMinus />
-            </ActionIcon>
-          </Stack>
-          <Image
-            src={
-              'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80'
-            }
-            alt="ProdImage"
-            width={70}
-            height={70}
-          />
-          <Stack spacing={1}>
-            <Text size="md" weight={500}>
-              Ovary Blossom
-            </Text>
-            <Text size="xs" weight={300}>
-              Plants
-            </Text>
-            <Text
-              size="md"
-              weight={500}
-              style={{
-                color: '#C70039',
-              }}
-            >
-              Rs. 100
-            </Text>
-          </Stack>
-          <CloseButton ml={'lg'} size={'lg'} />
-        </Group>
-      </Paper>
-      <Divider my={'sm'} />
-    </>
+    <Box style={{ height: 'calc(100vh - 200px)', overflowY: 'scroll' }}>
+      {data?.products
+        ?.filter((product) => {
+          return cartItems.some((item) => item.id === product.id)
+        })
+        .map((product) => {
+          return <CartItemsDrawer product={product} key={product.id} />
+        })}
+      <Stack
+        style={{
+          position: 'absolute',
+          bottom: 5,
+          left: 0,
+          right: 0,
+          padding: '1rem',
+        }}
+        spacing={'sm'}
+      >
+        <Button
+          style={{
+            backgroundColor: '#62A82C',
+            color: 'white',
+          }}
+        >
+          Checkout Now (Rs. 1000)
+        </Button>
+        <Link
+          href={'/customer/viewCart'}
+          style={{
+            width: '100%',
+          }}
+        >
+          <Button
+            style={{
+              backgroundColor: 'white',
+              color: '#62A82C',
+              border: '1px solid #62A82C',
+              width: '100%',
+            }}
+            onClick={closeDrawer}
+          >
+            View Cart
+          </Button>
+        </Link>
+      </Stack>
+    </Box>
   )
 }

@@ -9,6 +9,7 @@ import Dashboard from '../components/Contact/Dashborad'
 import NurserySidebar from '../components/Nursery/Sidebar'
 import '../styles/globals.css'
 import { theme } from '../theme/theme'
+import ShopContextProvider from '../context/shopContextProvider'
 
 const appendCache = createEmotionCache({ key: 'mantine', prepend: false })
 
@@ -42,11 +43,13 @@ function MyApp({ Component, pageProps, router }) {
         withNormalizeCSS
       >
         <ApolloProvider client={client}>
-          <ThemeProvider theme={theme}>
-            <Navbar />
-            <Component {...pageProps} />
-            <Footer />
-          </ThemeProvider>
+          <ShopContextProvider>
+            <ThemeProvider theme={theme}>
+              <Navbar />
+              <Component {...pageProps} />
+              <Footer />
+            </ThemeProvider>
+          </ShopContextProvider>
         </ApolloProvider>
       </MantineProvider>
     )

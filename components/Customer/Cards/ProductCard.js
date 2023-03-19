@@ -10,8 +10,10 @@ import {
   Stack,
   Box,
 } from '@mantine/core'
+import { useContext } from 'react'
 import { FiHeart } from 'react-icons/fi'
 import { MdOutlineAddShoppingCart } from 'react-icons/md'
+import { ShopContext } from '../../../context/shopContextProvider'
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -29,6 +31,8 @@ const useStyles = createStyles((theme) => ({
 
 export default function ProductCard({ heart, data }) {
   const { classes, theme } = useStyles()
+
+  const { addToCart } = useContext(ShopContext)
 
   return (
     <Card
@@ -141,7 +145,13 @@ export default function ProductCard({ heart, data }) {
               }}
               disabled={data?.stock === 0}
             >
-              <MdOutlineAddShoppingCart size={16} stroke={1.5} />
+              <MdOutlineAddShoppingCart
+                size={16}
+                stroke={1.5}
+                onClick={() => {
+                  addToCart(data?.id)
+                }}
+              />
             </ActionIcon>
           </Group>
         </Group>

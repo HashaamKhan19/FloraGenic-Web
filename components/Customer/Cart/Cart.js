@@ -9,20 +9,24 @@ import {
   Text,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { BiShoppingBag } from 'react-icons/bi'
 import CartItem from './CartItem'
 import Link from 'next/link'
+import { ShopContext } from '../../../context/shopContextProvider'
 
 export default function Cart() {
   const [
     drawerOpened,
     { toggle: toggleDrawer, close: closeDrawer },
   ] = useDisclosure(false)
-  const [shoppingItemsCount, setShoppingItemsCount] = useState(0)
+
+  //cart
+  const { cartItems } = useContext(ShopContext)
+
   return (
     <>
-      <Indicator label={shoppingItemsCount} inline size={18} color={'green'}>
+      <Indicator label={cartItems.length} inline size={18} color={'green'}>
         <Avatar
           radius={'xl'}
           style={{
@@ -36,7 +40,7 @@ export default function Cart() {
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
-        size={'350px'}
+        size={'360px'}
         position="right"
         // padding={'lg'}
         zIndex={1000000}
@@ -64,7 +68,7 @@ export default function Cart() {
                 fontWeight: 550,
               }}
             >
-              {shoppingItemsCount} Items
+              {cartItems.length} Items
             </Text>
           </Group>
         }
@@ -75,45 +79,7 @@ export default function Cart() {
         exitTransitionDuration={300}
       >
         <Divider my="sm" />
-        <CartItem />
-
-        <Stack
-          style={{
-            position: 'absolute',
-            bottom: 5,
-            left: 0,
-            right: 0,
-            padding: '1rem',
-          }}
-          spacing={'sm'}
-        >
-          <Button
-            style={{
-              backgroundColor: '#62A82C',
-              color: 'white',
-            }}
-          >
-            Checkout Now (Rs. 1000)
-          </Button>
-          <Link
-            href={'/customer/viewCart'}
-            style={{
-              width: '100%',
-            }}
-          >
-            <Button
-              style={{
-                backgroundColor: 'white',
-                color: '#62A82C',
-                border: '1px solid #62A82C',
-                width: '100%',
-              }}
-              onClick={closeDrawer}
-            >
-              View Cart
-            </Button>
-          </Link>
-        </Stack>
+        <CartItem closeDrawer={closeDrawer} />
       </Drawer>
     </>
   )

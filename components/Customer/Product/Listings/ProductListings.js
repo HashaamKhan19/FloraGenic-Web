@@ -14,12 +14,13 @@ import { useMediaQuery } from '@mantine/hooks'
 import Filter from '../../Filters/Filter'
 import ProductCard from '../../Cards/ProductCard'
 import { BiSearch } from 'react-icons/bi'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Link from 'next/link'
 import { gql, useQuery } from '@apollo/client'
 import CardLoading from '../../Generic/Skeletons/CardLoading'
 import SixCardsLoading from '../../Generic/Skeletons/SixCardsLoading'
 import ListingPagination from '../../Generic/ListingPagination'
+import { ShopContext } from '../../../../context/shopContextProvider'
 
 const GET_PRODUCTS = gql`
   query ExampleQuery {
@@ -85,6 +86,9 @@ const ProductListings = () => {
 
   //searching
   const [query, setQuery] = useState('')
+
+  //cart
+  const { addToCart } = useContext(ShopContext)
 
   return (
     <Container size={'xl'} pb={'xl'}>
