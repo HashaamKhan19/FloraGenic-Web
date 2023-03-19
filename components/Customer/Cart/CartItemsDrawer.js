@@ -13,44 +13,41 @@ import React, { useContext, useState } from 'react'
 import { FiMinus, FiPlus } from 'react-icons/fi'
 import { ShopContext } from '../../../context/shopContextProvider'
 
-const CartItemsDrawer = ({ product }) => {
-  const { cartItems } = useContext(ShopContext)
+const CartItemsDrawer = ({ product, index }) => {
+  const {
+    cartItems,
+    addToCart,
+    removeFromCart,
+    removeCompletelyFromCart,
+  } = useContext(ShopContext)
 
-  console.log('====================================')
-  console.log('cartItem quantity check', cartItems)
-  console.log('====================================')
-
-  const increase = () => {
-    setValue((val) => val + 1)
-  }
-
-  const decrease = () => {
-    if (value === 0) return
-    setValue((val) => val - 1)
-  }
+  // console.log('====================================')
+  // console.log('cartItem quantity check ->', cartItems[index].quantity)
+  // console.log('====================================')
 
   return (
     <>
       <Paper py={'sm'} px={'sm'}>
         <Group position="apart" noWrap>
           <Group spacing={'xs'} noWrap>
-            <Stack spacing={0}>
+            <Stack spacing={0} pr={'xs'}>
               <ActionIcon
                 size={28}
                 variant="default"
                 style={{
-                  borderRadius: '50%',
+                  borderRadius: '20%',
                   borderColor: '#62A82C',
                   color: '#62A82C',
+                  zIndex: 1,
                 }}
-                onClick={increase}
+                onClick={() => {
+                  addToCart(product.id)
+                }}
               >
                 <FiPlus />
               </ActionIcon>
-              {/* <Text align="center">{value}</Text> */}
-              <Group>
-                <NumberInput
-                  value={cartItems?.quantity}
+              {/* <NumberInput
+                  value={cartItems[index].quantity}
                   hideControls
                   style={{
                     width: 40,
@@ -61,16 +58,27 @@ const CartItemsDrawer = ({ product }) => {
                       border: 'none',
                     },
                   }}
-                />
-              </Group>
+                /> */}
+              <Text
+                style={{
+                  color: 'darkslategray',
+                  fontSize: '1rem',
+                  textAlign: 'center',
+                }}
+                py={4}
+              >
+                {cartItems[index].quantity}
+              </Text>
               <ActionIcon
                 size={28}
                 variant="default"
                 style={{
-                  borderRadius: '50%',
+                  borderRadius: '20%',
                 }}
-                onClick={decrease}
-                disabled={cartItems?.length === 1}
+                onClick={() => {
+                  removeFromCart(product.id)
+                }}
+                disabled={cartItems[index].quantity === 1}
               >
                 <FiMinus />
               </ActionIcon>
@@ -100,7 +108,13 @@ const CartItemsDrawer = ({ product }) => {
               </Text>
             </Stack>
           </Group>
-          <CloseButton ml={'lg'} size={'lg'} />
+          <CloseButton
+            ml={'lg'}
+            size={'lg'}
+            onClick={() => {
+              removeCompletelyFromCart(product.id)
+            }}
+          />
         </Group>
       </Paper>
       <Divider my={'sm'} />

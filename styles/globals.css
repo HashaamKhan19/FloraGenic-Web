@@ -7,3 +7,20 @@
 body{
     font-family: 'Poppins', sans-serif;
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+  /* border-radius: 10px; */
+}
+::-webkit-scrollbar-thumb {
+  /* border-radius: 10px; */
+  background: #62A82C;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(98, 168, 44, 0.584);
+  cursor: pointer;
+}
