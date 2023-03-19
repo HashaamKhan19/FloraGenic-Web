@@ -21,10 +21,6 @@ const CartItemsDrawer = ({ product, index }) => {
     removeCompletelyFromCart,
   } = useContext(ShopContext)
 
-  // console.log('====================================')
-  // console.log('cartItem quantity check ->', cartItems[index].quantity)
-  // console.log('====================================')
-
   return (
     <>
       <Paper py={'sm'} px={'sm'}>
@@ -46,19 +42,6 @@ const CartItemsDrawer = ({ product, index }) => {
               >
                 <FiPlus />
               </ActionIcon>
-              {/* <NumberInput
-                  value={cartItems[index].quantity}
-                  hideControls
-                  style={{
-                    width: 40,
-                    height: 40,
-                  }}
-                  styles={{
-                    input: {
-                      border: 'none',
-                    },
-                  }}
-                /> */}
               <Text
                 style={{
                   color: 'darkslategray',

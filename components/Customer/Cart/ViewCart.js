@@ -4,17 +4,20 @@ import {
   Center,
   Container,
   Grid,
+  Image,
   Paper,
   Stack,
   Stepper,
+  Text,
 } from '@mantine/core'
-import { React, useState } from 'react'
+import { React, useState, useContext } from 'react'
 import MyCartItems from './MyCartItems'
 import CartDetails from './CartDetails'
 import ShippingDetails from './ShippingDetails'
 import PaymentDetails from './PaymentDetails'
-import OrderConfirmation from './OrderConfirmation'
+import { ShopContext } from '../../../context/shopContextProvider'
 import Link from 'next/link'
+import { gql, useQuery } from '@apollo/client'
 
 const StepIcon = ({ active, completed, icon }) => {
   const bgColor = completed ? 'green' : 'transparent'
@@ -39,8 +42,41 @@ const StepIcon = ({ active, completed, icon }) => {
   )
 }
 
+const GET_PRODUCTS = gql`
+  query Query {
+    products {
+      category {
+        name
+      }
+      description
+      hidden
+      id
+      images
+      name
+      nursery {
+        id
+        images
+        name
+        details
+      }
+      overallRating
+      retailPrice
+      sold
+      stock
+    }
+  }
+`
+
 const ViewCart = () => {
   const [active, setActive] = useState(0)
+
+  const { data, loading, error } = useQuery(GET_PRODUCTS)
+
+  const { cartItems } = useContext(ShopContext)
+
+  console.log('====================================')
+  console.log('cartItems', cartItems.length)
+  console.log('====================================')
 
   return (
     <Container size={'xl'} pt={40}>
@@ -87,10 +123,10 @@ const ViewCart = () => {
             width: '100%',
             padding: 0,
             margin: 0,
-            '&:hover': {
-              backgroundColor: '#62A82C',
-              borderRadius: '200px',
-            },
+            // '&:hover': {
+            //   backgroundColor: '#62A82C',
+            //   borderRadius: '200px',
+            // },
           },
           stepLabel: {
             color: '#fff',
@@ -106,10 +142,52 @@ const ViewCart = () => {
           label="1. Cart"
         >
           <Grid>
-            <Grid.Col sm={8}>
-              <MyCartItems />
+            <Grid.Col sm={cartItems?.length === 0 ? 12 : 8} mt={'xl'}>
+              {cartItems?.length === 0 && (
+                <Stack align="center" mt={'xl'} pb={'xl'}>
+                  <Text
+                    style={{
+                      fontSize: '20px',
+                      fontWeight: 525,
+                      color: 'darkslategray',
+                    }}
+                  >
+                    Your cart is empty
+                  </Text>
+                  <Image
+                    src="/icons/iconEmpty.png"
+                    alt="Empty Cart"
+                    width={64}
+                    height={64}
+                  />
+                  <Link href="/customer/products">
+                    <Button
+                      style={{
+                        backgroundColor: '#62A82C',
+                        color: '#fff',
+                      }}
+                      mt={'xs'}
+                    >
+                      <Center>Shop Now</Center>
+                    </Button>
+                  </Link>
+                </Stack>
+              )}
+              {data?.products
+                ?.filter((product) => {
+                  return cartItems.some((item) => item.id === product.id)
+                })
+                .map((product, index) => {
+                  return (
+                    <MyCartItems
+                      product={product}
+                      index={index}
+                      key={product.id}
+                    />
+                  )
+                })}
             </Grid.Col>
-            <Grid.Col sm={4}>
+            <Grid.Col sm={4} pb={'xl'} hidden={cartItems?.length === 0}>
               <CartDetails />
               <Button
                 fullWidth
@@ -130,6 +208,7 @@ const ViewCart = () => {
             transition: 'all 0.7s ease',
           }}
           label="2. Details"
+          disabled={cartItems?.length === 0}
         >
           <Grid>
             <Grid.Col sm={8}>
@@ -169,6 +248,7 @@ const ViewCart = () => {
             transition: 'all 0.7s ease',
           }}
           label="3. Payment"
+          disabled={cartItems?.length === 0}
         >
           <Grid>
             <Grid.Col sm={8}>

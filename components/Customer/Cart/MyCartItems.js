@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Box,
+  Center,
   CloseButton,
   Container,
   Group,
@@ -9,95 +10,100 @@ import {
   Stack,
   Text,
 } from '@mantine/core'
-import React from 'react'
+import React, { useContext } from 'react'
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
+import { ShopContext } from '../../../context/shopContextProvider'
 
-const MyCartItems = () => {
-  const items = [
-    {
-      id: 1,
-      name: 'Item 1',
-      price: 10,
-      quantity: 1,
-      image:
-        'https://images.unsplash.com/photo-1485955900006-10f4d324d411?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    },
-    {
-      id: 2,
-      name: 'Item 2',
-      price: 20,
-      quantity: 1,
-      image:
-        'https://images.unsplash.com/photo-1485955900006-10f4d324d411?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    },
-    {
-      id: 3,
-      name: 'Item 3',
-      price: 20,
-      quantity: 1,
-      image:
-        'https://images.unsplash.com/photo-1485955900006-10f4d324d411?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    },
-  ]
+const MyCartItems = ({ product, index }) => {
+  const {
+    cartItems,
+    addToCart,
+    removeFromCart,
+    removeCompletelyFromCart,
+  } = useContext(ShopContext)
 
   return (
-    <Container py={'xl'}>
-      {items.map((item) => {
-        return (
-          <Paper
-            key={item.id}
-            my={'xl'}
-            py={'xl'}
-            style={{
-              width: '100%',
-              height: '100%',
-              position: 'relative',
-            }}
-            radius={'md'}
-            shadow="sm"
-          >
-            <CloseButton
-              style={{ position: 'absolute', top: 10, right: 10 }}
-              size={'md'}
-            />
-            <Group noWrap pl={'xl'}>
-              <Image src={item.image} height={100} width={100} radius={'sm'} />
-              <Stack spacing={'xs'} pl={'xs'}>
-                <Text
-                  style={{
-                    fontSize: '1.2rem',
-                    fontWeight: 500,
-                    color: 'darkslategray',
-                  }}
-                >
-                  {item.name}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: '1rem',
-                    fontWeight: 500,
-                    color: 'grey',
-                  }}
-                >
-                  Rs. {item.price}
-                </Text>
+    <Container>
+      <Paper
+        my={'xl'}
+        py={'xl'}
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+        }}
+        radius={'md'}
+        shadow="xs"
+        withBorder
+      >
+        <CloseButton
+          style={{ position: 'absolute', top: 10, right: 10 }}
+          size={'md'}
+          onClick={() => {
+            removeCompletelyFromCart(product.id)
+          }}
+        />
+        <Group noWrap pl={'xl'}>
+          <Image
+            src={product?.images[0] || 'no image'}
+            height={100}
+            width={100}
+            radius={'sm'}
+          />
+          <Stack spacing={'xs'} pl={'xs'}>
+            <Text
+              style={{
+                fontSize: '1.2rem',
+                fontWeight: 500,
+                color: 'darkslategray',
+              }}
+            >
+              {product.name || 'Product Name'}
+            </Text>
+            <Text
+              style={{
+                fontSize: '1rem',
+                fontWeight: 500,
+                color: 'grey',
+              }}
+            >
+              Rs. {product.retailPrice || 'Price'}
+            </Text>
 
-                <Group noWrap>
-                  <ActionIcon variant="outline">
-                    <AiOutlineMinus />
-                  </ActionIcon>
+            <Group noWrap>
+              <ActionIcon
+                variant="outline"
+                style={{
+                  borderRadius: '20%',
+                }}
+                onClick={() => {
+                  removeFromCart(product.id)
+                }}
+                disabled={cartItems[index].quantity === 1}
+              >
+                <AiOutlineMinus />
+              </ActionIcon>
 
-                  <Text>{item.quantity}</Text>
+              <Text>{cartItems[index].quantity}</Text>
 
-                  <ActionIcon variant="outline">
-                    <AiOutlinePlus />
-                  </ActionIcon>
-                </Group>
-              </Stack>
+              <ActionIcon
+                variant="outline"
+                style={{
+                  borderRadius: '20%',
+                  borderColor: '#62A82C',
+                  color: '#62A82C',
+                  zIndex: 1,
+                }}
+                onClick={() => {
+                  addToCart(product.id)
+                }}
+              >
+                <AiOutlinePlus />
+              </ActionIcon>
             </Group>
-          </Paper>
-        )
-      })}
+          </Stack>
+        </Group>
+      </Paper>
     </Container>
   )
 }

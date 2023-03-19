@@ -8,9 +8,48 @@ import {
   Text,
   TextInput,
 } from '@mantine/core'
-import React from 'react'
+import React, { useContext } from 'react'
+import { ShopContext } from '../../../context/shopContextProvider'
+import { gql, useQuery } from '@apollo/client'
+
+const GET_PRODUCTS = gql`
+  query Query {
+    products {
+      category {
+        name
+      }
+      description
+      hidden
+      id
+      images
+      name
+      nursery {
+        id
+        images
+        name
+        details
+      }
+      overallRating
+      retailPrice
+      sold
+      stock
+    }
+  }
+`
 
 const CartDetails = () => {
+  const { data, loading, error } = useQuery(GET_PRODUCTS)
+
+  const { cartItems } = useContext(ShopContext)
+
+  const totalAmount = cartItems.reduce((total, item) => {
+    const product = data?.products.find((p) => p.id === item.id)
+    if (product) {
+      return total + product.retailPrice * item.quantity
+    }
+    return total
+  }, 0)
+
   return (
     <Container py={'xl'} mt={'xl'} px={0}>
       <Paper p={'xl'} shadow="xs" radius={'md'}>
@@ -30,7 +69,7 @@ const CartDetails = () => {
                 fontSize: '1.1rem',
               }}
             >
-              Rs. 2610
+              Rs. {totalAmount}
             </Text>
           </Group>
           <Group position="apart">
@@ -97,7 +136,7 @@ const CartDetails = () => {
               fontWeight: 500,
             }}
           >
-            Rs. 2860
+            Rs. {totalAmount + 200 + 50}
           </Text>
         </Group>
         <Stack mt={'lg'}>

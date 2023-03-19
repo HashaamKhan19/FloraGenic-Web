@@ -27,7 +27,7 @@ const useStyles = createStyles((theme) => ({
 
   content: {
     position: 'absolute',
-    padding: theme.spacing.xl,
+    padding: theme.spacing.lg,
     zIndex: 1,
     top: 0,
     bottom: 0,
@@ -73,7 +73,7 @@ export default function NurseryCard({ data }) {
 
       <div className={classes.content}>
         <Group noWrap>
-          <Text weight={600} className={classes.title}>
+          <Text weight={600} className={classes.title} truncate>
             {data?.name}
           </Text>
         </Group>
