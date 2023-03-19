@@ -10,6 +10,18 @@ import NurserySidebar from '../components/Nursery/Sidebar'
 import '../styles/globals.css'
 import { theme } from '../theme/theme'
 import ShopContextProvider from '../context/shopContextProvider'
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { createEmotionCache, MantineProvider } from '@mantine/core'
+import { ThemeProvider } from '@mui/material'
+import Sidebar from '../components/Admin/Sidebar'
+import Footer from '../components/Customer/Layout/Footer'
+import Navbar from '../components/Customer/Layout/Navbar'
+import GardenerSidebar from '../components/Gardener/Sidebar'
+import Dashboard from '../components/Contact/Dashborad'
+import NurserySidebar from '../components/Nursery/Sidebar'
+import '../styles/globals.css'
+import { theme } from '../theme/theme'
+import { Toaster } from 'react-hot-toast'
 
 const appendCache = createEmotionCache({ key: 'mantine', prepend: false })
 
@@ -28,6 +40,11 @@ function MyApp({ Component, pageProps, router }) {
             <Component {...pageProps} />
           </Sidebar>
         </ThemeProvider>
+        <Toaster
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
       </ApolloProvider>
     )
   }
@@ -51,6 +68,11 @@ function MyApp({ Component, pageProps, router }) {
             </ThemeProvider>
           </ShopContextProvider>
         </ApolloProvider>
+        <Toaster
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
       </MantineProvider>
     )
   }
@@ -63,6 +85,11 @@ function MyApp({ Component, pageProps, router }) {
             <Component {...pageProps} />
           </GardenerSidebar>
         </ThemeProvider>
+        <Toaster
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
       </ApolloProvider>
     )
   }
@@ -75,6 +102,11 @@ function MyApp({ Component, pageProps, router }) {
             <Component {...pageProps} />
           </NurserySidebar>
         </ThemeProvider>
+        <Toaster
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
       </ApolloProvider>
     )
   }
@@ -95,6 +127,11 @@ function MyApp({ Component, pageProps, router }) {
             <Component {...pageProps} />
           </ThemeProvider>
         </ApolloProvider>
+        <Toaster
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
       </MantineProvider>
     )
   }
@@ -104,6 +141,7 @@ function MyApp({ Component, pageProps, router }) {
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
       </ThemeProvider>
+      <Toaster />
     </ApolloProvider>
   )
 }

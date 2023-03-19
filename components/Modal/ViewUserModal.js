@@ -10,6 +10,8 @@ import UserData from "./ModalData/UserData";
 import NurseryData from "./ModalData/NurseryData";
 import CategoryData from "./ModalData/CategoryData";
 import ProductData from "./ModalData/ProductData";
+import SkillData from "./ModalData/SkillData";
+import OrderData from "./ModalData/OrderData";
 
 const style = {
   position: "absolute",
@@ -70,6 +72,8 @@ export default function ViewUserModal({
             {type === "nursery" && <NurseryData data={data} />}
             {type === "category" && <CategoryData data={data} />}
             {type === "product" && <ProductData data={data} />}
+            {type === "skill" && <SkillData data={data} />}
+            {type === "order" && <OrderData data={data} />}
           </Box>
         </Fade>
       </Modal>

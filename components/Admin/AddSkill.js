@@ -1,39 +1,45 @@
-import { gql, useMutation } from '@apollo/client'
-import InputLabel from '@mui/material/InputLabel'
-import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Unstable_Grid2'
-import { useRouter } from 'next/router'
-import React from 'react'
-import { useForm } from 'react-hook-form'
+import { gql, useMutation } from "@apollo/client";
+import InputLabel from "@mui/material/InputLabel";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Unstable_Grid2";
+import { useRouter } from "next/router";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
-import ButtonBackground from '../../assets/Pattern/ButtonBackground'
-import { CategoryIcon } from '../../public/icons/CategoryIcon'
-import { uploadImage } from '../../services/fileUpload'
+import ButtonBackground from "../../assets/Pattern/ButtonBackground";
+import { CategoryIcon } from "../../public/icons/CategoryIcon";
+import { uploadImage } from "../../services/fileUpload";
 
 // Controlled components
-import ControlledDropzone from '../Generic/ControlledComponents/ControlledDropzone'
-import ControlledTextInput from '../Generic/ControlledComponents/ControlledTextInput'
+import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import TaskConfirmationModal from "../Generic/TaskConfirmationModal";
 
-const ADD_GIG = gql`
-  mutation Mutation($input: GigCreateInput!) {
-    gigCreate(input: $input) {
+const ADD_SKILL = gql`
+  mutation SkillCreate($data: SkillCreateInput!) {
+    skillCreate(data: $data) {
       id
       name
       description
       image
     }
   }
-`
+`;
 
 const UPDATE_GIG = gql`
-  mutation GigUpdate($gigUpdateId: ID!, $input: GigUpdateInput!) {
-    gigUpdate(id: $gigUpdateId, input: $input)
+  mutation SkillUpdate($skillUpdateId: ID!, $data: SkillUpdateInput!) {
+    skillUpdate(id: $skillUpdateId, data: $data)
   }
-`
+`;
 
 const AddSkill = ({ data = {} }) => {
-  const [action, setAction] = React.useState('Enter')
-  const [action2, setAction2] = React.useState('Add')
+  const [action, setAction] = React.useState("Enter");
+  const [action2, setAction2] = React.useState("Add");
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState(null);
+  const [successMessage, setSuccessMessage] = React.useState(null);
 
   const {
     register,
@@ -44,68 +50,72 @@ const AddSkill = ({ data = {} }) => {
     getValues,
     reset,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const [addGig] = useMutation(ADD_GIG, {
+  const [addSkill] = useMutation(ADD_SKILL, {
     onCompleted: () => {
-      alert('Gig Added Successfully')
-      router.push('/admin/viewGigs')
+      setLoading(false);
+      setSuccessMessage("Skill added successfully");
     },
     onError: (error) => {
-      console.log(error)
+      setLoading(false);
+      setErrorMessage(error);
     },
-  })
+  });
 
   const [updateGig] = useMutation(UPDATE_GIG, {
     onCompleted: () => {
-      alert('Gig Updated Successfully')
-      router.push('/admin/viewGigs')
+      setLoading(false);
+      setSuccessMessage("Skill updated successfully");
     },
     onError: (error) => {
-      console.log(error)
+      setLoading(false);
+      setErrorMessage(error);
     },
-  })
+  });
 
   const onSubmit = async (formData) => {
-    const image = await uploadImage(formData.image, 'gig-images')
-    if (action == 'Edit') {
-      console.log('Edit')
+    setLoading(true);
+    setModalOpen(true);
+    const image = await uploadImage(formData.image, "skill-images");
+    if (action == "Edit") {
+      console.log("Edit");
       updateGig({
         variables: {
-          gigUpdateId: data.id,
-          input: {
+          skillUpdateId: data.id,
+          data: {
             name: formData.name,
             description: formData.description,
             image: image,
           },
         },
-      })
+      });
     } else {
-      addGig({
+      addSkill({
         variables: {
-          input: {
+          data: {
             name: formData.name,
             description: formData.description,
             image: image,
           },
         },
-      })
+      });
     }
-  }
+  };
 
   React.useEffect(() => {
-    const parts = router.pathname.split('/')
-    parts[parts.length - 1] == 'addSkill' ? action : setAction('Edit')
-    parts[parts.length - 1] == 'addSkill' ? action2 : setAction2('Edit')
-  }, [router, action, action2])
+    const parts = router.pathname.split("/");
+    parts[parts.length - 1] == "addSkill" ? action : setAction("Edit");
+    parts[parts.length - 1] == "addSkill" ? action2 : setAction2("Edit");
+  }, [router, action, action2]);
 
   React.useEffect(() => {
-    if (action == 'Edit') {
-      reset(data)
+    if (action == "Edit") {
+      reset(data);
     }
-  }, [data, action, reset])
+  }, [data, action, reset]);
 
   return (
     <>
@@ -125,8 +135,8 @@ const AddSkill = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Skill Name
@@ -140,7 +150,7 @@ const AddSkill = ({ data = {} }) => {
                   fullWidth
                   autoComplete="Skill Name"
                   error={errors.name ? true : false}
-                  helperText={errors.name && 'Skill Name is required'}
+                  helperText={errors.name && "Skill Name is required"}
                 />
               </Grid>
 
@@ -151,8 +161,8 @@ const AddSkill = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Skill Description
@@ -169,7 +179,7 @@ const AddSkill = ({ data = {} }) => {
                   autoComplete="Skill Description"
                   error={errors.description ? true : false}
                   helperText={
-                    errors.description && 'Skill Description is required'
+                    errors.description && "Skill Description is required"
                   }
                 />
               </Grid>
@@ -181,8 +191,8 @@ const AddSkill = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Skill Image
@@ -213,8 +223,15 @@ const AddSkill = ({ data = {} }) => {
           </form>
         </section>
       </div>
+      <TaskConfirmationModal
+        open={modalOpen}
+        redirectURL="/admin/viewSkills"
+        loading={loading}
+        successMessage={successMessage}
+        err={errorMessage}
+      />
     </>
-  )
-}
+  );
+};
 
-export default AddSkill
+export default AddSkill;

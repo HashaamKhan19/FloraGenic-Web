@@ -1,16 +1,18 @@
-import { InputLabel, Typography } from '@mui/material'
-import Grid from '@mui/material/Unstable_Grid2'
-import { useRouter } from 'next/router'
-import React from 'react'
-import { CategoryIcon } from '../../public/icons/CategoryIcon'
+import { InputLabel, Typography } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
+import { useRouter } from "next/router";
+import React from "react";
+import { CategoryIcon } from "../../public/icons/CategoryIcon";
 
 // Controlled components
-import { gql, useMutation } from '@apollo/client'
-import { useForm } from 'react-hook-form'
-import ButtonBackground from '../../assets/Pattern/ButtonBackground'
-import { uploadImage } from '../../services/fileUpload'
-import ControlledDropzone from '../Generic/ControlledComponents/ControlledDropzone'
-import ControlledTextInput from '../Generic/ControlledComponents/ControlledTextInput'
+import { gql, useMutation } from "@apollo/client";
+import { useForm } from "react-hook-form";
+import ButtonBackground from "../../assets/Pattern/ButtonBackground";
+import { uploadImage } from "../../services/fileUpload";
+import ControlledDropzone from "../Generic/ControlledComponents/ControlledDropzone";
+import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
+import ActionConfirmationModal from "../Modal/ActionConfirmationModal";
+import TaskConfirmationModal from "../Generic/TaskConfirmationModal";
 
 const ADD_CATEGORY = gql`
   mutation CategoryCreate($data: CategoryCreateInput!) {
@@ -24,17 +26,22 @@ const ADD_CATEGORY = gql`
       updatedAt
     }
   }
-`
+`;
 
 const UPDATE_CATEGORY = gql`
   mutation CategoryUpdate($categoryUpdateId: ID!, $data: CategoryUpdateInput!) {
     categoryUpdate(id: $categoryUpdateId, data: $data)
   }
-`
+`;
 
 const AddCategory = ({ data = {} }) => {
-  const [action, setAction] = React.useState('Enter')
-  const [action2, setAction2] = React.useState('Add')
+  const [action, setAction] = React.useState("Enter");
+  const [action2, setAction2] = React.useState("Add");
+
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState(null);
+  const [successMessage, setSuccessMessage] = React.useState(null);
 
   const {
     register,
@@ -45,33 +52,37 @@ const AddCategory = ({ data = {} }) => {
     getValues,
     reset,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  const router = useRouter()
+  const router = useRouter();
 
   const [addCategory] = useMutation(ADD_CATEGORY, {
     onCompleted: () => {
-      alert('Category Added Successfully')
-      router.push('/admin/viewCategories')
+      setLoading(false);
+      setSuccessMessage("Category added successfully");
     },
     onError: (error) => {
-      console.log(error)
+      setLoading(false);
+      setErrorMessage(error);
     },
-  })
+  });
 
   const [updateCategory] = useMutation(UPDATE_CATEGORY, {
     onCompleted: () => {
-      alert('Category Updated Successfully')
-      router.push('/admin/viewCategories')
+      setLoading(false);
+      setSuccessMessage("Category updated successfully");
     },
     onError: (error) => {
-      console.log(error)
+      setLoading(false);
+      setErrorMessage(error);
     },
-  })
+  });
 
   const onSubmit = async (formData) => {
-    const image = await uploadImage(formData.image, 'category-images')
-    if (action == 'Edit') {
+    setLoading(true);
+    setModalOpen(true);
+    const image = await uploadImage(formData.image, "category-images");
+    if (action == "Edit") {
       updateCategory({
         variables: {
           categoryUpdateId: data.id,
@@ -81,7 +92,7 @@ const AddCategory = ({ data = {} }) => {
             image: image,
           },
         },
-      })
+      });
     } else {
       addCategory({
         variables: {
@@ -91,21 +102,21 @@ const AddCategory = ({ data = {} }) => {
             image: image,
           },
         },
-      })
+      });
     }
-  }
+  };
 
   React.useEffect(() => {
-    const parts = router.pathname.split('/')
-    parts[parts.length - 1] == 'addCategory' ? action : setAction('Edit')
-    parts[parts.length - 1] == 'addCategory' ? action2 : setAction2('Edit')
-  }, [router, action, action2])
+    const parts = router.pathname.split("/");
+    parts[parts.length - 1] == "addCategory" ? action : setAction("Edit");
+    parts[parts.length - 1] == "addCategory" ? action2 : setAction2("Edit");
+  }, [router, action, action2]);
 
   React.useEffect(() => {
-    if (action == 'Edit') {
-      reset(data)
+    if (action == "Edit") {
+      reset(data);
     }
-  }, [data, action, reset])
+  }, [data, action, reset]);
 
   return (
     <>
@@ -125,8 +136,8 @@ const AddCategory = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Category Name
@@ -140,7 +151,7 @@ const AddCategory = ({ data = {} }) => {
                   fullWidth
                   autoComplete="Category Name"
                   error={errors.name ? true : false}
-                  helperText={errors.name && 'Category Name is required'}
+                  helperText={errors.name && "Category Name is required"}
                 />
               </Grid>
 
@@ -151,8 +162,8 @@ const AddCategory = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Category Description
@@ -169,7 +180,7 @@ const AddCategory = ({ data = {} }) => {
                   autoComplete="Category Description"
                   error={errors.description ? true : false}
                   helperText={
-                    errors.description && 'Category Description is required'
+                    errors.description && "Category Description is required"
                   }
                 />
               </Grid>
@@ -181,8 +192,8 @@ const AddCategory = ({ data = {} }) => {
                   required
                   sx={{
                     mb: 1.5,
-                    color: 'text.primary',
-                    '& span': { color: 'error.light' },
+                    color: "text.primary",
+                    "& span": { color: "error.light" },
                   }}
                 >
                   {action} Profile Image
@@ -213,8 +224,15 @@ const AddCategory = ({ data = {} }) => {
           </form>
         </section>
       </div>
+      <TaskConfirmationModal
+        open={modalOpen}
+        redirectURL="/admin/viewCategories"
+        loading={loading}
+        successMessage={successMessage}
+        err={errorMessage}
+      />
     </>
-  )
-}
+  );
+};
 
-export default AddCategory
+export default AddCategory;

@@ -49,7 +49,6 @@ const columns = [
     headerName: "Ordered On",
     width: 150,
     valueGetter: (params) => {
-      console.log(params.row.orderingDate);
       return new Date(params.row.orderingDate).toString();
     },
   },

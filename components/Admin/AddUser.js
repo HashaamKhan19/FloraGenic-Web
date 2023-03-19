@@ -9,6 +9,7 @@ import ButtonBackground from "../../assets/Pattern/ButtonBackground";
 import { UsersIcon } from "../../public/icons/UsersIcon";
 import { uploadImage } from "../../services/fileUpload";
 import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
+import TaskConfirmationModal from "../Generic/TaskConfirmationModal";
 import ActionConfirmationModal from "../Generic/TaskConfirmationModal";
 import AddAdmin from "./AddAdmin";
 import AddCustomer from "./AddCustomer";
@@ -119,12 +120,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Customer added successfully");
-      // alert("Customer added successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      console.log(error);
     },
   });
 
@@ -132,12 +131,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Gardener added successfully");
-      // alert("Customer added successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      console.log(error);
     },
   });
 
@@ -145,12 +142,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Admin added successfully");
-      // alert("User added successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      alert(error);
     },
   });
 
@@ -158,12 +153,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Nursery Owner added successfully");
-      // alert("User added successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      alert(error);
     },
   });
 
@@ -171,12 +164,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Admin updated successfully");
-      // alert("User updated successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      // alert(error);
     },
   });
 
@@ -184,12 +175,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Gardener updated successfully");
-      // alert("User updated successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      // alert(error);
     },
   });
 
@@ -197,12 +186,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Nursery Owner updated successfully");
-      // alert("User updated successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      // alert(error);
     },
   });
 
@@ -210,12 +197,10 @@ const AddUser = ({ data = {} }) => {
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Customer updated successfully");
-      // alert("User updated successfully");
     },
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      // alert(error);
     },
   });
 
@@ -242,10 +227,9 @@ const AddUser = ({ data = {} }) => {
   React.useEffect(() => {
     if (action == "Edit") {
       setUserType(data.userType);
-      console.log(data);
       reset({ ...data, ...data.details });
     }
-  }, [data, action, reset]);
+  }, [data, action]);
 
   const onSubmit = async (formData) => {
     setLoading(true);
@@ -260,7 +244,6 @@ const AddUser = ({ data = {} }) => {
           variables: {
             updateCustomerId: data.id,
             credentials: {
-              email: formData.email,
               password: formData.password,
               userType: userType,
             },
@@ -301,7 +284,6 @@ const AddUser = ({ data = {} }) => {
           variables: {
             updateGardenerId: data.id,
             credentials: {
-              email: formData.email,
               password: formData.password,
               userType: userType,
             },
@@ -344,7 +326,6 @@ const AddUser = ({ data = {} }) => {
           variables: {
             updateAdminId: data.id,
             credentials: {
-              email: formData.email,
               password: formData.password,
               userType: userType,
             },
@@ -387,7 +368,6 @@ const AddUser = ({ data = {} }) => {
           variables: {
             updateNurseryOwnerId: data.id,
             credentials: {
-              email: formData.email,
               password: formData.password,
               userType: userType,
             },
@@ -541,7 +521,7 @@ const AddUser = ({ data = {} }) => {
           </form>
         </section>
       </div>
-      <ActionConfirmationModal
+      <TaskConfirmationModal
         open={modalOpen}
         redirectURL="/admin/viewUsers"
         loading={loading}

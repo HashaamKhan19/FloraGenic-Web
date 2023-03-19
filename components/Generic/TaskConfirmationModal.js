@@ -21,7 +21,7 @@ const style = {
   textAlign: "center",
 };
 
-export default function ActionConfirmationModal({
+export default function TaskConfirmationModal({
   open = false,
   redirectURL = null,
   successMessage = null,
