@@ -13,6 +13,7 @@ import { gql, useQuery } from "@apollo/client";
 import Image from "next/legacy/image";
 import Placeholder from "../../assets/images/placeholder.png";
 import LoadingScreen from "../Generic/LoadingScreen";
+import DataTable from "../Generic/DataTable";
 
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
@@ -115,7 +116,27 @@ export default function ViewNurseries() {
   const importOpen = Boolean(anchorElImport);
   const exportOpen = Boolean(anchorElExport);
 
+  const [rows, setRows] = React.useState([]);
+  const [searchValue, setSearchValue] = React.useState("");
+
   const { loading, error, data } = useQuery(GET_NURSERIES);
+
+  React.useEffect(() => {
+    if (data?.nurseries) {
+      setRows(() => {
+        return data?.nurseries?.filter((nursery) => {
+          return (
+            nursery?.name?.toLowerCase()?.includes(searchValue.toLowerCase()) ||
+            nursery?.email?.toLowerCase().includes(searchValue.toLowerCase()) ||
+            nursery?.details
+              ?.toLowerCase()
+              .includes(searchValue.toLowerCase()) ||
+            nursery?.address?.toLowerCase().includes(searchValue.toLowerCase())
+          );
+        });
+      });
+    }
+  }, [data, searchValue]);
 
   // Menu handlers
   const handleImportClick = (event) => {
@@ -134,90 +155,15 @@ export default function ViewNurseries() {
   if (loading) return <LoadingScreen />;
 
   return (
-    <Box
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        paddingRight: "5%",
-        paddingLeft: "5%",
-        width: "100%",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          // mb: 5,
-          p: 1.5,
-          gap: 1,
-          borderTopRightRadius: 5,
-          borderTopLeftRadius: 5,
-          backgroundColor: "primary.light",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 1,
-          }}
-        >
-          <Typography
-            variant="h5"
-            align="center"
-            alignItems={"center"}
-            sx={{ marginLeft: 1 }}
-          >
-            <HouseSidingIcon sx={{ mr: 0.3, mb: 0.4 }} fontSize="large" />
-            View Nurseries
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 1,
-            boxShadow: "none",
-          }}
-        >
-          <SearchField />
-
-          <Link href={"/admin/addNursery"}>
-            <button className="bg-floraGreen px-3 py-[2px] rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
-              <HouseSidingIcon sx={{ color: "white", mr: 0.3, mb: 0.3 }} />
-              Add Nursery
-            </button>
-          </Link>
-
-          <Export />
-        </Box>
-      </Box>
-
-      <DataGrid
-        sx={{
-          "&.MuiDataGrid-root .MuiDataGrid-cell:focus, .MuiDataGrid-columnHeader:focus":
-            {
-              outline: "none",
-            },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: "#F0F4F6",
-            color: "black",
-            fontSize: 16,
-          },
-          boxShadow: "0 5px 5px -5px",
-          border: "1px solid rgba(0,0,0,0.1)",
-        }}
-        rows={data?.nurseries || []}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10]}
-        checkboxSelection
-        autoHeight
-        disableSelectionOnClick
-      />
-    </Box>
+    <DataTable
+      rows={rows}
+      columns={columns}
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
+      title="View Nurseries"
+      Icon={HouseSidingIcon}
+      buttonText="Add Nursery"
+      buttonLink="/admin/addNursery"
+    />
   );
 }

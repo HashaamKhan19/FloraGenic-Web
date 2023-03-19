@@ -15,6 +15,8 @@ import Image from "next/legacy/image";
 import placeholder from "../../assets/images/placeholder.png";
 import LoadingScreen from "../Generic/LoadingScreen";
 
+import DataTable from "../Generic/DataTable";
+
 const columns = [
   { field: "id", headerName: "ID", width: 50 },
   {
@@ -199,97 +201,15 @@ export default function ViewUsers() {
   }
 
   return (
-    <Box
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        paddingRight: "5%",
-        paddingLeft: "5%",
-        width: "100%",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          // mb: 5,
-          p: 1.5,
-          gap: 1,
-          borderTopRightRadius: 5,
-          borderTopLeftRadius: 5,
-          backgroundColor: "primary.light",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 1,
-          }}
-        >
-          <Typography
-            variant="h5"
-            align="center"
-            alignItems={"center"}
-            sx={{ marginLeft: 1 }}
-          >
-            <UsersIcon sx={{ mr: 1, mb: 0.3 }} fontSize="medium" />
-            View Users
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 1,
-            boxShadow: "none",
-          }}
-        >
-          <SearchField
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-          />
-
-          <Link href={"/admin/addUser"}>
-            <button className="bg-floraGreen px-3 py-1 rounded-md shadow-md text-white hover:scale-[1.02] transition duration-500">
-              <UsersIcon
-                sx={{ color: "white", mr: 1, mb: 0.3 }}
-                fontSize="small"
-              />
-              Add User
-            </button>
-          </Link>
-
-          <Export />
-        </Box>
-      </Box>
-      <DataGrid
-        sx={{
-          "&.MuiDataGrid-root .MuiDataGrid-cell:focus, .MuiDataGrid-columnHeader:focus":
-            {
-              outline: "none",
-            },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: "#F0F4F6",
-            color: "black",
-            fontSize: 16,
-          },
-          boxShadow: "0 5px 5px -5px",
-          border: "1px solid rgba(0,0,0,0.1)",
-        }}
-        rows={rows}
-        columns={columns}
-        pagination
-        pageSize={pageSize}
-        rowsPerPageOptions={[10, 25, 50]}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        checkboxSelection
-        autoHeight
-        disableSelectionOnClick
-      />
-    </Box>
+    <DataTable
+      rows={rows}
+      columns={columns}
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
+      title="View Users"
+      Icon={UsersIcon}
+      buttonText="Add User"
+      buttonLink="/admin/addUser"
+    />
   );
 }
