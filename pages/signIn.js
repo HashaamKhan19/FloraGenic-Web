@@ -32,6 +32,7 @@ const SignIn = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        p: 2,
       }}
     >
       <Box
@@ -43,7 +44,6 @@ const SignIn = () => {
         borderRadius={"30px"}
         overflow={"hidden"}
         bgcolor={"white"}
-        m={2}
       >
         <Box
           position={"relative"}
