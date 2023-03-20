@@ -35,9 +35,9 @@ import {
 } from 'react-icons/bs'
 import { GiGardeningShears } from 'react-icons/gi'
 import Cart from '../Cart/Cart'
-import { AiOutlineShoppingCart } from 'react-icons/ai'
+import { AiOutlineLogin, AiOutlineShoppingCart } from 'react-icons/ai'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { SiHomeassistant } from 'react-icons/si'
 import { TbReportMoney } from 'react-icons/tb'
 import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
@@ -45,6 +45,7 @@ import { FiChevronDown } from 'react-icons/fi'
 import { useRouter } from 'next/router'
 import { gql, useQuery } from '@apollo/client'
 import Login from '../ProfileManagement/Login'
+import { AuthContext } from '../../../context/authContext'
 
 const useStyles = createStyles((theme) => ({
   links: {
@@ -152,14 +153,29 @@ const useStyles = createStyles((theme) => ({
 }))
 
 const HeaderMenu = ({ children }) => {
-  const [auth, setAuth] = useState(false)
+  // const [auth, setAuth] = useState(false)
+  const router = useRouter()
+
+  const { user, logout } = useContext(AuthContext)
+
+  // const handleLogout = () => {
+  //   const token = user?.token || localStorage.getItem('token')
+  //   if (token) {
+  //     localStorage.clear()
+  //     router.push('/')
+  //   }
+  // }
+
+  console.log('====================================')
+  console.log('checking if user is logged in:', user)
+  console.log('====================================')
+
   const [
     drawerOpened,
     { toggle: toggleDrawer, close: closeDrawer },
   ] = useDisclosure(false)
   const { classes } = useStyles()
   const theme = useMantineTheme()
-  const router = useRouter()
 
   const [activeLink, setActiveLink] = useState(null)
 
@@ -371,20 +387,39 @@ const HeaderMenu = ({ children }) => {
             )}
             {/* User and Cart */}
             <Group>
-              {auth ? (
-                <Link href={'/customer/dashboard'}>
+              {Object?.keys(user || {})?.length ? (
+                <Menu position="bottom-end" withArrow>
+                  <Menu.Target>
+                    <Avatar
+                      radius="xl"
+                      style={{
+                        cursor: 'pointer',
+                      }}
+                    />
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Item>
+                      <Link href={'/customer/dashboard'}>
+                        <Group>
+                          <BiCategoryAlt />
+                          <Text>Dashboard</Text>
+                        </Group>
+                      </Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <Link href={'/login'}>
+                        <Group onClick={logout}>
+                          <AiOutlineLogin />
+                          <Text>Logout</Text>
+                        </Group>
+                      </Link>
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              ) : (
+                <Link href={'/login'}>
                   <Avatar radius="xl" />
                 </Link>
-              ) : (
-                <Avatar
-                  radius="xl"
-                  onClick={() => {
-                    setOpened(true)
-                  }}
-                  style={{
-                    cursor: 'pointer',
-                  }}
-                />
               )}
               <Cart />
             </Group>
@@ -619,7 +654,7 @@ const HeaderMenu = ({ children }) => {
               color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
             />
 
-            {!auth ? (
+            {!user ? (
               <Stack align="center" px={'xl'} mt={'xl'}>
                 <Button
                   variant="outline"
