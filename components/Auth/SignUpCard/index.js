@@ -21,9 +21,10 @@ import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { AuthContext } from "../../../context/authContext";
 import ControlledSelect from "../../Generic/ControlledComponents/ControlledSelect";
 import ControlledTextInput from "../../Generic/ControlledComponents/ControlledTextInput";
 import AuthLayout from "../AuthLayout";
@@ -48,16 +49,22 @@ const SignIn = () => {
   const isMobile = useMediaQuery("(max-width: 600px)");
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
-  
+  const { user } = React.useContext(AuthContext);
+
   const [modelUserType, setModelUserType] = React.useState("Customer");
   const [googleToken, setGoogleToken] = React.useState("");
 
   const [visible, setVisible] = React.useState(false);
   const [confirmVisible, setConfirmVisible] = React.useState(false);
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      router.push("/dashboard");
+  useLayoutEffect(() => {
+    const token = user?.token || localStorage.getItem("token");
+    const userType = user?.userType || localStorage.getItem("userType");
+
+    if (!token || !userType) {
+      localStorage.clear();
+    } else {
+      router.back();
     }
   }, []);
 

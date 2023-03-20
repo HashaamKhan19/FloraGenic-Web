@@ -52,14 +52,8 @@ const SignInCard = () => {
 
     if (!token || !userType) {
       localStorage.clear();
-    }
-
-    if (userType === "Customer") {
-      router.push("/customer");
-    } else if (userType === "NurseryOwner") {
-      router.push("/nursery");
-    } else if (userType === "Admin") {
-      router.push("/admin");
+    } else {
+      router.back();
     }
   }, []);
 
