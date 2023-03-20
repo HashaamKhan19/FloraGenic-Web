@@ -124,7 +124,7 @@ const ProductListings = () => {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {
+                {/* {
                   currentPosts?.filter((data) => {
                     if (query === '') {
                       return data
@@ -134,8 +134,8 @@ const ProductListings = () => {
                       return data
                     }
                   }).length
-                }{' '}
-                Products
+                }{' '} */}
+                {data?.products?.length} Products
               </Text>
               <Input
                 placeholder="search..."
