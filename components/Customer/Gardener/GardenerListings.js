@@ -180,7 +180,12 @@ export default function GardenerListings() {
             })
             .map((data, index) => (
               <Link href={`/customer/viewGardener/${data?.id}`} key={index}>
-                <GardenerInfoCard key={index} data={data} />
+                <GardenerInfoCard
+                  key={index}
+                  data={data}
+                  loading={loading}
+                  error={error}
+                />
               </Link>
             ))}
         </SimpleGrid>

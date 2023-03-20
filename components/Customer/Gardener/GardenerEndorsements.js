@@ -1,12 +1,30 @@
-import { Chip, Divider, Space, Stack, Text } from '@mantine/core'
+import {
+  Chip,
+  Divider,
+  Paper,
+  Skeleton,
+  Space,
+  Stack,
+  Text,
+} from '@mantine/core'
 import React, { useState } from 'react'
 
-const GardenerEndorsements = ({ data }) => {
+const GardenerEndorsements = ({ data, loading, error }) => {
   const [checked, setChecked] = useState(false)
   const [endorsements, setEndorsements] = useState(0)
 
   return (
     <>
+      {loading && (
+        <Paper>
+          <Skeleton height={100} />
+        </Paper>
+      )}
+      {error && (
+        <Paper>
+          <Text>Error</Text>
+        </Paper>
+      )}
       <Text
         style={{
           fontSize: '1.3rem',
@@ -17,8 +35,8 @@ const GardenerEndorsements = ({ data }) => {
         Skills
       </Text>
       <Space mt={'xl'} />
-      {data?.skills?.map((skill) => (
-        <Stack>
+      {data?.skills?.map((skill, id) => (
+        <Stack key={id}>
           <Text
             style={{
               fontSize: '1rem',

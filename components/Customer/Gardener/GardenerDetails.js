@@ -1,11 +1,20 @@
-import { Avatar, Button, Group, Rating, Stack, Text } from '@mantine/core'
+import {
+  Avatar,
+  Button,
+  Group,
+  Paper,
+  Rating,
+  Skeleton,
+  Stack,
+  Text,
+} from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import React from 'react'
 import { BiMap } from 'react-icons/bi'
 import { GiSuitcase } from 'react-icons/gi'
 import { IoPaperPlane } from 'react-icons/io5'
 
-const GardenerDetails = ({ data }) => {
+const GardenerDetails = ({ data, loading, error }) => {
   const match475 = useMediaQuery('(max-width: 475px)')
 
   console.log('====================================')
@@ -14,6 +23,16 @@ const GardenerDetails = ({ data }) => {
 
   return (
     <>
+      {loading && (
+        <Paper>
+          <Skeleton height={100} />
+        </Paper>
+      )}
+      {error && (
+        <Paper>
+          <Text>Error</Text>
+        </Paper>
+      )}
       <Avatar
         size={100}
         radius={'50%'}

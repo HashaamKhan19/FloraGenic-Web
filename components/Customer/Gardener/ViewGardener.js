@@ -18,7 +18,7 @@ import GardenerEndorsements from './GardenerEndorsements'
 import RelatedGardeners from './RelatedGardeners'
 import GardenerDetails from './GardenerDetails'
 
-const ViewGardener = ({ data }) => {
+const ViewGardener = ({ data, loading, error }) => {
   return (
     <Container size="xl" pt={80}>
       <Grid>
@@ -32,11 +32,11 @@ const ViewGardener = ({ data }) => {
             radius={'md'}
             shadow="xs"
           >
-            <GardenerDetails data={data} />
+            <GardenerDetails data={data} loading={loading} error={error} />
           </Paper>
 
           <Paper mt={'xs'} p={'xl'} withBorder radius={'md'} shadow="xs">
-            <GardenerEndorsements data={data} />
+            <GardenerEndorsements data={data} loading={loading} error={error} />
           </Paper>
 
           <Paper mt={'xs'} p={'xl'} withBorder radius={'md'} shadow="xs">
