@@ -1,9 +1,16 @@
 import { Badge, Box, Button, Group, Rating, Stack, Text } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import React from 'react'
+import React, { useContext } from 'react'
+import { ShopContext } from '../../../context/shopContextProvider'
 
 const ProductDetails = ({ data, loading, error }) => {
   const matches768 = useMediaQuery('(max-width: 768px)')
+
+  const { cartItems, addToCart, removeFromCart } = useContext(ShopContext)
+
+  console.log('====================================')
+  console.log('cartItems details', cartItems)
+  console.log('====================================')
 
   return (
     <Box mt={matches768 ? 'md' : '0'} px={matches768 ? 'md' : '0'}>
@@ -109,13 +116,16 @@ const ProductDetails = ({ data, loading, error }) => {
             color: 'darkslategray',
           }}
         >
-          Stock Available: {data?.stock || 0}
+          {data?.stock > 0 ? 'In Stock' : 'Out of Stock'}
         </Text>
       </Stack>
       <Button
         mt={'lg'}
         color="green"
         disabled={loading || error || data?.stock === 0}
+        onClick={() => {
+          addToCart(data?.id)
+        }}
       >
         Add To Cart
       </Button>

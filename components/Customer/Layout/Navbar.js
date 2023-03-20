@@ -14,6 +14,7 @@ import {
   Menu,
   Paper,
   ScrollArea,
+  Stack,
   Text,
   TextInput,
   UnstyledButton,
@@ -22,7 +23,7 @@ import {
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import Image from 'next/image'
 import links from './NavbarLinks'
-import { BiChevronDown, BiHome } from 'react-icons/bi'
+import { BiCategoryAlt, BiChevronDown, BiHome } from 'react-icons/bi'
 import {
   BsArrowLeft,
   BsArrowRight,
@@ -42,6 +43,8 @@ import { TbReportMoney } from 'react-icons/tb'
 import FloraGenicLogo from '../../../public/Logo/floraGenic.png'
 import { FiChevronDown } from 'react-icons/fi'
 import { useRouter } from 'next/router'
+import { gql, useQuery } from '@apollo/client'
+import Login from '../ProfileManagement/Login'
 
 const useStyles = createStyles((theme) => ({
   links: {
@@ -172,40 +175,40 @@ const HeaderMenu = ({ children }) => {
       </Link>
     ))
 
-    if (menuItems) {
-      return (
-        <Menu
-          key={link.label}
-          trigger="hover"
-          transition={'scale-y'}
-          transitionDuration={300}
-          exitTransitionDuration={100}
-          withArrow
-        >
-          <Menu.Target>
-            <Link href={link.link} className={classes.link}>
-              <Center>
-                <span
-                  className={`${classes.linkLabel} ${
-                    activeLink === link.link ? 'text-floraGreen' : ''
-                  }`}
-                >
-                  {link.label}
-                </span>
-                <BsChevronDown
-                  size={12}
-                  stroke={1.5}
-                  style={{
-                    color: activeLink === link.link ? '#62A82C' : 'black',
-                  }}
-                />
-              </Center>
-            </Link>
-          </Menu.Target>
-          <Menu.Dropdown>{menuItems}</Menu.Dropdown>
-        </Menu>
-      )
-    }
+    // if (menuItems) {
+    //   return (
+    //     <Menu
+    //       key={link.label}
+    //       trigger="hover"
+    //       transition={'scale-y'}
+    //       transitionDuration={300}
+    //       exitTransitionDuration={100}
+    //       withArrow
+    //     >
+    //       <Menu.Target>
+    //         <Link href={link.link} className={classes.link}>
+    //           <Center>
+    //             <span
+    //               className={`${classes.linkLabel} ${
+    //                 activeLink === link.link ? 'text-floraGreen' : ''
+    //               }`}
+    //             >
+    //               {link.label}
+    //             </span>
+    //             <BsChevronDown
+    //               size={12}
+    //               stroke={1.5}
+    //               style={{
+    //                 color: activeLink === link.link ? '#62A82C' : 'black',
+    //               }}
+    //             />
+    //           </Center>
+    //         </Link>
+    //       </Menu.Target>
+    //       <Menu.Dropdown>{menuItems}</Menu.Dropdown>
+    //     </Menu>
+    //   )
+    // }
 
     return (
       <Link key={link.label} href={link.link} className={classes.link}>
@@ -223,6 +226,8 @@ const HeaderMenu = ({ children }) => {
   useEffect(() => {
     setActiveLink(router.pathname)
   }, [router.pathname])
+
+  const [opened, setOpened] = useState(false)
 
   return (
     <>
@@ -366,9 +371,21 @@ const HeaderMenu = ({ children }) => {
             )}
             {/* User and Cart */}
             <Group>
-              <Link href={'/customer/dashboard'}>
-                <Avatar radius="xl" />
-              </Link>
+              {auth ? (
+                <Link href={'/customer/dashboard'}>
+                  <Avatar radius="xl" />
+                </Link>
+              ) : (
+                <Avatar
+                  radius="xl"
+                  onClick={() => {
+                    setOpened(true)
+                  }}
+                  style={{
+                    cursor: 'pointer',
+                  }}
+                />
+              )}
               <Cart />
             </Group>
           </Group>
@@ -408,88 +425,192 @@ const HeaderMenu = ({ children }) => {
           padding="md"
           className={classes.hiddenDesktop}
           zIndex={1000000}
+          title={
+            <Image src={FloraGenicLogo} alt="FloraGenic Logo" width={110} />
+          }
           styles={{
             closeButton: {
-              color: '#fff',
+              color: '#62A82C',
             },
-            drawer: {
-              backgroundImage: `url("https://images.unsplash.com/photo-1629197520635-16570fbd0bb3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=848&q=80")`,
+            title: {
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              paddingLeft: '15px',
             },
+            // drawer: {
+            //   backgroundImage: `url("https://images.unsplash.com/photo-1629197520635-16570fbd0bb3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=848&q=80")`,
+            // },
           }}
         >
           <ScrollArea sx={{ height: 'calc(100vh - 60px)' }} mx="-md">
-            <Divider
+            {/* <Divider
               my="sm"
               color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.3'}
-            />
+            /> */}
             <Group
               spacing="lg"
               style={{
                 justifyContent: 'center',
+                width: '100%',
               }}
             >
               <Button
-                variant="filled"
-                style={{
-                  backgroundColor: '#62A82C',
-                  color: 'white',
-                }}
+                variant={activeLink === '/customer' ? 'filled' : 'light'}
+                color={activeLink === '/customer' ? 'green' : 'cyan'}
                 className={classes.mobileLink}
-                size="md"
-                leftIcon={<BiHome />}
+                radius={'lg'}
+                leftIcon={
+                  <BiHome
+                    color={
+                      activeLink === '/customer' ? 'white' : 'darkslategray'
+                    }
+                    size={'1.3rem'}
+                  />
+                }
                 onClick={() => {
                   closeDrawer()
+                }}
+                styles={{
+                  label: {
+                    fontSize: '1.2rem',
+                    color:
+                      activeLink === '/customer' ? 'white' : 'darkslategray',
+                  },
                 }}
               >
                 Home
               </Button>
 
               <Button
-                variant="filled"
-                style={{
-                  backgroundColor: '#62A82C',
-                  color: 'white',
-                }}
+                variant={
+                  activeLink === '/customer/products' ? 'filled' : 'light'
+                }
+                color={activeLink === '/customer/products' ? 'green' : 'cyan'}
                 className={classes.mobileLink}
-                size="md"
-                leftIcon={<AiOutlineShoppingCart />}
+                radius={'lg'}
+                leftIcon={
+                  <AiOutlineShoppingCart
+                    color={
+                      activeLink === '/customer/products'
+                        ? 'white'
+                        : 'darkslategray'
+                    }
+                    size={'1.3rem'}
+                  />
+                }
                 onClick={() => {
                   closeDrawer()
+                }}
+                styles={{
+                  label: {
+                    fontSize: '1.2rem',
+                    color:
+                      activeLink === '/customer/products'
+                        ? 'white'
+                        : 'darkslategray',
+                  },
                 }}
               >
                 Products
               </Button>
 
               <Button
-                variant="filled"
-                style={{
-                  backgroundColor: '#62A82C',
-                  color: 'white',
-                }}
+                variant={
+                  activeLink === '/customer/nurseries' ? 'filled' : 'light'
+                }
+                color={activeLink === '/customer/nurseries' ? 'green' : 'cyan'}
                 className={classes.mobileLink}
-                size="md"
-                leftIcon={<SiHomeassistant />}
+                radius={'lg'}
+                leftIcon={
+                  <SiHomeassistant
+                    color={
+                      activeLink === '/customer/nurseries'
+                        ? 'white'
+                        : 'darkslategray'
+                    }
+                    size={'1.3rem'}
+                  />
+                }
                 onClick={() => {
                   closeDrawer()
+                }}
+                styles={{
+                  label: {
+                    fontSize: '1.2rem',
+                    color:
+                      activeLink === '/customer/nurseries'
+                        ? 'white'
+                        : 'darkslategray',
+                  },
                 }}
               >
                 Nurseries
               </Button>
 
               <Button
-                variant="filled"
-                style={{
-                  backgroundColor: '#62A82C',
-                  color: 'white',
-                }}
+                variant={
+                  activeLink === '/customer/gardeners' ? 'filled' : 'light'
+                }
+                color={activeLink === '/customer/gardeners' ? 'green' : 'cyan'}
                 className={classes.mobileLink}
-                size="md"
-                leftIcon={<GiGardeningShears />}
+                radius={'lg'}
+                leftIcon={
+                  <GiGardeningShears
+                    color={
+                      activeLink === '/customer/gardeners'
+                        ? 'white'
+                        : 'darkslategray'
+                    }
+                    size={'1.3rem'}
+                  />
+                }
                 onClick={() => {
                   closeDrawer()
                 }}
+                styles={{
+                  label: {
+                    fontSize: '1.2rem',
+                    color:
+                      activeLink === '/customer/gardeners'
+                        ? 'white'
+                        : 'darkslategray',
+                  },
+                }}
               >
                 Gardeners
+              </Button>
+
+              <Button
+                variant={
+                  activeLink === '/customer/categories' ? 'filled' : 'light'
+                }
+                color={activeLink === '/customer/categories' ? 'green' : 'cyan'}
+                className={classes.mobileLink}
+                radius={'lg'}
+                leftIcon={
+                  <BiCategoryAlt
+                    color={
+                      activeLink === '/customer/categories'
+                        ? 'white'
+                        : 'darkslategray'
+                    }
+                    size={'1.3rem'}
+                  />
+                }
+                onClick={() => {
+                  closeDrawer()
+                }}
+                styles={{
+                  label: {
+                    fontSize: '1.2rem',
+                    color:
+                      activeLink === '/customer/categories'
+                        ? 'white'
+                        : 'darkslategray',
+                  },
+                }}
+              >
+                Categories
               </Button>
             </Group>
 
@@ -499,10 +620,12 @@ const HeaderMenu = ({ children }) => {
             />
 
             {!auth ? (
-              <Group position="center" grow px={'1.6rem'}>
+              <Stack align="center" px={'xl'} mt={'xl'}>
                 <Button
                   variant="outline"
-                  style={{ color: '#62A82C', borderColor: '#62A82C' }}
+                  radius="md"
+                  color="green"
+                  fullWidth
                   onClick={() => {
                     closeDrawer()
                   }}
@@ -511,17 +634,16 @@ const HeaderMenu = ({ children }) => {
                 </Button>
                 <Button
                   variant="filled"
-                  style={{
-                    backgroundColor: '#62A82C',
-                    color: 'white',
-                  }}
+                  fullWidth
+                  color="green"
+                  radius="md"
                   onClick={() => {
                     closeDrawer()
                   }}
                 >
                   Sign up
                 </Button>
-              </Group>
+              </Stack>
             ) : (
               <Group position="center" grow pb="xl" px="md">
                 <Button
@@ -537,6 +659,7 @@ const HeaderMenu = ({ children }) => {
           </ScrollArea>
         </Drawer>
       </Header>
+      <Login opened={opened} setOpened={setOpened} />
       {children}
     </>
   )
