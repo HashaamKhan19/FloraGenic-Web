@@ -151,7 +151,7 @@ const SignInCard = () => {
           defaultValue="Customer"
         >
           <MenuItem value="Customer">Customer</MenuItem>
-          <MenuItem value="Gardener">Gardener</MenuItem>
+          {/* <MenuItem value="Gardener">Gardener</MenuItem> */}
           <MenuItem value="NurseryOwner">Nursery Owner</MenuItem>
         </ControlledSelect>
 

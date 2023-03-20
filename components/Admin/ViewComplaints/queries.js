@@ -1,18 +1,16 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const GET_COMPLAINTS = gql`
   query Query {
     complaints {
       id
-      userId
+      name
+      email
       type
       title
       description
       date
       read
-      userDetails {
-        email
-      }
     }
   }
-`;
+`
