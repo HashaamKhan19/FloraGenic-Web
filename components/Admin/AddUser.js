@@ -3,7 +3,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import ButtonBackground from "../../assets/Pattern/ButtonBackground";
 import { UsersIcon } from "../../public/icons/UsersIcon";
@@ -115,6 +115,7 @@ const AddUser = ({ data = {} }) => {
   const [loading, setLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(null);
   const [successMessage, setSuccessMessage] = React.useState(null);
+  const [selected, setSelected] = useState([]);
 
   const [addCustomer] = useMutation(ADD_CUSTOMER, {
     onCompleted: () => {
@@ -297,6 +298,7 @@ const AddUser = ({ data = {} }) => {
               experience: parseInt(formData.experience),
               price: parseInt(formData.price),
               image: image,
+              skills: selected?.length && selected,
             },
           },
         });
@@ -319,6 +321,7 @@ const AddUser = ({ data = {} }) => {
               experience: parseInt(formData.experience),
               price: parseInt(formData.price),
               image: image,
+              skills: selected?.length && selected,
             },
           },
         });
@@ -492,6 +495,8 @@ const AddUser = ({ data = {} }) => {
                   getValues={getValues}
                   setValue={setValue}
                   errors={errors}
+                  selected={selected}
+                  setSelected={setSelected}
                 />
               ) : userType == "NurseryOwner" ? (
                 <AddNurseryOwner

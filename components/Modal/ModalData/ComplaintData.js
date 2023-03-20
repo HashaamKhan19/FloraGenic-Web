@@ -16,13 +16,19 @@ const ComplaintData = ({ data }) => {
               fontWeight: "600",
             }}
           >
-            Complaint By:
+            Name:
           </TableCell>
-          <TableCell>
-            {data?.userDetails
-              ? data?.userDetails?.firstName + " " + data?.userDetails?.lastName
-              : "Anonymous"}
+          <TableCell>{data?.name}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell
+            sx={{
+              fontWeight: "600",
+            }}
+          >
+            Email:
           </TableCell>
+          <TableCell>{data?.email}</TableCell>
         </TableRow>
         <TableRow>
           <TableCell

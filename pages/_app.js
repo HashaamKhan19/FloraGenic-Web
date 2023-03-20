@@ -1,30 +1,30 @@
-import { createEmotionCache, MantineProvider } from '@mantine/core'
-import { ThemeProvider } from '@mui/material'
-import Sidebar from '../components/Admin/Sidebar'
-import Footer from '../components/Customer/Layout/Footer'
-import Navbar from '../components/Customer/Layout/Navbar'
-import GardenerSidebar from '../components/Gardener/Sidebar'
-import Dashboard from '../components/Contact/Dashborad'
-import NurserySidebar from '../components/Nursery/Sidebar'
-import '../styles/globals.css'
-import ShopContextProvider from '../context/shopContextProvider'
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
-import { theme } from '../theme/theme'
-import { Toaster } from 'react-hot-toast'
-import AuthProvider from '../context/authContext'
+import { createEmotionCache, MantineProvider } from "@mantine/core";
+import { ThemeProvider } from "@mui/material";
+import Sidebar from "../components/Admin/Sidebar";
+import Footer from "../components/Customer/Layout/Footer";
+import Navbar from "../components/Customer/Layout/Navbar";
+import GardenerSidebar from "../components/Gardener/Sidebar";
+import Dashboard from "../components/Contact/Dashborad";
+import NurserySidebar from "../components/Nursery/Sidebar";
+import "../styles/globals.css";
+import ShopContextProvider from "../context/shopContextProvider";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { theme } from "../theme/theme";
+import { Toaster } from "react-hot-toast";
+import AuthProvider from "../context/authContext";
 
-import { GoogleOAuthProvider } from '@react-oauth/google'
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
-const appendCache = createEmotionCache({ key: 'mantine', prepend: false })
+const appendCache = createEmotionCache({ key: "mantine", prepend: false });
 
 function MyApp({ Component, pageProps, router }) {
   const client = new ApolloClient({
-    uri: 'https://floragenic.herokuapp.com/graphql',
-    // uri: "http://localhost:4000/graphql",
+    // uri: "https://floragenic.herokuapp.com/graphql",
+    uri: "http://localhost:4000/graphql",
     cache: new InMemoryCache(),
-  })
+  });
 
-  if (router.pathname.startsWith('/admin')) {
+  if (router.pathname.startsWith("/admin")) {
     return (
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
         <AuthProvider>
@@ -42,16 +42,16 @@ function MyApp({ Component, pageProps, router }) {
           </ApolloProvider>
         </AuthProvider>
       </GoogleOAuthProvider>
-    )
+    );
   }
 
-  if (router.pathname.startsWith('/customer')) {
+  if (router.pathname.startsWith("/customer")) {
     return (
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
         <AuthProvider>
           <MantineProvider
             theme={{
-              fontFamily: 'Poppins',
+              fontFamily: "Poppins",
             }}
             emotionCache={appendCache}
             withGlobalStyles
@@ -74,10 +74,10 @@ function MyApp({ Component, pageProps, router }) {
           </MantineProvider>
         </AuthProvider>
       </GoogleOAuthProvider>
-    )
+    );
   }
 
-  if (router.pathname.startsWith('/gardener')) {
+  if (router.pathname.startsWith("/gardener")) {
     return (
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
         <AuthProvider>
@@ -95,10 +95,10 @@ function MyApp({ Component, pageProps, router }) {
           </ApolloProvider>
         </AuthProvider>
       </GoogleOAuthProvider>
-    )
+    );
   }
 
-  if (router.pathname.startsWith('/nursery')) {
+  if (router.pathname.startsWith("/nursery")) {
     return (
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
         <AuthProvider>
@@ -116,16 +116,16 @@ function MyApp({ Component, pageProps, router }) {
           </ApolloProvider>
         </AuthProvider>
       </GoogleOAuthProvider>
-    )
+    );
   }
 
-  if (router.pathname.startsWith('/contact')) {
+  if (router.pathname.startsWith("/contact")) {
     return (
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
         <AuthProvider>
           <MantineProvider
             theme={{
-              fontFamily: 'Poppins',
+              fontFamily: "Poppins",
             }}
             emotionCache={appendCache}
             withGlobalStyles
@@ -145,7 +145,7 @@ function MyApp({ Component, pageProps, router }) {
           </MantineProvider>
         </AuthProvider>
       </GoogleOAuthProvider>
-    )
+    );
   }
 
   return (
@@ -159,7 +159,7 @@ function MyApp({ Component, pageProps, router }) {
         </ApolloProvider>
       </AuthProvider>
     </GoogleOAuthProvider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

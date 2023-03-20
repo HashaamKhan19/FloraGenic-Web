@@ -344,6 +344,7 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
             color: "text.primary",
             "& span": { color: "error.light" },
           }}
+          disabled={action == "Enter" ? false : true}
         >
           {action} CNIC
         </InputLabel>
@@ -357,6 +358,7 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
           name="CNIC"
           fullWidth
           autoComplete="CNIC"
+          disabled={action == "Enter" ? false : true}
           error={errors.cnic ? true : false}
           helperText={errors.cnic && "CNIC is required"}
         />

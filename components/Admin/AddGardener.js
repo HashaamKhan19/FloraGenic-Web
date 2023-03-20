@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import CityOptions from "../Generic/CityOptions";
 
 // Controlled components
@@ -18,10 +18,11 @@ import ControlledTelInput from "../Generic/ControlledComponents/ControlledTelInp
 import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 import CheckableChips from "../Generic/ControlledComponents/ControlledChips";
 
-const AddGardener = ({ control, getValues, setValue, errors }) => {
+const AddGardener = ({ control, getValues, setValue, errors , selected, setSelected}) => {
   const router = useRouter();
 
-  const [action, setAction] = React.useState("Enter");
+  const [action, setAction] = useState("Enter");
+
 
   React.useEffect(() => {
     const parts = router.pathname.split("/");
@@ -386,6 +387,7 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
             color: "text.primary",
             "& span": { color: "error.light" },
           }}
+          disabled={action == "Enter" ? false : true}
         >
           {action} CNIC
         </InputLabel>
@@ -399,6 +401,7 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           name="CNIC"
           fullWidth
           autoComplete="CNIC"
+          disabled={action == "Enter" ? false : true}
           error={errors.CNIC ? true : false}
           helperText={errors.CNIC && "CNIC is required"}
         />
@@ -417,7 +420,12 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
         >
           Select Skills
         </InputLabel>
-        <CheckableChips control={control} name="skills" />
+        <CheckableChips
+          control={control}
+          name="skills"
+          selected={selected}
+          setSelected={setSelected}
+        />
       </Grid>
 
       <Grid item xs={12}>

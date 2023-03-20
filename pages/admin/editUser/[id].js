@@ -51,6 +51,7 @@ const GET_UER_BY_ID = gql`
           updatedAt
           skills {
             skill {
+              id
               name
             }
           }

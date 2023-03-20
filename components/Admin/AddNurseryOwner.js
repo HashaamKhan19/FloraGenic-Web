@@ -336,6 +336,7 @@ const AddNurseryOwner = ({ control, getValues, setValue, errors }) => {
             color: "text.primary",
             "& span": { color: "error.light" },
           }}
+          disabled={action == "Enter" ? false : true}
         >
           {action} CNIC
         </InputLabel>
@@ -349,6 +350,7 @@ const AddNurseryOwner = ({ control, getValues, setValue, errors }) => {
           name="CNIC"
           fullWidth
           autoComplete="CNIC"
+          disabled={action == "Enter" ? false : true}
           error={errors.CNIC ? true : false}
           helperText={errors.CNIC && "CNIC is required"}
         />
