@@ -228,7 +228,6 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           autoComplete="confirmPassword"
           type={showConfirmPassword}
           placeholder="••••••••••"
-
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -316,8 +315,9 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           placeholder="Rs. 1000"
           fullWidth
           // autoComplete="Product Description"
-          // error={errors.stock ? true : false}
-          // helperText={errors.stock && 'Product Quantity is required'}
+          validate={(value) => /^\d+$/.test(value)}
+          error={errors.price ? true : false}
+          helperText={errors.price && "Price is required"}
         />
       </Grid>
 
@@ -341,12 +341,12 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           name="duration"
           autoComplete="duration"
           fullWidth
-          defaultValue="hourly"
+          defaultValue="Hourly"
         >
-          <MenuItem value="hourly">Hourly</MenuItem>
-          <MenuItem value="daily">Daily</MenuItem>
-          <MenuItem value="weekly">Weekly</MenuItem>
-          <MenuItem value="monthly">Monthly</MenuItem>
+          <MenuItem value="Hourly">Hourly</MenuItem>
+          <MenuItem value="Daily">Daily</MenuItem>
+          <MenuItem value="Weekly">Weekly</MenuItem>
+          <MenuItem value="Monthly">Monthly</MenuItem>
         </ControlledSelect>
       </Grid>
 
@@ -370,9 +370,9 @@ const AddGardener = ({ control, getValues, setValue, errors }) => {
           name="experience"
           placeholder="1 Year"
           fullWidth
-          // autoComplete="Product Description"
-          // error={errors.stock ? true : false}
-          // helperText={errors.stock && 'Product Quantity is required'}
+          validate={(value) => /^\d+$/.test(value)}
+          error={errors.experience ? true : false}
+          helperText={errors.experience && "Experience is required"}
         />
       </Grid>
 

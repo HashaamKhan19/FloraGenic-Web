@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
     if (token && userType) {
       setUser({ token, userType });
     }
-  }, []);   
+  }, []);
 
   const logout = () => {
     localStorage.clear();

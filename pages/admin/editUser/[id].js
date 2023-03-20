@@ -4,7 +4,7 @@ import React from "react";
 import AddUser from "../../../components/Admin/AddUser";
 import LoadingScreen from "../../../components/Generic/LoadingScreen";
 const GET_UER_BY_ID = gql`
-  query Users($userId: ID!) {
+  query User($userId: ID!) {
     user(id: $userId) {
       id
       email
@@ -26,9 +26,9 @@ const GET_UER_BY_ID = gql`
           id
           firstName
           lastName
+          gender
           nationality
           phoneNumber
-          gender
           CNIC
           image
           createdAt
@@ -38,11 +38,33 @@ const GET_UER_BY_ID = gql`
           id
           firstName
           lastName
-          city
-          phoneNumber
           gender
+          phoneNumber
+          city
+          CNIC
+          price
+          duration
+          rating
+          experience
+          image
+          createdAt
+          updatedAt
+          skills {
+            skill {
+              name
+            }
+          }
+        }
+        ... on NurseryOwner {
+          id
+          firstName
+          lastName
+          gender
+          nationality
+          phoneNumber
           CNIC
           image
+          nurseries
           createdAt
           updatedAt
         }
