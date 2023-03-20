@@ -14,7 +14,7 @@ function Banner() {
         }}
         mx={'lg'}
         radius={0}
-        bg={'#434343'}
+        bg={'#457d1a'}
       >
         <Paper
           style={{
@@ -27,13 +27,13 @@ function Banner() {
             alignItems: 'center',
             clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0 100%)',
           }}
-          bg={'#E0E0E0'}
+          bg={'#232323'}
           radius={0}
         >
           <span
             style={{
               fontSize: 28,
-              color: 'darkslategray',
+              color: '#fff',
               fontWeight: 525,
               paddingLeft: 20,
             }}
@@ -83,7 +83,7 @@ function Banner() {
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          bg={'#434343'}
+          bg={'#232323'}
         >
           <Button
             style={{

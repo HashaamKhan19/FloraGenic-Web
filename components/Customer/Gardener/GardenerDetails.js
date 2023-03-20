@@ -5,8 +5,12 @@ import { BiMap } from 'react-icons/bi'
 import { GiSuitcase } from 'react-icons/gi'
 import { IoPaperPlane } from 'react-icons/io5'
 
-const GardenerDetails = () => {
+const GardenerDetails = ({ data }) => {
   const match475 = useMediaQuery('(max-width: 475px)')
+
+  console.log('====================================')
+  console.log(data)
+  console.log('====================================')
 
   return (
     <>
@@ -19,7 +23,7 @@ const GardenerDetails = () => {
           left: '50%',
           transform: 'translateX(-50%)',
         }}
-        src={'https://picsum.photos/200/300'}
+        src={data?.image}
       />
       <Group position="apart" noWrap>
         <Stack spacing={'xs'} mt={match475 ? 'xl' : ''}>
@@ -30,7 +34,7 @@ const GardenerDetails = () => {
               color: 'darkslategray',
             }}
           >
-            Hashaam
+            {data?.firstName + ' ' + data?.lastName || 'Gardener Name'}
           </Text>
           <Group spacing={2}>
             <BiMap />
@@ -41,7 +45,7 @@ const GardenerDetails = () => {
                 color: 'darkslategray',
               }}
             >
-              Islamabad
+              {data?.city || 'Location'}
             </Text>
           </Group>
           <Group pt={'xs'}>
@@ -70,14 +74,14 @@ const GardenerDetails = () => {
 
         <Stack spacing={'xs'} pt={40}>
           <Group spacing={2}>
-            <Rating value={4} size="md" readOnly />
+            <Rating value={data?.rating} size="md" readOnly />
             <Text
               style={{
                 fontSize: '14px',
                 color: 'darkslategray',
               }}
             >
-              (12)
+              (12????)
             </Text>
           </Group>
           <Group>
@@ -97,7 +101,7 @@ const GardenerDetails = () => {
                 color: '#D92228',
               }}
             >
-              1000/Day
+              {data?.price || 'Price'} /
             </Text>
           </Group>
 
@@ -118,7 +122,7 @@ const GardenerDetails = () => {
                 color: '#D92228',
               }}
             >
-              5 Years
+              {data?.experience || 'Experience'} years
             </Text>
           </Group>
         </Stack>

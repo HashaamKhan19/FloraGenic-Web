@@ -34,7 +34,7 @@ const gardeners = [
   },
 ]
 
-const GardenerInfoCard = () => {
+const GardenerInfoCard = ({ data }) => {
   const { classes } = useStyles()
 
   return (
@@ -64,11 +64,7 @@ const GardenerInfoCard = () => {
             {gardener.available ? 'Available' : 'Not Available'}
           </Badge>
           <Stack align="center" p={'sm'} spacing={'xs'}>
-            <Avatar
-              size={'xl'}
-              radius={'50%'}
-              src="https://i.pravatar.cc/300"
-            />
+            <Avatar size={'xl'} radius={'50%'} src={data?.image || 'noImage'} />
 
             <Text
               style={{
@@ -76,7 +72,7 @@ const GardenerInfoCard = () => {
                 fontSize: '1.5rem',
               }}
             >
-              {gardener.name}
+              {data?.firstName + ' ' + data?.lastName}
             </Text>
             <Group spacing={2}>
               <BiMap />
@@ -86,11 +82,11 @@ const GardenerInfoCard = () => {
                   fontSize: '1.1rem',
                 }}
               >
-                {gardener.location}
+                {data?.city}
               </Text>
             </Group>
             <Rating
-              value={gardener.rating}
+              value={data?.rating}
               size="md"
               fractions={2}
               readOnly
@@ -128,7 +124,7 @@ const GardenerInfoCard = () => {
               </Menu.Target>
 
               <Menu.Dropdown>
-                {gardener.skills.map((skill) => (
+                {data.skills.map((skill) => (
                   <Menu.Item key={skill}>{skill}</Menu.Item>
                 ))}
               </Menu.Dropdown>
@@ -141,7 +137,7 @@ const GardenerInfoCard = () => {
               }}
               mt={'xs'}
             >
-              {gardener.price}
+              Rs. {data?.price}
             </Text>
           </Stack>
         </Paper>

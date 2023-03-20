@@ -1,33 +1,25 @@
+import { gql, useQuery } from '@apollo/client'
 import { Container, Image, Paper, SimpleGrid, Stack, Text } from '@mantine/core'
 import React from 'react'
 
+const GET_CATEGORIES = gql`
+  query Query {
+    categories {
+      image
+      name
+      id
+      hiddenStatus
+      description
+    }
+  }
+`
+
 const CategoriesList = () => {
-  const categories = [
-    {
-      id: 1,
-      name: 'Fruits',
-      image: 'https://i.pravatar.cc/300',
-      description: 'Fruits are the sweetest things on earth',
-    },
-    {
-      id: 2,
-      name: 'Vegetables',
-      image: 'https://i.pravatar.cc/300',
-      description: 'Vegetables are the sweetest things on earth',
-    },
-    {
-      id: 3,
-      name: 'Meat',
-      image: 'https://i.pravatar.cc/300',
-      description: 'Vegetables are the sweetest things on earth',
-    },
-    {
-      id: 4,
-      name: 'Fish',
-      image: 'https://i.pravatar.cc/300',
-      description: 'Vegetables are the sweetest things on earth',
-    },
-  ]
+  const { data, loading, error } = useQuery(GET_CATEGORIES)
+
+  console.log('====================================')
+  console.log('categories: ', data)
+  console.log('====================================')
 
   return (
     <Container size={'xl'} pt={'xl'} pb={'xl'}>
@@ -39,7 +31,7 @@ const CategoriesList = () => {
         ]}
         mt={'xl'}
       >
-        {categories.map((category) => (
+        {data?.categories?.map((category) => (
           <Paper
             key={category.id}
             shadow="sm"
