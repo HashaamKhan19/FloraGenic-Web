@@ -18,6 +18,7 @@ import PaymentDetails from './PaymentDetails'
 import { ShopContext } from '../../../context/shopContextProvider'
 import Link from 'next/link'
 import { gql, useQuery } from '@apollo/client'
+import { useForm } from '@mantine/form'
 
 const StepIcon = ({ active, completed, icon }) => {
   const bgColor = completed ? 'green' : 'transparent'
@@ -77,6 +78,40 @@ const ViewCart = () => {
   console.log('====================================')
   console.log('cartItems', cartItems.length)
   console.log('====================================')
+
+  const form = useForm({
+    initialValues: {
+      name: '',
+      email: '',
+      phoneNumber: '',
+      cnic: '',
+      address: '',
+    },
+    validate: {
+      name: (value) =>
+        value?.length < 2 ? 'Name must have at least 5 letters' : null,
+      email: (value) =>
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)
+          ? 'Invalid email address'
+          : null,
+      phoneNumber: (value) =>
+        value?.length > 0 && !/^\+92[1-9]\d{9}$/.test(value)
+          ? 'Invalid phone number, must begin with +92'
+          : null,
+      cnic: (value) =>
+        value?.length > 0 && !/^[0-9]{5}[0-9]{7}[0-9]$/.test(value)
+          ? 'Invalid CNIC, dont put dashes'
+          : null,
+      address: (value) =>
+        value?.length < 5 ? 'Address must have at least 5 letters' : null,
+    },
+  })
+
+  const handleFormSubmit = (values) => {
+    console.log('====================================')
+    console.log('values', values)
+    console.log('====================================')
+  }
 
   return (
     <Container size={'xl'} pt={40}>
@@ -212,7 +247,10 @@ const ViewCart = () => {
         >
           <Grid>
             <Grid.Col sm={8}>
-              <ShippingDetails />
+              <ShippingDetails
+                form={form}
+                handleFormSubmit={handleFormSubmit}
+              />
             </Grid.Col>
             <Grid.Col sm={4} pb={'xl'}>
               <CartDetails />
@@ -223,7 +261,10 @@ const ViewCart = () => {
                     backgroundColor: '#62A82C',
                     color: '#fff',
                   }}
-                  onClick={() => setActive(2)}
+                  onClick={() => {
+                    setActive(2)
+                    handleFormSubmit(form.getTransformedValues())
+                  }}
                 >
                   <Center>Proceed to Payment</Center>
                 </Button>
