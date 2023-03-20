@@ -13,6 +13,8 @@ import { theme } from "../theme/theme";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "../context/authContext";
 
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 const appendCache = createEmotionCache({ key: "mantine", prepend: false });
 
 function MyApp({ Component, pageProps, router }) {
@@ -24,127 +26,139 @@ function MyApp({ Component, pageProps, router }) {
 
   if (router.pathname.startsWith("/admin")) {
     return (
-      <AuthProvider>
-        <ApolloProvider client={client}>
-          <ThemeProvider theme={theme}>
-            <Sidebar>
-              <Component {...pageProps} />
-            </Sidebar>
-          </ThemeProvider>
-          <Toaster
-            toastOptions={{
-              duration: 3000,
-            }}
-          />
-        </ApolloProvider>
-      </AuthProvider>
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+        <AuthProvider>
+          <ApolloProvider client={client}>
+            <ThemeProvider theme={theme}>
+              <Sidebar>
+                <Component {...pageProps} />
+              </Sidebar>
+            </ThemeProvider>
+            <Toaster
+              toastOptions={{
+                duration: 3000,
+              }}
+            />
+          </ApolloProvider>
+        </AuthProvider>
+      </GoogleOAuthProvider>
     );
   }
 
   if (router.pathname.startsWith("/customer")) {
     return (
-      <AuthProvider>
-        <MantineProvider
-          theme={{
-            fontFamily: "Poppins",
-          }}
-          emotionCache={appendCache}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          <ApolloProvider client={client}>
-            <ShopContextProvider>
-              <ThemeProvider theme={theme}>
-                <Navbar />
-                <Component {...pageProps} />
-                <Footer />
-              </ThemeProvider>
-            </ShopContextProvider>
-          </ApolloProvider>
-          <Toaster
-            toastOptions={{
-              duration: 3000,
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+        <AuthProvider>
+          <MantineProvider
+            theme={{
+              fontFamily: "Poppins",
             }}
-          />
-        </MantineProvider>
-      </AuthProvider>
+            emotionCache={appendCache}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            <ApolloProvider client={client}>
+              <ShopContextProvider>
+                <ThemeProvider theme={theme}>
+                  <Navbar />
+                  <Component {...pageProps} />
+                  <Footer />
+                </ThemeProvider>
+              </ShopContextProvider>
+            </ApolloProvider>
+            <Toaster
+              toastOptions={{
+                duration: 3000,
+              }}
+            />
+          </MantineProvider>
+        </AuthProvider>
+      </GoogleOAuthProvider>
     );
   }
 
   if (router.pathname.startsWith("/gardener")) {
     return (
-      <AuthProvider>
-        <ApolloProvider client={client}>
-          <ThemeProvider theme={theme}>
-            <GardenerSidebar>
-              <Component {...pageProps} />
-            </GardenerSidebar>
-          </ThemeProvider>
-          <Toaster
-            toastOptions={{
-              duration: 3000,
-            }}
-          />
-        </ApolloProvider>
-      </AuthProvider>
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+        <AuthProvider>
+          <ApolloProvider client={client}>
+            <ThemeProvider theme={theme}>
+              <GardenerSidebar>
+                <Component {...pageProps} />
+              </GardenerSidebar>
+            </ThemeProvider>
+            <Toaster
+              toastOptions={{
+                duration: 3000,
+              }}
+            />
+          </ApolloProvider>
+        </AuthProvider>
+      </GoogleOAuthProvider>
     );
   }
 
   if (router.pathname.startsWith("/nursery")) {
     return (
-      <AuthProvider>
-        <ApolloProvider client={client}>
-          <ThemeProvider theme={theme}>
-            <NurserySidebar>
-              <Component {...pageProps} />
-            </NurserySidebar>
-          </ThemeProvider>
-          <Toaster
-            toastOptions={{
-              duration: 3000,
-            }}
-          />
-        </ApolloProvider>
-      </AuthProvider>
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+        <AuthProvider>
+          <ApolloProvider client={client}>
+            <ThemeProvider theme={theme}>
+              <NurserySidebar>
+                <Component {...pageProps} />
+              </NurserySidebar>
+            </ThemeProvider>
+            <Toaster
+              toastOptions={{
+                duration: 3000,
+              }}
+            />
+          </ApolloProvider>
+        </AuthProvider>
+      </GoogleOAuthProvider>
     );
   }
 
   if (router.pathname.startsWith("/contact")) {
     return (
-      <AuthProvider>
-        <MantineProvider
-          theme={{
-            fontFamily: "Poppins",
-          }}
-          emotionCache={appendCache}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          <ApolloProvider client={client}>
-            <ThemeProvider theme={theme}>
-              <Dashboard />
-              <Component {...pageProps} />
-            </ThemeProvider>
-          </ApolloProvider>
-          <Toaster
-            toastOptions={{
-              duration: 3000,
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+        <AuthProvider>
+          <MantineProvider
+            theme={{
+              fontFamily: "Poppins",
             }}
-          />
-        </MantineProvider>
-      </AuthProvider>
+            emotionCache={appendCache}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            <ApolloProvider client={client}>
+              <ThemeProvider theme={theme}>
+                <Dashboard />
+                <Component {...pageProps} />
+              </ThemeProvider>
+            </ApolloProvider>
+            <Toaster
+              toastOptions={{
+                duration: 3000,
+              }}
+            />
+          </MantineProvider>
+        </AuthProvider>
+      </GoogleOAuthProvider>
     );
   }
 
   return (
-    <AuthProvider>
-      <ApolloProvider client={client}>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-        <Toaster />
-      </ApolloProvider>
-    </AuthProvider>
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+      <AuthProvider>
+        <ApolloProvider client={client}>
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
+          <Toaster />
+        </ApolloProvider>
+      </AuthProvider>
+    </GoogleOAuthProvider>
   );
 }
 

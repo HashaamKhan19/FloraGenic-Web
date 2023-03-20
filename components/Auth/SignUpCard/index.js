@@ -4,22 +4,31 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
   Button,
   CircularProgress,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
   IconButton,
   InputAdornment,
   MenuItem,
+  Modal,
+  Radio,
+  RadioGroup,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/legacy/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import ControlledSelect from "../../Generic/ControlledComponents/ControlledSelect";
 import ControlledTextInput from "../../Generic/ControlledComponents/ControlledTextInput";
 import AuthLayout from "../AuthLayout";
-import { SIGN_UP } from "./queries";
+import { SIGN_UP, SIGN_UP_WITH_TOKEN } from "./queries";
+import UserTypeModal from "./UserTypeModal";
 
 const SignIn = () => {
   const {
@@ -37,6 +46,11 @@ const SignIn = () => {
 
   const isTablet = useMediaQuery("(max-width: 1000px)");
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const [open, setOpen] = React.useState(false);
+  const router = useRouter();
+  
+  const [modelUserType, setModelUserType] = React.useState("Customer");
+  const [googleToken, setGoogleToken] = React.useState("");
 
   const [visible, setVisible] = React.useState(false);
   const [confirmVisible, setConfirmVisible] = React.useState(false);
@@ -57,7 +71,34 @@ const SignIn = () => {
     },
   });
 
-  console.log(data, loading, error);
+  const [
+    signUpWithToken,
+    { data: tokenData, loading: tokenLoading, error: tokenError },
+  ] = useMutation(SIGN_UP_WITH_TOKEN, {
+    onCompleted: (res) => {
+      toast.success(res.registerWithToken);
+      router.push("/signIn");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleOpen = () => {
+    setGoogleToken("");
+    setModelUserType("Customer");
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    signUpWithToken({
+      variables: {
+        token: googleToken,
+        userType: modelUserType,
+      },
+    });
+    setOpen(false);
+  };
 
   const onSubmit = (data) => {
     signUp({
@@ -177,9 +218,9 @@ const SignIn = () => {
             color: "white",
             mb: 2,
           }}
-          disabled={loading}
+          disabled={loading || tokenLoading}
         >
-          {loading ? <CircularProgress size={30} /> : "Login"}
+          {loading || tokenLoading ? <CircularProgress size={30} /> : "Login"}
         </Button>
         <Box display={"flex"} justifyContent="center">
           <Typography variant="h6" textAlign={"center"}>
@@ -197,6 +238,32 @@ const SignIn = () => {
           </Link>
         </Box>
       </Box>
+      <Box
+        width={"100%"}
+        px={isMobile ? 5 : 10}
+        display="flex"
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <GoogleLogin
+          size="large"
+          text="signup_with"
+          onSuccess={(credentialResponse) => {
+            handleOpen();
+            setGoogleToken(credentialResponse.credential);
+          }}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
+      </Box>
+      <UserTypeModal
+        open={open}
+        handleClose={handleClose}
+        handleOpen={handleOpen}
+        type={modelUserType}
+        setType={setModelUserType}
+      />
     </AuthLayout>
   );
 };

@@ -7,20 +7,22 @@ import {
   IconButton,
   InputAdornment,
   MenuItem,
+  Modal,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { GoogleLogin } from "@react-oauth/google";
 import Link from "next/link";
-import React, { useEffect, useLayoutEffect } from "react";
+import { useRouter } from "next/router";
+import React, { useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { AuthContext } from "../../../context/authContext";
 import ControlledSelect from "../../Generic/ControlledComponents/ControlledSelect";
 import ControlledTextInput from "../../Generic/ControlledComponents/ControlledTextInput";
 import AuthLayout from "../AuthLayout";
-import { LOGIN_QUERY } from "./queries";
-import { AuthContext } from "../../../context/authContext";
-import { useRouter } from "next/router";
+import { LOGIN_QUERY, LOGIN_WITH_TOKEN_QUERY } from "./queries";
 
 const SignInCard = () => {
   const {
@@ -81,6 +83,29 @@ const SignInCard = () => {
     },
   });
 
+  const [
+    loginWithToken,
+    { data: dataToken, loading: loadingToken, error: errorToken },
+  ] = useMutation(LOGIN_WITH_TOKEN_QUERY, {
+    onCompleted: (data) => {
+      toast.success("Login Successful!");
+      localStorage.setItem("token", data.loginWithToken.token);
+      localStorage.setItem("userType", data.loginWithToken.userType);
+      setUser(data.loginWithToken.user);
+
+      if (data.loginWithToken.userType === "Customer") {
+        router.push("/customer");
+      } else if (data.loginWithToken.userType === "NurseryOwner") {
+        router.push("/nursery");
+      } else if (data.loginWithToken.userType === "Admin") {
+        router.push("/admin");
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const onSubmit = (data) => {
     login({
       variables: {
@@ -89,6 +114,14 @@ const SignInCard = () => {
           password: data.password,
           userType: data.userType,
         },
+      },
+    });
+  };
+
+  const onGoogleLogin = (data) => {
+    loginWithToken({
+      variables: {
+        token: data.credential,
       },
     });
   };
@@ -160,6 +193,15 @@ const SignInCard = () => {
             errors.password && "Password can't be less than 5 characters"
           }
         />
+        <Link href={"/forgot-password"}>
+          <Typography
+            color="primary.main"
+            sx={{ cursor: "pointer" }}
+            variant="subtitle2"
+          >
+            Forgot Password?
+          </Typography>
+        </Link>
       </Box>
       <Box width={"100%"} px={isMobile ? 5 : 10}>
         <Button
@@ -173,9 +215,9 @@ const SignInCard = () => {
             mb: 2,
           }}
           type="submit"
-          disabled={loading}
+          disabled={loading || loadingToken}
         >
-          {loading ? <CircularProgress size={30} /> : "Login"}
+          {loading || loadingToken ? <CircularProgress size={30} /> : "Login"}
         </Button>
         <Box display={"flex"} justifyContent="center">
           <Typography variant="h6" textAlign={"center"}>
@@ -192,6 +234,23 @@ const SignInCard = () => {
             </Typography>
           </Link>
         </Box>
+      </Box>
+      <Box
+        width={"100%"}
+        px={isMobile ? 5 : 10}
+        display="flex"
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <GoogleLogin
+          size="large"
+          onSuccess={(credentialResponse) => {
+            onGoogleLogin(credentialResponse);
+          }}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
       </Box>
     </AuthLayout>
   );
