@@ -1,6 +1,6 @@
-import { useMutation } from "@apollo/client";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { useMutation } from '@apollo/client'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import {
   Button,
   CircularProgress,
@@ -15,21 +15,21 @@ import {
   RadioGroup,
   Typography,
   useMediaQuery,
-} from "@mui/material";
-import { Box } from "@mui/system";
-import { GoogleLogin } from "@react-oauth/google";
-import Image from "next/legacy/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useEffect, useLayoutEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { AuthContext } from "../../../context/authContext";
-import ControlledSelect from "../../Generic/ControlledComponents/ControlledSelect";
-import ControlledTextInput from "../../Generic/ControlledComponents/ControlledTextInput";
-import AuthLayout from "../AuthLayout";
-import { SIGN_UP, SIGN_UP_WITH_TOKEN } from "./queries";
-import UserTypeModal from "./UserTypeModal";
+} from '@mui/material'
+import { Box } from '@mui/system'
+import { GoogleLogin } from '@react-oauth/google'
+import Image from 'next/legacy/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React, { useEffect, useLayoutEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
+import { AuthContext } from '../../../context/authContext'
+import ControlledSelect from '../../Generic/ControlledComponents/ControlledSelect'
+import ControlledTextInput from '../../Generic/ControlledComponents/ControlledTextInput'
+import AuthLayout from '../AuthLayout'
+import { SIGN_UP, SIGN_UP_WITH_TOKEN } from './queries'
+import UserTypeModal from './UserTypeModal'
 
 const SignIn = () => {
   const {
@@ -42,60 +42,60 @@ const SignIn = () => {
     reset,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
-  });
+    mode: 'onChange',
+  })
 
-  const isTablet = useMediaQuery("(max-width: 1000px)");
-  const isMobile = useMediaQuery("(max-width: 600px)");
-  const [open, setOpen] = React.useState(false);
-  const router = useRouter();
-  const { user } = React.useContext(AuthContext);
+  const isTablet = useMediaQuery('(max-width: 1000px)')
+  const isMobile = useMediaQuery('(max-width: 600px)')
+  const [open, setOpen] = React.useState(false)
+  const router = useRouter()
+  const { user } = React.useContext(AuthContext)
 
-  const [modelUserType, setModelUserType] = React.useState("Customer");
-  const [googleToken, setGoogleToken] = React.useState("");
+  const [modelUserType, setModelUserType] = React.useState('Customer')
+  const [googleToken, setGoogleToken] = React.useState('')
 
-  const [visible, setVisible] = React.useState(false);
-  const [confirmVisible, setConfirmVisible] = React.useState(false);
+  const [visible, setVisible] = React.useState(false)
+  const [confirmVisible, setConfirmVisible] = React.useState(false)
 
   useLayoutEffect(() => {
-    const token = user?.token || localStorage.getItem("token");
-    const userType = user?.userType || localStorage.getItem("userType");
+    const token = user?.token || localStorage.getItem('token')
+    const userType = user?.userType || localStorage.getItem('userType')
 
     if (!token || !userType) {
-      localStorage.clear();
+      localStorage.clear()
     } else {
-      router.back();
+      router.back()
     }
-  }, []);
+  }, [])
 
   const [signUp, { data, loading, error }] = useMutation(SIGN_UP, {
     onCompleted: (res) => {
-      toast.success(res.register);
-      router.push("/signIn");
+      toast.success(res.register)
+      router.push('/signIn')
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.message)
     },
-  });
+  })
 
   const [
     signUpWithToken,
     { data: tokenData, loading: tokenLoading, error: tokenError },
   ] = useMutation(SIGN_UP_WITH_TOKEN, {
     onCompleted: (res) => {
-      toast.success(res.registerWithToken);
-      router.push("/signIn");
+      toast.success(res.registerWithToken)
+      router.push('/signIn')
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.message)
     },
-  });
+  })
 
   const handleOpen = () => {
-    setGoogleToken("");
-    setModelUserType("Customer");
-    setOpen(true);
-  };
+    setGoogleToken('')
+    setModelUserType('Customer')
+    setOpen(true)
+  }
 
   const handleClose = () => {
     signUpWithToken({
@@ -103,9 +103,9 @@ const SignIn = () => {
         token: googleToken,
         userType: modelUserType,
       },
-    });
-    setOpen(false);
-  };
+    })
+    setOpen(false)
+  }
 
   const onSubmit = (data) => {
     signUp({
@@ -116,16 +116,16 @@ const SignIn = () => {
           userType: data.userType,
         },
       },
-    });
-  };
+    })
+  }
 
   return (
     <AuthLayout handleSubmit={handleSubmit} onSubmit={onSubmit}>
       <Box
-        alignItems={"center"}
+        alignItems={'center'}
         display="flex"
-        flexDirection={"column"}
-        width={"100%"}
+        flexDirection={'column'}
+        width={'100%'}
       >
         <Typography variant="h4" fontWeight={600}>
           Sign Up
@@ -133,15 +133,15 @@ const SignIn = () => {
         <Typography variant="h6">Register for an account</Typography>
       </Box>
       <Box
-        width={"100%"}
+        width={'100%'}
         px={isMobile ? 5 : 10}
         display="flex"
-        flexDirection={"column"}
+        flexDirection={'column'}
         gap={2}
       >
         <ControlledSelect
           control={control}
-          name={"userType"}
+          name={'userType'}
           required
           defaultValue="Customer"
         >
@@ -157,7 +157,7 @@ const SignIn = () => {
           size="medium"
           fullWidth
           error={errors.email ? true : false}
-          helperText={errors.email && "Please Enter a Valid Email Address"}
+          helperText={errors.email && 'Please Enter a Valid Email Address'}
           placeholder="Email"
         />
         <ControlledTextInput
@@ -166,13 +166,13 @@ const SignIn = () => {
           required
           fullWidth
           placeholder="Password"
-          type={visible ? "text" : "password"}
+          type={visible ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
                   onClick={(e) => {
-                    setVisible(!visible);
+                    setVisible(!visible)
                   }}
                 >
                   {visible ? <VisibilityOffIcon /> : <VisibilityIcon />}
@@ -191,14 +191,14 @@ const SignIn = () => {
           required
           fullWidth
           placeholder="Confirm Password"
-          validate={(value) => value === getValues("password")}
-          type={confirmVisible ? "text" : "password"}
+          validate={(value) => value === getValues('password')}
+          type={confirmVisible ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton
                   onClick={(e) => {
-                    setConfirmVisible(!confirmVisible);
+                    setConfirmVisible(!confirmVisible)
                   }}
                 >
                   {confirmVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
@@ -209,35 +209,35 @@ const SignIn = () => {
           error={errors.confirmPassword ? true : false}
           helperText={
             errors.confirmPassword &&
-            "Passwords do not match. Please try again."
+            'Passwords do not match. Please try again.'
           }
         />
       </Box>
-      <Box width={"100%"} px={isMobile ? 5 : 10}>
+      <Box width={'100%'} px={isMobile ? 5 : 10}>
         <Button
           fullWidth
           variant="contained"
           type="submit"
           sx={{
             py: 2,
-            borderRadius: 20,
-            bgcolor: "primary.main",
-            color: "white",
+            borderRadius: 2,
+            bgcolor: 'primary.main',
+            color: 'white',
             mb: 2,
           }}
           disabled={loading || tokenLoading}
         >
-          {loading || tokenLoading ? <CircularProgress size={30} /> : "Login"}
+          {loading || tokenLoading ? <CircularProgress size={30} /> : 'Login'}
         </Button>
-        <Box display={"flex"} justifyContent="center">
-          <Typography variant="h6" textAlign={"center"}>
+        <Box display={'flex'} justifyContent="center">
+          <Typography variant="h6" textAlign={'center'}>
             Already have an account?
           </Typography>
-          <Link href={"/login"}>
+          <Link href={'/login'}>
             <Typography
               variant="h6"
               color="primary.main"
-              sx={{ cursor: "pointer" }}
+              sx={{ cursor: 'pointer' }}
               ml={1}
             >
               Login
@@ -246,21 +246,21 @@ const SignIn = () => {
         </Box>
       </Box>
       <Box
-        width={"100%"}
+        width={'100%'}
         px={isMobile ? 5 : 10}
         display="flex"
-        justifyContent={"center"}
-        alignItems={"center"}
+        justifyContent={'center'}
+        alignItems={'center'}
       >
         <GoogleLogin
           size="large"
           text="signup_with"
           onSuccess={(credentialResponse) => {
-            handleOpen();
-            setGoogleToken(credentialResponse.credential);
+            handleOpen()
+            setGoogleToken(credentialResponse.credential)
           }}
           onError={() => {
-            console.log("Login Failed");
+            console.log('Login Failed')
           }}
         />
       </Box>
@@ -272,7 +272,7 @@ const SignIn = () => {
         setType={setModelUserType}
       />
     </AuthLayout>
-  );
-};
+  )
+}
 
-export default SignIn;
+export default SignIn

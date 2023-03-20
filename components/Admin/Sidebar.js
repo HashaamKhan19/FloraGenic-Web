@@ -38,6 +38,7 @@ import { useState } from 'react'
 import { AiFillPlusSquare } from 'react-icons/ai'
 import { FiBox } from 'react-icons/fi'
 import mainLogo from '../../public/images/Logo.png'
+import FloraGenicLogo from '../../public/Logo/floraGenic.png'
 import ProfileMenu from '../Generic/ProfileMenu'
 
 const drawerWidth = 320
@@ -190,66 +191,39 @@ export default function Sidebar({ children }) {
         anchor="left"
         open={open}
       >
-        <DrawerHeader>
+        <DrawerHeader
+          style={{
+            backgroundColor: '#fff',
+          }}
+        >
           <Box
             width="100%"
             height="100%"
             onClick={() => {
               router.push('/admin')
             }}
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              mt: 1,
-              mr: 3,
-              justifyContent: 'center',
-              ':hover': {
-                cursor: 'pointer',
-              },
-            }}
+            style={{}}
           >
-            <Image
-              src={mainLogo}
-              duration={0}
-              fit="contain"
-              width="100%"
-              alt="FloraGenicLogo"
-              style={{
-                width: 42,
-                height: 42,
-                marginTop: 8,
-                marginLeft: 4,
-              }}
-            />
-            <Typography
-              sx={{
-                color: 'white',
-                display: 'flex',
-                alignItems: 'center',
-                ml: 1,
-                mt: 1,
-                fontSize: 26,
-              }}
-            >
-              FloraGenic
-            </Typography>
+            <center>
+              <Image src={FloraGenicLogo} alt="FloraGenicLogo" width={100} />
+            </center>
           </Box>
           <IconButton
             onClick={handleDrawerClose}
             sx={{
-              ':hover': { backgroundColor: '#1D9D45' },
+              ':hover': { backgroundColor: '#e5e5e5' },
             }}
           >
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon
                 sx={{
-                  color: 'white',
+                  color: '#62A82C',
                   borderRadius: 10,
                 }}
               />
             ) : (
               <ChevronRightIcon
-                sx={{ color: 'white', backgroundColor: '#1a8014' }}
+                sx={{ color: 'white', backgroundColor: '#62A82C' }}
               />
             )}
           </IconButton>

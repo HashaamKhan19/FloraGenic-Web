@@ -207,7 +207,7 @@ const SignInCard = () => {
           variant="contained"
           sx={{
             py: 2,
-            borderRadius: 20,
+            borderRadius: 2,
             bgcolor: 'primary.main',
             color: 'white',
             mb: 2,

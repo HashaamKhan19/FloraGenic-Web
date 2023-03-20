@@ -1,5 +1,7 @@
 import React from 'react'
 
-export default function EditAdmin() {
+const EditAdmin = () => {
   return <div>EditAdmin</div>
 }
+
+export default EditAdmin
