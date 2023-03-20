@@ -11,6 +11,7 @@ import ShopContextProvider from "../context/shopContextProvider";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { theme } from "../theme/theme";
 import { Toaster } from "react-hot-toast";
+import AuthProvider from "../context/authContext";
 
 const appendCache = createEmotionCache({ key: "mantine", prepend: false });
 
@@ -23,115 +24,127 @@ function MyApp({ Component, pageProps, router }) {
 
   if (router.pathname.startsWith("/admin")) {
     return (
-      <ApolloProvider client={client}>
-        <ThemeProvider theme={theme}>
-          <Sidebar>
-            <Component {...pageProps} />
-          </Sidebar>
-        </ThemeProvider>
-        <Toaster
-          toastOptions={{
-            duration: 3000,
-          }}
-        />
-      </ApolloProvider>
+      <AuthProvider>
+        <ApolloProvider client={client}>
+          <ThemeProvider theme={theme}>
+            <Sidebar>
+              <Component {...pageProps} />
+            </Sidebar>
+          </ThemeProvider>
+          <Toaster
+            toastOptions={{
+              duration: 3000,
+            }}
+          />
+        </ApolloProvider>
+      </AuthProvider>
     );
   }
 
   if (router.pathname.startsWith("/customer")) {
     return (
-      <MantineProvider
-        theme={{
-          fontFamily: "Poppins",
-        }}
-        emotionCache={appendCache}
-        withGlobalStyles
-        withNormalizeCSS
-      >
-        <ApolloProvider client={client}>
-          <ShopContextProvider>
-            <ThemeProvider theme={theme}>
-              <Navbar />
-              <Component {...pageProps} />
-              <Footer />
-            </ThemeProvider>
-          </ShopContextProvider>
-        </ApolloProvider>
-        <Toaster
-          toastOptions={{
-            duration: 3000,
+      <AuthProvider>
+        <MantineProvider
+          theme={{
+            fontFamily: "Poppins",
           }}
-        />
-      </MantineProvider>
+          emotionCache={appendCache}
+          withGlobalStyles
+          withNormalizeCSS
+        >
+          <ApolloProvider client={client}>
+            <ShopContextProvider>
+              <ThemeProvider theme={theme}>
+                <Navbar />
+                <Component {...pageProps} />
+                <Footer />
+              </ThemeProvider>
+            </ShopContextProvider>
+          </ApolloProvider>
+          <Toaster
+            toastOptions={{
+              duration: 3000,
+            }}
+          />
+        </MantineProvider>
+      </AuthProvider>
     );
   }
 
   if (router.pathname.startsWith("/gardener")) {
     return (
-      <ApolloProvider client={client}>
-        <ThemeProvider theme={theme}>
-          <GardenerSidebar>
-            <Component {...pageProps} />
-          </GardenerSidebar>
-        </ThemeProvider>
-        <Toaster
-          toastOptions={{
-            duration: 3000,
-          }}
-        />
-      </ApolloProvider>
+      <AuthProvider>
+        <ApolloProvider client={client}>
+          <ThemeProvider theme={theme}>
+            <GardenerSidebar>
+              <Component {...pageProps} />
+            </GardenerSidebar>
+          </ThemeProvider>
+          <Toaster
+            toastOptions={{
+              duration: 3000,
+            }}
+          />
+        </ApolloProvider>
+      </AuthProvider>
     );
   }
 
   if (router.pathname.startsWith("/nursery")) {
     return (
-      <ApolloProvider client={client}>
-        <ThemeProvider theme={theme}>
-          <NurserySidebar>
-            <Component {...pageProps} />
-          </NurserySidebar>
-        </ThemeProvider>
-        <Toaster
-          toastOptions={{
-            duration: 3000,
-          }}
-        />
-      </ApolloProvider>
+      <AuthProvider>
+        <ApolloProvider client={client}>
+          <ThemeProvider theme={theme}>
+            <NurserySidebar>
+              <Component {...pageProps} />
+            </NurserySidebar>
+          </ThemeProvider>
+          <Toaster
+            toastOptions={{
+              duration: 3000,
+            }}
+          />
+        </ApolloProvider>
+      </AuthProvider>
     );
   }
 
   if (router.pathname.startsWith("/contact")) {
     return (
-      <MantineProvider
-        theme={{
-          fontFamily: "Poppins",
-        }}
-        emotionCache={appendCache}
-        withGlobalStyles
-        withNormalizeCSS
-      >
-        <ApolloProvider client={client}>
-          <ThemeProvider theme={theme}>
-            <Dashboard />
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </ApolloProvider>
-        <Toaster
-          toastOptions={{
-            duration: 3000,
+      <AuthProvider>
+        <MantineProvider
+          theme={{
+            fontFamily: "Poppins",
           }}
-        />
-      </MantineProvider>
+          emotionCache={appendCache}
+          withGlobalStyles
+          withNormalizeCSS
+        >
+          <ApolloProvider client={client}>
+            <ThemeProvider theme={theme}>
+              <Dashboard />
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </ApolloProvider>
+          <Toaster
+            toastOptions={{
+              duration: 3000,
+            }}
+          />
+        </MantineProvider>
+      </AuthProvider>
     );
   }
 
   return (
-    <ApolloProvider client={client}>
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
-      <Toaster />
-    </ApolloProvider>
+    <AuthProvider>
+      <ApolloProvider client={client}>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+        <Toaster />
+      </ApolloProvider>
+    </AuthProvider>
   );
 }
 

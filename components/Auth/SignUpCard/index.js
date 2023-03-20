@@ -3,6 +3,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
   Button,
+  CircularProgress,
   IconButton,
   InputAdornment,
   MenuItem,
@@ -12,7 +13,7 @@ import {
 import { Box } from "@mui/system";
 import Image from "next/legacy/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import ControlledSelect from "../../Generic/ControlledComponents/ControlledSelect";
@@ -39,6 +40,12 @@ const SignIn = () => {
 
   const [visible, setVisible] = React.useState(false);
   const [confirmVisible, setConfirmVisible] = React.useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      router.push("/dashboard");
+    }
+  }, []);
 
   const [signUp, { data, loading, error }] = useMutation(SIGN_UP, {
     onCompleted: (res) => {
@@ -166,13 +173,13 @@ const SignIn = () => {
           sx={{
             py: 2,
             borderRadius: 20,
-            bgcolor: "#62A82C",
+            bgcolor: "primary.main",
             color: "white",
             mb: 2,
           }}
-          // loading={loading}
+          disabled={loading}
         >
-          Sign Up
+          {loading ? <CircularProgress size={30} /> : "Login"}
         </Button>
         <Box display={"flex"} justifyContent="center">
           <Typography variant="h6" textAlign={"center"}>
@@ -181,7 +188,7 @@ const SignIn = () => {
           <Link href={"/login"}>
             <Typography
               variant="h6"
-              color="#62A82C"
+              color="primary.main"
               sx={{ cursor: "pointer" }}
               ml={1}
             >

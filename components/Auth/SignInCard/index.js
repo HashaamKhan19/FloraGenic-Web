@@ -3,6 +3,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
   Button,
+  CircularProgress,
   IconButton,
   InputAdornment,
   MenuItem,
@@ -11,13 +12,15 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import ControlledSelect from "../../Generic/ControlledComponents/ControlledSelect";
 import ControlledTextInput from "../../Generic/ControlledComponents/ControlledTextInput";
 import AuthLayout from "../AuthLayout";
 import { LOGIN_QUERY } from "./queries";
+import { AuthContext } from "../../../context/authContext";
+import { useRouter } from "next/router";
 
 const SignInCard = () => {
   const {
@@ -33,14 +36,45 @@ const SignInCard = () => {
     mode: "onChange",
   });
 
+  const { user, setUser } = React.useContext(AuthContext);
+  const router = useRouter();
+
   const [visible, setVisible] = React.useState(false);
 
   const isTablet = useMediaQuery("(max-width: 1000px)");
   const isMobile = useMediaQuery("(max-width: 600px)");
 
+  useLayoutEffect(() => {
+    const token = user?.token || localStorage.getItem("token");
+    const userType = user?.userType || localStorage.getItem("userType");
+
+    if (!token || !userType) {
+      localStorage.clear();
+    }
+
+    if (userType === "Customer") {
+      router.push("/customer");
+    } else if (userType === "NurseryOwner") {
+      router.push("/nursery");
+    } else if (userType === "Admin") {
+      router.push("/admin");
+    }
+  }, []);
+
   const [login, { data, loading, error }] = useMutation(LOGIN_QUERY, {
     onCompleted: (data) => {
       toast.success("Login Successful!");
+      localStorage.setItem("token", data.login.token);
+      localStorage.setItem("userType", data.login.userType);
+      setUser(data.login.user);
+
+      if (data.login.userType === "Customer") {
+        router.push("/customer");
+      } else if (data.login.userType === "NurseryOwner") {
+        router.push("/nursery");
+      } else if (data.login.userType === "Admin") {
+        router.push("/admin");
+      }
     },
     onError: (error) => {
       toast.error(error.message);
@@ -134,13 +168,14 @@ const SignInCard = () => {
           sx={{
             py: 2,
             borderRadius: 20,
-            bgcolor: "#62A82C",
+            bgcolor: "primary.main",
             color: "white",
             mb: 2,
           }}
           type="submit"
+          disabled={loading}
         >
-          Login
+          {loading ? <CircularProgress size={30} /> : "Login"}
         </Button>
         <Box display={"flex"} justifyContent="center">
           <Typography variant="h6" textAlign={"center"}>
@@ -149,7 +184,7 @@ const SignInCard = () => {
           <Link href={"/register"}>
             <Typography
               variant="h6"
-              color="#62A82C"
+              color="primary.main"
               sx={{ cursor: "pointer" }}
               ml={1}
             >
