@@ -9,6 +9,7 @@ import {
   TextInput,
 } from '@mantine/core'
 import React, { useState } from 'react'
+import Checkout from './Checkout'
 
 const PaymentDetails = () => {
   const [checked, setChecked] = useState('card')
@@ -35,34 +36,8 @@ const PaymentDetails = () => {
             }}
             onClick={() => setChecked('card')}
           />
-          {checked === 'card' && (
-            <Stack direction="column" spacing="xs">
-              <TextInput
-                placeholder="Card Number"
-                radius="sm"
-                styles={(theme) => ({
-                  input: {
-                    '&:focus-within': {
-                      borderColor: theme.colors.green[7],
-                    },
-                    border: '1px solid #C7C6C1',
-                  },
-                })}
-              />
-              <TextInput
-                placeholder="Card Holder Name"
-                radius="sm"
-                styles={(theme) => ({
-                  input: {
-                    '&:focus-within': {
-                      borderColor: theme.colors.green[7],
-                    },
-                    border: '1px solid #C7C6C1',
-                  },
-                })}
-              />
-            </Stack>
-          )}
+          {checked === 'card' && <Checkout />}
+          {/* <Checkout /> */}
           <Radio
             value="easypaisa"
             label="Pay with Easypaisa"
