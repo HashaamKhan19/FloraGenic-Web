@@ -124,9 +124,16 @@ const GardenerInfoCard = ({ data }) => {
               </Menu.Target>
 
               <Menu.Dropdown>
-                {data.skills.map((skill) => (
-                  <Menu.Item key={skill}>{skill}</Menu.Item>
-                ))}
+                {/* {data.skills.map((skill) => (
+                  <Menu.Item key={skill}>{skill.name}</Menu.Item>
+                ))} */}
+                {data?.skills?.length > 0 ? (
+                  data?.skills?.map((skill) => (
+                    <Menu.Item key={skill}>{skill.name}</Menu.Item>
+                  ))
+                ) : (
+                  <Menu.Item>Nil</Menu.Item>
+                )}
               </Menu.Dropdown>
             </Menu>
             <Text

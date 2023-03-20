@@ -9,7 +9,7 @@ const GardenerDetails = ({ data }) => {
   const match475 = useMediaQuery('(max-width: 475px)')
 
   console.log('====================================')
-  console.log(data)
+  console.log('gardener details', data)
   console.log('====================================')
 
   return (
@@ -75,14 +75,6 @@ const GardenerDetails = ({ data }) => {
         <Stack spacing={'xs'} pt={40}>
           <Group spacing={2}>
             <Rating value={data?.rating} size="md" readOnly />
-            <Text
-              style={{
-                fontSize: '14px',
-                color: 'darkslategray',
-              }}
-            >
-              (12????)
-            </Text>
           </Group>
           <Group>
             <Text
@@ -101,7 +93,7 @@ const GardenerDetails = ({ data }) => {
                 color: '#D92228',
               }}
             >
-              {data?.price || 'Price'} /
+              Rs. {data?.price || 'Price'} {data?.duration || ''}
             </Text>
           </Group>
 

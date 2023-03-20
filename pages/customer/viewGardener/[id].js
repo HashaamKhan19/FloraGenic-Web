@@ -3,25 +3,23 @@ import ViewGardener from '../../../components/Customer/Gardener/ViewGardener'
 import { gql, useQuery } from '@apollo/client'
 
 const GET_GARDENER = gql`
-  query Query($gardenerId: ID!) {
+  query Gardener($gardenerId: ID!) {
     gardener(id: $gardenerId) {
-      image
-      id
+      city
+      duration
+      experience
       firstName
-      lastName
       gender
+      id
+      image
+      lastName
       phoneNumber
       price
       rating
       skills {
-        endorsements
-        skill {
-          name
-          id
-        }
+        name
+        id
       }
-      city
-      experience
     }
   }
 `

@@ -23,21 +23,20 @@ import SixNurseryLoaders from '../Generic/Skeletons/SixNurseryLoaders'
 import ListingPagination from '../Generic/ListingPagination'
 
 const GET_GARDENERS = gql`
-  query Query {
+  query Gardeners {
     gardeners {
-      id
-      image
+      city
+      duration
+      experience
       firstName
       lastName
-      city
+      image
+      price
       rating
       skills {
-        skill {
-          id
-          name
-        }
+        name
       }
-      price
+      id
     }
   }
 `
