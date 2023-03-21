@@ -50,7 +50,6 @@ export const LOGIN_QUERY = gql`
             skill {
               name
             }
-            endorsements
           }
         }
         ... on NurseryOwner {
@@ -119,7 +118,6 @@ export const LOGIN_WITH_TOKEN_QUERY = gql`
           createdAt
           updatedAt
           skills {
-            endorsements
             skill {
               name
             }
