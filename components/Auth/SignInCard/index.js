@@ -46,16 +46,16 @@ const SignInCard = () => {
   const isTablet = useMediaQuery("(max-width: 1000px)");
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  useLayoutEffect(() => {
-    const token = user?.token || localStorage.getItem("token");
-    const userType = user?.userType || localStorage.getItem("userType");
+  // useLayoutEffect(() => {
+  //   const token = user?.token || localStorage.getItem("token");
+  //   const userType = user?.userType || localStorage.getItem("userType");
 
-    if (!token || !userType) {
-      localStorage.clear();
-    } else {
-      router.back();
-    }
-  }, []);
+  //   if (!token || !userType) {
+  //     localStorage.clear();
+  //   } else {
+  //     router.back();
+  //   }
+  // }, []);
 
   const [login, { data, loading, error }] = useMutation(LOGIN_QUERY, {
     onCompleted: (data) => {
@@ -208,8 +208,8 @@ const SignInCard = () => {
           sx={{
             py: 2,
             borderRadius: 2,
-            bgcolor: 'primary.main',
-            color: 'white',
+            bgcolor: "primary.main",
+            color: "white",
             mb: 2,
           }}
           type="submit"
