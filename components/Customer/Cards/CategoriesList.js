@@ -1,6 +1,14 @@
-import { gql, useQuery } from '@apollo/client'
-import { Container, Image, Paper, SimpleGrid, Stack, Text } from '@mantine/core'
-import React from 'react'
+import { gql, useQuery } from "@apollo/client";
+import {
+  Container,
+  Image,
+  Paper,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@mantine/core";
+import React from "react";
+import SixNurseryLoaders from "../Generic/Skeletons/SixNurseryLoaders";
 
 const GET_CATEGORIES = gql`
   query Query {
@@ -12,24 +20,31 @@ const GET_CATEGORIES = gql`
       description
     }
   }
-`
+`;
 
 const CategoriesList = () => {
-  const { data, loading, error } = useQuery(GET_CATEGORIES)
+  const { data, loading, error } = useQuery(GET_CATEGORIES);
 
-  console.log('====================================')
-  console.log('categories: ', data)
-  console.log('====================================')
+  if (loading)
+    return (
+      <div
+        style={{
+          padding: "2rem",
+        }}
+      >
+        <SixNurseryLoaders />;
+      </div>
+    );
 
   return (
-    <Container size={'xl'} pt={'xl'} pb={'xl'}>
+    <Container size={"xl"} pt={"xl"} pb={"xl"}>
       <SimpleGrid
         cols={3}
         breakpoints={[
-          { maxWidth: 1040, cols: 2, spacing: 'md' },
-          { maxWidth: 680, cols: 1, spacing: 'sm' },
+          { maxWidth: 1040, cols: 2, spacing: "md" },
+          { maxWidth: 680, cols: 1, spacing: "sm" },
         ]}
-        mt={'xl'}
+        mt={"xl"}
       >
         {data?.categories?.map((category) => (
           <Paper
@@ -37,31 +52,31 @@ const CategoriesList = () => {
             shadow="sm"
             padding="xl"
             style={{ maxHeight: 300 }}
-            radius={'sm'}
+            radius={"sm"}
             withBorder
-            pb={'xs'}
+            pb={"xs"}
           >
             <Image
               src={category.image}
-              radius={'xs'}
+              radius={"xs"}
               height={200}
               alt={category.name}
             />
-            <Stack spacing={3} pl={'xs'} pt={'xs'}>
+            <Stack spacing={3} pl={"xs"} pt={"xs"}>
               <Text
                 style={{
-                  fontSize: '1.5rem',
+                  fontSize: "1.5rem",
                   fontWeight: 525,
-                  color: 'darkslategray',
+                  color: "darkslategray",
                 }}
               >
                 {category.name}
               </Text>
               <Text
                 style={{
-                  fontSize: '1rem',
+                  fontSize: "1rem",
                   fontWeight: 400,
-                  color: 'darkslategray',
+                  color: "darkslategray",
                   maxWidth: 400,
                 }}
                 truncate
@@ -73,7 +88,7 @@ const CategoriesList = () => {
         ))}
       </SimpleGrid>
     </Container>
-  )
-}
+  );
+};
 
-export default CategoriesList
+export default CategoriesList;

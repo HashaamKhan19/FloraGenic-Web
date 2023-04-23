@@ -71,7 +71,7 @@ const SignIn = () => {
   const [signUp, { data, loading, error }] = useMutation(SIGN_UP, {
     onCompleted: (res) => {
       toast.success(res.register);
-      router.push("/signIn");
+      router.push("/login");
     },
     onError: (error) => {
       toast.error(error.message);

@@ -4,7 +4,7 @@ import Sidebar from "../components/Admin/Sidebar";
 import Footer from "../components/Customer/Layout/Footer";
 import Navbar from "../components/Customer/Layout/Navbar";
 import GardenerSidebar from "../components/Gardener/Sidebar";
-import Dashboard from "../components/Contact/Dashborad";
+import Dashboard from "../components/Contact/Dashboard";
 import NurserySidebar from "../components/Nursery/Sidebar";
 import "../styles/globals.css";
 import ShopContextProvider from "../context/shopContextProvider";

@@ -22,7 +22,7 @@ const useStyles = createStyles((theme) => ({
 
   footer: {
     padding: `${theme.spacing.xs}px ${theme.spacing.lg}px`,
-    marginTop: theme.spacing.xs,
+    // marginTop: theme.spacing.xs,
     borderTop: `1px solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
@@ -42,11 +42,11 @@ export default function ProductCard({ heart, data }) {
       p="lg"
       radius="md"
       sx={{
-        maxHeight: 400,
+        maxHeight: 375,
         border: '1px solid #62A82C',
       }}
     >
-      <Card.Section mb="sm">
+      <Card.Section mb="xs">
         <Image
           src={data?.images[0] || 'no image'}
           alt="Product image"
@@ -67,11 +67,11 @@ export default function ProductCard({ heart, data }) {
         </Badge>
       </Card.Section>
 
-      <Text weight={600} className={classes.title} mt="xs">
+      <Text weight={600} className={classes.title}>
         {data?.name}
       </Text>
 
-      <Group mt="lg" noWrap>
+      <Group mt="xs" noWrap>
         <Box
           style={{
             maxHeight: 50,

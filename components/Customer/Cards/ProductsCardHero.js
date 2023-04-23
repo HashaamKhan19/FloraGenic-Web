@@ -9,9 +9,11 @@ import {
   Badge,
   Stack,
   Box,
-} from '@mantine/core'
-import { FiHeart } from 'react-icons/fi'
-import { MdOutlineAddShoppingCart } from 'react-icons/md'
+} from "@mantine/core";
+import { useContext } from "react";
+import { FiHeart } from "react-icons/fi";
+import { MdOutlineAddShoppingCart } from "react-icons/md";
+import { ShopContext } from "../../../context/shopContextProvider";
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -22,13 +24,15 @@ const useStyles = createStyles((theme) => ({
     padding: `${theme.spacing.xs}px ${theme.spacing.lg}px`,
     //   marginTop: theme.spacing.xs,
     borderTop: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
+      theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
   },
-}))
+}));
 
 export default function ProductsCardHero({ heart, data }) {
-  const { classes, theme } = useStyles()
+  const { classes, theme } = useStyles();
+
+  const { addToCart } = useContext(ShopContext);
 
   return (
     <Card
@@ -37,22 +41,26 @@ export default function ProductsCardHero({ heart, data }) {
       radius="md"
       sx={{
         maxHeight: 400,
-        // border: '1px solid #62A82C',
+        transition: "all 0.5s ease",
+        ":hover": {
+          border: "1px solid #62A82C",
+          boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+        },
       }}
     >
       <Card.Section mb="sm">
         <Image
-          src={data?.images[0] || 'no image'}
+          src={data?.images[0] || "no image"}
           alt="Product image"
           height={190}
           style={{
-            position: 'relative',
+            position: "relative",
           }}
         />
         <Badge
           color="green"
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 10,
             right: 10,
           }}
@@ -65,12 +73,12 @@ export default function ProductsCardHero({ heart, data }) {
         {data?.name}
       </Text>
 
-      <Group noWrap spacing={'xs'}>
+      <Group noWrap spacing={"xs"}>
         <Text
           color="red"
           weight={600}
           mb={0}
-          my={'xs'}
+          my={"xs"}
           style={{
             fontSize: 18,
           }}
@@ -83,7 +91,7 @@ export default function ProductsCardHero({ heart, data }) {
           color="red"
           weight={600}
           mb={0}
-          my={'xs'}
+          my={"xs"}
           style={{
             fontSize: 18,
           }}
@@ -96,14 +104,14 @@ export default function ProductsCardHero({ heart, data }) {
           <Text size="xs" color="dimmed">
             {data?.sold} people bought this
           </Text>
-          <Group spacing={'xs'}>
+          <Group spacing={"xs"}>
             {!heart && (
               <ActionIcon
                 color="red"
                 variant="subtle"
                 onClick={(e) => {
-                  e.stopPropagation()
-                  e.preventDefault()
+                  e.stopPropagation();
+                  e.preventDefault();
                 }}
               >
                 <FiHeart size={18} />
@@ -113,8 +121,9 @@ export default function ProductsCardHero({ heart, data }) {
               color="blue"
               variant="subtle"
               onClick={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
+                e.stopPropagation();
+                e.preventDefault();
+                addToCart(data?.id);
               }}
               disabled={data?.stock === 0}
             >
@@ -124,5 +133,5 @@ export default function ProductsCardHero({ heart, data }) {
         </Group>
       </Card.Section>
     </Card>
-  )
+  );
 }

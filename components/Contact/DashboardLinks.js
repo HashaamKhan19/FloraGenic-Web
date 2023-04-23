@@ -1,7 +1,11 @@
 const links = [
   {
-    link: '/about',
-    label: 'Help',
+    link: "/about",
+    label: "Help",
   },
-]
-export default links
+  {
+    link: "/customer",
+    label: "Shop",
+  },
+];
+export default links;

@@ -1,39 +1,44 @@
-import React from 'react'
-import { Paper, Button, Container, Text } from '@mantine/core'
+import React from "react";
+import { Paper, Button, Container, Text } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+import Link from "next/link";
 
 function Banner() {
+  const matches900 = useMediaQuery("(max-width: 900px)");
+  const matches768 = useMediaQuery("(max-width: 768px)");
+
   return (
-    <Container size={'xl'} py={60}>
+    <Container size={"xl"} pt={60} hidden={matches768} pb={60}>
       <Paper
         style={{
           height: 100,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          overflow: 'hidden',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          overflow: "hidden",
         }}
-        mx={'lg'}
+        mx={"lg"}
         radius={0}
-        bg={'#457d1a'}
+        bg={"#457d1a"}
       >
         <Paper
           style={{
-            width: '30%',
-            textAlign: 'center',
-            height: '100%',
+            width: "30%",
+            textAlign: "center",
+            height: "100%",
             zIndex: 1000,
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            clipPath: 'polygon(0 0, 100% 0, 90% 100%, 0 100%)',
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            clipPath: "polygon(0 0, 100% 0, 90% 100%, 0 100%)",
           }}
-          bg={'#232323'}
+          bg={"#232323"}
           radius={0}
         >
           <span
             style={{
-              fontSize: 28,
-              color: '#fff',
+              fontSize: matches900 ? 18 : 28,
+              color: "#fff",
               fontWeight: 525,
               paddingLeft: 20,
             }}
@@ -43,29 +48,29 @@ function Banner() {
         </Paper>
         <div
           style={{
-            width: '60%',
-            display: 'inline-block',
-            position: 'relative',
+            width: "60%",
+            display: "inline-block",
+            position: "relative",
           }}
         >
           <div
             style={{
-              position: 'absolute',
+              position: "absolute",
               top: 0,
               bottom: 0,
-              whiteSpace: 'nowrap',
-              animation: 'move-text 25s linear infinite',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              whiteSpace: "nowrap",
+              animation: "move-text 25s linear infinite",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
             <Text
               style={{
                 fontSize: 24,
-                color: 'white',
+                color: "white",
                 fontWeight: 525,
-                fontStyle: 'italic',
+                fontStyle: "italic",
               }}
             >
               Buy your favorite plant from our store and get a chance to win a
@@ -75,25 +80,28 @@ function Banner() {
         </div>
         <Paper
           style={{
-            width: '15%',
-            textAlign: 'center',
-            height: '100%',
+            width: "15%",
+            textAlign: "center",
+            height: "100%",
             zIndex: 1000,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
-          bg={'#232323'}
+          bg={"#232323"}
         >
-          <Button
-            style={{
-              backgroundColor: '#fff',
-              color: '#000',
-            }}
-            radius={0}
-          >
-            Shop Now
-          </Button>
+          <Link href={"/customer/products"}>
+            <Button
+              style={{
+                backgroundColor: "#fff",
+                color: "#000",
+              }}
+              radius={0}
+              compact={matches900}
+            >
+              Shop Now
+            </Button>
+          </Link>
         </Paper>
         <style>
           {`
@@ -109,7 +117,7 @@ function Banner() {
         </style>
       </Paper>
     </Container>
-  )
+  );
 }
 
-export default Banner
+export default Banner;
