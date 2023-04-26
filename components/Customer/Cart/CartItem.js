@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql, useQuery } from "@apollo/client";
 import {
   ActionIcon,
   Box,
@@ -9,13 +9,13 @@ import {
   Paper,
   Stack,
   Text,
-} from '@mantine/core'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useContext, useState } from 'react'
-import { FiMinus, FiPlus } from 'react-icons/fi'
-import { ShopContext } from '../../../context/shopContextProvider'
-import CartItemsDrawer from './CartItemsDrawer'
+} from "@mantine/core";
+import Image from "next/image";
+import Link from "next/link";
+import { useContext, useState } from "react";
+import { FiMinus, FiPlus } from "react-icons/fi";
+import { ShopContext } from "../../../context/shopContextProvider";
+import CartItemsDrawer from "./CartItemsDrawer";
 
 const GET_PRODUCTS = gql`
   query Query {
@@ -40,64 +40,74 @@ const GET_PRODUCTS = gql`
       stock
     }
   }
-`
+`;
 
 export default function CartItem({ closeDrawer }) {
-  const { data, loading, error } = useQuery(GET_PRODUCTS)
+  const { data, loading, error } = useQuery(GET_PRODUCTS);
 
-  const { cartItems } = useContext(ShopContext)
+  const { cartItems } = useContext(ShopContext);
 
   // Calculate total amount
   const totalAmount = cartItems.reduce((total, item) => {
-    const product = data?.products.find((p) => p.id === item.id)
+    const product = data?.products.find((p) => p.id === item.id);
     if (product) {
-      return total + product.retailPrice * item.quantity
+      return total + product.retailPrice * item.quantity;
     }
-    return total
-  }, 0)
+    return total;
+  }, 0);
 
   return (
-    <Box style={{ height: 'calc(100vh - 200px)', overflowY: 'scroll' }}>
+    <Box style={{ height: "calc(100vh - 200px)", overflowY: "scroll" }}>
       {data?.products
         ?.filter((product) => {
-          return cartItems.some((item) => item.id === product.id)
+          return cartItems.some((item) => item.id === product.id);
         })
         .map((product, index) => {
           return (
             <CartItemsDrawer product={product} index={index} key={product.id} />
-          )
+          );
         })}
       {cartItems.length !== 0 && (
         <Stack
           style={{
-            position: 'absolute',
+            position: "absolute",
             bottom: 5,
             left: 0,
             right: 0,
-            padding: '1rem',
+            padding: "1rem",
           }}
-          spacing={'sm'}
+          spacing={"sm"}
         >
-          <Button
-            style={{
-              backgroundColor: '#62A82C',
-              color: 'white',
-            }}
-          >
-            Checkout Now (Rs. {totalAmount})
-          </Button>
           <Link
-            href={'/customer/viewCart'}
+            href={"/customer/viewCart"}
             style={{
-              width: '100%',
+              width: "100%",
             }}
           >
             <Button
               style={{
-                backgroundColor: 'white',
-                color: '#62A82C',
-                border: '1px solid #62A82C',
-                width: '100%',
+                backgroundColor: "#62A82C",
+                color: "white",
+                width: "100%",
+              }}
+              onClick={closeDrawer}
+            >
+              Checkout Now (Rs. {totalAmount})
+            </Button>
+          </Link>
+
+          <Link
+            href={"/customer/viewCart"}
+            style={{
+              width: "100%",
+            }}
+          >
+            <Button
+              style={{
+                backgroundColor: "white",
+                color: "#62A82C",
+                border: "1px solid #62A82C",
+                width: "100%",
               }}
               onClick={closeDrawer}
             >
@@ -107,5 +117,5 @@ export default function CartItem({ closeDrawer }) {
         </Stack>
       )}
     </Box>
-  )
+  );
 }

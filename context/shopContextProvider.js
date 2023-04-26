@@ -1,5 +1,5 @@
-import { gql, useQuery } from '@apollo/client'
-import React, { createContext, useState } from 'react'
+import { gql, useQuery } from "@apollo/client";
+import React, { createContext, useState } from "react";
 
 const GET_PRODUCTS = gql`
   query Query {
@@ -24,70 +24,77 @@ const GET_PRODUCTS = gql`
       stock
     }
   }
-`
+`;
 
-export const ShopContext = createContext(null)
+export const ShopContext = createContext(null);
 
 const ShopContextProvider = (props) => {
-  const { loading, error, data } = useQuery(GET_PRODUCTS)
+  const { loading, error, data } = useQuery(GET_PRODUCTS);
 
   const getDefaultCart = () => {
-    let cart = {}
-    for (let i = 0; i < data?.products?.length + 1; i++) {
-      cart[i] = 0
+    let cart = {};
+    for (let i = 0; i < data?.products?.length; i++) {
+      cart[i.toString()] = 0;
     }
-    return cart
-  }
+    return cart;
+  };
 
-  const [cartItems, setCartItems] = useState(getDefaultCart())
+  const [cartItems, setCartItems] = useState(getDefaultCart());
 
   const cartItemsArray = Object.entries(cartItems).map(([id, quantity]) => ({
     id,
     quantity,
-  }))
+  }));
+
+  console.log("HASHAM KI BARAT", cartItems);
 
   const addToCart = (id) => {
     setCartItems((prev) => {
-      const updatedCart = { ...prev }
-      const itemQuantity = updatedCart[id] || 0
-      updatedCart[id] = itemQuantity + 1
-      return updatedCart
-    })
-  }
+      const updatedCart = { ...prev };
+      const itemId = id.toString(); // make sure id is a string
+      const itemQuantity = updatedCart[itemId] || 0;
+      updatedCart[itemId] = itemQuantity + 1;
+      return updatedCart;
+    });
+  };
 
   const removeFromCart = (id) => {
     setCartItems((prev) => {
-      const updatedCart = { ...prev }
-      const itemQuantity = updatedCart[id] || 0
+      const updatedCart = { ...prev };
+      const itemId = id.toString(); // make sure id is a string
+      const itemQuantity = updatedCart[itemId] || 0;
       if (itemQuantity === 1) {
-        delete updatedCart[id]
+        delete updatedCart[itemId];
       } else if (itemQuantity > 1) {
-        updatedCart[id] = itemQuantity - 1
+        updatedCart[itemId] = itemQuantity - 1;
       }
-      return updatedCart
-    })
-  }
+      return updatedCart;
+    });
+  };
 
   const removeCompletelyFromCart = (id) => {
     setCartItems((prev) => {
-      const updatedCart = { ...prev }
-      delete updatedCart[id]
-      return updatedCart
-    })
-  }
+      const updatedCart = { ...prev };
+      const itemId = id.toString(); // make sure id is a string
+      if (updatedCart.hasOwnProperty(itemId)) {
+        delete updatedCart[itemId];
+      }
+      return updatedCart;
+    });
+  };
 
   const contextValue = {
     cartItems: cartItemsArray,
     addToCart,
     removeFromCart,
     removeCompletelyFromCart,
-  }
+  };
 
   return (
     <ShopContext.Provider value={contextValue}>
       {props.children}
     </ShopContext.Provider>
-  )
-}
+  );
+};
 
-export default ShopContextProvider
+export default ShopContextProvider;

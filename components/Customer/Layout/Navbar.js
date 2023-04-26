@@ -153,22 +153,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const HeaderMenu = ({ children }) => {
-  // const [auth, setAuth] = useState(false)
   const router = useRouter();
 
   const { user, logout } = useContext(AuthContext);
-
-  // const handleLogout = () => {
-  //   const token = user?.token || localStorage.getItem('token')
-  //   if (token) {
-  //     localStorage.clear()
-  //     router.push('/')
-  //   }
-  // }
-
-  // console.log("====================================");
-  // console.log("checking if user is logged in:", user);
-  // console.log("====================================");
 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -182,13 +169,6 @@ const HeaderMenu = ({ children }) => {
   const mobileSearch = useMediaQuery("(max-width: 500px)");
 
   const items = links.map((link) => {
-    // const isActive = router.pathname === link.link
-    // const menuItems = link.links?.map((item, index) => (
-    //   <Link href={item.link} key={index}>
-    //     <Menu.Item key={item.link}>{item.label}</Menu.Item>
-    //   </Link>
-    // ));
-
     return (
       <Link key={link.label} href={link.link} className={classes.link}>
         <span
@@ -207,6 +187,16 @@ const HeaderMenu = ({ children }) => {
   }, [router.pathname]);
 
   const [opened, setOpened] = useState(false);
+  const [searchProduct, setSearchProduct] = useState("");
+
+  const handleSearch = () => {
+    // router.push(`/customer/products/${searchProduct}`);
+
+    router.push({
+      pathname: "/customer/products",
+      query: { search: searchProduct },
+    });
+  };
 
   return (
     <>
@@ -301,9 +291,10 @@ const HeaderMenu = ({ children }) => {
                     )}
                   </ActionIcon>
                 }
-                placeholder="Search query..."
+                placeholder="Search for a product..."
                 rightSectionWidth={42}
                 className={classes.searchBar}
+                onChange={(e) => setSearchProduct(e.target.value)}
                 styles={(theme) => ({
                   input: {
                     "&:focus-within": {
@@ -311,6 +302,11 @@ const HeaderMenu = ({ children }) => {
                     },
                   },
                 })}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
               />
             )}
             {/* User and Cart */}

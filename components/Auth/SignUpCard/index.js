@@ -227,7 +227,11 @@ const SignIn = () => {
           }}
           disabled={loading || tokenLoading}
         >
-          {loading || tokenLoading ? <CircularProgress size={30} /> : "Login"}
+          {loading || tokenLoading ? (
+            <CircularProgress size={30} />
+          ) : (
+            "Register"
+          )}
         </Button>
         <Box display={"flex"} justifyContent="center">
           <Typography variant="h6" textAlign={"center"}>
@@ -260,7 +264,7 @@ const SignIn = () => {
             setGoogleToken(credentialResponse.credential);
           }}
           onError={() => {
-            console.log("Login Failed");
+            console.log("Signup Failed");
           }}
         />
       </Box>

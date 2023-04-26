@@ -9,39 +9,42 @@ import {
   Stack,
   Stepper,
   Text,
-} from '@mantine/core'
-import { React, useState, useContext } from 'react'
-import MyCartItems from './MyCartItems'
-import CartDetails from './CartDetails'
-import ShippingDetails from './ShippingDetails'
-import PaymentDetails from './PaymentDetails'
-import { ShopContext } from '../../../context/shopContextProvider'
-import Link from 'next/link'
-import { gql, useQuery } from '@apollo/client'
-import { useForm } from '@mantine/form'
+} from "@mantine/core";
+import { React, useState, useContext } from "react";
+import MyCartItems from "./MyCartItems";
+import CartDetails from "./CartDetails";
+import ShippingDetails from "./ShippingDetails";
+import PaymentDetails from "./PaymentDetails";
+import { ShopContext } from "../../../context/shopContextProvider";
+import Link from "next/link";
+import { gql, useQuery } from "@apollo/client";
+import { useForm } from "@mantine/form";
+import { useStyles } from "./StepperStyles";
+import { AuthContext } from "../../../context/authContext";
+import OrderConfirmation from "./OrderConfirmation";
 
 const StepIcon = ({ active, completed, icon }) => {
-  const bgColor = completed ? 'green' : 'transparent'
-  const color = completed ? 'white' : 'black'
+  const bgColor = completed ? "green" : "transparent";
+  const color = completed ? "white" : "black";
 
   return (
     <Box
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '50px',
-        width: '50px',
-        borderRadius: '50%',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "50px",
+        width: "50px",
+        borderRadius: "50%",
         backgroundColor: bgColor,
         color: color,
-        fontWeight: 'bold',
+        fontWeight: "bold",
       }}
     >
       {icon}
     </Box>
-  )
-}
+  );
+};
 
 const GET_PRODUCTS = gql`
   query Query {
@@ -66,125 +69,101 @@ const GET_PRODUCTS = gql`
       stock
     }
   }
-`
+`;
 
 const ViewCart = () => {
-  const [active, setActive] = useState(0)
+  const [active, setActive] = useState(0);
 
-  const { data, loading, error } = useQuery(GET_PRODUCTS)
+  const { data, loading, error } = useQuery(GET_PRODUCTS);
 
-  const { cartItems } = useContext(ShopContext)
+  const { cartItems } = useContext(ShopContext);
+  const { user } = useContext(AuthContext);
 
-  console.log('====================================')
-  console.log('cartItems', cartItems.length)
-  console.log('====================================')
+  console.log("====================================");
+  console.log("cart items hehe", cartItems);
+  console.log("====================================");
 
   const form = useForm({
     initialValues: {
-      name: '',
-      email: '',
-      phoneNumber: '',
-      cnic: '',
-      address: '',
+      name: "",
+      email: "",
+      phoneNumber: "",
+      cnic: "",
+      address: "",
     },
-    validate: {
-      name: (value) =>
-        value?.length < 2 ? 'Name must have at least 5 letters' : null,
-      email: (value) =>
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)
-          ? 'Invalid email address'
-          : null,
-      phoneNumber: (value) =>
-        value?.length > 0 && !/^\+92[1-9]\d{9}$/.test(value)
-          ? 'Invalid phone number, must begin with +92'
-          : null,
-      cnic: (value) =>
-        value?.length > 0 && !/^[0-9]{5}[0-9]{7}[0-9]$/.test(value)
-          ? 'Invalid CNIC, dont put dashes'
-          : null,
-      address: (value) =>
-        value?.length < 5 ? 'Address must have at least 5 letters' : null,
+
+    validate: (values) => {
+      if (active === 1) {
+        return {
+          name:
+            values?.name?.length < 2
+              ? "Name must have at least 5 letters"
+              : null,
+          email: !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+            values?.email?.trim()
+          )
+            ? "Invalid email address"
+            : null,
+          phoneNumber: !/^\+92[1-9]\d{9}$/.test(values?.phoneNumber?.trim())
+            ? "Invalid phone number, must begin with +92"
+            : null,
+          cnic: !/^[0-9]{5}[0-9]{7}[0-9]$/.test(values?.cnic?.trim())
+            ? "Invalid CNIC, dont put dashes, must be 13 digits"
+            : null,
+          address:
+            values?.address?.trim()?.length < 5
+              ? "Address must have at least 5 letters"
+              : null,
+        };
+      }
     },
-  })
+  });
 
   const handleFormSubmit = (values) => {
-    console.log('====================================')
-    console.log('values', values)
-    console.log('====================================')
-  }
+    console.log("====================================");
+    console.log("values", values);
+    console.log("====================================");
+  };
+
+  const nextStep = () =>
+    setActive((current) => {
+      if (form.validate().hasErrors) {
+        return current;
+      }
+      return current < 3 ? current + 1 : current;
+    });
+
+  const prevStep = () =>
+    setActive((current) => (current > 0 ? current - 1 : current));
+
+  const { classes } = useStyles();
 
   return (
-    <Container size={'xl'} pt={40}>
+    <Container size={"xl"} pt={40}>
       <Stepper
         active={active}
         onStepClick={setActive}
         breakpoint="sm"
-        styles={{
-          root: {
-            width: '100%',
-          },
-          separator: {
-            color: '#bfe6a1',
-            borderColor: '#bfe6a1',
-            border: '4px solid #bfe6a1',
-            borderRadius: '200px',
-            width: '100%',
-          },
-          separatorActive: {
-            width: '100%',
-            color: '#bfe6a1',
-            border: `4px solid #62A82C`,
-            transition: 'all 1s ease',
-          },
-          steps: {
-            width: '100%',
-            paddingLeft: '20rem',
-            paddingRight: '20rem',
-          },
-          step: {
-            backgroundColor: '#62A82C',
-            borderRadius: '200px',
-            width: '100%',
-          },
-          stepIcon: {
-            display: 'none',
-          },
-          stepBody: {
-            color: '#fff',
-            height: '30px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            padding: 0,
-            margin: 0,
-            // '&:hover': {
-            //   backgroundColor: '#62A82C',
-            //   borderRadius: '200px',
-            // },
-          },
-          stepLabel: {
-            color: '#fff',
-            fontSize: '16px',
-          },
-        }}
+        classNames={classes}
+        allowNextStepsSelect={false}
+        color="green"
       >
         <Stepper.Step
           style={{
-            backgroundColor: active >= 0 ? '#62A82C' : '#bfe6a1',
-            transition: 'all 0.7s ease',
+            backgroundColor: active >= 0 ? "#62A82C" : "#bfe6a1",
+            transition: "all 0.7s ease",
           }}
           label="1. Cart"
         >
           <Grid>
-            <Grid.Col sm={cartItems?.length === 0 ? 12 : 8} mt={'xl'}>
+            <Grid.Col sm={cartItems?.length === 0 ? 12 : 8} mt={"xl"}>
               {cartItems?.length === 0 && (
-                <Stack align="center" mt={'xl'} pb={'xl'}>
+                <Stack align="center" mt={"xl"} pb={"xl"}>
                   <Text
                     style={{
-                      fontSize: '20px',
+                      fontSize: "20px",
                       fontWeight: 525,
-                      color: 'darkslategray',
+                      color: "darkslategray",
                     }}
                   >
                     Your cart is empty
@@ -198,10 +177,10 @@ const ViewCart = () => {
                   <Link href="/customer/products">
                     <Button
                       style={{
-                        backgroundColor: '#62A82C',
-                        color: '#fff',
+                        backgroundColor: "#62A82C",
+                        color: "#fff",
                       }}
-                      mt={'xs'}
+                      mt={"xs"}
                     >
                       <Center>Shop Now</Center>
                     </Button>
@@ -210,7 +189,7 @@ const ViewCart = () => {
               )}
               {data?.products
                 ?.filter((product) => {
-                  return cartItems.some((item) => item.id === product.id)
+                  return cartItems.some((item) => item.id === product.id);
                 })
                 .map((product, index) => {
                   return (
@@ -219,16 +198,16 @@ const ViewCart = () => {
                       index={index}
                       key={product.id}
                     />
-                  )
+                  );
                 })}
             </Grid.Col>
-            <Grid.Col sm={4} pb={'xl'} hidden={cartItems?.length === 0}>
+            <Grid.Col sm={4} pb={"xl"} hidden={cartItems?.length === 0}>
               <CartDetails />
               <Button
                 fullWidth
                 style={{
-                  backgroundColor: '#62A82C',
-                  color: '#fff',
+                  backgroundColor: "#62A82C",
+                  color: "#fff",
                 }}
                 onClick={() => setActive(1)}
               >
@@ -239,8 +218,8 @@ const ViewCart = () => {
         </Stepper.Step>
         <Stepper.Step
           style={{
-            backgroundColor: active >= 1 ? '#62A82C' : '#bfe6a1',
-            transition: 'all 0.7s ease',
+            backgroundColor: active >= 1 ? "#62A82C" : "#bfe6a1",
+            transition: "all 0.7s ease",
           }}
           label="2. Details"
           disabled={cartItems?.length === 0}
@@ -252,30 +231,27 @@ const ViewCart = () => {
                 handleFormSubmit={handleFormSubmit}
               />
             </Grid.Col>
-            <Grid.Col sm={4} pb={'xl'}>
+            <Grid.Col sm={4} pb={"xl"}>
               <CartDetails />
-              <Stack spacing={'xs'} mb={'xl'}>
+              <Stack spacing={"xs"} mb={"xl"}>
                 <Button
                   fullWidth
                   style={{
-                    backgroundColor: '#62A82C',
-                    color: '#fff',
+                    backgroundColor: "#62A82C",
+                    color: "#fff",
                   }}
-                  onClick={() => {
-                    setActive(2)
-                    handleFormSubmit(form.getTransformedValues())
-                  }}
+                  onClick={nextStep}
                 >
                   <Center>Proceed to Payment</Center>
                 </Button>
                 <Button
                   fullWidth
                   style={{
-                    border: '1px solid #62A82C',
-                    color: '#62A82C',
-                    backgroundColor: '#fff',
+                    border: "1px solid #62A82C",
+                    color: "#62A82C",
+                    backgroundColor: "#fff",
                   }}
-                  onClick={() => setActive(0)}
+                  onClick={prevStep}
                 >
                   <Center>Back to Cart</Center>
                 </Button>
@@ -285,56 +261,21 @@ const ViewCart = () => {
         </Stepper.Step>
         <Stepper.Step
           style={{
-            backgroundColor: active >= 2 ? '#62A82C' : '#bfe6a1',
-            transition: 'all 0.7s ease',
+            backgroundColor: active >= 2 ? "#62A82C" : "#bfe6a1",
+            transition: "all 0.7s ease",
           }}
           label="3. Payment"
           disabled={cartItems?.length === 0}
         >
           <Grid>
-            <Grid.Col sm={8}>
-              <PaymentDetails />
-            </Grid.Col>
-            <Grid.Col sm={4} pb={'xl'}>
-              <CartDetails />
-              <Stack mb={'xl'} spacing={'xs'}>
-                <Link href={'/customer/checkout'}>
-                  <Button
-                    fullWidth
-                    style={{
-                      backgroundColor: '#62A82C',
-                      color: '#fff',
-                    }}
-                  >
-                    <Center>Review Order</Center>
-                  </Button>
-                </Link>
-                <Button
-                  fullWidth
-                  style={{
-                    border: '1px solid #62A82C',
-                    color: '#62A82C',
-                    backgroundColor: '#fff',
-                  }}
-                  onClick={() => setActive(1)}
-                >
-                  <Center>Back to Details</Center>
-                </Button>
-              </Stack>
+            <Grid.Col sm={12}>
+              <OrderConfirmation prevStep={prevStep} data={data} />
             </Grid.Col>
           </Grid>
         </Stepper.Step>
-        {/* <Stepper.Step
-          style={{
-            backgroundColor: active >= 3 ? '#62A82C' : '#bfe6a1',
-            transition: 'all 0.7s ease',
-          }}
-          label="4. Checkout"
-          disabled={true}
-        ></Stepper.Step> */}
       </Stepper>
     </Container>
-  )
-}
+  );
+};
 
-export default ViewCart
+export default ViewCart;

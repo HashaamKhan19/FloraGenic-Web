@@ -87,7 +87,9 @@ const AuthLayout = ({ children, onSubmit, handleSubmit }) => {
               position: "absolute",
             }}
           >
-            <Image src={Logo} alt="logo" width={120} height={72} />
+            <Link href={"/customer"}>
+              <Image src={Logo} alt="logo" width={120} height={72} />
+            </Link>
           </div>
           {children}
         </form>
