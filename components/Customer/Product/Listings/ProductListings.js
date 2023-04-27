@@ -88,7 +88,11 @@ const ProductListings = () => {
   const router = useRouter();
   const { search } = router.query;
   //searching
-  const [query, setQuery] = useState(search || "");
+  const [query, setQuery] = useState("");
+
+  if (search !== undefined && query === "") {
+    setQuery(search);
+  }
 
   //cart
   const { addToCart } = useContext(ShopContext);

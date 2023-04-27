@@ -62,6 +62,7 @@ const SignInCard = () => {
       toast.success("Login Successful!");
       localStorage.setItem("token", data.login.token);
       localStorage.setItem("userType", data.login.userType);
+      localStorage.setItem("id", data.login.id);
       console.log("setting users", data);
       setUser(() => {
         console.log("setting users2", data.login);
@@ -89,6 +90,7 @@ const SignInCard = () => {
       toast.success("Login Successful!");
       localStorage.setItem("token", data.loginWithToken.token);
       localStorage.setItem("userType", data.loginWithToken.userType);
+      localStorage.setItem("id", data.loginWithToken.id);
       setUser(data.loginWithToken.user);
 
       if (data.loginWithToken.userType === "Customer") {

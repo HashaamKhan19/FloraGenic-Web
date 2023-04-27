@@ -8,9 +8,10 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userType = localStorage.getItem("userType");
+    const id = localStorage.getItem("id");
 
-    if (token && userType) {
-      setUser({ token, userType });
+    if (token && userType && id) {
+      setUser({ token, userType, id });
     }
   }, []);
 

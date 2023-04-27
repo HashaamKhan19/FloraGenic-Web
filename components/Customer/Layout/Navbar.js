@@ -190,12 +190,11 @@ const HeaderMenu = ({ children }) => {
   const [searchProduct, setSearchProduct] = useState("");
 
   const handleSearch = () => {
-    // router.push(`/customer/products/${searchProduct}`);
-
-    router.push({
-      pathname: "/customer/products",
-      query: { search: searchProduct },
-    });
+    // router.push({
+    //   pathname: "/customer/products",
+    //   query: { search: searchProduct },
+    // });
+    setSearchProduct("");
   };
 
   return (
@@ -323,7 +322,7 @@ const HeaderMenu = ({ children }) => {
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Item>
-                      <Link href={"/customer/dashboard"}>
+                      <Link href={`/customer/dashboard/${user?.id}`}>
                         <Group>
                           <BiCategoryAlt />
                           <Text>Dashboard</Text>
