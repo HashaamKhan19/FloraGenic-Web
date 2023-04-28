@@ -13,101 +13,95 @@ import {
   Table,
   Text,
   createStyles,
-} from '@mantine/core'
-import Link from 'next/link'
-import { React, useState } from 'react'
-import { BsArrowRight, BsBagCheckFill } from 'react-icons/bs'
-import OrderDetails from './OrderDetails'
-import { useMediaQuery } from '@mantine/hooks'
+} from "@mantine/core";
+import Link from "next/link";
+import { React, useState } from "react";
+import { BsArrowRight, BsBagCheckFill } from "react-icons/bs";
+import OrderDetails from "./OrderDetails";
+import { useMediaQuery } from "@mantine/hooks";
+import { gql, useQuery } from "@apollo/client";
+import ListingPagination from "../../Generic/ListingPagination";
 
-const Orders = () => {
-  const [orderDetails, setOrderDetails] = useState(false)
-  const match768 = useMediaQuery('(max-width: 768px)')
+const GET_ORDERS = gql`
+  query Query {
+    orders {
+      id
+      orderStatus
+      orderingDate
+      totalPrice
+    }
+  }
+`;
 
-  const data = [
-    {
-      id: 1,
-      orderNumber: 'f0ba5b8c',
-      status: 'Pending',
-      dataPurcahsed: 'Nov 12, 2022',
-      total: 'Rs. 10000',
-    },
-    {
-      id: 2,
-      orderNumber: 'f0ba5b8c',
-      status: 'Pending',
-      dataPurcahsed: 'Nov 12, 2022',
-      total: 'Rs. 10000',
-    },
-    {
-      id: 3,
-      orderNumber: 'f0ba5b8c',
-      status: 'Delivered',
-      dataPurcahsed: 'Nov 12, 2022',
-      total: 'Rs. 10000',
-    },
-    {
-      id: 4,
-      orderNumber: 'f0ba5b8c',
-      status: 'Cancelled',
-      dataPurcahsed: 'Nov 12, 2022',
-      total: 'Rs. 10000',
-    },
-  ]
+const Orders = ({ ordersLength, setOrdersLength }) => {
+  const [orderDetails, setOrderDetails] = useState(false);
+  const match768 = useMediaQuery("(max-width: 768px)");
 
-  const rows = data.map((item) => (
+  const { data, loading, error } = useQuery(GET_ORDERS);
+
+  setOrdersLength(data?.orders?.length);
+
+  const rows = data?.orders?.map((item) => (
     <tr
       key={item.id}
       onClick={() => setOrderDetails(true)}
       style={{
-        cursor: 'pointer',
+        cursor: "pointer",
       }}
     >
       <td>
         <Text
           style={{
             fontWeight: 600,
-            color: 'darkslategray',
+            color: "darkslategray",
+            maxWidth: "100px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
           }}
         >
-          {item.orderNumber}
+          {item?.id}
         </Text>
       </td>
 
       <td>
         <Badge
           color={
-            item.status === 'Pending'
-              ? 'cyan'
-              : item.status === 'Delivered'
-              ? 'green'
-              : item.status === 'Cancelled'
-              ? 'red'
-              : 'blue'
+            item.status === "Pending"
+              ? "cyan"
+              : item.status === "Delivered"
+              ? "green"
+              : item.status === "Cancelled"
+              ? "red"
+              : "blue"
           }
-          variant={'light'}
+          variant={"light"}
         >
-          {item.status}
+          {item?.orderStatus}
         </Badge>
       </td>
       <td>
         <Text
           style={{
             fontWeight: 500,
-            color: 'darkslategray',
+            color: "darkslategray",
           }}
         >
-          {item.dataPurcahsed}
+          {new Date(parseInt(item?.orderingDate)).toLocaleDateString("en-US", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          })}
         </Text>
       </td>
       <td>
         <Text
           style={{
             fontWeight: 500,
-            color: 'darkslategray',
+            color: "darkslategray",
           }}
         >
-          {item.total}
+          Rs.{item?.totalPrice}
         </Text>
       </td>
       <td>
@@ -116,26 +110,26 @@ const Orders = () => {
             <BsArrowRight
               size={20}
               style={{
-                color: 'darkslategray',
+                color: "darkslategray",
               }}
             />
           </ActionIcon>
         </Group>
       </td>
     </tr>
-  ))
+  ));
 
   return (
     <>
       {!orderDetails ? (
         <>
-          <Group spacing={'xs'}>
+          <Group spacing={"xs"}>
             <BsBagCheckFill size={22} color="#62A82C" />
             <Text
               style={{
                 fontWeight: 500,
-                fontSize: '24px',
-                color: 'darkslategray',
+                fontSize: "24px",
+                color: "darkslategray",
               }}
             >
               My Orders
@@ -147,7 +141,7 @@ const Orders = () => {
           <ScrollArea>
             <Table
               sx={{ minWidth: 800 }}
-              mt={'sm'}
+              mt={"sm"}
               verticalSpacing="sm"
               highlightOnHover
             >
@@ -156,8 +150,8 @@ const Orders = () => {
                   <th
                     style={{
                       fontWeight: 500,
-                      fontSize: '16px',
-                      color: 'gray',
+                      fontSize: "16px",
+                      color: "gray",
                     }}
                   >
                     Order #
@@ -165,8 +159,8 @@ const Orders = () => {
                   <th
                     style={{
                       fontWeight: 500,
-                      fontSize: '16px',
-                      color: 'gray',
+                      fontSize: "16px",
+                      color: "gray",
                     }}
                   >
                     Status
@@ -174,8 +168,8 @@ const Orders = () => {
                   <th
                     style={{
                       fontWeight: 500,
-                      fontSize: '16px',
-                      color: 'gray',
+                      fontSize: "16px",
+                      color: "gray",
                     }}
                   >
                     Date Purchased
@@ -183,8 +177,8 @@ const Orders = () => {
                   <th
                     style={{
                       fontWeight: 500,
-                      fontSize: '16px',
-                      color: 'gray',
+                      fontSize: "16px",
+                      color: "gray",
                     }}
                   >
                     Total
@@ -195,26 +189,12 @@ const Orders = () => {
               <tbody>{rows}</tbody>
             </Table>
           </ScrollArea>
-          <Pagination
-            total={3}
-            withEdges
-            pt={'xl'}
-            position="right"
-            radius={50}
-            styles={() => ({
-              item: {
-                '&[data-active]': {
-                  backgroundColor: '#62A82C',
-                },
-              },
-            })}
-          />
         </>
       ) : (
         <OrderDetails />
       )}
     </>
-  )
-}
+  );
+};
 
-export default Orders
+export default Orders;

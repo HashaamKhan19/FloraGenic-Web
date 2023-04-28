@@ -15,44 +15,48 @@ import {
   TextInput,
   Tooltip,
   createStyles,
-} from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
-import { React, useState } from 'react'
-import { AiOutlineEye } from 'react-icons/ai'
-import { BsFillPersonFill } from 'react-icons/bs'
+} from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+import { React, useState } from "react";
+import { AiOutlineEye } from "react-icons/ai";
+import { BsFillPersonFill } from "react-icons/bs";
 
 const useStyles = createStyles(() => ({
   title: {
-    color: 'darkslategray',
+    color: "darkslategray",
     fontWeight: 500,
-    fontSize: '16px',
+    fontSize: "16px",
   },
   text: {
-    color: 'gray',
+    color: "gray",
     fontWeight: 400,
-    fontSize: '14px',
-    maxWidth: '230px',
+    fontSize: "14px",
+    maxWidth: "230px",
   },
-}))
+}));
 
-const ProfileInfo = () => {
-  const { classes } = useStyles()
-  const match600 = useMediaQuery('(max-width: 600px)')
-  const match1000 = useMediaQuery('(max-width: 1100px)')
+const ProfileInfo = ({ data, ordersLength }) => {
+  const { classes } = useStyles();
+  const match600 = useMediaQuery("(max-width: 600px)");
+  const match1000 = useMediaQuery("(max-width: 1100px)");
 
-  const [opened, setOpened] = useState(false)
-  const [editOpened, setEditOpened] = useState(false)
+  const [opened, setOpened] = useState(false);
+  const [editOpened, setEditOpened] = useState(false);
+
+  console.log("====================================");
+  console.log("profile info data: ", data);
+  console.log("====================================");
 
   return (
     <>
-      <Group position="apart" mt={match1000 ? 'xl' : '0'}>
-        <Group spacing={'xs'}>
+      <Group position="apart" mt={match1000 ? "xl" : "0"}>
+        <Group spacing={"xs"}>
           <BsFillPersonFill size={22} color="#62A82C" />
           <Text
             style={{
               fontWeight: 500,
-              fontSize: '24px',
-              color: 'darkslategray',
+              fontSize: "24px",
+              color: "darkslategray",
             }}
           >
             My Profile
@@ -61,7 +65,7 @@ const ProfileInfo = () => {
 
         <Button
           variant="light"
-          c={'#62A82C'}
+          c={"#62A82C"}
           onClick={() => setEditOpened(true)}
         >
           <Text weight={400}>Edit Profile</Text>
@@ -70,18 +74,21 @@ const ProfileInfo = () => {
 
       <Grid>
         <Grid.Col md={7}>
-          <Paper p={'lg'} mt={'xl'} shadow="xs" radius={'md'}>
+          <Paper p={"lg"} mt={"xl"} shadow="xs" radius={"md"}>
             <Group position="apart">
               <Avatar
-                size={'lg'}
-                radius={'xl'}
-                src="https://i.pravatar.cc/300"
+                size={"lg"}
+                radius={"xl"}
+                src={data?.user?.details?.image}
+                alt="https://i.pravatar.cc/300"
               />
               {!match600 && (
-                <Stack spacing={'xs'}>
+                <Stack spacing={"xs"}>
                   <Text className={classes.title}>Username</Text>
                   <Text className={classes.text} truncate>
-                    Hashaam Khan
+                    {data?.user?.details?.firstName +
+                      " " +
+                      data?.user?.details?.lastName || "No Name"}
                   </Text>
                 </Stack>
               )}
@@ -90,25 +97,27 @@ const ProfileInfo = () => {
                   <AiOutlineEye size={22} color="#62A" />
                 </ActionIcon>
               )}
-              <Stack spacing={'xs'}>
+              <Stack spacing={"xs"}>
                 <Text className={classes.title}>Email Address</Text>
                 <Text className={classes.text} truncate>
-                  hashaamkhan4247@gmail.com
+                  {data?.user?.details?.userDetails?.email || "No Email"}
                 </Text>
               </Stack>
             </Group>
           </Paper>
         </Grid.Col>
         <Grid.Col md={5}>
-          <Paper p={'lg'} mt={'xl'} shadow="xs" radius={'md'}>
+          <Paper p={"lg"} mt={"xl"} shadow="xs" radius={"md"}>
             <Group position="apart">
-              <Stack spacing={'xs'}>
+              <Stack spacing={"xs"}>
                 <Text className={classes.title}>Total Orders</Text>
-                <Text className={classes.text}>69</Text>
+                <Text className={classes.text}>{ordersLength}</Text>
               </Stack>
-              <Stack spacing={'xs'}>
+              <Stack spacing={"xs"}>
                 <Text className={classes.title}>Total Spent</Text>
-                <Text className={classes.text}>$ 420</Text>
+                <Text className={classes.text}>
+                  $ {data?.user?.details?.userDetails?.totalSpent || "Null"}
+                </Text>
               </Stack>
             </Group>
           </Paper>
@@ -119,23 +128,29 @@ const ProfileInfo = () => {
         opened={opened}
         onClose={() => setOpened(false)}
         title="Profile Details"
-        transition={'fade'}
+        transition={"fade"}
         transitionDuration={700}
         transitionTimingFunction="ease"
         exitTransitionDuration={700}
         centered
       >
         <Stack>
-          <Center mb={'xl'}>
-            <Avatar size={'xl'} radius={'xl'} src="https://i.pravatar.cc/300" />
+          <Center mb={"xl"}>
+            <Avatar size={"xl"} radius={"xl"} src="https://i.pravatar.cc/300" />
           </Center>
           <Group position="apart">
             <Text className={classes.title}>Username</Text>
-            <Text className={classes.text}>Hashaam Khan</Text>
+            <Text className={classes.text}>
+              {data?.user?.details?.firstName +
+                " " +
+                data?.user?.details?.lastName || "No Name"}
+            </Text>
           </Group>
           <Group position="apart">
             <Text className={classes.title}>Email Address</Text>
-            <Text className={classes.text}>Hashaamkhan4247@gmail.com</Text>
+            <Text className={classes.text}>
+              {data?.user?.details?.userDetails?.email || "No Email"}
+            </Text>
           </Group>
           <Group position="apart">
             <Text className={classes.title}>Total Orders</Text>
@@ -152,7 +167,7 @@ const ProfileInfo = () => {
         opened={editOpened}
         onClose={() => setEditOpened(false)}
         title="Edit Profile"
-        transition={'fade'}
+        transition={"fade"}
         transitionDuration={700}
         transitionTimingFunction="ease"
         exitTransitionDuration={700}
@@ -162,27 +177,33 @@ const ProfileInfo = () => {
           label="Username"
           styles={(theme) => ({
             input: {
-              '&:focus-within': {
+              "&:focus-within": {
                 borderColor: theme.colors.green[7],
               },
             },
           })}
+          value={
+            data?.user?.details?.firstName +
+              " " +
+              data?.user?.details?.lastName || "No Name"
+          }
         />
         <TextInput
           label="Email"
           styles={(theme) => ({
             input: {
-              '&:focus-within': {
+              "&:focus-within": {
                 borderColor: theme.colors.green[7],
               },
             },
           })}
+          value={data?.user?.details?.userDetails?.email || "No Email"}
         />
-        <Group position="right" pt={'sm'}>
+        <Group position="right" pt={"sm"}>
           <Button
             style={{
-              backgroundColor: '#000',
-              color: '#fff',
+              backgroundColor: "#000",
+              color: "#fff",
             }}
             onClick={() => setEditOpened(false)}
           >
@@ -190,16 +211,17 @@ const ProfileInfo = () => {
           </Button>
           <Button
             style={{
-              backgroundColor: '#62A82C',
-              color: '#fff',
+              backgroundColor: "#62A82C",
+              color: "#fff",
             }}
+            onClick={() => setEditOpened(false)}
           >
             <Text weight={400}>Save</Text>
           </Button>
         </Group>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default ProfileInfo
+export default ProfileInfo;

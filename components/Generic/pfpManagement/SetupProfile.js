@@ -12,6 +12,7 @@ import ControlledTextInput from "../ControlledComponents/ControlledTextInput";
 
 // GraphQL
 import { gql, useMutation } from "@apollo/client";
+import { uploadImage } from "../../../services/fileUpload";
 
 const CREATE_CUSTOMER_PROFILE = gql`
   mutation Mutation($userId: ID!, $details: CustomerCreateInput!) {
@@ -50,7 +51,8 @@ const SetupGardenerProfile = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    const imageURL = await uploadImage(data.image);
     createCustomerProfile({
       variables: {
         userId: userID,
@@ -60,7 +62,7 @@ const SetupGardenerProfile = () => {
           phoneNumber: data.phoneNumber,
           gender: data.gender,
           nationality: data.nationality,
-          image: data.image.preview,
+          image: imageURL,
         },
       },
     });

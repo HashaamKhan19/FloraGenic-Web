@@ -73,9 +73,7 @@ const DashboardLinks = ({ data, loading, error }) => {
 
   const orderDetails = false;
 
-  console.log("====================================");
-  console.log("In User Dashboard, user's data: ", data);
-  console.log("====================================");
+  const [ordersLength, setOrdersLength] = useState();
 
   return (
     <Grid py={match768 ? "md" : "xl"}>
@@ -130,7 +128,7 @@ const DashboardLinks = ({ data, loading, error }) => {
                   <BsBagCheck />
                   <Text>Orders</Text>
                 </Group>
-                <Text>5</Text>
+                <Text>{ordersLength}</Text>
               </Group>
             </UnstyledButton>
 
@@ -206,12 +204,15 @@ const DashboardLinks = ({ data, loading, error }) => {
           orderDetails ? (
             <OrderDetails />
           ) : (
-            <Orders />
+            <Orders
+              ordersLength={ordersLength}
+              setOrdersLength={setOrdersLength}
+            />
           )
         ) : active === "wishlist" ? (
           <Wishlist />
         ) : active === "profile" ? (
-          <ProfileInfo />
+          <ProfileInfo data={data} ordersLength={ordersLength} />
         ) : active === "addresses" ? (
           <Address />
         ) : active === "payment" ? (
