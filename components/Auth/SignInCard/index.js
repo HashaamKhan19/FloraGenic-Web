@@ -59,6 +59,31 @@ const SignInCard = () => {
 
   const [login, { data, loading, error }] = useMutation(LOGIN_QUERY, {
     onCompleted: (data) => {
+      (data?.login?.userType === "Customer" &&
+        data?.login?.details !== null &&
+        router.push("/customer")) ||
+        (data?.login?.userType === "Customer" &&
+          data?.login?.details === null &&
+          router.push({
+            pathname: "/setupProfile",
+            query: {
+              userType: data.login.userType,
+              userID: data.login.id,
+            },
+          })) ||
+        (data?.login?.userType === "NurseryOwner" &&
+          data?.login?.details !== null &&
+          router.push("/nursery")) ||
+        (data?.login?.userType === "NurseryOwner" &&
+          data?.login?.details === null &&
+          router.push({
+            pathname: "/setupProfile",
+            query: {
+              userType: data.login.userType,
+              userID: data.login.id,
+            },
+          }));
+
       toast.success("Login Successful!");
       localStorage.setItem("token", data.login.token);
       localStorage.setItem("userType", data.login.userType);

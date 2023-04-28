@@ -29,7 +29,11 @@ const SetupGardenerProfile = () => {
     {
       onCompleted: (data) => {
         console.log(data);
-        router.push("/admin");
+        if (user === "Customer") {
+          router.push("/customer");
+        } else if (user === "NurseryOwner") {
+          router.push("/nurseryOwner");
+        }
       },
       onError: (error) => {
         console.log(error);

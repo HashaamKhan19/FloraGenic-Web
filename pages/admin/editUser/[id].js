@@ -50,10 +50,10 @@ const GET_UER_BY_ID = gql`
           createdAt
           updatedAt
           skills {
-            skill {
-              id
-              name
-            }
+            id
+            image
+            name
+            description
           }
         }
         ... on NurseryOwner {

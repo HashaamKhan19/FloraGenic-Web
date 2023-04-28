@@ -108,8 +108,8 @@ const OrderConfirmation = ({ prevStep, data }) => {
                 Your Order
               </Text>
 
-              {cartItems.map((item) => (
-                <Group position="apart">
+              {cartItems.map((item, index) => (
+                <Group position="apart" key={index}>
                   <Text className={classes.normalText}>
                     {item.quantity} x Oliver Plant
                   </Text>

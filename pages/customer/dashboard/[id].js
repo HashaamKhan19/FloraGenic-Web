@@ -35,7 +35,7 @@ const GET_CUSTOMER = gql`
   }
 `;
 
-export default function customerDashboard() {
+export default function CustomerDashboard() {
   const router = useRouter();
   const { id } = router.query;
 
