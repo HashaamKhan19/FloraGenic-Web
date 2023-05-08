@@ -54,15 +54,7 @@ const GET_PRODUCTS = gql`
         likes
         rating
         review
-        customerDetails {
-          details {
-            ... on Customer {
-              firstName
-              image
-              lastName
-            }
-          }
-        }
+        userID
       }
     }
   }
@@ -94,8 +86,9 @@ const ProductListings = () => {
     setQuery(search);
   }
 
-  //cart
-  const { addToCart } = useContext(ShopContext);
+  console.log("====================================");
+  console.log("checking if products are coming or not: ", data);
+  console.log("====================================");
 
   return (
     <Container size={"xl"} pb={"xl"}>

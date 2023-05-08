@@ -1,34 +1,61 @@
 import {
   ActionIcon,
-  Anchor,
-  Avatar,
   Badge,
-  Box,
-  Burger,
+  Center,
   Group,
-  Pagination,
-  Paper,
+  Loader,
   ScrollArea,
   Space,
   Table,
   Text,
-  createStyles,
 } from "@mantine/core";
-import Link from "next/link";
 import { React, useState } from "react";
 import { BsArrowRight, BsBagCheckFill } from "react-icons/bs";
 import OrderDetails from "./OrderDetails";
 import { useMediaQuery } from "@mantine/hooks";
-import { gql, useQuery } from "@apollo/client";
-import ListingPagination from "../../Generic/ListingPagination";
+import {
+  gql,
+  useQuery,
+  ApolloClient,
+  InMemoryCache,
+  ApolloLink,
+  HttpLink,
+} from "@apollo/client";
+
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 const GET_ORDERS = gql`
   query Query {
     orders {
       id
-      orderStatus
-      orderingDate
+      customerID
       totalPrice
+      discount
+      totalPriceAfterDiscount
+      shippingAddress
+      orderingDate
+      shipmentDate
+      receivedDate
+      orderStatus
     }
   }
 `;
@@ -37,87 +64,127 @@ const Orders = ({ ordersLength, setOrdersLength }) => {
   const [orderDetails, setOrderDetails] = useState(false);
   const match768 = useMediaQuery("(max-width: 768px)");
 
-  const { data, loading, error } = useQuery(GET_ORDERS);
+  const { data, loading, error } = useQuery(GET_ORDERS, { client });
 
   setOrdersLength(data?.orders?.length);
 
-  const rows = data?.orders?.map((item) => (
-    <tr
-      key={item.id}
-      onClick={() => setOrderDetails(true)}
-      style={{
-        cursor: "pointer",
-      }}
-    >
-      <td>
-        <Text
-          style={{
-            fontWeight: 600,
-            color: "darkslategray",
-            maxWidth: "100px",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {item?.id}
-        </Text>
-      </td>
-
-      <td>
-        <Badge
-          color={
-            item.status === "Pending"
-              ? "cyan"
-              : item.status === "Delivered"
-              ? "green"
-              : item.status === "Cancelled"
-              ? "red"
-              : "blue"
-          }
-          variant={"light"}
-        >
-          {item?.orderStatus}
-        </Badge>
-      </td>
-      <td>
-        <Text
-          style={{
-            fontWeight: 500,
-            color: "darkslategray",
-          }}
-        >
-          {new Date(parseInt(item?.orderingDate)).toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          })}
-        </Text>
-      </td>
-      <td>
-        <Text
-          style={{
-            fontWeight: 500,
-            color: "darkslategray",
-          }}
-        >
-          Rs.{item?.totalPrice}
-        </Text>
-      </td>
-      <td>
-        <Group spacing={0} position="right">
-          <ActionIcon onClick={() => setOrderDetails(true)}>
-            <BsArrowRight
-              size={20}
-              style={{
-                color: "darkslategray",
-              }}
-            />
-          </ActionIcon>
-        </Group>
+  const rows = loading ? (
+    <tr>
+      <td colSpan={12}>
+        <Center>
+          <Loader variant="bars" color="green" />
+        </Center>
       </td>
     </tr>
-  ));
+  ) : error ? (
+    <Text
+      style={{
+        fontWeight: 500,
+        fontSize: "18px",
+        color: "darkslategray",
+      }}
+    >
+      Error fetching data
+    </Text>
+  ) : data?.orders?.length === 0 ? (
+    <tr>
+      <td colSpan={12}>
+        <Center>
+          <Text
+            style={{
+              fontWeight: 500,
+              fontSize: "18px",
+              color: "darkslategray",
+              userSelect: "none",
+            }}
+          >
+            No orders yet
+          </Text>
+        </Center>
+      </td>
+    </tr>
+  ) : (
+    data?.orders?.map((item) => (
+      <tr
+        key={item.id}
+        onClick={() => setOrderDetails(true)}
+        style={{
+          cursor: "pointer",
+        }}
+      >
+        <td>
+          <Text
+            style={{
+              fontWeight: 600,
+              color: "darkslategray",
+              maxWidth: "100px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {item?.id}
+          </Text>
+        </td>
+
+        <td>
+          <Badge
+            color={
+              item.status === "Pending"
+                ? "cyan"
+                : item.status === "Delivered"
+                ? "green"
+                : item.status === "Cancelled"
+                ? "red"
+                : "blue"
+            }
+            variant={"light"}
+          >
+            {item?.orderStatus}
+          </Badge>
+        </td>
+        <td>
+          <Text
+            style={{
+              fontWeight: 500,
+              color: "darkslategray",
+            }}
+          >
+            {new Date(parseInt(item?.orderingDate)).toLocaleDateString(
+              "en-US",
+              {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              }
+            )}
+          </Text>
+        </td>
+        <td>
+          <Text
+            style={{
+              fontWeight: 500,
+              color: "darkslategray",
+            }}
+          >
+            Rs.{item?.totalPrice}
+          </Text>
+        </td>
+        <td>
+          <Group spacing={0} position="right">
+            <ActionIcon onClick={() => setOrderDetails(true)}>
+              <BsArrowRight
+                size={20}
+                style={{
+                  color: "darkslategray",
+                }}
+              />
+            </ActionIcon>
+          </Group>
+        </td>
+      </tr>
+    ))
+  );
 
   return (
     <>
