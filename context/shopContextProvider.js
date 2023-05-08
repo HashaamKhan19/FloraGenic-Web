@@ -46,7 +46,7 @@ const ShopContextProvider = (props) => {
     quantity,
   }));
 
-  console.log("HASHAM KI BARAT", cartItems);
+  // console.log("HASHAM KI BARAT", cartItems);
 
   const addToCart = (id) => {
     setCartItems((prev) => {

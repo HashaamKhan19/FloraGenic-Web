@@ -24,8 +24,8 @@ import { MdOutlinePayment } from "react-icons/md";
 import Orders from "./DashboardTabs/Orders";
 import Wishlist from "./DashboardTabs/Wishlist";
 import ProfileInfo from "./DashboardTabs/ProfileInfo";
-import Address from "./DashboardTabs/Address";
-import Payment from "./DashboardTabs/Payment";
+import Address from "./DashboardTabs/Address/Address";
+import Payment from "./DashboardTabs/Payments/Payment";
 import { useRouter } from "next/router";
 import OrderDetails from "./DashboardTabs/OrderDetails";
 import MobileDashboard from "./MobileDashboard";
@@ -178,7 +178,6 @@ const DashboardLinks = ({ data, loading, error }) => {
                   <BiMap />
                   <Text>Addresses</Text>
                 </Group>
-                <Text>1</Text>
               </Group>
             </UnstyledButton>
 
@@ -193,7 +192,6 @@ const DashboardLinks = ({ data, loading, error }) => {
                   <MdOutlinePayment />
                   <Text>Payment Methods</Text>
                 </Group>
-                <Text>1</Text>
               </Group>
             </UnstyledButton>
           </Stack>

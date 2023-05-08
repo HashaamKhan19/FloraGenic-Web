@@ -43,10 +43,6 @@ const ProfileInfo = ({ data, ordersLength }) => {
   const [opened, setOpened] = useState(false);
   const [editOpened, setEditOpened] = useState(false);
 
-  console.log("====================================");
-  console.log("profile info data: ", data);
-  console.log("====================================");
-
   return (
     <>
       <Group position="apart" mt={match1000 ? "xl" : "0"}>
@@ -136,7 +132,12 @@ const ProfileInfo = ({ data, ordersLength }) => {
       >
         <Stack>
           <Center mb={"xl"}>
-            <Avatar size={"xl"} radius={"xl"} src="https://i.pravatar.cc/300" />
+            <Avatar
+              size={150}
+              radius={"50%"}
+              src={data?.user?.details?.image}
+              alt="https://i.pravatar.cc/300"
+            />
           </Center>
           <Group position="apart">
             <Text className={classes.title}>Username</Text>
@@ -153,12 +154,20 @@ const ProfileInfo = ({ data, ordersLength }) => {
             </Text>
           </Group>
           <Group position="apart">
-            <Text className={classes.title}>Total Orders</Text>
-            <Text className={classes.text}>420</Text>
+            <Text className={classes.title}>Phone Number</Text>
+            <Text className={classes.text}>
+              {data?.user?.details?.phoneNumber || "Nill"}
+            </Text>
           </Group>
           <Group position="apart">
-            <Text className={classes.title}>Awaiting Delivery</Text>
-            <Text className={classes.text}>69</Text>
+            <Text className={classes.title}>Total Orders</Text>
+            <Text className={classes.text}>{ordersLength}</Text>
+          </Group>
+          <Group position="apart">
+            <Text className={classes.title}>Total Spent</Text>
+            <Text className={classes.text}>
+              $ {data?.user?.details?.userDetails?.totalSpent || "Null"}
+            </Text>
           </Group>
         </Stack>
       </Modal>
@@ -166,39 +175,68 @@ const ProfileInfo = ({ data, ordersLength }) => {
       <Modal
         opened={editOpened}
         onClose={() => setEditOpened(false)}
-        title="Edit Profile"
         transition={"fade"}
         transitionDuration={700}
         transitionTimingFunction="ease"
         exitTransitionDuration={700}
         centered
+        withCloseButton={false}
       >
-        <TextInput
-          label="Username"
-          styles={(theme) => ({
-            input: {
-              "&:focus-within": {
-                borderColor: theme.colors.green[7],
+        <Center>
+          <Avatar
+            size={180}
+            radius={"50%"}
+            src={data?.user?.details?.image}
+            alt="https://i.pravatar.cc/300"
+          />
+        </Center>
+        <Stack spacing={"xs"}>
+          <TextInput
+            label="First Name"
+            styles={(theme) => ({
+              input: {
+                "&:focus-within": {
+                  borderColor: theme.colors.green[7],
+                },
               },
-            },
-          })}
-          value={
-            data?.user?.details?.firstName +
-              " " +
-              data?.user?.details?.lastName || "No Name"
-          }
-        />
-        <TextInput
-          label="Email"
-          styles={(theme) => ({
-            input: {
-              "&:focus-within": {
-                borderColor: theme.colors.green[7],
+            })}
+            value={data?.user?.details?.firstName || "Nill"}
+          />
+          <TextInput
+            label="Last Name"
+            styles={(theme) => ({
+              input: {
+                "&:focus-within": {
+                  borderColor: theme.colors.green[7],
+                },
               },
-            },
-          })}
-          value={data?.user?.details?.userDetails?.email || "No Email"}
-        />
+            })}
+            value={data?.user?.details?.lastName || "Nill"}
+          />
+          <TextInput
+            label="Email"
+            styles={(theme) => ({
+              input: {
+                "&:focus-within": {
+                  borderColor: theme.colors.green[7],
+                },
+              },
+            })}
+            disabled
+            value={data?.user?.details?.userDetails?.email || "No Email"}
+          />
+          <TextInput
+            label="Phone Number"
+            styles={(theme) => ({
+              input: {
+                "&:focus-within": {
+                  borderColor: theme.colors.green[7],
+                },
+              },
+            })}
+            value={data?.user?.details?.phoneNumber || "Nill"}
+          />
+        </Stack>
         <Group position="right" pt={"sm"}>
           <Button
             style={{
