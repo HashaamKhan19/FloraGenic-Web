@@ -1,8 +1,10 @@
 import {
   ActionIcon,
   Button,
+  Center,
   Grid,
   Group,
+  Loader,
   Modal,
   Paper,
   Select,
@@ -16,21 +18,47 @@ import { CiEdit } from "react-icons/ci";
 import AddPayment from "./AddPayment";
 import EditPayment from "./EditPayment";
 import DeletePayment from "./DeletePayment";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  gql,
+  useQuery,
+} from "@apollo/client";
 
-const payments = [
-  {
-    id: 1,
-    name: "Visa",
-    number: "**** **** **** 1234",
-    expiry: "12/2024",
-  },
-  {
-    id: 2,
-    name: "Mastercard",
-    number: "**** **** **** 1234",
-    expiry: "12/2024",
-  },
-];
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
+const GET_PAYMENTS = gql`
+  query Query {
+    payments {
+      id
+      cardHolderName
+      cardNumber
+      cardExpiryDate
+      cardCVV
+    }
+  }
+`;
 
 const Payment = () => {
   const match768 = useMediaQuery("(max-width: 768px)");
@@ -39,6 +67,8 @@ const Payment = () => {
   const [opened, setOpened] = useState(false);
   const [editOpened, setEditOpened] = useState(false);
   const [deleteOpened, setDeleteOpened] = useState(false);
+
+  const { data, loading, error } = useQuery(GET_PAYMENTS, { client });
 
   return (
     <>
@@ -60,7 +90,28 @@ const Payment = () => {
           <Text weight={400}>Add Payment Method</Text>
         </Button>
       </Group>
-      {payments.map((payment) => (
+
+      {loading && (
+        <Center>
+          <Loader variant="bars" color="green" />
+        </Center>
+      )}
+
+      {data?.payments?.length === 0 && (
+        <Text
+          style={{
+            fontWeight: 500,
+            fontSize: "18px",
+            color: "darkslategray",
+            textAlign: "center",
+          }}
+        >
+          {" "}
+          You have no payment methods yet
+        </Text>
+      )}
+
+      {data?.payments?.map((payment) => (
         <Paper key={payment.id} p={"md"} my={"xs"} shadow="xs">
           <Grid>
             <Grid.Col span={8}>
@@ -72,13 +123,13 @@ const Payment = () => {
                 }}
               >
                 <Text maw={100} truncate color="darkslategray">
-                  {payment.name}
+                  {payment.cardHolderName}
                 </Text>
                 <Text truncate maw={200} color="darkslategray">
-                  {payment.number}
+                  {payment.cardNumber}
                 </Text>
                 <Text hidden={match768 ? true : false} color="darkslategray">
-                  {payment.expiry}
+                  {payment.cardExpiryDate}
                 </Text>
               </Group>
             </Grid.Col>

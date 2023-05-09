@@ -2,8 +2,10 @@ import {
   ActionIcon,
   Box,
   Button,
+  Center,
   Grid,
   Group,
+  Loader,
   Modal,
   Paper,
   Text,
@@ -18,16 +20,48 @@ import { CiEdit } from "react-icons/ci";
 import DeleteAddress from "./DeleteAddress";
 import EditAddress from "./EditAddress";
 import AddAddress from "./AddAddress";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  gql,
+  useQuery,
+} from "@apollo/client";
 
-const addresses = [
-  {
-    id: 1,
-    name: "Home",
-    address: "123, Main Street, New York, USA",
-    phone: "+1 9876543210",
-    isDefault: true,
-  },
-];
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
+const GET_ADDRESS = gql`
+  query Query {
+    addresses {
+      id
+      userID
+      name
+      location
+      city
+      setAsDefault
+    }
+  }
+`;
 
 const Address = () => {
   const match768 = useMediaQuery("(max-width: 768px)");
@@ -36,6 +70,8 @@ const Address = () => {
   const [editOpened, setEditOpened] = useState(false);
   const [deleteOpened, setDeleteOpened] = useState(false);
   const [addOpened, setAddOpened] = useState(false);
+
+  const { data, loading, error } = useQuery(GET_ADDRESS, { client });
 
   return (
     <>
@@ -62,7 +98,27 @@ const Address = () => {
         </Button>
       </Group>
 
-      {addresses.map((address) => (
+      {loading && (
+        <Center>
+          <Loader variant="bars" color="green" />
+        </Center>
+      )}
+
+      {data?.addresses?.length === 0 && (
+        <Text
+          style={{
+            fontWeight: 500,
+            fontSize: "18px",
+            color: "darkslategray",
+            textAlign: "center",
+          }}
+        >
+          {" "}
+          You have no addresses yet
+        </Text>
+      )}
+
+      {data?.addresses?.map((address) => (
         <Paper key={address.id} p={"md"} my={"xs"} shadow="xs">
           <Grid>
             <Grid.Col span={8}>
@@ -74,13 +130,13 @@ const Address = () => {
                 }}
               >
                 <Text maw={100} truncate color="darkslategray">
-                  {address.name}
+                  {address.name || "No Name"}
                 </Text>
                 <Text truncate maw={200} color="darkslategray">
-                  {address.address}
+                  {address.location || "No Location"}
                 </Text>
                 <Text hidden={match768 ? true : false} color="darkslategray">
-                  {address.phone}
+                  {address.city || "No City"}
                 </Text>
               </Group>
             </Grid.Col>

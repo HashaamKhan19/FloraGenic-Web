@@ -1,6 +1,25 @@
+import { gql } from "@apollo/client";
 import { Button, Group, Modal, Select, TextInput } from "@mantine/core";
+import { useState } from "react";
+
+const ADD_PAYMENT = gql`
+  mutation Mutation($payment: PaymentInput!) {
+    paymentCreate(payment: $payment) {
+      id
+      cardHolderName
+      cardNumber
+      cardExpiryDate
+      cardCVV
+    }
+  }
+`;
 
 const AddPayment = ({ opened, setOpened }) => {
+  const [cardHolderName, setCardHolderName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpiryDate, setCardExpiryDate] = useState("");
+  const [cardCVV, setCardCVV] = useState("");
+
   return (
     <Modal
       opened={opened}
@@ -12,28 +31,6 @@ const AddPayment = ({ opened, setOpened }) => {
       exitTransitionDuration={700}
       centered
     >
-      <Select
-        label="Payment Method"
-        placeholder="Enter name of Payment Method"
-        styles={(theme) => ({
-          input: {
-            "&:focus-within": {
-              borderColor: theme.colors.green[7],
-            },
-          },
-          item: {
-            "&[data-selected]": {
-              "&, &:hover": {
-                backgroundColor: "#62A82C",
-              },
-            },
-          },
-        })}
-        data={[
-          { label: "Visa", value: "visa" },
-          { label: "Mastercard", value: "mastercard" },
-        ]}
-      />
       <TextInput
         mt={"md"}
         label="Card Number"

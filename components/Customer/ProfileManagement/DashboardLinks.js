@@ -22,7 +22,7 @@ import { BiMap } from "react-icons/bi";
 import { BsBagCheck, BsBookmarkHeart, BsThreeDots } from "react-icons/bs";
 import { MdOutlinePayment } from "react-icons/md";
 import Orders from "./DashboardTabs/Orders";
-import Wishlist from "./DashboardTabs/Wishlist";
+import Wishlist from "./DashboardTabs/WishList/Wishlist";
 import ProfileInfo from "./DashboardTabs/ProfileInfo";
 import Address from "./DashboardTabs/Address/Address";
 import Payment from "./DashboardTabs/Payments/Payment";
