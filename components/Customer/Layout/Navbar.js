@@ -152,10 +152,28 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+const GET_USER = gql`
+  query Query($userId: ID!) {
+    user(id: $userId) {
+      id
+      userType
+      details {
+        ... on Customer {
+          image
+        }
+      }
+    }
+  }
+`;
+
 const HeaderMenu = ({ children }) => {
   const router = useRouter();
 
   const { user, logout } = useContext(AuthContext);
+
+  const { loading, error, data } = useQuery(GET_USER, {
+    variables: { userId: user?.id },
+  });
 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -318,22 +336,26 @@ const HeaderMenu = ({ children }) => {
                       style={{
                         cursor: "pointer",
                       }}
+                      src={data?.user?.details?.image || null}
                     />
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Item>
                       <Link href={`/customer/dashboard/${user?.id}`}>
                         <Group>
-                          <BiCategoryAlt />
-                          <Text>Dashboard</Text>
+                          <BiCategoryAlt color="#62A82C" />
+                          <Text c={"#62A82C"} fw={"525px"}>
+                            Dashboard
+                          </Text>
                         </Group>
                       </Link>
                     </Menu.Item>
+                    <Divider />
                     <Menu.Item>
                       <Link href={"/login"}>
                         <Group onClick={logout}>
-                          <AiOutlineLogin />
-                          <Text>Logout</Text>
+                          <AiOutlineLogin color="#D92228" />
+                          <Text c={"#D92228"}>Logout</Text>
                         </Group>
                       </Link>
                     </Menu.Item>

@@ -1,16 +1,11 @@
 import {
   ActionIcon,
-  Box,
   Burger,
-  Button,
-  Center,
   Grid,
   Group,
   Modal,
   Paper,
-  SegmentedControl,
   Stack,
-  Tabs,
   Text,
   UnstyledButton,
   createStyles,
@@ -19,14 +14,13 @@ import { useMediaQuery } from "@mantine/hooks";
 import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { BiMap } from "react-icons/bi";
-import { BsBagCheck, BsBookmarkHeart, BsThreeDots } from "react-icons/bs";
+import { BsBagCheck, BsBookmarkHeart } from "react-icons/bs";
 import { MdOutlinePayment } from "react-icons/md";
 import Orders from "./DashboardTabs/Orders";
 import Wishlist from "./DashboardTabs/WishList/Wishlist";
 import ProfileInfo from "./DashboardTabs/ProfileInfo";
 import Address from "./DashboardTabs/Address/Address";
 import Payment from "./DashboardTabs/Payments/Payment";
-import { useRouter } from "next/router";
 import OrderDetails from "./DashboardTabs/OrderDetails";
 import MobileDashboard from "./MobileDashboard";
 
@@ -143,7 +137,6 @@ const DashboardLinks = ({ data, loading, error }) => {
                   <BsBookmarkHeart />
                   <Text>WishList</Text>
                 </Group>
-                <Text>19</Text>
               </Group>
             </UnstyledButton>
           </Stack>

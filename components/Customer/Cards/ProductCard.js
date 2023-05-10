@@ -48,6 +48,16 @@ export default function ProductCard({ data }) {
   }, [wishlistItems, data.id]);
 
   const handleAddToWishlist = () => {
+    const isInWishlist = wishlistItems.some(
+      (wishlistItem) => wishlistItem.id === data.id
+    );
+
+    if (isInWishlist) {
+      removeItemFromWishlist(data.id);
+      setHeartChecked(false);
+      return;
+    }
+
     addItemToWishlist(data);
     setHeartChecked(true);
   };
