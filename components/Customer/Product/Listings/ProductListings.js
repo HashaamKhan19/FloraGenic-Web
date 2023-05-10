@@ -86,10 +86,6 @@ const ProductListings = () => {
     setQuery(search);
   }
 
-  console.log("====================================");
-  console.log("checking if products are coming or not: ", data);
-  console.log("====================================");
-
   return (
     <Container size={"xl"} pb={"xl"}>
       <Grid pt={"xl"}>

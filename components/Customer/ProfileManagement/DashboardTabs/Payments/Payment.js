@@ -157,7 +157,7 @@ const Payment = () => {
         </Paper>
       ))}
 
-      <AddPayment opened={opened} setOpened={setOpened} />
+      {/* <AddPayment opened={opened} setOpened={setOpened} /> */}
       <EditPayment editOpened={editOpened} setEditOpened={setEditOpened} />
       <DeletePayment
         deleteOpened={deleteOpened}

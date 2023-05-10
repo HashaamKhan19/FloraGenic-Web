@@ -9,11 +9,12 @@ import {
   Badge,
   Stack,
   Box,
-} from '@mantine/core'
-import { useContext, useState } from 'react'
-import { FiHeart } from 'react-icons/fi'
-import { MdOutlineAddShoppingCart } from 'react-icons/md'
-import { ShopContext } from '../../../context/shopContextProvider'
+} from "@mantine/core";
+import { useContext, useEffect, useState } from "react";
+import { FiHeart } from "react-icons/fi";
+import { MdOutlineAddShoppingCart } from "react-icons/md";
+import { ShopContext } from "../../../context/shopContextProvider";
+import { WishlistContext } from "../../../context/wishlistContext";
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -24,17 +25,32 @@ const useStyles = createStyles((theme) => ({
     padding: `${theme.spacing.xs}px ${theme.spacing.lg}px`,
     // marginTop: theme.spacing.xs,
     borderTop: `1px solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
+      theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
   },
-}))
+}));
 
-export default function ProductCard({ heart, data }) {
-  const { classes, theme } = useStyles()
+export default function ProductCard({ data }) {
+  const { classes, theme } = useStyles();
 
-  const [heartChecked, setHeartChecked] = useState(heart || false)
+  const [heartChecked, setHeartChecked] = useState(false);
 
-  const { addToCart } = useContext(ShopContext)
+  const { addToCart } = useContext(ShopContext);
+
+  const { addItemToWishlist, removeItemFromWishlist, wishlistItems } =
+    useContext(WishlistContext);
+
+  useEffect(() => {
+    const isInWishlist = wishlistItems.some(
+      (wishlistItem) => wishlistItem.id === data.id
+    );
+    setHeartChecked(isInWishlist);
+  }, [wishlistItems, data.id]);
+
+  const handleAddToWishlist = () => {
+    addItemToWishlist(data);
+    setHeartChecked(true);
+  };
 
   return (
     <Card
@@ -43,22 +59,22 @@ export default function ProductCard({ heart, data }) {
       radius="md"
       sx={{
         maxHeight: 375,
-        border: '1px solid #62A82C',
+        border: "1px solid #62A82C",
       }}
     >
       <Card.Section mb="xs">
         <Image
-          src={data?.images[0] || 'no image'}
+          src={data?.images[0] || "no image"}
           alt="Product image"
           height={190}
           style={{
-            position: 'relative',
+            position: "relative",
           }}
         />
         <Badge
           color="green"
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 10,
             right: 10,
           }}
@@ -89,7 +105,7 @@ export default function ProductCard({ heart, data }) {
             <Text
               weight={500}
               style={{
-                color: 'darkslategrey',
+                color: "darkslategrey",
               }}
               truncate
             >
@@ -112,7 +128,7 @@ export default function ProductCard({ heart, data }) {
         color="red"
         weight={600}
         mb={0}
-        mt={'xs'}
+        mt={"xs"}
         style={{
           fontSize: 20,
         }}
@@ -125,37 +141,35 @@ export default function ProductCard({ heart, data }) {
           <Text size="xs" color="dimmed">
             {data?.sold} people bought this
           </Text>
-          <Group spacing={'xs'}>
-            {!heart && (
-              <ActionIcon
-                color="red"
-                variant="subtle"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  e.preventDefault()
-                  setHeartChecked(!heartChecked)
+          <Group spacing={"xs"}>
+            <ActionIcon
+              color="red"
+              variant="subtle"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                handleAddToWishlist();
+              }}
+            >
+              <FiHeart
+                size={18}
+                style={{
+                  color: heartChecked ? "red" : "",
+                  fill: heartChecked ? "#D92228" : "",
+                  transition: "fill 0.5s ease-in-out",
+                  animation: `${
+                    heartChecked ? "sparkle 0.5s ease-in-out" : ""
+                  }`,
                 }}
-              >
-                <FiHeart
-                  size={18}
-                  style={{
-                    color: heartChecked ? 'red' : '',
-                    fill: heartChecked ? '#D92228' : '',
-                    transition: 'fill 0.5s ease-in-out',
-                    animation: `${
-                      heartChecked ? 'sparkle 0.5s ease-in-out' : ''
-                    }`,
-                  }}
-                />
-              </ActionIcon>
-            )}
+              />
+            </ActionIcon>
             <ActionIcon
               color="blue"
               variant="subtle"
               onClick={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
-                addToCart(data?.id)
+                e.stopPropagation();
+                e.preventDefault();
+                addToCart(data?.id);
               }}
               disabled={data?.stock === 0}
             >
@@ -183,5 +197,5 @@ export default function ProductCard({ heart, data }) {
           `}
       </style>
     </Card>
-  )
+  );
 }

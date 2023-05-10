@@ -14,6 +14,7 @@ import { Toaster } from "react-hot-toast";
 import AuthProvider from "../context/authContext";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { WishlistProvider } from "../context/wishlistContext";
 
 const appendCache = createEmotionCache({ key: "mantine", prepend: false });
 
@@ -58,13 +59,15 @@ function MyApp({ Component, pageProps, router }) {
             withNormalizeCSS
           >
             <ApolloProvider client={client}>
-              <ShopContextProvider>
-                <ThemeProvider theme={theme}>
-                  <Navbar />
-                  <Component {...pageProps} />
-                  <Footer />
-                </ThemeProvider>
-              </ShopContextProvider>
+              <WishlistProvider>
+                <ShopContextProvider>
+                  <ThemeProvider theme={theme}>
+                    <Navbar />
+                    <Component {...pageProps} />
+                    <Footer />
+                  </ThemeProvider>
+                </ShopContextProvider>
+              </WishlistProvider>
             </ApolloProvider>
             <Toaster
               toastOptions={{
