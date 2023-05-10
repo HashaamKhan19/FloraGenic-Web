@@ -25,10 +25,6 @@ export const WishlistProvider = ({ children }) => {
     clearWishlist,
   };
 
-  console.log("----------------------------");
-  console.log("WishlistContext: ", wishlistItems);
-  console.log("----------------------------");
-
   return (
     <WishlistContext.Provider value={contextValue}>
       {children}

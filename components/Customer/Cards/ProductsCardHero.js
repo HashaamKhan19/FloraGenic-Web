@@ -105,18 +105,6 @@ export default function ProductsCardHero({ heart, data }) {
             {data?.sold} people bought this
           </Text>
           <Group spacing={"xs"}>
-            {!heart && (
-              <ActionIcon
-                color="red"
-                variant="subtle"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                }}
-              >
-                <FiHeart size={18} />
-              </ActionIcon>
-            )}
             <ActionIcon
               color="blue"
               variant="subtle"

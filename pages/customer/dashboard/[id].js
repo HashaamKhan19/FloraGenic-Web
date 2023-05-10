@@ -1,6 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
 import Dashboard from "../../../components/Customer/ProfileManagement/Dashboard";
 import { useRouter } from "next/router";
+import { useContext, useEffect } from "react";
+import { AuthContext } from "../../../context/authContext";
 
 const GET_CUSTOMER = gql`
   query Query($userId: ID!) {
@@ -38,6 +40,8 @@ const GET_CUSTOMER = gql`
 export default function CustomerDashboard() {
   const router = useRouter();
   const { id } = router.query;
+
+  const { user } = useContext(AuthContext);
 
   const { loading, error, data } = useQuery(GET_CUSTOMER, {
     variables: { userId: id },

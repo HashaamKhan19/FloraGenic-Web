@@ -33,11 +33,10 @@ const client = new ApolloClient({
 const ADD_ADDRESS = gql`
   mutation Mutation($input: AddressInput!) {
     addressCreate(input: $input) {
-      id
-      userID
       name
-      location
       city
+      location
+      pin
       setAsDefault
     }
   }
@@ -66,6 +65,7 @@ const AddAddress = ({ addOpened, setAddOpened }) => {
   );
 
   const handleSubmit = (values) => {
+    console.log("handle submit reached.");
     input({
       variables: {
         input: {
@@ -73,6 +73,7 @@ const AddAddress = ({ addOpened, setAddOpened }) => {
           location: values.location,
           city: values.city,
           setAsDefault: false,
+          pin: "asd",
         },
       },
     });
