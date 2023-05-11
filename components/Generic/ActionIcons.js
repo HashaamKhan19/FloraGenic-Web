@@ -55,14 +55,7 @@ const DELETE_SKILL_MUTATION = gql`
   }
 `;
 
-const ActionIcons = ({
-  type,
-  text,
-  warningText,
-  viewText,
-  data,
-  updateRows,
-}) => {
+const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

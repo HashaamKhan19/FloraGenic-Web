@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const EditAdmin = () => {
-  return <div>EditAdmin</div>
-}
+const EditAdmin = ({ data, loading, error }) => {
+  return <div>EditAdmin</div>;
+};
 
-export default EditAdmin
+export default EditAdmin;
