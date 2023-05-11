@@ -1,29 +1,33 @@
 import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Dashboard from "../../components/Admin/Dashboard";
 import { AuthContext } from "../../context/authContext";
 
 const Index = () => {
   const router = useRouter();
-  const [loading, setLoading] = React.useState(true);
-  const { user } = React.useContext(AuthContext);
-  // useEffect(() => {
-  //   const userType = user?.userType || localStorage.getItem("userType");
-  //   const token = user?.token || localStorage.getItem("token");
-  //   if (!token || !userType) {
-  //     localStorage.clear();
-  //     router.push("/login");
-  //   } else if (userType !== "Admin") {
-  //     // Go back only if there is a previous page
-  //     if (router.asPath !== router.route) {
-  //       router.back();
-  //     }
+  const [loading, setLoading] = useState(true);
+  const { user } = useContext(AuthContext);
 
-  //     // router.back();
-  //   }
-  //   setLoading(false);
-  // }, []);
+  useEffect(() => {
+    const checkUserType = () => {
+      const userType = user?.userType || localStorage.getItem("userType");
+      const token = user?.token || localStorage.getItem("token");
+
+      if (!token || !userType) {
+        localStorage.clear();
+        router.push("/loginAdmin");
+      } else if (userType === "Admin") {
+        setLoading(false);
+        router.push("/admin");
+      } else {
+        setLoading(false);
+        router.push("/");
+      }
+    };
+
+    checkUserType();
+  }, []);
 
   return <>{loading ? <CircularProgress size={50} /> : <Dashboard />}</>;
 };
