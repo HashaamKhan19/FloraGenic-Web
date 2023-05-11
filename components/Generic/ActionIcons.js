@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import ActionConfirmationModal from "../Modal/ActionConfirmationModal";
 import ViewUserModal from "../Modal/ViewUserModal";
+import { toast } from "react-hot-toast";
 
 const DELETE_USER_MUTATION = gql`
   mutation Mutation($deleteUserId: ID!) {
@@ -66,6 +67,8 @@ const ActionIcons = ({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [loading, setLoading] = React.useState(false);
+
   // View User Modal States
   const [viewOpen, setViewOpen] = React.useState(false);
   const handleViewOpen = () => setViewOpen(true);
@@ -73,72 +76,104 @@ const ActionIcons = ({
 
   const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
     onCompleted: () => {
-      alert("User deleted successfully");
+      setLoading(false);
+      handleClose();
+      toast.success("User deleted successfully");
     },
     onError: (error) => {
-      console.log(error);
+      setLoading(false);
+      handleClose();
+      toast.error(error);
     },
   });
   const [deleteNursery] = useMutation(DELETE_NURSERY_MUTATION, {
     onCompleted: () => {
-      alert("Nursery deleted successfully");
+      setLoading(false);
+      handleClose();
+      toast.success("Nursery deleted successfully");
     },
     onError: (error) => {
-      console.log(error);
+      setLoading(false);
+      handleClose();
+      toast.error(error);
     },
   });
 
   const [deleteCategory] = useMutation(DELETE_CATEGORY_MUTATION, {
     onCompleted: () => {
-      alert("Category deleted successfully");
+      setLoading(false);
+      handleClose();
+      toast.success("Category deleted successfully");
     },
     onError: (error) => {
-      console.log(error);
+      setLoading(false);
+      handleClose();
+      toast.error(error);
     },
   });
 
   const [deleteProduct] = useMutation(DELETE_PRODUCT_MUTATION, {
     onCompleted: () => {
-      alert("Product deleted successfully");
+      setLoading(false);
+      handleClose();
+      toast.success("Product deleted successfully");
     },
     onError: (error) => {
-      console.log(error);
+      setLoading(false);
+      handleClose();
+      toast.error(error);
     },
   });
 
   const [deleteOrder] = useMutation(DELETE_ORDER_MUTATION, {
     onCompleted: () => {
-      alert("Order deleted successfully");
+      setLoading(false);
+      handleClose();
+      toast.success("Order deleted successfully");
     },
     onError: (error) => {
-      console.log(error);
+      setLoading(false);
+      handleClose();
+      toast.error(error);
     },
   });
 
   const [deleteComplaint] = useMutation(DELETE_COMPLAINT_MUTATION, {
     onCompleted: () => {
-      alert("Complaint deleted successfully");
+      setLoading(false);
+      handleClose();
+      toast.success("Complaint deleted successfully");
     },
     onError: (error) => {
-      console.log(error);
+      setLoading(false);
+      handleClose();
+      toast.error(error);
     },
   });
 
   const [deleteGig] = useMutation(DELETE_GIG_MUTATION, {
     onCompleted: () => {
-      alert("Gig deleted successfully");
+      setLoading(false);
+      handleClose();
+      toast.success("Gig deleted successfully");
     },
     onError: (error) => {
-      console.log(error);
+      setLoading(false);
+      handleClose();
+      toast.error(error);
     },
   });
 
   const [deleteSkill] = useMutation(DELETE_SKILL_MUTATION, {
     onCompleted: () => {
-      alert("Skill deleted successfully");
+      setLoading(false);
+      handleClose();
+      toast.success("Skill deleted successfully");
     },
     onError: (error) => {
-      console.log(error);
+      setLoading(false);
+      handleClose();
+      toast.error(error);
     },
   });
 
@@ -262,6 +297,8 @@ const ActionIcons = ({
         handleClose={handleClose}
         text={text}
         warningText={warningText}
+        loading={loading}
+        setLoading={setLoading}
       />
 
       <ViewUserModal

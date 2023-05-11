@@ -1,55 +1,55 @@
-import AddToQueueIcon from '@mui/icons-material/AddToQueue'
-import BarChartIcon from '@mui/icons-material/BarChart'
-import CategoryIcon from '@mui/icons-material/Category'
-import ChatIcon from '@mui/icons-material/Chat'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import DashboardIcon from '@mui/icons-material/Dashboard'
-import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings'
-import ExpandLess from '@mui/icons-material/ExpandLess'
-import ExpandMore from '@mui/icons-material/ExpandMore'
-import GroupAddIcon from '@mui/icons-material/GroupAdd'
-import HolidayVillageIcon from '@mui/icons-material/HolidayVillage'
-import HouseSidingIcon from '@mui/icons-material/HouseSiding'
-import LocalAtmIcon from '@mui/icons-material/LocalAtm'
-import MenuIcon from '@mui/icons-material/Menu'
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
-import PersonIcon from '@mui/icons-material/Person'
-import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred'
-import MuiAppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Collapse from '@mui/material/Collapse'
-import CssBaseline from '@mui/material/CssBaseline'
-import Divider from '@mui/material/Divider'
-import Drawer from '@mui/material/Drawer'
-import IconButton from '@mui/material/IconButton'
-import List from '@mui/material/List'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import { styled, useTheme } from '@mui/material/styles'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import * as React from 'react'
-import { useState } from 'react'
-import { AiFillPlusSquare } from 'react-icons/ai'
-import { FiBox } from 'react-icons/fi'
-import mainLogo from '../../public/images/Logo.png'
-import FloraGenicLogo from '../../public/Logo/floraGenic.png'
-import ProfileMenu from '../Generic/ProfileMenu'
+import AddToQueueIcon from "@mui/icons-material/AddToQueue";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import CategoryIcon from "@mui/icons-material/Category";
+import ChatIcon from "@mui/icons-material/Chat";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import DisplaySettingsIcon from "@mui/icons-material/DisplaySettings";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
+import HouseSidingIcon from "@mui/icons-material/HouseSiding";
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+import MenuIcon from "@mui/icons-material/Menu";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import PersonIcon from "@mui/icons-material/Person";
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
+import MuiAppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Collapse from "@mui/material/Collapse";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import { styled, useTheme } from "@mui/material/styles";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import * as React from "react";
+import { useState } from "react";
+import { AiFillPlusSquare } from "react-icons/ai";
+import { FiBox } from "react-icons/fi";
+import mainLogo from "../../public/images/Logo.png";
+import FloraGenicLogo from "../../public/Logo/floraGenic.png";
+import ProfileMenu from "../Generic/ProfileMenu";
 
-const drawerWidth = 320
+const drawerWidth = 320;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
     marginTop: 64,
     padding: theme.spacing(3),
-    '@media (min-width:769px)': {
-      transition: theme.transitions.create('margin', {
+    "@media (min-width:769px)": {
+      transition: theme.transitions.create("margin", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
@@ -58,117 +58,117 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ...(open && {
       marginLeft: 0,
       width: `calc(100% - ${drawerWidth}px)`,
-      '@media (min-width:769px)': {
-        transition: theme.transitions.create('margin', {
+      "@media (min-width:769px)": {
+        transition: theme.transitions.create("margin", {
           easing: theme.transitions.easing.easeOut,
           duration: theme.transitions.duration.enteringScreen,
         }),
       },
-      '@media (max-width: 768px)': {
-        width: '100vw',
-        position: 'absolute',
+      "@media (max-width: 768px)": {
+        width: "100vw",
+        position: "absolute",
       },
     }),
-  }),
-)
+  })
+);
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-  '@media (min-width:769px)': {
-    transition: theme.transitions.create(['margin', 'width'], {
+  "@media (min-width:769px)": {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
   ...(open && {
-    '@media (min-width:769px)': {
+    "@media (min-width:769px)": {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: `${drawerWidth}px`,
-      transition: theme.transitions.create(['margin', 'width'], {
+      transition: theme.transitions.create(["margin", "width"], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
   }),
-}))
+}));
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}))
+  justifyContent: "flex-end",
+}));
 
 export default function Sidebar({ children }) {
-  const router = useRouter()
-  const theme = useTheme()
-  const [open, setOpen] = React.useState(true)
-  const [adminlistOpen, setAdminListOpen] = useState(false)
-  const [nurserylistOpen, setNurseryListOpen] = useState(false)
-  const [categorylistOpen, setCategoryListOpen] = useState(false)
-  const [productlistOpen, setProductListOpen] = useState(false)
-  const [giglistOpen, setGigListOpen] = useState(false)
+  const router = useRouter();
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(true);
+  const [adminlistOpen, setAdminListOpen] = useState(false);
+  const [nurserylistOpen, setNurseryListOpen] = useState(false);
+  const [categorylistOpen, setCategoryListOpen] = useState(false);
+  const [productlistOpen, setProductListOpen] = useState(false);
+  const [giglistOpen, setGigListOpen] = useState(false);
 
   const handleAdminClick = () => {
-    setAdminListOpen(!adminlistOpen)
-  }
+    setAdminListOpen(!adminlistOpen);
+  };
   const handleCategoryClick = () => {
-    setCategoryListOpen(!categorylistOpen)
-  }
+    setCategoryListOpen(!categorylistOpen);
+  };
   const handleGigClick = () => {
-    setGigListOpen(!giglistOpen)
-  }
+    setGigListOpen(!giglistOpen);
+  };
   const handleProductClick = () => {
-    setProductListOpen(!productlistOpen)
-  }
+    setProductListOpen(!productlistOpen);
+  };
   const handleNurseryClick = () => {
-    setNurseryListOpen(!nurserylistOpen)
-  }
+    setNurseryListOpen(!nurserylistOpen);
+  };
   const handleDrawerOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
   const handleDrawerClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ backgroundColor: 'white' }}>
-        <Toolbar sx={{ color: '#0d5209' }}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: "white" }}>
+        <Toolbar sx={{ color: "#0d5209" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            sx={{ mr: 2, ...(open && { display: "none" }) }}
           >
             <MenuIcon />
           </IconButton>
           <Box
             sx={{
-              display: 'flex',
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              display: "flex",
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
             <Typography
               variant="h6"
               noWrap
-              width={'100%'}
+              width={"100%"}
               component="div"
-              sx={{ color: 'primary.dark' }}
+              sx={{ color: "primary.dark" }}
             >
               Admin Dashboard
             </Typography>
             <Box
               sx={{
-                display: 'flex',
-                alignItems: 'center',
+                display: "flex",
+                alignItems: "center",
                 gap: 2,
               }}
             >
@@ -181,9 +181,9 @@ export default function Sidebar({ children }) {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          '& .MuiDrawer-paper': {
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
-            boxSizing: 'border-box',
+            boxSizing: "border-box",
             backgroundImage: `url("https://images.unsplash.com/photo-1629197520635-16570fbd0bb3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=848&q=80")`,
           },
         }}
@@ -193,14 +193,14 @@ export default function Sidebar({ children }) {
       >
         <DrawerHeader
           style={{
-            backgroundColor: '#fff',
+            backgroundColor: "#fff",
           }}
         >
           <Box
             width="100%"
             height="100%"
             onClick={() => {
-              router.push('/admin')
+              router.push("/admin");
             }}
             style={{}}
           >
@@ -211,19 +211,19 @@ export default function Sidebar({ children }) {
           <IconButton
             onClick={handleDrawerClose}
             sx={{
-              ':hover': { backgroundColor: '#e5e5e5' },
+              ":hover": { backgroundColor: "#e5e5e5" },
             }}
           >
-            {theme.direction === 'ltr' ? (
+            {theme.direction === "ltr" ? (
               <ChevronLeftIcon
                 sx={{
-                  color: '#62A82C',
+                  color: "#62A82C",
                   borderRadius: 10,
                 }}
               />
             ) : (
               <ChevronRightIcon
-                sx={{ color: 'white', backgroundColor: '#62A82C' }}
+                sx={{ color: "white", backgroundColor: "#62A82C" }}
               />
             )}
           </IconButton>
@@ -231,14 +231,14 @@ export default function Sidebar({ children }) {
         <Divider />
 
         {/* Sidebar List starts from here  */}
-        <List sx={{ color: 'white' }}>
+        <List sx={{ color: "white" }}>
           {/* Dashboard */}
           <Link href="/admin">
             <ListItemButton
-              sx={{ marginTop: 2, ':hover': { backgroundColor: '#058f00' } }}
+              sx={{ marginTop: 2, ":hover": { backgroundColor: "#058f00" } }}
             >
               <ListItemIcon>
-                <DashboardIcon style={{ color: 'white' }} />
+                <DashboardIcon style={{ color: "white" }} />
               </ListItemIcon>
               <ListItemText
                 primary="1 - Dashboard"
@@ -253,10 +253,10 @@ export default function Sidebar({ children }) {
 
           <ListItemButton
             onClick={handleAdminClick}
-            sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+            sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
           >
             <ListItemIcon>
-              <PersonIcon style={{ color: 'white' }} />
+              <PersonIcon style={{ color: "white" }} />
             </ListItemIcon>
             <ListItemText
               primary="2 - Users"
@@ -270,17 +270,17 @@ export default function Sidebar({ children }) {
             <Collapse in={adminlistOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton
-                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
                 >
                   <ListItemIcon>
                     <GroupAddIcon
-                      style={{ color: 'white', fontSize: '22px' }}
+                      style={{ color: "white", fontSize: "22px" }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primary="2.1 - Add User"
                     primaryTypographyProps={{
-                      fontSize: '14px',
+                      fontSize: "14px",
                       marginLeft: -1.5,
                     }}
                   />
@@ -293,17 +293,17 @@ export default function Sidebar({ children }) {
             <Collapse in={adminlistOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton
-                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
                 >
                   <ListItemIcon>
                     <PeopleAltIcon
-                      style={{ color: 'white', fontSize: '22px' }}
+                      style={{ color: "white", fontSize: "22px" }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primary="2.2 - View all Users"
                     primaryTypographyProps={{
-                      fontSize: '14px',
+                      fontSize: "14px",
                       marginLeft: -1.5,
                     }}
                   />
@@ -316,10 +316,10 @@ export default function Sidebar({ children }) {
 
           <ListItemButton
             onClick={handleNurseryClick}
-            sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+            sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
           >
             <ListItemIcon>
-              <HouseSidingIcon style={{ fontSize: '24px', color: 'white' }} />
+              <HouseSidingIcon style={{ fontSize: "24px", color: "white" }} />
             </ListItemIcon>
             <ListItemText
               primary="3 - Nurseries"
@@ -334,20 +334,20 @@ export default function Sidebar({ children }) {
             <Collapse in={nurserylistOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton
-                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
                 >
                   <ListItemIcon>
                     <HouseSidingIcon
                       style={{
-                        fontSize: '22px',
-                        color: 'white',
+                        fontSize: "22px",
+                        color: "white",
                       }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primary="3.1 - Add Nursery"
                     primaryTypographyProps={{
-                      fontSize: '14px',
+                      fontSize: "14px",
                       marginLeft: -1.5,
                     }}
                   />
@@ -360,20 +360,20 @@ export default function Sidebar({ children }) {
             <Collapse in={nurserylistOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton
-                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
                 >
                   <ListItemIcon>
                     <HolidayVillageIcon
                       style={{
-                        fontSize: '22px',
-                        color: 'white',
+                        fontSize: "22px",
+                        color: "white",
                       }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primary="3.2 - View all Nurseries"
                     primaryTypographyProps={{
-                      fontSize: '14px',
+                      fontSize: "14px",
                       marginLeft: -1.5,
                     }}
                   />
@@ -386,10 +386,10 @@ export default function Sidebar({ children }) {
 
           <ListItemButton
             onClick={handleCategoryClick}
-            sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+            sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
           >
             <ListItemIcon>
-              <CategoryIcon style={{ color: 'white', fontSize: '22px' }} />
+              <CategoryIcon style={{ color: "white", fontSize: "22px" }} />
             </ListItemIcon>
             <ListItemText
               primary="4 - Category"
@@ -404,20 +404,20 @@ export default function Sidebar({ children }) {
             <Collapse in={categorylistOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton
-                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
                 >
                   <ListItemIcon>
                     <AiFillPlusSquare
                       style={{
-                        fontSize: '22px',
-                        color: 'white',
+                        fontSize: "22px",
+                        color: "white",
                       }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primary="4.1 - Add Category"
                     primaryTypographyProps={{
-                      fontSize: '14px',
+                      fontSize: "14px",
                       marginLeft: -1.5,
                     }}
                   />
@@ -430,17 +430,17 @@ export default function Sidebar({ children }) {
             <Collapse in={categorylistOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton
-                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
                 >
                   <ListItemIcon>
                     <CategoryIcon
-                      style={{ color: 'white', fontSize: '22px' }}
+                      style={{ color: "white", fontSize: "22px" }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primary="4.2 - View all Categories"
                     primaryTypographyProps={{
-                      fontSize: '14px',
+                      fontSize: "14px",
                       marginLeft: -1.5,
                     }}
                   />
@@ -453,11 +453,11 @@ export default function Sidebar({ children }) {
 
           <ListItemButton
             onClick={handleProductClick}
-            sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+            sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
           >
             <ListItemIcon>
               {/* <StoreIcon style={{ color: "white" }} /> */}
-              <FiBox style={{ fontSize: '24px', color: 'white' }} />
+              <FiBox style={{ fontSize: "24px", color: "white" }} />
             </ListItemIcon>
             <ListItemText
               primary="5 - Products"
@@ -472,20 +472,20 @@ export default function Sidebar({ children }) {
             <Collapse in={productlistOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton
-                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
                 >
                   <ListItemIcon>
                     <AiFillPlusSquare
                       style={{
-                        fontSize: '22px',
-                        color: 'white',
+                        fontSize: "22px",
+                        color: "white",
                       }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primary="5.1 - Add Product"
                     primaryTypographyProps={{
-                      fontSize: '14px',
+                      fontSize: "14px",
                       marginLeft: -1.5,
                     }}
                   />
@@ -498,20 +498,20 @@ export default function Sidebar({ children }) {
             <Collapse in={productlistOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton
-                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
                 >
                   <ListItemIcon>
                     <FiBox
                       style={{
-                        fontSize: '22px',
-                        color: 'white',
+                        fontSize: "22px",
+                        color: "white",
                       }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primary="5.2 - View all Products"
                     primaryTypographyProps={{
-                      fontSize: '14px',
+                      fontSize: "14px",
                       marginLeft: -1.5,
                     }}
                   />
@@ -524,11 +524,11 @@ export default function Sidebar({ children }) {
 
           <ListItemButton
             onClick={handleGigClick}
-            sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+            sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
           >
             <ListItemIcon>
               <DisplaySettingsIcon
-                style={{ color: 'white', fontSize: '22px' }}
+                style={{ color: "white", fontSize: "22px" }}
               />
             </ListItemIcon>
             <ListItemText
@@ -544,20 +544,20 @@ export default function Sidebar({ children }) {
             <Collapse in={giglistOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton
-                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
                 >
                   <ListItemIcon>
                     <AddToQueueIcon
                       style={{
-                        fontSize: '22px',
-                        color: 'white',
+                        fontSize: "22px",
+                        color: "white",
                       }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primary="6.1 - Add Skill"
                     primaryTypographyProps={{
-                      fontSize: '14px',
+                      fontSize: "14px",
                       marginLeft: -1.5,
                     }}
                   />
@@ -570,17 +570,17 @@ export default function Sidebar({ children }) {
             <Collapse in={giglistOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton
-                  sx={{ pl: 4, ':hover': { backgroundColor: '#058f00' } }}
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
                 >
                   <ListItemIcon>
                     <DisplaySettingsIcon
-                      style={{ color: 'white', fontSize: '22px' }}
+                      style={{ color: "white", fontSize: "22px" }}
                     />
                   </ListItemIcon>
                   <ListItemText
                     primary="6.2 - View all Skills"
                     primaryTypographyProps={{
-                      fontSize: '14px',
+                      fontSize: "14px",
                       marginLeft: -1.5,
                     }}
                   />
@@ -609,10 +609,10 @@ export default function Sidebar({ children }) {
           {/* Payments */}
           <Link href="/admin/viewOrders">
             <ListItemButton
-              sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+              sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
             >
               <ListItemIcon>
-                <LocalAtmIcon style={{ color: 'white' }} />
+                <LocalAtmIcon style={{ color: "white" }} />
               </ListItemIcon>
               <ListItemText
                 primary="7 - Orders"
@@ -643,10 +643,10 @@ export default function Sidebar({ children }) {
           {/* Complaints */}
           <Link href="/admin/viewComplaints">
             <ListItemButton
-              sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+              sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
             >
               <ListItemIcon>
-                <ReportGmailerrorredIcon style={{ color: 'white' }} />
+                <ReportGmailerrorredIcon style={{ color: "white" }} />
               </ListItemIcon>
               <ListItemText
                 primary="8 - Complaints"
@@ -660,10 +660,10 @@ export default function Sidebar({ children }) {
           {/* Statistics */}
           <Link href="/admin/viewStatistics">
             <ListItemButton
-              sx={{ marginTop: 1, ':hover': { backgroundColor: '#058f00' } }}
+              sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
             >
               <ListItemIcon>
-                <BarChartIcon style={{ color: 'white' }} />
+                <BarChartIcon style={{ color: "white" }} />
               </ListItemIcon>
               <ListItemText
                 primary="9 - Statistics"
@@ -679,5 +679,5 @@ export default function Sidebar({ children }) {
       </Drawer>
       <Main open={open}>{children}</Main>
     </Box>
-  )
+  );
 }
