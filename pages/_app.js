@@ -11,10 +11,11 @@ import ShopContextProvider from "../context/shopContextProvider";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { theme } from "../theme/theme";
 import { Toaster } from "react-hot-toast";
-import AuthProvider from "../context/authContext";
+import AuthProvider, { AuthContext } from "../context/authContext";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { WishlistProvider } from "../context/wishlistContext";
+import { useContext } from "react";
 
 const appendCache = createEmotionCache({ key: "mantine", prepend: false });
 
@@ -24,6 +25,7 @@ function MyApp({ Component, pageProps, router }) {
     // uri: "http://localhost:4000/graphql",
     cache: new InMemoryCache(),
   });
+  const { user } = useContext(AuthContext);
 
   if (router.pathname.startsWith("/admin")) {
     return (
