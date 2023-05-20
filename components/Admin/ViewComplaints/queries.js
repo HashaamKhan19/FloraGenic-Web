@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from "@apollo/client";
 
 export const GET_COMPLAINTS = gql`
   query Query {
@@ -13,4 +13,10 @@ export const GET_COMPLAINTS = gql`
       read
     }
   }
-`
+`;
+
+export const DELETE_COMPLAINT = gql`
+  mutation ComplaintDelete($complaintDeleteId: ID!) {
+    complaintDelete(id: $complaintDeleteId)
+  }
+`;

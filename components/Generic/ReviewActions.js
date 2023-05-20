@@ -5,6 +5,9 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import ActionConfirmationModal from "../Modal/ActionConfirmationModal";
 import ViewFeedbackModal from "../Modal/ViewFeedbackModal";
 import ReplyFeedbackModal from "../Modal/ReplyFeedbackModal";
+import { DELETE_COMPLAINT } from "../Admin/ViewComplaints/queries";
+import { useMutation } from "@apollo/client";
+import { toast } from "react-hot-toast";
 
 const ReviewActions = ({
   text,
@@ -28,6 +31,21 @@ const ReviewActions = ({
   const [openReply, setOpenReply] = React.useState(false);
   const handleOpenReply = () => setOpenReply(true);
   const handleCloseReply = () => setOpenReply(false);
+
+  const [loading, setLoading] = React.useState(false);
+
+  const [deleteComplaint] = useMutation(DELETE_COMPLAINT, {
+    onCompleted: () => {
+      setLoading(false);
+      handleClose();
+      toast.success("Complaint deleted successfully");
+    },
+    onError: (error) => {
+      setLoading(false);
+      handleClose();
+      toast.error(error);
+    },
+  });
 
   const styles = {
     cursor: "pointer",
@@ -70,6 +88,11 @@ const ReviewActions = ({
         handleClose={handleClose}
         text={text}
         warningText={warningText}
+        loading={loading}
+        setLoading={setLoading}
+        handleConfirm={() =>
+          deleteComplaint({ variables: { complaintDeleteId: data?.id } })
+        }
       />
 
       <ViewFeedbackModal
