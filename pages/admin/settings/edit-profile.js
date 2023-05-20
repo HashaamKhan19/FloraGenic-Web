@@ -60,7 +60,7 @@ const EditProfile = () => {
     mode: "onChange",
   });
 
-  const { user } = React.useContext(AuthContext);
+  const { user, setUser } = React.useContext(AuthContext);
   const userType = user?.userType;
 
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -71,7 +71,6 @@ const EditProfile = () => {
 
   useEffect(() => {
     reset({
-      email: user?.email,
       ...user?.details,
     });
   }, [user]);
@@ -80,6 +79,13 @@ const EditProfile = () => {
     client,
     onCompleted: (data) => {
       console.log(data);
+      setUser({
+        ...user,
+        details: {
+          ...user.details,
+          ...data.updateProfile,
+        },
+      });
       setSuccessMessage("Profile updated successfully");
       setModalOpen(true);
     },

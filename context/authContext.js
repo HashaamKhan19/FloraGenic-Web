@@ -49,6 +49,7 @@ const AuthProvider = ({ children }) => {
     onCompleted: (data) => {
       console.log(data);
       setUser((prev) => ({ ...prev, ...data.profileDetails }));
+      console.log(user);
     },
   });
 

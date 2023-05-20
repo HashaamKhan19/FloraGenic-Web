@@ -88,7 +88,6 @@ export const columns = [
     align: "center",
     valueGetter: (params) => (params?.row?.bannedStatus ? "Blocked" : "Active"),
     renderCell: (params) => {
-      console.log(params);
       return (
         <BlockToggle
           blocked={params.row.bannedStatus}

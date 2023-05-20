@@ -1,49 +1,51 @@
-import React, { useState } from 'react'
-import Backdrop from '@mui/material/Backdrop'
-import Box from '@mui/material/Box'
-import Modal from '@mui/material/Modal'
-import Fade from '@mui/material/Fade'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import CircularProgress from '@mui/material/CircularProgress'
-import { useRouter } from 'next/router'
+import React, { useState } from "react";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useRouter } from "next/router";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
+  bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
   borderRadius: 2,
-  textAlign: 'center',
-}
+  textAlign: "center",
+};
 
 export default function TaskConfirmationModal({
   open = false,
+  setOpen = null,
   redirectURL = null,
   successMessage = null,
   loading = true,
   err = null,
 }) {
-  const [openModal, setOpenModal] = useState(open)
-  const router = useRouter()
+  const [openModal, setOpenModal] = useState(open);
+  const router = useRouter();
 
   const handleSuccessClose = () => {
-    setOpenModal(false)
+    setOpenModal(false);
     if (redirectURL) {
       router
         .push(redirectURL)
         .then(() => window.scrollTo(0, 0))
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     }
-  }
+  };
 
   const handleFailureClose = () => {
-    setOpenModal(false)
-  }
+    setOpen(false) && setOpenModal(false);
+    console.log("Failure close");
+  };
 
   return (
     <Modal
@@ -66,22 +68,22 @@ export default function TaskConfirmationModal({
             component="h2"
             gutterBottom
           >
-            {loading && 'Please wait...'}
-            {!loading && err && 'Something went wrong!'}
-            {!loading && !err && 'Success!'}
+            {loading && "Please wait..."}
+            {!loading && err && "Something went wrong!"}
+            {!loading && !err && "Success!"}
           </Typography>
           <Typography id="transition-modal-description">
-            {loading && 'Please bear with us. Your request is being processed.'}
+            {loading && "Please bear with us. Your request is being processed."}
             {!loading &&
               err &&
-              (err?.message || err?.error || err || 'Something went wrong!')}
+              (err?.message || err?.error || err || "Something went wrong!")}
             {/* (err?.error.startsWith("E11000")
                 ? "This category already exists. Please try again with a different category."
                 : err?.error || "Something went wrong. Please try again.")} */}
             {!loading &&
               !err &&
               (successMessage ||
-                'Your request has been processed successfully.')}
+                "Your request has been processed successfully.")}
           </Typography>
 
           {loading && (
@@ -120,5 +122,5 @@ export default function TaskConfirmationModal({
         </Box>
       </Fade>
     </Modal>
-  )
+  );
 }
