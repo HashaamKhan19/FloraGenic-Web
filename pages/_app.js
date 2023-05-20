@@ -25,7 +25,6 @@ function MyApp({ Component, pageProps, router }) {
     // uri: "http://localhost:4000/graphql",
     cache: new InMemoryCache(),
   });
-  const { user } = useContext(AuthContext);
 
   if (router.pathname.startsWith("/admin")) {
     return (
