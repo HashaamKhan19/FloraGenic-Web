@@ -697,7 +697,7 @@ export default function Sidebar({ children }) {
             {settingsOpen ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
 
-          <Link href="/admin/addSkill">
+          <Link href="/admin/settings/edit-profile">
             <Collapse in={settingsOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton
@@ -723,7 +723,7 @@ export default function Sidebar({ children }) {
             </Collapse>
           </Link>
 
-          <Link href="/admin/viewSkills">
+          <Link href="/admin/settings/change-password">
             <Collapse in={settingsOpen} timeout="auto" unmountOnExit>
               <List disablePadding>
                 <ListItemButton

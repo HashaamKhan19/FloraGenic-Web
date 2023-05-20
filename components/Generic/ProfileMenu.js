@@ -13,10 +13,12 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { AuthContext } from "../../context/authContext";
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const { user } = React.useContext(AuthContext);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -26,18 +28,13 @@ export default function ProfileMenu() {
 
   const router = useRouter();
 
-  const [userType, setUserType] = React.useState("");
-
-  React.useEffect(() => {
-    const parts = router.pathname.split("/");
-    setUserType(parts[parts.length - 1]);
-  }, [router]);
-
   const handleSettings = () => {
-    switch (userType) {
+    switch (user?.userType?.toLowerCase()) {
       case "admin":
-        router.push(`admin/settings/${123}`);
+        router.push(`/admin/settings/edit-profile`);
         break;
+      default:
+        console.log("default");
     }
   };
 
