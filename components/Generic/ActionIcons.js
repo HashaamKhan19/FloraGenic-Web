@@ -76,7 +76,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
   const [deleteNursery] = useMutation(DELETE_NURSERY_MUTATION, {
@@ -88,7 +88,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
@@ -101,7 +101,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
@@ -114,7 +114,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
@@ -127,7 +127,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
@@ -140,7 +140,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
@@ -153,7 +153,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
@@ -166,7 +166,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
