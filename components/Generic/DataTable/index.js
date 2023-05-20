@@ -14,6 +14,7 @@ import { Button, Link } from "@mui/material";
 import Image from "next/legacy/image";
 import placeholder from "../../../assets/images/placeholder.png";
 import LoadingScreen from "../../Generic/LoadingScreen";
+import PDFDownload from "./PDFDownload";
 
 const DataTable = ({
   columns,
@@ -92,8 +93,7 @@ const DataTable = ({
               </button>
             </Link>
           )}
-
-          <Export />
+          <Export rows={rows} columns={columns} />
         </Box>
       </Box>
 
