@@ -70,54 +70,37 @@ export const LOGIN_WITH_TOKEN_QUERY = gql`
           phoneNumber
           gender
           image
-          createdAt
-          updatedAt
         }
         ... on Admin {
-          id
+          CNIC
           firstName
-          lastName
           gender
+          id
+          image
+          lastName
           nationality
           phoneNumber
-          CNIC
-          image
-          createdAt
-          updatedAt
         }
         ... on Gardener {
-          id
-          firstName
-          lastName
-          gender
-          phoneNumber
-          city
           CNIC
-          price
-          duration
-          rating
-          experience
+          city
+          firstName
+          gender
+          id
           image
-          createdAt
-          updatedAt
-          skills {
-            skill {
-              name
-            }
-          }
+          lastName
+          phoneNumber
         }
         ... on NurseryOwner {
-          id
+          CNIC
+          createdAt
           firstName
-          lastName
           gender
+          id
+          image
+          lastName
           nationality
           phoneNumber
-          CNIC
-          image
-          nurseries
-          createdAt
-          updatedAt
         }
       }
       token

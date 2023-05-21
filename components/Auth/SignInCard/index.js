@@ -15,7 +15,7 @@ import { Box } from "@mui/system";
 import { GoogleLogin } from "@react-oauth/google";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useLayoutEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../../context/authContext";
@@ -46,17 +46,6 @@ const SignInCard = () => {
   const isTablet = useMediaQuery("(max-width: 1000px)");
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  // useLayoutEffect(() => {
-  //   const token = user?.token || localStorage.getItem("token");
-  //   const userType = user?.userType || localStorage.getItem("userType");
-
-  //   if (!token || !userType) {
-  //     localStorage.clear();
-  //   } else {
-  //     router.back();
-  //   }
-  // }, []);
-
   const [login, { data, loading, error }] = useMutation(LOGIN_QUERY, {
     onCompleted: (data) => {
       (data?.login?.userType === "Customer" &&
@@ -85,14 +74,10 @@ const SignInCard = () => {
           }));
 
       toast.success("Login Successful!");
+      setUser(data.login);
       localStorage.setItem("token", data.login.token);
       localStorage.setItem("userType", data.login.userType);
       localStorage.setItem("id", data.login.id);
-      console.log("setting users", data);
-      setUser(() => {
-        console.log("setting users2", data.login);
-        return data.login;
-      });
 
       if (data.login.userType === "Customer") {
         router.push("/customer");

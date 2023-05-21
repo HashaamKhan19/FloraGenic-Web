@@ -13,10 +13,12 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { AuthContext } from "../../context/authContext";
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const { user, setUser } = React.useContext(AuthContext);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -26,24 +28,34 @@ export default function ProfileMenu() {
 
   const router = useRouter();
 
-  const [userType, setUserType] = React.useState("");
-
-  React.useEffect(() => {
-    const parts = router.pathname.split("/");
-    setUserType(parts[parts.length - 1]);
-  }, [router]);
-
   const handleSettings = () => {
-    switch (userType) {
+    switch (user?.userType?.toLowerCase()) {
       case "admin":
-        router.push(`admin/settings/${123}`);
+        router.push(`/admin/settings/edit-profile`);
         break;
+      default:
+        console.log("default");
     }
   };
 
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
+          <Typography sx={{ minWidth: 100, mr: 1 }} variant="body1">
+            {user?.details?.firstName} {user?.details?.lastName}
+          </Typography>
+          <Typography sx={{ minWidth: 100, mr: 1 }} variant="caption">
+            {user?.email}
+          </Typography>
+        </Box>
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
@@ -53,7 +65,9 @@ export default function ProfileMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
+            <Avatar sx={{ width: 40, height: 40 }} src={user?.details?.image}>
+              A
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -101,8 +115,14 @@ export default function ProfileMenu() {
         <MenuItem
           sx={{ color: "error.main" }}
           onClick={() => {
+            const userType = user?.userType?.toLowerCase();
             localStorage.clear();
-            router.push("/loginAdmin");
+            setUser(null);
+            if (userType === "admin") {
+              router.push("/loginAdmin");
+            } else {
+              router.push("/login");
+            }
           }}
         >
           <ListItemIcon>

@@ -21,7 +21,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../../context/authContext";
@@ -56,17 +56,6 @@ const SignIn = () => {
 
   const [visible, setVisible] = React.useState(false);
   const [confirmVisible, setConfirmVisible] = React.useState(false);
-
-  // useLayoutEffect(() => {
-  //   const token = user?.token || localStorage.getItem('token')
-  //   const userType = user?.userType || localStorage.getItem('userType')
-
-  //   if (!token || !userType) {
-  //     localStorage.clear()
-  //   } else {
-  //     router.back()
-  //   }
-  // }, [])
 
   const [signUp, { data, loading, error }] = useMutation(SIGN_UP, {
     onCompleted: (res) => {

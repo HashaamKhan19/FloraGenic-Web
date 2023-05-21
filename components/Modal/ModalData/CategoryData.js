@@ -7,7 +7,7 @@ const CategoryData = ({ data }) => {
   return (
     <>
       <Image
-        src={data?.customer?.image}
+        src={data?.image}
         alt="Profile Image"
         showLoading
         duration={0}

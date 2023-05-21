@@ -48,6 +48,9 @@ export const columns = [
     width: 150,
     headerAlign: "center",
     align: "center",
+    valueGetter: (params) => {
+      return params?.row?.bannedStatus ? "Blocked" : "Active";
+    },
     renderCell: (params) => {
       return (
         <BlockToggle

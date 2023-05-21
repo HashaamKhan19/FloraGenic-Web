@@ -1,10 +1,37 @@
-import { useQuery } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  useQuery,
+} from "@apollo/client";
 import HouseSidingIcon from "@mui/icons-material/HouseSiding";
 import * as React from "react";
 import DataTable from "../../Generic/DataTable";
 import LoadingScreen from "../../Generic/LoadingScreen";
 import { columns } from "./columns";
 import { GET_NURSERIES } from "./queries";
+
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 export default function ViewNurseries() {
   const [anchorElImport, setAnchorElImport] = React.useState(null);
@@ -15,7 +42,7 @@ export default function ViewNurseries() {
   const [rows, setRows] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState("");
 
-  const { loading, error, data } = useQuery(GET_NURSERIES);
+  const { loading, error, data } = useQuery(GET_NURSERIES, { client });
 
   React.useEffect(() => {
     if (data?.nurseries) {

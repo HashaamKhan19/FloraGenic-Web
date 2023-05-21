@@ -43,6 +43,9 @@ export const columns = [
     width: 150,
     headerAlign: "center",
     align: "center",
+    valueGetter: (params) => {
+      return params.row.hiddenStatus ? "Hidden" : "Visible";
+    },
     renderCell: (params) => {
       return (
         <BlockToggle

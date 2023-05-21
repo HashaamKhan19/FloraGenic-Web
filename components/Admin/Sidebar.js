@@ -40,6 +40,7 @@ import { FiBox } from "react-icons/fi";
 import mainLogo from "../../public/images/Logo.png";
 import FloraGenicLogo from "../../public/Logo/floraGenic.png";
 import ProfileMenu from "../Generic/ProfileMenu";
+import ProtectedRoute from "../ProtectedRoute";
 
 const drawerWidth = 320;
 
@@ -102,7 +103,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function Sidebar({ children }) {
+function Sidebar({ children }) {
   const router = useRouter();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -111,6 +112,7 @@ export default function Sidebar({ children }) {
   const [categorylistOpen, setCategoryListOpen] = useState(false);
   const [productlistOpen, setProductListOpen] = useState(false);
   const [giglistOpen, setGigListOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const handleAdminClick = () => {
     setAdminListOpen(!adminlistOpen);
@@ -126,6 +128,10 @@ export default function Sidebar({ children }) {
   };
   const handleNurseryClick = () => {
     setNurseryListOpen(!nurserylistOpen);
+  };
+
+  const handleSettingsClick = () => {
+    setSettingsOpen(!settingsOpen);
   };
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -674,6 +680,73 @@ export default function Sidebar({ children }) {
             </ListItemButton>
           </Link>
 
+          <ListItemButton
+            onClick={handleSettingsClick}
+            sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
+          >
+            <ListItemIcon>
+              <DisplaySettingsIcon
+                style={{ color: "white", fontSize: "22px" }}
+              />
+            </ListItemIcon>
+            <ListItemText
+              primary="10 - Settings"
+              primaryTypographyProps={{
+                marginLeft: -1.5,
+              }}
+            />
+            {settingsOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+
+          <Link href="/admin/settings/edit-profile">
+            <Collapse in={settingsOpen} timeout="auto" unmountOnExit>
+              <List disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
+                >
+                  <ListItemIcon>
+                    <AddToQueueIcon
+                      style={{
+                        fontSize: "22px",
+                        color: "white",
+                      }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="10.1 - Edit Profile"
+                    primaryTypographyProps={{
+                      fontSize: "14px",
+                      marginLeft: -1.5,
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </Link>
+
+          <Link href="/admin/settings/change-password">
+            <Collapse in={settingsOpen} timeout="auto" unmountOnExit>
+              <List disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
+                >
+                  <ListItemIcon>
+                    <DisplaySettingsIcon
+                      style={{ color: "white", fontSize: "22px" }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="10.2 - Change Password"
+                    primaryTypographyProps={{
+                      fontSize: "14px",
+                      marginLeft: -1.5,
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </Link>
+
           {/* ending of list */}
         </List>
       </Drawer>
@@ -681,3 +754,5 @@ export default function Sidebar({ children }) {
     </Box>
   );
 }
+
+export default Sidebar;

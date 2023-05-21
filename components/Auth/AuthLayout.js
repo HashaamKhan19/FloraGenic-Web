@@ -7,15 +7,32 @@ import {
 } from "@mui/material";
 import Image from "next/legacy/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import ControlledSelect from "../Generic/ControlledComponents/ControlledSelect";
 import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextInput";
 
 import Logo from "../../public/Logo/floraGenic.png";
+import { AuthContext } from "../../context/authContext";
+import { useRouter } from "next/router";
 
 const AuthLayout = ({ children, onSubmit, handleSubmit }) => {
   const isTablet = useMediaQuery("(max-width: 1000px)");
   const isMobile = useMediaQuery("(max-width: 600px)");
+
+  const { user } = React.useContext(AuthContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = user?.token || localStorage.getItem("token");
+    const userType = user?.userType || localStorage.getItem("userType");
+
+    if (!token || !userType) {
+      localStorage.clear();
+    } else {
+      router.back();
+    }
+  }, [user]);
+
   return (
     <Box
       sx={{

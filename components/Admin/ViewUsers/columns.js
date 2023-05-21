@@ -3,6 +3,26 @@ import ActionIcons from "../../Generic/ActionIcons";
 import BlockToggle from "../../Generic/BlockToggle";
 import placeholder from "../../../assets/images/placeholder.png";
 
+const formatUserType = (userType) => {
+  switch (userType) {
+    case "NurseryOwner":
+      return "Nursery Owner";
+    default:
+      return userType;
+  }
+};
+
+const formatGender = (gender) => {
+  switch (gender) {
+    case "male":
+      return "Male";
+    case "female":
+      return "Female";
+    default:
+      return gender;
+  }
+};
+
 export const columns = [
   { field: "id", headerName: "ID", width: 50 },
   {
@@ -32,11 +52,16 @@ export const columns = [
     width: 200,
     flex: 1,
     valueGetter: (params) =>
-      `${params?.row?.details?.firstName || ""} ${
-        params?.row?.details?.lastName || ""
-      }`,
+      params?.row?.details?.firstName && params?.row?.details?.lastName
+        ? `${params?.row?.details?.firstName} ${params?.row?.details?.lastName}`
+        : "Not Provided",
   },
-  { field: "userType", headerName: "Role", width: 120 },
+  {
+    field: "userType",
+    headerName: "Role",
+    width: 130,
+    valueGetter: (params) => formatUserType(params?.row?.userType),
+  },
   { field: "email", headerName: "Email Address", width: 200, flex: 1 },
   {
     field: "phone",
@@ -50,7 +75,10 @@ export const columns = [
     field: "gender",
     headerName: "Gender",
     width: 80,
-    valueGetter: (params) => params?.row?.details?.gender || "N/A",
+    valueGetter: (params) =>
+      params?.row?.details?.gender
+        ? formatGender(params?.row?.details?.gender)
+        : "N/A",
   },
   {
     field: "status",
@@ -58,8 +86,8 @@ export const columns = [
     width: 150,
     headerAlign: "center",
     align: "center",
+    valueGetter: (params) => (params?.row?.bannedStatus ? "Blocked" : "Active"),
     renderCell: (params) => {
-      console.log(params);
       return (
         <BlockToggle
           blocked={params.row.bannedStatus}

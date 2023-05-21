@@ -1,21 +1,50 @@
-import { useQuery } from '@apollo/client'
-import HouseSidingIcon from '@mui/icons-material/HouseSiding'
-import * as React from 'react'
-import DataTable from '../../Generic/DataTable'
-import LoadingScreen from '../../Generic/LoadingScreen'
-import { columns } from './columns'
-import { GET_NURSERIES } from './queries'
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  useQuery,
+} from "@apollo/client";
+import HouseSidingIcon from "@mui/icons-material/HouseSiding";
+import * as React from "react";
+import DataTable from "../../Generic/DataTable";
+import LoadingScreen from "../../Generic/LoadingScreen";
+import { columns } from "./columns";
+import { GET_NURSERIES } from "./queries";
+
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 export default function ViewNurseries() {
-  const [anchorElImport, setAnchorElImport] = React.useState(null)
-  const [anchorElExport, setAnchorElExport] = React.useState(null)
-  const importOpen = Boolean(anchorElImport)
-  const exportOpen = Boolean(anchorElExport)
+  const [anchorElImport, setAnchorElImport] = React.useState(null);
+  const [anchorElExport, setAnchorElExport] = React.useState(null);
+  const importOpen = Boolean(anchorElImport);
+  const exportOpen = Boolean(anchorElExport);
 
-  const [rows, setRows] = React.useState([])
-  const [searchValue, setSearchValue] = React.useState('')
+  const [rows, setRows] = React.useState([]);
+  const [searchValue, setSearchValue] = React.useState("");
 
-  const { loading, error, data } = useQuery(GET_NURSERIES)
+  const { loading, error, data } = useQuery(GET_NURSERIES, {
+    client,
+  });
 
   React.useEffect(() => {
     if (data?.nurseries) {
@@ -28,27 +57,27 @@ export default function ViewNurseries() {
               ?.toLowerCase()
               .includes(searchValue.toLowerCase()) ||
             nursery?.address?.toLowerCase().includes(searchValue.toLowerCase())
-          )
-        })
-      })
+          );
+        });
+      });
     }
-  }, [data, searchValue])
+  }, [data, searchValue]);
 
   // Menu handlers
   const handleImportClick = (event) => {
-    setAnchorElImport(event.currentTarget)
-  }
+    setAnchorElImport(event.currentTarget);
+  };
   const handleImportClose = () => {
-    setAnchorElImport(null)
-  }
+    setAnchorElImport(null);
+  };
   const handleExportClick = (event) => {
-    setAnchorElExport(event.currentTarget)
-  }
+    setAnchorElExport(event.currentTarget);
+  };
   const handleExportClose = () => {
-    setAnchorElExport(null)
-  }
+    setAnchorElExport(null);
+  };
 
-  if (loading) return <LoadingScreen />
+  if (loading) return <LoadingScreen />;
 
   return (
     <DataTable
@@ -61,5 +90,5 @@ export default function ViewNurseries() {
       buttonText="Add Nursery"
       buttonLink="/nursery/addNursery"
     />
-  )
+  );
 }

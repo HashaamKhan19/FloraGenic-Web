@@ -106,7 +106,7 @@ const DropZone = ({ onChange, getValues, name, setValue }, ref) => {
             }}
             onClick={(e) => {
               setValue(name, null);
-              e.preventDefault();
+              e.stopPropagation();
             }}
           >
             <Cancel />

@@ -1,6 +1,35 @@
 import React, { createContext, useEffect, useState } from "react";
+import { GET_PROFILE_DETAILS } from "./query";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  useQuery,
+} from "@apollo/client";
 
 export const AuthContext = createContext({});
+
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
@@ -14,6 +43,15 @@ const AuthProvider = ({ children }) => {
       setUser({ token, userType, id });
     }
   }, []);
+
+  const { loading, error, data } = useQuery(GET_PROFILE_DETAILS, {
+    client,
+    onCompleted: (data) => {
+      console.log(data);
+      setUser((prev) => ({ ...prev, ...data.profileDetails }));
+      console.log(user);
+    },
+  });
 
   const logout = () => {
     localStorage.clear();

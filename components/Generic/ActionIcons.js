@@ -1,4 +1,11 @@
-import { gql, useMutation } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  gql,
+  useMutation,
+} from "@apollo/client";
 import { Delete, Edit, Visibility } from "@mui/icons-material";
 import { Box, Tooltip } from "@mui/material";
 import { useRouter } from "next/router";
@@ -6,6 +13,27 @@ import React from "react";
 import ActionConfirmationModal from "../Modal/ActionConfirmationModal";
 import ViewUserModal from "../Modal/ViewUserModal";
 import { toast } from "react-hot-toast";
+
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 const DELETE_USER_MUTATION = gql`
   mutation Mutation($deleteUserId: ID!) {
@@ -68,6 +96,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
   const handleViewClose = () => setViewOpen(false);
 
   const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
+    client,
     onCompleted: () => {
       setLoading(false);
       handleClose();
@@ -76,10 +105,11 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
   const [deleteNursery] = useMutation(DELETE_NURSERY_MUTATION, {
+    client,
     onCompleted: () => {
       setLoading(false);
       handleClose();
@@ -88,11 +118,12 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
   const [deleteCategory] = useMutation(DELETE_CATEGORY_MUTATION, {
+    client,
     onCompleted: () => {
       setLoading(false);
       handleClose();
@@ -101,11 +132,12 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
   const [deleteProduct] = useMutation(DELETE_PRODUCT_MUTATION, {
+    client,
     onCompleted: () => {
       setLoading(false);
       handleClose();
@@ -114,11 +146,12 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
   const [deleteOrder] = useMutation(DELETE_ORDER_MUTATION, {
+    client,
     onCompleted: () => {
       setLoading(false);
       handleClose();
@@ -127,11 +160,12 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
   const [deleteComplaint] = useMutation(DELETE_COMPLAINT_MUTATION, {
+    client,
     onCompleted: () => {
       setLoading(false);
       handleClose();
@@ -140,11 +174,12 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
   const [deleteGig] = useMutation(DELETE_GIG_MUTATION, {
+    client,
     onCompleted: () => {
       setLoading(false);
       handleClose();
@@ -153,11 +188,12 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 
   const [deleteSkill] = useMutation(DELETE_SKILL_MUTATION, {
+    client,
     onCompleted: () => {
       setLoading(false);
       handleClose();
@@ -166,7 +202,7 @@ const ActionIcons = ({ type, text, warningText, viewText, data }) => {
     onError: (error) => {
       setLoading(false);
       handleClose();
-      toast.error(error);
+      toast.error(error.message);
     },
   });
 

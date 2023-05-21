@@ -1,6 +1,5 @@
 import ComplaintStatus from "../../Generic/ComplaintStatus";
 import ReviewActions from "../../Generic/ReviewActions";
-
 export const columns = [
   { field: "id", headerName: "ID", width: 40 },
   {

@@ -60,7 +60,6 @@ export default function AllNurseries() {
 
   //searching
   const [query, setQuery] = useState("");
-
   useEffect(() => {
     console.log(data?.nurseries);
     setAllNurseries(data?.nurseries?.length > 0 ? data?.nurseries : []);
@@ -213,6 +212,7 @@ export default function AllNurseries() {
         <Box pl={8}>
           <ByCity cities={cities} setCities={setCities} />
         </Box>
+
         <ByRatings ratingValue={ratingValue} setRatingValue={setRatingValue} />
         <Box pl={8} pt={"lg"}>
           <Button
