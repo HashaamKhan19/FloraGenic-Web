@@ -37,20 +37,15 @@ export default function ProductCard({ data }) {
 
   const { addToCart } = useContext(ShopContext);
 
-  const { addItemToWishlist, removeItemFromWishlist, wishlistItems } =
-    useContext(WishlistContext);
+  const { addItemToWishlist, removeItemFromWishlist, wishlistItems } = useContext(WishlistContext);
 
   useEffect(() => {
-    const isInWishlist = wishlistItems.some(
-      (wishlistItem) => wishlistItem.id === data.id
-    );
+    const isInWishlist = wishlistItems.some((wishlistItem) => wishlistItem.id === data.id);
     setHeartChecked(isInWishlist);
   }, [wishlistItems, data.id]);
 
   const handleAddToWishlist = () => {
-    const isInWishlist = wishlistItems.some(
-      (wishlistItem) => wishlistItem.id === data.id
-    );
+    const isInWishlist = wishlistItems.some((wishlistItem) => wishlistItem.id === data.id);
 
     if (isInWishlist) {
       removeItemFromWishlist(data.id);
@@ -144,6 +139,19 @@ export default function ProductCard({ data }) {
         }}
       >
         Rs. {data?.retailPrice}
+        <Text
+          color="orange"
+          weight={400}
+          mb={0}
+          ml={6}
+          mt={"xs"}
+          style={{
+            fontSize: 14,
+            display: "inline",
+          }}
+        >
+          {data?.overallRating.toFixed(2)} stars
+        </Text>
       </Text>
 
       <Card.Section className={classes.footer}>
@@ -167,9 +175,7 @@ export default function ProductCard({ data }) {
                   color: heartChecked ? "red" : "",
                   fill: heartChecked ? "#D92228" : "",
                   transition: "fill 0.5s ease-in-out",
-                  animation: `${
-                    heartChecked ? "sparkle 0.5s ease-in-out" : ""
-                  }`,
+                  animation: `${heartChecked ? "sparkle 0.5s ease-in-out" : ""}`,
                 }}
               />
             </ActionIcon>

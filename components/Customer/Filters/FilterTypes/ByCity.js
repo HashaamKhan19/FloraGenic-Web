@@ -1,19 +1,19 @@
-import React from 'react'
-import { PakistanCities } from '../Cities'
-import { MultiSelect, Stack, Text } from '@mantine/core'
+import React from "react";
+import { PakistanCities } from "../Cities";
+import { MultiSelect, Stack, Text } from "@mantine/core";
 
 const cityData = PakistanCities.map((city) => ({
   label: city.label,
   value: city.value,
-}))
+}));
 
-const ByCity = () => {
+const ByCity = ({ cities, setCities }) => {
   return (
     <>
       <Text
         style={{
           fontWeight: 525,
-          color: 'darkslategray',
+          color: "darkslategray",
         }}
       >
         City
@@ -23,14 +23,18 @@ const ByCity = () => {
         placeholder="Select city"
         styles={(theme) => ({
           input: {
-            '&:focus-within': {
+            "&:focus-within": {
               borderColor: theme.colors.green[7],
             },
           },
         })}
+        value={cities}
+        onChange={(value) => {
+          setCities(value);
+        }}
       />
     </>
-  )
-}
+  );
+};
 
-export default ByCity
+export default ByCity;

@@ -1,16 +1,16 @@
-import { Checkbox } from '@mantine/core'
-import { React, useState } from 'react'
+import { Checkbox } from "@mantine/core";
+import { React, useState } from "react";
 
-const ByCategory = () => {
-  const [categoryValue, setCategoryValue] = useState([])
+const ByCategory = ({ categoryValue, setCategoryValue }) => {
+  // const [categoryValue, setCategoryValue] = useState([])
 
   const categories = [
-    { label: 'Plants' },
-    { label: 'Medicines' },
-    { label: 'Tools' },
-    { label: 'Decorations' },
-    { label: 'Seeds' },
-  ]
+    { label: "Plants" },
+    { label: "Medicines" },
+    { label: "Tools" },
+    { label: "Decorations" },
+    { label: "Seeds" },
+  ];
 
   return (
     <>
@@ -25,18 +25,18 @@ const ByCategory = () => {
             label={category.label}
             value={category.label.toLowerCase()}
             key={index}
-            radius={'xs'}
+            radius={"xs"}
             my={1}
             styles={{
               input: {
-                '&:checked': {
-                  backgroundColor: '#62A82C',
-                  borderColor: '#62A82C',
+                "&:checked": {
+                  backgroundColor: "#62A82C",
+                  borderColor: "#62A82C",
                 },
-                '&:hover': {
-                  cursor: 'pointer',
+                "&:hover": {
+                  cursor: "pointer",
                 },
-                borderColor: '#62A82C',
+                borderColor: "#62A82C",
               },
             }}
             unselectable="on"
@@ -44,7 +44,7 @@ const ByCategory = () => {
         </Checkbox.Group>
       ))}
     </>
-  )
-}
+  );
+};
 
-export default ByCategory
+export default ByCategory;

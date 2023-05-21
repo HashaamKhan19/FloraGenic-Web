@@ -22,6 +22,9 @@ import SixCardsLoading from "../../Generic/Skeletons/SixCardsLoading";
 import ListingPagination from "../../Generic/ListingPagination";
 import { ShopContext } from "../../../../context/shopContextProvider";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+import { filtering } from "./ProductFiltering";
 
 const GET_PRODUCTS = gql`
   query ExampleQuery {
@@ -63,6 +66,10 @@ const GET_PRODUCTS = gql`
 const ProductListings = () => {
   const match1200 = useMediaQuery("(max-width: 1200px)");
 
+  const [categoryValue, setCategoryValue] = useState([]);
+  const [priceRange, setPriceRange] = useState([0, 20000]);
+  const [ratingValue, setRatingValue] = useState([]);
+
   const [opened, setOpened] = useState(false);
 
   const { loading, error, data } = useQuery(GET_PRODUCTS);
@@ -70,10 +77,23 @@ const ProductListings = () => {
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(9);
+  const [filteredData, setFilteredData] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
 
   const indexOfLastPost = currentPage * postsPerPage; // = 9
   const indexOfFirstPost = indexOfLastPost - postsPerPage; // = 0
-  const currentPosts = data?.products?.slice(indexOfFirstPost, indexOfLastPost); // = 9
+  const currentPosts = filteredData?.slice(indexOfFirstPost, indexOfLastPost); // = 9
+
+  useEffect(() => {
+    console.log(data?.products);
+    setFilteredData(data?.products?.length > 0 ? data?.products : []);
+    setAllProducts(data?.products?.length > 0 ? data?.products : []);
+  }, [data?.products]);
+
+  useEffect(() => {
+    console.log(categoryValue, priceRange, ratingValue);
+    setFilteredData(filtering(categoryValue, ratingValue, priceRange, allProducts));
+  }, [categoryValue, priceRange, ratingValue, allProducts]);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -90,7 +110,14 @@ const ProductListings = () => {
     <Container size={"xl"} pb={"xl"}>
       <Grid pt={"xl"}>
         <Grid.Col md={3} hidden={match1200 ? true : false}>
-          <Filter />
+          <Filter
+            categoryValue={categoryValue}
+            setCategoryValue={setCategoryValue}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            ratingValue={ratingValue}
+            setRatingValue={setRatingValue}
+          />
         </Grid.Col>
         <Grid.Col md={!match1200 ? 9 : 12}>
           {loading && (
@@ -131,7 +158,7 @@ const ProductListings = () => {
                     }
                   }).length
                 }{' '} */}
-                {data?.products?.length} Products
+                {filteredData?.length} Products
               </Text>
               <Input
                 placeholder="search..."
@@ -175,9 +202,7 @@ const ProductListings = () => {
               ?.filter((data) => {
                 if (query === "") {
                   return data;
-                } else if (
-                  data?.name?.toLowerCase().includes(query?.toLowerCase())
-                ) {
+                } else if (data?.name?.toLowerCase().includes(query?.toLowerCase())) {
                   return data;
                 }
               })
@@ -195,9 +220,7 @@ const ProductListings = () => {
                 totalPosts={data?.products?.length}
                 paginate={paginate}
                 currentPosts={currentPosts}
-                filteredData={
-                  data?.products?.length > 0 ? data?.products : undefined
-                }
+                filteredData={data?.products?.length > 0 ? data?.products : undefined}
               />
             )}
           </Group>
@@ -214,7 +237,14 @@ const ProductListings = () => {
         size={match1200 ? "xs" : ""}
         centered
       >
-        <Filter />
+        <Filter
+          categoryValue={categoryValue}
+          setCategoryValue={setCategoryValue}
+          priceRange={priceRange}
+          setPriceRange={setPriceRange}
+          ratingValue={ratingValue}
+          setRatingValue={setRatingValue}
+        />
       </Modal>
     </Container>
   );
