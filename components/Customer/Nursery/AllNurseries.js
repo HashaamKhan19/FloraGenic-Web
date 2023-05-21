@@ -10,18 +10,25 @@ import {
   Stack,
   Text,
   useMantineTheme,
-} from '@mantine/core'
-import NurseryInfoCard from './NurseryInfoCard'
-import Link from 'next/link'
-import { BiFilterAlt, BiSearch } from 'react-icons/bi'
-import { useMediaQuery } from '@mantine/hooks'
-import { useState } from 'react'
-import ByCity from '../Filters/FilterTypes/ByCity'
-import ByRatings from '../Filters/FilterTypes/ByRatings'
-import { gql, useQuery } from '@apollo/client'
-import NurseryCardLoading from '../Generic/Skeletons/NurseryCardLoading'
-import SixNurseryLoaders from '../Generic/Skeletons/SixNurseryLoaders'
-import ListingPagination from '../Generic/ListingPagination'
+} from "@mantine/core";
+import NurseryInfoCard from "./NurseryInfoCard";
+import Link from "next/link";
+import { BiFilterAlt, BiSearch } from "react-icons/bi";
+import { useMediaQuery } from "@mantine/hooks";
+import { useState } from "react";
+import ByCity from "../Filters/FilterTypes/ByCity";
+import ByRatings from "../Filters/FilterTypes/ByRatings";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  gql,
+  useQuery,
+} from "@apollo/client";
+import NurseryCardLoading from "../Generic/Skeletons/NurseryCardLoading";
+import SixNurseryLoaders from "../Generic/Skeletons/SixNurseryLoaders";
+import ListingPagination from "../Generic/ListingPagination";
 
 const GET_NURSERIES = gql`
   query Query {
@@ -34,36 +41,41 @@ const GET_NURSERIES = gql`
       images
     }
   }
-`
+`;
+
+
 
 export default function AllNurseries() {
-  const matches575 = useMediaQuery('(max-width: 575px)')
-  const [opened, setOpened] = useState(false)
+  const matches575 = useMediaQuery("(max-width: 575px)");
+  const [opened, setOpened] = useState(false);
 
-  const { loading, error, data } = useQuery(GET_NURSERIES)
+  const { loading, error, data } = useQuery(GET_NURSERIES);
 
   //pagination
-  const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage] = useState(9)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(9);
 
-  const indexOfLastPost = currentPage * postsPerPage // = 9
-  const indexOfFirstPost = indexOfLastPost - postsPerPage // = 0
-  const currentPosts = data?.nurseries?.slice(indexOfFirstPost, indexOfLastPost) // = 9
+  const indexOfLastPost = currentPage * postsPerPage; // = 9
+  const indexOfFirstPost = indexOfLastPost - postsPerPage; // = 0
+  const currentPosts = data?.nurseries?.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  ); // = 9
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber)
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   //searching
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState("");
 
   return (
-    <Container size={'xl'} pt={60} pb={50}>
-      <Stack spacing={'xs'}>
-        <Group position="apart" style={{ width: '100%' }}>
-          <Group noWrap spacing={'xs'}>
+    <Container size={"xl"} pt={60} pb={50}>
+      <Stack spacing={"xs"}>
+        <Group position="apart" style={{ width: "100%" }}>
+          <Group noWrap spacing={"xs"}>
             <Text
               style={{
                 fontSize: 26,
-                color: 'darkslategray',
+                color: "darkslategray",
               }}
               weight={600}
             >
@@ -73,19 +85,19 @@ export default function AllNurseries() {
               <Text
                 style={{
                   fontSize: 18,
-                  color: 'darkslategray',
+                  color: "darkslategray",
                 }}
                 mt={3}
               >
                 (
                 {
                   currentPosts?.filter((data) => {
-                    if (query === '') {
-                      return data
+                    if (query === "") {
+                      return data;
                     } else if (
                       data?.name?.toLowerCase().includes(query?.toLowerCase())
                     ) {
-                      return data
+                      return data;
                     }
                   }).length
                 }
@@ -98,7 +110,7 @@ export default function AllNurseries() {
             <Group
               noWrap
               style={{
-                width: matches575 ? '100%' : 'auto',
+                width: matches575 ? "100%" : "auto",
               }}
             >
               <Input
@@ -106,20 +118,20 @@ export default function AllNurseries() {
                 icon={<BiSearch />}
                 styles={(theme) => ({
                   input: {
-                    '&:focus-within': {
+                    "&:focus-within": {
                       borderColor: theme.colors.green[7],
                     },
                   },
                 })}
                 style={{
-                  width: matches575 ? '100%' : 250,
+                  width: matches575 ? "100%" : 250,
                 }}
                 onChange={(e) => setQuery(e.target.value)}
               />
               <Button
                 leftIcon={<BiFilterAlt size={17} />}
                 style={{
-                  backgroundColor: '#62A82C',
+                  backgroundColor: "#62A82C",
                 }}
                 onClick={() => setOpened(true)}
               >
@@ -130,7 +142,7 @@ export default function AllNurseries() {
         </Group>
 
         {loading && (
-          <Box mt={'xs'}>
+          <Box mt={"xs"}>
             <SixNurseryLoaders />
           </Box>
         )}
@@ -139,8 +151,8 @@ export default function AllNurseries() {
           <Text
             style={{
               fontWeight: 500,
-              color: 'darkslategray',
-              whiteSpace: 'nowrap',
+              color: "darkslategray",
+              whiteSpace: "nowrap",
             }}
           >
             Error loading nurseries
@@ -151,21 +163,21 @@ export default function AllNurseries() {
           cols={3}
           spacing="xl"
           breakpoints={[
-            { maxWidth: 'md', cols: 2 },
+            { maxWidth: "md", cols: 2 },
             {
-              maxWidth: 'sm',
+              maxWidth: "sm",
               cols: 1,
             },
           ]}
         >
           {currentPosts
             ?.filter((data) => {
-              if (query === '') {
-                return data
+              if (query === "") {
+                return data;
               } else if (
                 data?.name?.toLowerCase().includes(query?.toLowerCase())
               ) {
-                return data
+                return data;
               }
             })
             .map((data, index) => (
@@ -175,8 +187,8 @@ export default function AllNurseries() {
             ))}
         </SimpleGrid>
       </Stack>
-      <Group position="center" pt={'xl'}>
-        {query === '' && (
+      <Group position="center" pt={"xl"}>
+        {query === "" && (
           <ListingPagination
             postsPerPage={postsPerPage}
             totalPosts={data?.nurseries?.length}
@@ -193,7 +205,7 @@ export default function AllNurseries() {
         opened={opened}
         onClose={() => setOpened(false)}
         title="FILTERS"
-        transition={'fade'}
+        transition={"fade"}
         transitionDuration={700}
         transitionTimingFunction="ease"
         exitTransitionDuration={700}
@@ -203,12 +215,12 @@ export default function AllNurseries() {
           <ByCity />
         </Box>
         <ByRatings />
-        <Box pl={8} pt={'lg'}>
+        <Box pl={8} pt={"lg"}>
           <Button disabled fullWidth>
             Clear Filters
           </Button>
         </Box>
       </Modal>
     </Container>
-  )
+  );
 }

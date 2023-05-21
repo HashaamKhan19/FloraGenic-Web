@@ -1,10 +1,36 @@
-import { useQuery } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  useQuery,
+} from "@apollo/client";
 import * as React from "react";
 import { AddProductIcon } from "../../../public/icons/AddProductIcon";
 import DataTable from "../../Generic/DataTable";
 import LoadingScreen from "../../Generic/LoadingScreen";
 import { columns } from "./columns";
 import { GET_PRODUCTS } from "./queries";
+
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+  // uri: "http://localhost:4000/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  operation.setContext({
+    headers: {
+      Authorization: localStorage.getItem("token") || "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 export default function ViewProducts() {
   const [anchorElImport, setAnchorElImport] = React.useState(null);
@@ -15,7 +41,9 @@ export default function ViewProducts() {
   const [rows, setRows] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState("");
 
-  const { loading, error, data } = useQuery(GET_PRODUCTS);
+  const { loading, error, data } = useQuery(GET_PRODUCTS, {
+    client,
+  });
 
   React.useEffect(() => {
     if (data?.products) {

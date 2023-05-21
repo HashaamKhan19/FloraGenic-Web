@@ -40,6 +40,7 @@ import { FiBox } from "react-icons/fi";
 import mainLogo from "../../public/images/Logo.png";
 import FloraGenicLogo from "../../public/Logo/floraGenic.png";
 import ProfileMenu from "../Generic/ProfileMenu";
+import ProtectedRoute from "../ProtectedRoute";
 
 const drawerWidth = 320;
 
@@ -102,7 +103,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function Sidebar({ children }) {
+function Sidebar({ children }) {
   const router = useRouter();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -753,3 +754,5 @@ export default function Sidebar({ children }) {
     </Box>
   );
 }
+
+export default Sidebar;
