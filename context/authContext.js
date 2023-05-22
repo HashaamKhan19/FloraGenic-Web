@@ -47,9 +47,7 @@ const AuthProvider = ({ children }) => {
   const { loading, error, data } = useQuery(GET_PROFILE_DETAILS, {
     client,
     onCompleted: (data) => {
-      console.log(data);
       setUser((prev) => ({ ...prev, ...data.profileDetails }));
-      console.log(user);
     },
   });
 

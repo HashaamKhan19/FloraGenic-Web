@@ -5,7 +5,14 @@ import React from "react";
 import { CategoryIcon } from "../../public/icons/CategoryIcon";
 
 // Controlled components
-import { gql, useMutation } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  gql,
+  useMutation,
+} from "@apollo/client";
 import { useForm } from "react-hook-form";
 import ButtonBackground from "../../assets/Pattern/ButtonBackground";
 import { uploadImage } from "../../services/fileUpload";
@@ -27,6 +34,27 @@ const ADD_CATEGORY = gql`
     }
   }
 `;
+
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 const UPDATE_CATEGORY = gql`
   mutation CategoryUpdate($categoryUpdateId: ID!, $data: CategoryUpdateInput!) {
@@ -57,6 +85,7 @@ const AddCategory = ({ data = {} }) => {
   const router = useRouter();
 
   const [addCategory] = useMutation(ADD_CATEGORY, {
+    client,
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Category added successfully");
@@ -68,6 +97,7 @@ const AddCategory = ({ data = {} }) => {
   });
 
   const [updateCategory] = useMutation(UPDATE_CATEGORY, {
+    client,
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Category updated successfully");

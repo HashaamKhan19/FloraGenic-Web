@@ -75,10 +75,9 @@ const EditProfile = () => {
     });
   }, [user]);
 
-  const [updateProfile, { data, error }] = useMutation(UPDATE_PROFILE, {
+  const [updateProfile] = useMutation(UPDATE_PROFILE, {
     client,
     onCompleted: (data) => {
-      console.log(data);
       setUser({
         ...user,
         details: {
@@ -97,7 +96,6 @@ const EditProfile = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     const image = await uploadImage(data.image);
     updateProfile({
       variables: {

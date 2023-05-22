@@ -10,7 +10,14 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import PeopleIcon from "@mui/icons-material/People";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
-import { gql, useQuery } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  gql,
+  useQuery,
+} from "@apollo/client";
 
 import LoadingScreen from "../Generic/LoadingScreen";
 
@@ -37,8 +44,31 @@ const GET_ADMIN_STATS = gql`
   }
 `;
 
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
 const Dashboard = () => {
-  const { loading, error, data } = useQuery(GET_ADMIN_STATS);
+  const { loading, error, data } = useQuery(GET_ADMIN_STATS, {
+    client,
+  });
 
   if (loading) return <LoadingScreen />;
 

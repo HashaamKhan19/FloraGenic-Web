@@ -1,4 +1,10 @@
-import { useQuery } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  useQuery,
+} from "@apollo/client";
 import * as React from "react";
 import { UsersIcon } from "../../../public/icons/UsersIcon";
 import DataTable from "../../Generic/DataTable";
@@ -6,6 +12,26 @@ import LoadingScreen from "../../Generic/LoadingScreen";
 import { columns } from "./columns";
 import { GET_USERS } from "./queries";
 
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 export default function ViewUsers() {
   const [anchorElImport, setAnchorElImport] = React.useState(null);
   const [anchorElExport, setAnchorElExport] = React.useState(null);
@@ -15,7 +41,9 @@ export default function ViewUsers() {
   const [searchValue, setSearchValue] = React.useState("");
   const [pageSize, setPageSize] = React.useState(10);
 
-  const { loading, error, data, refetch } = useQuery(GET_USERS);
+  const { loading, error, data, refetch } = useQuery(GET_USERS, {
+    client,
+  });
 
   // Menu handlers
   const handleImportClick = (event) => {
