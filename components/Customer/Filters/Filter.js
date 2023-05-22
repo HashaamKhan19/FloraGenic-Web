@@ -36,8 +36,8 @@ const Filter = ({
             mt={"xs"}
             disabled={
               categoryValue.length === 0 &&
-              priceRange[0] === 0 &&
-              priceRange[1] === 20000 &&
+              priceRange?.[0] === 0 &&
+              priceRange?.[1] === 20000 &&
               ratingValue.length === 0
             }
             sx={{
@@ -69,12 +69,18 @@ const Filter = ({
             opened={navlinkOpened}
             onClick={() => setNavLinkOpened(!navlinkOpened)}
           >
-            <ByCategory categoryValue={categoryValue} setCategoryValue={setCategoryValue} />
+            <ByCategory
+              categoryValue={categoryValue}
+              setCategoryValue={setCategoryValue}
+            />
           </NavLink>
 
           <ByPrice priceRange={priceRange} setPriceRange={setPriceRange} />
 
-          <ByRatings ratingValue={ratingValue} setRatingValue={setRatingValue} />
+          <ByRatings
+            ratingValue={ratingValue}
+            setRatingValue={setRatingValue}
+          />
         </Stack>
         {match1200 && (
           <Group mt={30} position="apart" noWrap>
