@@ -41,6 +41,7 @@ import mainLogo from "../../public/images/Logo.png";
 import FloraGenicLogo from "../../public/Logo/floraGenic.png";
 import ProfileMenu from "../Generic/ProfileMenu";
 import ProtectedRoute from "../ProtectedRoute";
+import { AuthContext } from "../../context/authContext";
 
 const drawerWidth = 320;
 
@@ -114,6 +115,8 @@ function Sidebar({ children }) {
   const [giglistOpen, setGigListOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
+  const { user, setUser } = React.useContext(AuthContext) 
+
   const handleAdminClick = () => {
     setAdminListOpen(!adminlistOpen);
   };
@@ -139,6 +142,31 @@ function Sidebar({ children }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+
+  React.useEffect(() => {
+    const token = user?.token || localStorage.getItem("token");
+    const userType = user?.userType || localStorage.getItem("userType");
+
+    if (userType) {
+      switch (userType) {
+        case "Customer":
+          router.push("/customer");
+          break;
+        case "NurseryOwner":
+          router.push("/nursery");
+          break;
+        case "Admin":
+          router.push("/admin");
+          break;
+        default:
+          localStorage.clear();
+          setUser(null);
+          router.push("/login");
+          break;
+      }
+    }
+  }, [router, user, setUser]);
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>

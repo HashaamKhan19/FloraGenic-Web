@@ -33,6 +33,7 @@ import DisplaySettingsIcon from "@mui/icons-material/DisplaySettings";
 import AddToQueueIcon from "@mui/icons-material/AddToQueue";
 
 import { AssignmentInd, Tune, Paid, Timeline } from "@mui/icons-material";
+import { AuthContext } from "../../context/authContext";
 
 const drawerWidth = 280;
 
@@ -93,6 +94,8 @@ export default function Sidebar({ children }) {
   const [productlistOpen, setProductListOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
+  const { user, setUser } = React.useContext(AuthContext);
+
   const handleAdminClick = () => {
     setAdminListOpen(!adminlistOpen);
   };
@@ -115,6 +118,30 @@ export default function Sidebar({ children }) {
   const handleSettingsClick = () => {
     setSettingsOpen(!settingsOpen);
   };
+
+  React.useEffect(() => {
+    const token = user?.token || localStorage.getItem("token");
+    const userType = user?.userType || localStorage.getItem("userType");
+
+    if (userType) {
+      switch (userType) {
+        case "Customer":
+          router.push("/customer");
+          break;
+        case "NurseryOwner":
+          router.push("/nursery");
+          break;
+        case "Admin":
+          router.push("/admin");
+          break;
+        default:
+          localStorage.clear();
+          setUser(null);
+          router.push("/login");
+          break;
+      }
+    }
+  }, [router, user, setUser]);
 
   return (
     <Box sx={{ display: "flex" }}>

@@ -169,7 +169,7 @@ const GET_USER = gql`
 const HeaderMenu = ({ children }) => {
   const router = useRouter();
 
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, setUser } = useContext(AuthContext);
 
   const { loading, error, data } = useQuery(GET_USER, {
     variables: { userId: user?.id },
@@ -203,6 +203,30 @@ const HeaderMenu = ({ children }) => {
   useEffect(() => {
     setActiveLink(router.pathname);
   }, [router.pathname]);
+
+  useEffect(() => {
+    const token = user?.token || localStorage.getItem("token");
+    const userType = user?.userType || localStorage.getItem("userType");
+
+    if (userType) {
+      switch (userType) {
+        case "Customer":
+          router.push("/customer");
+          break;
+        case "NurseryOwner":
+          router.push("/nursery");
+          break;
+        case "Admin":
+          router.push("/admin");
+          break;
+        default:
+          localStorage.clear();
+          setUser(null);
+          router.push("/login");
+          break;
+      }
+    }
+  }, [router, user, setUser]);
 
   const [opened, setOpened] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");

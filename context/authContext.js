@@ -35,8 +35,8 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userType = localStorage.getItem("userType");
+    const token = localStorage.getItem("token") || null;
+    const userType = localStorage.getItem("userType") || null;
     const id = localStorage.getItem("id");
 
     if (token && userType && id) {

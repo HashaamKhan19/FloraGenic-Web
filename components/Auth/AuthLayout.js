@@ -45,7 +45,7 @@ const AuthLayout = ({ children, onSubmit, handleSubmit }) => {
           break;
       }
     }
-  }, [user]);
+  }, [router, user, setUser]);
 
   return (
     <Box
