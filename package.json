@@ -8,9 +8,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "engines": {
-    "node": "18.x"
-  },
   "dependencies": {
     "@apollo/client": "^3.7.2",
     "@date-io/jalaali": "^2.16.1",

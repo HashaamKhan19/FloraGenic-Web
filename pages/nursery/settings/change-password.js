@@ -25,9 +25,9 @@ import {
   ApolloLink,
   HttpLink,
   InMemoryCache,
+  gql,
   useMutation,
 } from "@apollo/client";
-import { UPDATE_PASSWORD, UPDATE_PROFILE } from "./query";
 import { uploadImage } from "../../../services/fileUpload";
 import { Key, Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -51,6 +51,12 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
+const UPDATE_PASSWORD = gql`
+  mutation ChangePassword($oldPassword: String!, $newPassword: String!) {
+    changePassword(oldPassword: $oldPassword, newPassword: $newPassword)
+  }
+`;
 
 const ChangePassword = () => {
   const {

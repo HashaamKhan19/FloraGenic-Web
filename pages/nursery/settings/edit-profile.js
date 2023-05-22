@@ -20,9 +20,9 @@ import {
   ApolloLink,
   HttpLink,
   InMemoryCache,
+  gql,
   useMutation,
 } from "@apollo/client";
-import { UPDATE_PROFILE } from "./query";
 import { uploadImage } from "../../../services/fileUpload";
 
 const httpLink = new HttpLink({
@@ -45,6 +45,18 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
+const UPDATE_PROFILE = gql`
+  mutation UpdateProfile($details: updateProfileInput!) {
+    updateProfile(details: $details) {
+      firstName
+      lastName
+      phoneNumber
+      gender
+      image
+    }
+  }
+`;
 
 const EditProfile = () => {
   const {
