@@ -19,7 +19,7 @@ const AuthLayout = ({ children, onSubmit, handleSubmit }) => {
   const isTablet = useMediaQuery("(max-width: 1000px)");
   const isMobile = useMediaQuery("(max-width: 600px)");
 
-  const { user } = React.useContext(AuthContext);
+  const { user, setUser } = React.useContext(AuthContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,7 +29,21 @@ const AuthLayout = ({ children, onSubmit, handleSubmit }) => {
     if (!token || !userType) {
       localStorage.clear();
     } else {
-      router.back();
+      switch (userType) {
+        case "Customer":
+          router.push("/customer");
+          break;
+        case "NurseryOwner":
+          router.push("/nursery");
+          break;
+        case "Admin":
+          router.push("/admin");
+          break;
+        default:
+          localStorage.clear();
+          setUser(null);
+          break;
+      }
     }
   }, [user]);
 
