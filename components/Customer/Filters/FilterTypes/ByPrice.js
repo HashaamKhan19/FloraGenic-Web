@@ -32,12 +32,15 @@ const ByPrice = ({ priceRange, setPriceRange }) => {
           })}
           icon={"Rs."}
           w={match1200 ? 150 : 100}
-          value={priceRange[0]}
+          value={priceRange?.[0]}
           onChange={(e) => {
             if (parseInt(e.target.value) > 20000 || e.target.value < 0) {
               e.target.value = 0;
             }
-            setPriceRange((prevPriceRange) => [e.target.value, prevPriceRange[1]]);
+            setPriceRange((prevPriceRange) => [
+              e.target.value,
+              prevPriceRange?.[1],
+            ]);
           }}
         />
         <Divider w={match1200 ? 10 : 8} size={match1200 ? 3 : 2} />
@@ -52,12 +55,15 @@ const ByPrice = ({ priceRange, setPriceRange }) => {
             },
           })}
           w={match1200 ? 150 : 100}
-          value={priceRange[1]}
+          value={priceRange?.[1]}
           onChange={(e) => {
             if (parseInt(e.target.value) > 20000 || e.target.value < 0) {
               e.target.value = 20000;
             }
-            setPriceRange((prevPriceRange) => [prevPriceRange[0], e.target.value]);
+            setPriceRange((prevPriceRange) => [
+              prevPriceRange?.[0],
+              e.target.value,
+            ]);
           }}
         />
       </Group>
@@ -74,11 +80,14 @@ const ByPrice = ({ priceRange, setPriceRange }) => {
         }}
         max={20000}
         label={null}
-        defaultValue={[priceRange[0], priceRange[1]]}
+        defaultValue={[priceRange?.[0], priceRange?.[1]]}
         value={priceRange}
         onChange={handleSliderChange}
         thumbSize={26}
-        thumbChildren={[<ImLeaf size="1rem" key="1" />, <ImLeaf size="1rem" key="2" />]}
+        thumbChildren={[
+          <ImLeaf size="1rem" key="1" />,
+          <ImLeaf size="1rem" key="2" />,
+        ]}
       />
     </Stack>
   );
