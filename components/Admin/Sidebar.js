@@ -171,7 +171,7 @@ function Sidebar({ children }) {
         }
       }
     }
-  }, [router, user, setUser]);
+  }, [router.pathname, user, setUser]);
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>

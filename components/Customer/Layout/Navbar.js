@@ -226,7 +226,7 @@ const HeaderMenu = ({ children }) => {
           break;
       }
     }
-  }, [router, user, setUser]);
+  }, [router.pathname, user, setUser]);
 
   const [opened, setOpened] = useState(false);
   const [searchProduct, setSearchProduct] = useState("");
