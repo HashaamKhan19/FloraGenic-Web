@@ -211,7 +211,6 @@ const HeaderMenu = ({ children }) => {
     if (userType) {
       switch (userType) {
         case "Customer":
-          router.push("/customer");
           break;
         case "NurseryOwner":
           router.push("/nursery");

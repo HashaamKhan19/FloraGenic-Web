@@ -161,7 +161,6 @@ function Sidebar({ children }) {
             router.push("/nursery");
             break;
           case "Admin":
-            router.push("/admin");
             break;
           default:
             localStorage.clear();

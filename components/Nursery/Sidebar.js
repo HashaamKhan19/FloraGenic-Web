@@ -134,7 +134,6 @@ export default function Sidebar({ children }) {
             router.push("/customer");
             break;
           case "NurseryOwner":
-            router.push("/nursery");
             break;
           case "Admin":
             router.push("/admin");
