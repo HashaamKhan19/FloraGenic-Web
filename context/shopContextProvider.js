@@ -44,6 +44,9 @@ const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState([]);
   const [processing, setProcessing] = useState(false);
 
+  const totalPrice =
+    cartItems.reduce((total, item) => total + item.totalPrice, 0) || 0;
+
   const { loading, error, data } = useQuery(GET_CART_ITEMS, {
     client,
     onCompleted: (data) => {
@@ -129,6 +132,7 @@ const ShopContextProvider = (props) => {
     removeFromCart,
     clearCart,
     processing,
+    totalPrice,
   };
 
   return (

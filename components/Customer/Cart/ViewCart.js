@@ -18,10 +18,10 @@ import PaymentDetails from "./PaymentDetails";
 import { ShopContext } from "../../../context/shopContextProvider";
 import Link from "next/link";
 import { gql, useQuery } from "@apollo/client";
-import { useForm } from "@mantine/form";
 import { useStyles } from "./StepperStyles";
 import { AuthContext } from "../../../context/authContext";
 import OrderConfirmation from "./OrderConfirmation";
+import { toast } from "react-hot-toast";
 
 const StepIcon = ({ active, completed, icon }) => {
   const bgColor = completed ? "green" : "transparent";
@@ -79,55 +79,12 @@ const ViewCart = () => {
   const { cartItems } = useContext(ShopContext);
   const { user } = useContext(AuthContext);
 
-  console.log("====================================");
-  console.log("cart items hehe", cartItems);
-  console.log("====================================");
-
-  const form = useForm({
-    initialValues: {
-      name: "",
-      email: "",
-      phoneNumber: "",
-      cnic: "",
-      address: "",
-    },
-
-    validate: (values) => {
-      if (active === 1) {
-        return {
-          name:
-            values?.name?.length < 2
-              ? "Name must have at least 5 letters"
-              : null,
-          email: !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-            values?.email?.trim()
-          )
-            ? "Invalid email address"
-            : null,
-          phoneNumber: !/^\+92[1-9]\d{9}$/.test(values?.phoneNumber?.trim())
-            ? "Invalid phone number, must begin with +92"
-            : null,
-          cnic: !/^[0-9]{5}[0-9]{7}[0-9]$/.test(values?.cnic?.trim())
-            ? "Invalid CNIC, dont put dashes, must be 13 digits"
-            : null,
-          address:
-            values?.address?.trim()?.length < 5
-              ? "Address must have at least 5 letters"
-              : null,
-        };
-      }
-    },
-  });
-
-  const handleFormSubmit = (values) => {
-    console.log("====================================");
-    console.log("values", values);
-    console.log("====================================");
-  };
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   const nextStep = () =>
     setActive((current) => {
-      if (form.validate().hasErrors) {
+      if (current === 1 && !selectedAddress) {
+        toast.error("Please select a delivery address");
         return current;
       }
       return current < 3 ? current + 1 : current;
@@ -187,19 +144,7 @@ const ViewCart = () => {
                   </Link>
                 </Stack>
               )}
-              {data?.products
-                ?.filter((product) => {
-                  return cartItems.some((item) => item.id === product.id);
-                })
-                .map((product, index) => {
-                  return (
-                    <MyCartItems
-                      product={product}
-                      index={index}
-                      key={product.id}
-                    />
-                  );
-                })}
+              <MyCartItems />
             </Grid.Col>
             <Grid.Col sm={4} pb={"xl"} hidden={cartItems?.length === 0}>
               <CartDetails />
@@ -227,8 +172,8 @@ const ViewCart = () => {
           <Grid>
             <Grid.Col sm={8}>
               <ShippingDetails
-                form={form}
-                handleFormSubmit={handleFormSubmit}
+                selectedAddress={selectedAddress}
+                setSelectedAddress={setSelectedAddress}
               />
             </Grid.Col>
             <Grid.Col sm={4} pb={"xl"}>
@@ -269,7 +214,11 @@ const ViewCart = () => {
         >
           <Grid>
             <Grid.Col sm={12}>
-              <OrderConfirmation prevStep={prevStep} data={data} />
+              <OrderConfirmation
+                prevStep={prevStep}
+                data={data}
+                selectedAddress={selectedAddress}
+              />
             </Grid.Col>
           </Grid>
         </Stepper.Step>

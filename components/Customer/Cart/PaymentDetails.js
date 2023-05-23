@@ -11,14 +11,12 @@ import {
 import React, { useState } from "react";
 import Checkout from "./Checkout";
 
-const PaymentDetails = () => {
+const PaymentDetails = ({ selectedAddress }) => {
   const [checked, setChecked] = useState("card");
 
-  console.log("====================================");
-  console.log("checked", checked);
-  console.log("====================================");
-
-  return <>{checked === "card" && <Checkout />}</>;
+  return (
+    <>{checked === "card" && <Checkout selectedAddress={selectedAddress} />}</>
+  );
 };
 
 export default PaymentDetails;

@@ -18,9 +18,7 @@ import { ShopContext } from "../../../context/shopContextProvider";
 import CartItemsDrawer from "./CartItemsDrawer";
 
 export default function CartItem({ closeDrawer }) {
-  const { cartItems } = useContext(ShopContext);
-
-  const totalAmount = cartItems.reduce((acc, item) => acc + item.totalPrice, 0);
+  const { cartItems, totalPrice } = useContext(ShopContext);
 
   return (
     <Box style={{ height: "calc(100vh - 200px)", overflowY: "scroll" }}>
@@ -51,7 +49,7 @@ export default function CartItem({ closeDrawer }) {
               }}
               onClick={closeDrawer}
             >
-              Checkout Now (Rs. {totalAmount})
+              Checkout Now (Rs. {totalPrice})
             </Button>
           </Link>
 
@@ -70,7 +68,7 @@ export default function CartItem({ closeDrawer }) {
               }}
               onClick={closeDrawer}
             >
-              View Cart ({cartItems.reduce((total, item) => total + 1, 0)})
+              View Cart ({cartItems.length})
             </Button>
           </Link>
         </Stack>

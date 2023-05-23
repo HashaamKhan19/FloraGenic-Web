@@ -17,6 +17,7 @@ import React, { useContext } from "react";
 import { MdDeleteOutline, MdOutlineModeEditOutline } from "react-icons/md";
 import PaymentDetails from "./PaymentDetails";
 import { ShopContext } from "../../../context/shopContextProvider";
+import { AuthContext } from "../../../context/authContext";
 
 const useStyles = createStyles((theme) => ({
   normalText: {
@@ -30,10 +31,12 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const OrderConfirmation = ({ prevStep, data }) => {
+const OrderConfirmation = ({ prevStep, data, selectedAddress }) => {
   const { classes } = useStyles();
 
-  const { cartItems } = useContext(ShopContext);
+  const { user } = useContext(AuthContext);
+
+  const { cartItems, totalPrice } = useContext(ShopContext);
 
   return (
     <Container size={"xl"} pt={40} pb={"xl"}>
@@ -70,7 +73,7 @@ const OrderConfirmation = ({ prevStep, data }) => {
                       Address:{" "}
                     </Text>
                     <Text className={classes.normalText}>
-                      Zaki Center, i8, Islamabad
+                      {selectedAddress?.location} {selectedAddress?.city}
                     </Text>
                   </Group>
 
@@ -84,7 +87,9 @@ const OrderConfirmation = ({ prevStep, data }) => {
                     >
                       Phone Number:{" "}
                     </Text>
-                    <Text className={classes.normalText}>+9212312312</Text>
+                    <Text className={classes.normalText}>
+                      {user?.details?.phoneNumber}
+                    </Text>
                   </Group>
                 </Stack>
               </Paper>
@@ -111,9 +116,11 @@ const OrderConfirmation = ({ prevStep, data }) => {
               {cartItems.map((item, index) => (
                 <Group position="apart" key={index}>
                   <Text className={classes.normalText}>
-                    {item.quantity} x Oliver Plant
+                    {item.quantity} x {item.productDetails.name}
                   </Text>
-                  <Text className={classes.priceText}>$ 20.00</Text>
+                  <Text className={classes.priceText}>
+                    Rs. {item.totalPrice}
+                  </Text>
                 </Group>
               ))}
 
@@ -121,22 +128,19 @@ const OrderConfirmation = ({ prevStep, data }) => {
 
               <Group position="apart">
                 <Text className={classes.normalText}>Subtotal</Text>
-                <Text className={classes.priceText}>$ 60.00</Text>
+                <Text className={classes.priceText}>Rs. {totalPrice}</Text>
               </Group>
 
               <Group position="apart">
                 <Text className={classes.normalText}>Shipping</Text>
-                <Text className={classes.priceText}>$ 10.00</Text>
+                <Text className={classes.priceText}>Rs. 200</Text>
               </Group>
 
               <Group position="apart">
-                <Text className={classes.normalText}>Tax</Text>
-                <Text className={classes.priceText}>$ 0.00</Text>
-              </Group>
-
-              <Group position="apart">
-                <Text className={classes.normalText}>Discount</Text>
-                <Text className={classes.priceText}>$ 0.00</Text>
+                <Text className={classes.normalText}>GST</Text>
+                <Text className={classes.priceText}>
+                  Rs. {Math.floor(totalPrice * 0.18)}
+                </Text>
               </Group>
 
               <Divider />
@@ -158,7 +162,7 @@ const OrderConfirmation = ({ prevStep, data }) => {
                     fontWeight: 600,
                   }}
                 >
-                  $ 70.00
+                  Rs. {totalPrice + 200 + Math.floor(totalPrice * 0.18)}
                 </Text>
               </Group>
             </Stack>
@@ -178,7 +182,7 @@ const OrderConfirmation = ({ prevStep, data }) => {
         </Grid.Col>
 
         <Grid.Col sm={6} pb={"xl"} pl={"xl"}>
-          <PaymentDetails />
+          <PaymentDetails selectedAddress={selectedAddress} />
         </Grid.Col>
       </Grid>
     </Container>

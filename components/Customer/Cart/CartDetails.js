@@ -7,10 +7,10 @@ import {
   Stack,
   Text,
   TextInput,
-} from '@mantine/core'
-import React, { useContext } from 'react'
-import { ShopContext } from '../../../context/shopContextProvider'
-import { gql, useQuery } from '@apollo/client'
+} from "@mantine/core";
+import React, { useContext } from "react";
+import { ShopContext } from "../../../context/shopContextProvider";
+import { gql, useQuery } from "@apollo/client";
 
 const GET_PRODUCTS = gql`
   query Query {
@@ -35,29 +35,21 @@ const GET_PRODUCTS = gql`
       stock
     }
   }
-`
+`;
 
 const CartDetails = () => {
-  const { data, loading, error } = useQuery(GET_PRODUCTS)
+  const { data, loading, error } = useQuery(GET_PRODUCTS);
 
-  const { cartItems } = useContext(ShopContext)
-
-  const totalAmount = cartItems.reduce((total, item) => {
-    const product = data?.products.find((p) => p.id === item.id)
-    if (product) {
-      return total + product.retailPrice * item.quantity
-    }
-    return total
-  }, 0)
+  const { cartItems, totalPrice } = useContext(ShopContext);
 
   return (
-    <Container py={'xl'} mt={'xl'} px={0}>
-      <Paper p={'xl'} shadow="xs" radius={'md'}>
-        <Stack spacing={'xs'}>
+    <Container py={"xl"} mt={"xl"} px={0}>
+      <Paper p={"xl"} shadow="xs" radius={"md"}>
+        <Stack spacing={"xs"}>
           <Group position="apart">
             <Text
               style={{
-                color: 'grey',
+                color: "grey",
               }}
             >
               Subtotal
@@ -65,17 +57,17 @@ const CartDetails = () => {
             <Text
               style={{
                 fontWeight: 500,
-                color: 'darkslategray',
-                fontSize: '1.1rem',
+                color: "darkslategray",
+                fontSize: "1.1rem",
               }}
             >
-              Rs. {totalAmount}
+              Rs. {totalPrice}
             </Text>
           </Group>
           <Group position="apart">
             <Text
               style={{
-                color: 'grey',
+                color: "grey",
               }}
             >
               Shipping
@@ -83,8 +75,8 @@ const CartDetails = () => {
             <Text
               style={{
                 fontWeight: 500,
-                color: 'darkslategray',
-                fontSize: '1.1rem',
+                color: "darkslategray",
+                fontSize: "1.1rem",
               }}
             >
               Rs. 200
@@ -93,25 +85,25 @@ const CartDetails = () => {
           <Group position="apart">
             <Text
               style={{
-                color: 'grey',
+                color: "grey",
               }}
             >
-              Tax
+              GST
             </Text>
             <Text
               style={{
                 fontWeight: 500,
-                color: 'darkslategray',
-                fontSize: '1.1rem',
+                color: "darkslategray",
+                fontSize: "1.1rem",
               }}
             >
-              Rs. 50
+              Rs. {Math.floor(totalPrice * 0.18)}
             </Text>
           </Group>
-          <Group position="apart">
+          {/* <Group position="apart">
             <Text
               style={{
-                color: 'grey',
+                color: "grey",
               }}
             >
               Discount
@@ -119,34 +111,52 @@ const CartDetails = () => {
             <Text
               style={{
                 fontWeight: 500,
-                color: 'darkslategray',
-                fontSize: '1.1rem',
+                color: "darkslategray",
+                fontSize: "1.1rem",
               }}
             >
               Rs. 0
             </Text>
-          </Group>
+          </Group> */}
         </Stack>
-        <Divider mt={'lg'} mb={'xs'} />
-        <Group position="right">
+        <Divider mt={"lg"} mb={"xs"} />
+        <Group position="apart">
           <Text
             style={{
-              color: 'darkslategray',
-              fontSize: '1.5rem',
+              color: "darkslategray",
+              fontSize: "1.5rem",
               fontWeight: 500,
             }}
           >
-            Rs. {totalAmount + 200 + 50}
+            Total
+            <Text
+              style={{
+                color: "grey",
+                fontSize: "0.7rem",
+                fontWeight: 400,
+              }}
+            >
+              Inclusive of all taxes
+            </Text>
+          </Text>
+          <Text
+            style={{
+              color: "darkslategray",
+              fontSize: "1.5rem",
+              fontWeight: 500,
+            }}
+          >
+            Rs. {totalPrice + 200 + Math.floor(totalPrice * 0.18)}
           </Text>
         </Group>
-        <Stack mt={'lg'}>
+        {/* <Stack mt={"lg"}>
           <TextInput
             placeholder="Enter Coupon Code"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             radius="sm"
             styles={(theme) => ({
               input: {
-                '&:focus-within': {
+                "&:focus-within": {
                   borderColor: theme.colors.green[7],
                 },
               },
@@ -155,16 +165,16 @@ const CartDetails = () => {
           <Button
             variant="outline"
             style={{
-              border: '1px solid #62A82C',
-              color: '#62A82C',
+              border: "1px solid #62A82C",
+              color: "#62A82C",
             }}
           >
             Apply Coupon
           </Button>
-        </Stack>
+        </Stack> */}
       </Paper>
     </Container>
-  )
-}
+  );
+};
 
-export default CartDetails
+export default CartDetails;
