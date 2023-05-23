@@ -115,7 +115,7 @@ function Sidebar({ children }) {
   const [giglistOpen, setGigListOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
-  const { user, setUser } = React.useContext(AuthContext) 
+  const { user, setUser } = React.useContext(AuthContext);
 
   const handleAdminClick = () => {
     setAdminListOpen(!adminlistOpen);
@@ -143,27 +143,32 @@ function Sidebar({ children }) {
     setOpen(false);
   };
 
-
   React.useEffect(() => {
     const token = user?.token || localStorage.getItem("token");
     const userType = user?.userType || localStorage.getItem("userType");
 
-    if (userType) {
-      switch (userType) {
-        case "Customer":
-          router.push("/customer");
-          break;
-        case "NurseryOwner":
-          router.push("/nursery");
-          break;
-        case "Admin":
-          router.push("/admin");
-          break;
-        default:
-          localStorage.clear();
-          setUser(null);
-          router.push("/login");
-          break;
+    if (!token || !userType) {
+      router.push("/login");
+      localStorage.clear();
+      setUser(null);
+    } else {
+      if (userType) {
+        switch (userType) {
+          case "Customer":
+            router.push("/customer");
+            break;
+          case "NurseryOwner":
+            router.push("/nursery");
+            break;
+          case "Admin":
+            router.push("/admin");
+            break;
+          default:
+            localStorage.clear();
+            setUser(null);
+            router.push("/login");
+            break;
+        }
       }
     }
   }, [router, user, setUser]);
