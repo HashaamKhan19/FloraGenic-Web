@@ -126,7 +126,7 @@ const DashboardLinks = () => {
               </Group>
             </UnstyledButton>
 
-            <UnstyledButton
+            {/* <UnstyledButton
               className={`${classes.links} ${
                 active === "wishlist" ? "active" : ""
               }`}
@@ -138,7 +138,7 @@ const DashboardLinks = () => {
                   <Text>WishList</Text>
                 </Group>
               </Group>
-            </UnstyledButton>
+            </UnstyledButton> */}
           </Stack>
 
           <Text className={classes.title} pt={"xl"}>
@@ -173,7 +173,7 @@ const DashboardLinks = () => {
                 </Group>
               </Group>
             </UnstyledButton>
-
+            {/* 
             <UnstyledButton
               className={`${classes.links} ${
                 active === "payment" ? "active" : ""
@@ -186,7 +186,7 @@ const DashboardLinks = () => {
                   <Text>Payment Methods</Text>
                 </Group>
               </Group>
-            </UnstyledButton>
+            </UnstyledButton> */}
           </Stack>
         </Paper>
       </Grid.Col>

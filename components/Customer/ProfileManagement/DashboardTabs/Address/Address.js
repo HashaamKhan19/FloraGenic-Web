@@ -28,6 +28,7 @@ import {
   gql,
   useQuery,
 } from "@apollo/client";
+import { toast } from "react-hot-toast";
 
 const httpLink = new HttpLink({
   uri: "https://floragenic.herokuapp.com/graphql",
@@ -70,8 +71,19 @@ const Address = () => {
   const [editOpened, setEditOpened] = useState(false);
   const [deleteOpened, setDeleteOpened] = useState(false);
   const [addOpened, setAddOpened] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
-  const { data, loading, error } = useQuery(GET_ADDRESS, { client });
+  const [addresses, setAddresses] = useState([]);
+
+  const { data, loading, error } = useQuery(GET_ADDRESS, {
+    client,
+    onCompleted: (data) => {
+      setAddresses(data.addresses);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
   return (
     <>
@@ -104,7 +116,7 @@ const Address = () => {
         </Center>
       )}
 
-      {data?.addresses?.length === 0 && (
+      {addresses?.length === 0 && (
         <Text
           style={{
             fontWeight: 500,
@@ -118,7 +130,7 @@ const Address = () => {
         </Text>
       )}
 
-      {data?.addresses?.map((address) => (
+      {addresses?.map((address) => (
         <Paper key={address.id} p={"md"} my={"xs"} shadow="xs">
           <Grid>
             <Grid.Col span={8}>
@@ -146,7 +158,10 @@ const Address = () => {
                   variant="light"
                   color="blue"
                   size="lg"
-                  onClick={() => setEditOpened(true)}
+                  onClick={() => {
+                    setSelectedAddress(address);
+                    setEditOpened(true);
+                  }}
                 >
                   <CiEdit size={22} />
                 </ActionIcon>
@@ -154,7 +169,10 @@ const Address = () => {
                   variant="light"
                   color="red"
                   size="lg"
-                  onClick={() => setDeleteOpened(true)}
+                  onClick={() => {
+                    setSelectedAddress(address);
+                    setDeleteOpened(true);
+                  }}
                 >
                   <AiOutlineDelete size={21} />
                 </ActionIcon>
@@ -165,10 +183,17 @@ const Address = () => {
       ))}
 
       <AddAddress addOpened={addOpened} setAddOpened={setAddOpened} />
-      <EditAddress editOpened={editOpened} setEditOpened={setEditOpened} />
+      <EditAddress
+        editOpened={editOpened}
+        setAddresses={setAddresses}
+        setEditOpened={setEditOpened}
+        selectedAddress={selectedAddress}
+      />
       <DeleteAddress
         deleteOpened={deleteOpened}
+        setAddresses={setAddresses}
         setDeleteOpened={setDeleteOpened}
+        selectedAddress={selectedAddress}
       />
     </>
   );

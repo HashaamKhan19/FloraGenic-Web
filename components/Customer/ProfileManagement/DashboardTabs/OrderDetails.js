@@ -17,7 +17,7 @@ import {
   createStyles,
 } from "@mantine/core";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineCheckCircle, AiTwotoneCheckCircle } from "react-icons/ai";
 import { BiPackage } from "react-icons/bi";
 import { BsBagCheckFill, BsCheckCircleFill, BsTruck } from "react-icons/bs";
@@ -50,12 +50,29 @@ const useStyles = createStyles(() => ({
 }));
 
 const OrderDetails = ({ orderDetails }) => {
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(0);
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
 
   const match768 = useMediaQuery("(max-width: 768px)");
   const match550 = useMediaQuery("(max-width: 550px)");
+
+  useEffect(() => {
+    switch (orderDetails?.orderStatus) {
+      case "Pending":
+        setActive(0);
+        break;
+      case "Processing":
+        setActive(1);
+        break;
+      case "Shipped":
+        setActive(2);
+        break;
+      case "Delivered":
+        setActive(3);
+        break;
+    }
+  }, [orderDetails]);
 
   function StyledStepper(props) {
     return (
@@ -106,14 +123,6 @@ const OrderDetails = ({ orderDetails }) => {
             Order Details
           </Text>
         </Group>
-        <Button
-          variant="light"
-          c={"#62A82C"}
-          component={Link}
-          href={"/customer/products"}
-        >
-          <Text weight={400}>Order Again</Text>
-        </Button>
       </Group>
 
       <Paper p={"xl"} mt={"lg"} shadow="xs" radius={"md"}>
@@ -136,13 +145,60 @@ const OrderDetails = ({ orderDetails }) => {
                 />
               </>
             }
+            icon={<BiPackage size={30} />}
             color="#62A82C"
             style={{
               position: "relative",
             }}
           />
-          <Stepper.Step icon={<BsTruck size={28} />} />
-          <Stepper.Step icon={<FaGifts size={28} />} />
+          <Stepper.Step
+            icon={<BsTruck size={28} />}
+            completedIcon={
+              <>
+                <BsTruck size={28} />
+                <AiOutlineCheckCircle
+                  size={16}
+                  style={{
+                    position: "absolute",
+                    top: "0px",
+                    right: "0px",
+                    zIndex: 1,
+                    backgroundColor: "gray",
+                    fill: "white",
+                    borderRadius: "50%",
+                  }}
+                />
+              </>
+            }
+            color="#62A82C"
+            style={{
+              position: "relative",
+            }}
+          />
+          <Stepper.Step
+            icon={<FaGifts size={28} />}
+            completedIcon={
+              <>
+                <FaGifts size={28} />
+                <AiOutlineCheckCircle
+                  size={16}
+                  style={{
+                    position: "absolute",
+                    top: "0px",
+                    right: "0px",
+                    zIndex: 1,
+                    backgroundColor: "gray",
+                    fill: "white",
+                    borderRadius: "50%",
+                  }}
+                />
+              </>
+            }
+            color="#62A82C"
+            style={{
+              position: "relative",
+            }}
+          />
         </StyledStepper>
         <Group pt={"xl"} position="right">
           <Badge variant="light" c={"#62A82C"} size="lg">
@@ -292,6 +348,13 @@ const OrderDetails = ({ orderDetails }) => {
                 <Text className={classes.customText}>Payment Method </Text>
                 <Text className={classes.customText3}>
                   {orderDetails?.paymentType}
+                </Text>
+              </Group>
+
+              <Group position="apart">
+                <Text className={classes.customText}>Payment Status </Text>
+                <Text className={classes.customText3}>
+                  {orderDetails?.paymentStatus}
                 </Text>
               </Group>
             </Stack>

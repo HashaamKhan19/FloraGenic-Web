@@ -346,7 +346,7 @@ const HeaderMenu = ({ children }) => {
                   </Menu.Target>
                   <Menu.Dropdown>
                     <Menu.Item>
-                      <Link href={`/customer/dashboard/${user?.id}`}>
+                      <Link href={`/customer/dashboard`}>
                         <Group>
                           <BiCategoryAlt color="#62A82C" />
                           <Text c={"#62A82C"} fw={"525px"}>

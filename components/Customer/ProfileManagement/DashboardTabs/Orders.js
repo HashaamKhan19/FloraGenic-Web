@@ -56,6 +56,7 @@ const GET_ORDERS = gql`
       shipmentDate
       receivedDate
       paymentStatus
+      paymentType
       orderStatus
       productsDetails {
         id
