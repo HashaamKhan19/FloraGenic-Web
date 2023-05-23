@@ -3,10 +3,10 @@ import { useMediaQuery } from "@mantine/hooks";
 import React from "react";
 import DashboardLinks from "./DashboardLinks";
 
-const Dashboard = ({ data, loading, error }) => {
+const Dashboard = () => {
   return (
     <Container size={"xl"} py={"xl"}>
-      <DashboardLinks data={data} loading={loading} error={error} />
+      <DashboardLinks />
     </Container>
   );
 };

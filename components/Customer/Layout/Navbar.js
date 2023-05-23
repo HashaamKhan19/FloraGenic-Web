@@ -152,28 +152,10 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const GET_USER = gql`
-  query Query($userId: ID!) {
-    user(id: $userId) {
-      id
-      userType
-      details {
-        ... on Customer {
-          image
-        }
-      }
-    }
-  }
-`;
-
 const HeaderMenu = ({ children }) => {
   const router = useRouter();
 
   const { user, logout, setUser } = useContext(AuthContext);
-
-  const { loading, error, data } = useQuery(GET_USER, {
-    variables: { userId: user?.id },
-  });
 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -359,7 +341,7 @@ const HeaderMenu = ({ children }) => {
                       style={{
                         cursor: "pointer",
                       }}
-                      src={data?.user?.details?.image || null}
+                      src={user?.details?.image || null}
                     />
                   </Menu.Target>
                   <Menu.Dropdown>

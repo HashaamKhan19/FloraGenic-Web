@@ -11,6 +11,8 @@ import React, { createContext, useState } from "react";
 import { CREATE_CART_ITEM, GET_CART_ITEMS } from "./cart-query";
 import { DELETE_CART_ITEM } from "./cart-query";
 import { toast } from "react-hot-toast";
+import { AuthContext } from "./authContext";
+import { useContext } from "react";
 
 export const ShopContext = createContext({});
 
@@ -37,8 +39,11 @@ const client = new ApolloClient({
 });
 
 const ShopContextProvider = (props) => {
+  const { user } = useContext(AuthContext);
+
   const [cartItems, setCartItems] = useState([]);
   const [processing, setProcessing] = useState(false);
+
   const { loading, error, data } = useQuery(GET_CART_ITEMS, {
     client,
     onCompleted: (data) => {
@@ -49,6 +54,7 @@ const ShopContextProvider = (props) => {
       toast.error(error.message);
       setProcessing(false);
     },
+    skip: !user,
   });
 
   const [addToCartMutation] = useMutation(CREATE_CART_ITEM, {
@@ -88,6 +94,8 @@ const ShopContextProvider = (props) => {
   });
 
   const addToCart = (product, quantity) => {
+    if (!user) return toast.error("Please login to add to cart");
+
     setProcessing(true);
     addToCartMutation({
       variables: {
@@ -100,6 +108,7 @@ const ShopContextProvider = (props) => {
   };
 
   const removeFromCart = (id) => {
+    if (!user) return toast.error("Please login to remove from cart");
     setProcessing(true);
     removeFromCartMutation({
       variables: {
@@ -109,6 +118,7 @@ const ShopContextProvider = (props) => {
   };
 
   const clearCart = () => {
+    if (!user) return toast.error("Please login to clear cart");
     setProcessing(true);
     removeCompletelyFromCartMutation();
   };

@@ -53,7 +53,7 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const DashboardLinks = ({ data, loading, error }) => {
+const DashboardLinks = () => {
   const match768 = useMediaQuery("(max-width: 768px)");
   const [active, setActive] = useState("orders");
 
@@ -203,7 +203,7 @@ const DashboardLinks = ({ data, loading, error }) => {
         ) : active === "wishlist" ? (
           <Wishlist />
         ) : active === "profile" ? (
-          <ProfileInfo data={data} ordersLength={ordersLength} />
+          <ProfileInfo ordersLength={ordersLength} />
         ) : active === "addresses" ? (
           <Address />
         ) : active === "payment" ? (

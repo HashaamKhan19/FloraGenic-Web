@@ -17,9 +17,10 @@ import {
   createStyles,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { React, useState } from "react";
+import { React, useContext, useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
+import { AuthContext } from "../../../../context/authContext";
 
 const useStyles = createStyles(() => ({
   title: {
@@ -35,10 +36,13 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-const ProfileInfo = ({ data, ordersLength }) => {
+const ProfileInfo = ({ ordersLength }) => {
   const { classes } = useStyles();
   const match600 = useMediaQuery("(max-width: 600px)");
   const match1000 = useMediaQuery("(max-width: 1100px)");
+
+  const { user } = useContext(AuthContext);
+  console.log(user);
 
   const [opened, setOpened] = useState(false);
   const [editOpened, setEditOpened] = useState(false);
@@ -75,16 +79,15 @@ const ProfileInfo = ({ data, ordersLength }) => {
               <Avatar
                 size={"lg"}
                 radius={"xl"}
-                src={data?.user?.details?.image}
+                src={user?.details?.image}
                 alt="https://i.pravatar.cc/300"
               />
               {!match600 && (
                 <Stack spacing={"xs"}>
                   <Text className={classes.title}>Username</Text>
                   <Text className={classes.text} truncate>
-                    {data?.user?.details?.firstName +
-                      " " +
-                      data?.user?.details?.lastName || "No Name"}
+                    {user?.details?.firstName + " " + user?.details?.lastName ||
+                      "No Name"}
                   </Text>
                 </Stack>
               )}
@@ -96,7 +99,7 @@ const ProfileInfo = ({ data, ordersLength }) => {
               <Stack spacing={"xs"}>
                 <Text className={classes.title}>Email Address</Text>
                 <Text className={classes.text} truncate>
-                  {data?.user?.details?.userDetails?.email || "No Email"}
+                  {user?.email || "No Email"}
                 </Text>
               </Stack>
             </Group>
@@ -112,7 +115,7 @@ const ProfileInfo = ({ data, ordersLength }) => {
               <Stack spacing={"xs"}>
                 <Text className={classes.title}>Total Spent</Text>
                 <Text className={classes.text}>
-                  $ {data?.user?.details?.userDetails?.totalSpent || "Null"}
+                  $ {user?.details?.userDetails?.totalSpent || "Null"}
                 </Text>
               </Stack>
             </Group>
@@ -135,28 +138,25 @@ const ProfileInfo = ({ data, ordersLength }) => {
             <Avatar
               size={150}
               radius={"50%"}
-              src={data?.user?.details?.image}
+              src={user?.details?.image}
               alt="https://i.pravatar.cc/300"
             />
           </Center>
           <Group position="apart">
             <Text className={classes.title}>Username</Text>
             <Text className={classes.text}>
-              {data?.user?.details?.firstName +
-                " " +
-                data?.user?.details?.lastName || "No Name"}
+              {user?.details?.firstName + " " + user?.details?.lastName ||
+                "No Name"}
             </Text>
           </Group>
           <Group position="apart">
             <Text className={classes.title}>Email Address</Text>
-            <Text className={classes.text}>
-              {data?.user?.details?.userDetails?.email || "No Email"}
-            </Text>
+            <Text className={classes.text}>{user?.email || "No Email"}</Text>
           </Group>
           <Group position="apart">
             <Text className={classes.title}>Phone Number</Text>
             <Text className={classes.text}>
-              {data?.user?.details?.phoneNumber || "Nill"}
+              {user?.details?.phoneNumber || "Nill"}
             </Text>
           </Group>
           <Group position="apart">
@@ -166,7 +166,7 @@ const ProfileInfo = ({ data, ordersLength }) => {
           <Group position="apart">
             <Text className={classes.title}>Total Spent</Text>
             <Text className={classes.text}>
-              $ {data?.user?.details?.userDetails?.totalSpent || "Null"}
+              $ {user?.details?.userDetails?.totalSpent || "Null"}
             </Text>
           </Group>
         </Stack>
@@ -186,7 +186,7 @@ const ProfileInfo = ({ data, ordersLength }) => {
           <Avatar
             size={180}
             radius={"50%"}
-            src={data?.user?.details?.image}
+            src={user?.details?.image}
             alt="https://i.pravatar.cc/300"
           />
         </Center>
@@ -200,7 +200,7 @@ const ProfileInfo = ({ data, ordersLength }) => {
                 },
               },
             })}
-            value={data?.user?.details?.firstName || "Nill"}
+            value={user?.details?.firstName || "Nill"}
           />
           <TextInput
             label="Last Name"
@@ -211,7 +211,7 @@ const ProfileInfo = ({ data, ordersLength }) => {
                 },
               },
             })}
-            value={data?.user?.details?.lastName || "Nill"}
+            value={user?.details?.lastName || "Nill"}
           />
           <TextInput
             label="Email"
@@ -223,7 +223,7 @@ const ProfileInfo = ({ data, ordersLength }) => {
               },
             })}
             disabled
-            value={data?.user?.details?.userDetails?.email || "No Email"}
+            value={user?.email || "No Email"}
           />
           <TextInput
             label="Phone Number"
@@ -234,7 +234,7 @@ const ProfileInfo = ({ data, ordersLength }) => {
                 },
               },
             })}
-            value={data?.user?.details?.phoneNumber || "Nill"}
+            value={user?.details?.phoneNumber || "Nill"}
           />
         </Stack>
         <Group position="right" pt={"sm"}>
