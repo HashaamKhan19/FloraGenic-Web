@@ -15,8 +15,8 @@ import { toast } from "react-hot-toast";
 export const ShopContext = createContext({});
 
 const httpLink = new HttpLink({
-  // uri: "https://floragenic.herokuapp.com/graphql",
-  uri: "http://localhost:4000/graphql",
+  uri: "https://floragenic.herokuapp.com/graphql",
+  // uri: "http://localhost:4000/graphql",
 });
 
 const authLink = new ApolloLink((operation, forward) => {
