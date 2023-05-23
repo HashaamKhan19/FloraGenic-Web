@@ -44,7 +44,7 @@ const ADD_ADDRESS = gql`
 
 const AddAddress = ({ addOpened, setAddOpened }) => {
   const form = useForm({
-    intialValues: {
+    initialValues: {
       name: "",
       location: "",
       city: "",

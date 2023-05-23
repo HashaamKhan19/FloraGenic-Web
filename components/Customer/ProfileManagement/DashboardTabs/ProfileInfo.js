@@ -21,6 +21,16 @@ import { React, useContext, useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
 import { AuthContext } from "../../../../context/authContext";
+import { useForm } from "@mantine/form";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  gql,
+  useMutation,
+} from "@apollo/client";
+import { toast } from "react-hot-toast";
 
 const useStyles = createStyles(() => ({
   title: {
@@ -36,16 +46,96 @@ const useStyles = createStyles(() => ({
   },
 }));
 
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
+const UPDATE_PROFILE = gql`
+  mutation UpdateProfile($details: updateProfileInput!) {
+    updateProfile(details: $details) {
+      firstName
+      lastName
+      phoneNumber
+      gender
+      image
+    }
+  }
+`;
+
 const ProfileInfo = ({ ordersLength }) => {
   const { classes } = useStyles();
   const match600 = useMediaQuery("(max-width: 600px)");
   const match1000 = useMediaQuery("(max-width: 1100px)");
 
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   console.log(user);
 
   const [opened, setOpened] = useState(false);
   const [editOpened, setEditOpened] = useState(false);
+
+  const [updateProfile, { loading }] = useMutation(UPDATE_PROFILE, {
+    client,
+    onCompleted: (data) => {
+      setUser({ ...user, details: data.updateProfile });
+      toast.success("Profile updated successfully");
+      setEditOpened(false);
+    },
+    onError: (error) => {
+      toast.error("Error updating profile");
+    },
+  });
+
+  const form = useForm({
+    initialValues: {
+      firstName: user?.details?.firstName,
+      lastName: user?.details?.lastName,
+      email: user?.email,
+      phoneNumber: user?.details?.phoneNumber,
+    },
+    validate: {
+      firstName: (value) =>
+        value.trim().length >= 3
+          ? null
+          : "First name must be at least 3 characters long",
+      lastName: (value) =>
+        value.trim().length >= 3
+          ? null
+          : "Last name must be at least 3 characters long",
+      phoneNumber: (value) =>
+        /^\+92 3\d{2} \d{7}$/.test(value.trim())
+          ? null
+          : "Phone number must be in the format +92 3XX XXXXXXX",
+    },
+  });
+
+  const onSubmit = (values) => {
+    updateProfile({
+      variables: {
+        details: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          phoneNumber: values.phoneNumber,
+        },
+      },
+    });
+  };
 
   return (
     <>
@@ -182,81 +272,85 @@ const ProfileInfo = ({ ordersLength }) => {
         centered
         withCloseButton={false}
       >
-        <Center>
-          <Avatar
-            size={180}
-            radius={"50%"}
-            src={user?.details?.image}
-            alt="https://i.pravatar.cc/300"
-          />
-        </Center>
-        <Stack spacing={"xs"}>
-          <TextInput
-            label="First Name"
-            styles={(theme) => ({
-              input: {
-                "&:focus-within": {
-                  borderColor: theme.colors.green[7],
+        <form onSubmit={form.onSubmit((values) => onSubmit(values))}>
+          <Center>
+            <Avatar
+              size={180}
+              radius={"50%"}
+              src={user?.details?.image}
+              alt="https://i.pravatar.cc/300"
+            />
+          </Center>
+          <Stack spacing={"xs"}>
+            <TextInput
+              label="First Name"
+              styles={(theme) => ({
+                input: {
+                  "&:focus-within": {
+                    borderColor: theme.colors.green[7],
+                  },
                 },
-              },
-            })}
-            value={user?.details?.firstName || "Nill"}
-          />
-          <TextInput
-            label="Last Name"
-            styles={(theme) => ({
-              input: {
-                "&:focus-within": {
-                  borderColor: theme.colors.green[7],
+              })}
+              {...form.getInputProps("firstName")}
+            />
+            <TextInput
+              label="Last Name"
+              styles={(theme) => ({
+                input: {
+                  "&:focus-within": {
+                    borderColor: theme.colors.green[7],
+                  },
                 },
-              },
-            })}
-            value={user?.details?.lastName || "Nill"}
-          />
-          <TextInput
-            label="Email"
-            styles={(theme) => ({
-              input: {
-                "&:focus-within": {
-                  borderColor: theme.colors.green[7],
+              })}
+              {...form.getInputProps("lastName")}
+            />
+            <TextInput
+              label="Email"
+              styles={(theme) => ({
+                input: {
+                  "&:focus-within": {
+                    borderColor: theme.colors.green[7],
+                  },
                 },
-              },
-            })}
-            disabled
-            value={user?.email || "No Email"}
-          />
-          <TextInput
-            label="Phone Number"
-            styles={(theme) => ({
-              input: {
-                "&:focus-within": {
-                  borderColor: theme.colors.green[7],
+              })}
+              disabled
+              {...form.getInputProps("email")}
+            />
+            <TextInput
+              label="Phone Number"
+              styles={(theme) => ({
+                input: {
+                  "&:focus-within": {
+                    borderColor: theme.colors.green[7],
+                  },
                 },
-              },
-            })}
-            value={user?.details?.phoneNumber || "Nill"}
-          />
-        </Stack>
-        <Group position="right" pt={"sm"}>
-          <Button
-            style={{
-              backgroundColor: "#000",
-              color: "#fff",
-            }}
-            onClick={() => setEditOpened(false)}
-          >
-            <Text weight={400}>Cancel</Text>
-          </Button>
-          <Button
-            style={{
-              backgroundColor: "#62A82C",
-              color: "#fff",
-            }}
-            onClick={() => setEditOpened(false)}
-          >
-            <Text weight={400}>Save</Text>
-          </Button>
-        </Group>
+              })}
+              {...form.getInputProps("phoneNumber")}
+            />
+          </Stack>
+          <Group position="right" pt={"sm"}>
+            <Button
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+              }}
+              loading={loading}
+              onClick={() => setEditOpened(false)}
+            >
+              <Text weight={400}>Cancel</Text>
+            </Button>
+            <Button
+              style={{
+                backgroundColor: "#62A82C",
+                color: "#fff",
+              }}
+              loading={loading}
+              type="submit"
+            >
+              <Text weight={400}>Save</Text>
+            </Button>
+          </Group>
+        </form>
       </Modal>
     </>
   );
