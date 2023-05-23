@@ -44,7 +44,7 @@ const client = new ApolloClient({
 });
 
 const GET_ORDERS = gql`
-  query Query {
+  query Orders {
     orders {
       id
       customerID
@@ -55,13 +55,37 @@ const GET_ORDERS = gql`
       orderingDate
       shipmentDate
       receivedDate
+      paymentStatus
       orderStatus
+      productsDetails {
+        id
+        nurseryID
+        name
+        description
+        hidden
+        retailPrice
+        wholesalePrice
+        stock
+        sold
+        images
+        overallRating
+        tags
+        createdAt
+        updatedAt
+        category {
+          name
+        }
+      }
+      products {
+        productID
+        quantity
+      }
     }
   }
 `;
 
 const Orders = ({ ordersLength, setOrdersLength }) => {
-  const [orderDetails, setOrderDetails] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
   const match768 = useMediaQuery("(max-width: 768px)");
 
   const { data, loading, error } = useQuery(GET_ORDERS, { client });
@@ -107,7 +131,7 @@ const Orders = ({ ordersLength, setOrdersLength }) => {
     data?.orders?.map((item) => (
       <tr
         key={item.id}
-        onClick={() => setOrderDetails(true)}
+        onClick={() => setOrderDetails(item)}
         style={{
           cursor: "pointer",
         }}
@@ -123,7 +147,7 @@ const Orders = ({ ordersLength, setOrdersLength }) => {
               whiteSpace: "nowrap",
             }}
           >
-            {item?.id}
+            {item?.id.slice(-6)}
           </Text>
         </td>
 
@@ -172,7 +196,11 @@ const Orders = ({ ordersLength, setOrdersLength }) => {
         </td>
         <td>
           <Group spacing={0} position="right">
-            <ActionIcon onClick={() => setOrderDetails(true)}>
+            <ActionIcon
+              onClick={(e) => {
+                setOrderDetails(item);
+              }}
+            >
               <BsArrowRight
                 size={20}
                 style={{
@@ -258,7 +286,7 @@ const Orders = ({ ordersLength, setOrdersLength }) => {
           </ScrollArea>
         </>
       ) : (
-        <OrderDetails />
+        <OrderDetails orderDetails={orderDetails} />
       )}
     </>
   );

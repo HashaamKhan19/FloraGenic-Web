@@ -15,85 +15,55 @@ import {
   StepperProps,
   Text,
   createStyles,
-} from '@mantine/core'
-import Link from 'next/link'
-import React, { useState } from 'react'
-import { AiOutlineCheckCircle, AiTwotoneCheckCircle } from 'react-icons/ai'
-import { BiPackage } from 'react-icons/bi'
-import { BsBagCheckFill, BsCheckCircleFill, BsTruck } from 'react-icons/bs'
-import { FaGifts } from 'react-icons/fa'
-import ProductReview from './ProductReview'
-import { useMediaQuery } from '@mantine/hooks'
-import { HiOutlineDownload } from 'react-icons/hi'
+} from "@mantine/core";
+import Link from "next/link";
+import React, { useState } from "react";
+import { AiOutlineCheckCircle, AiTwotoneCheckCircle } from "react-icons/ai";
+import { BiPackage } from "react-icons/bi";
+import { BsBagCheckFill, BsCheckCircleFill, BsTruck } from "react-icons/bs";
+import { FaGifts } from "react-icons/fa";
+import ProductReview from "./ProductReview";
+import { useMediaQuery } from "@mantine/hooks";
+import { HiOutlineDownload } from "react-icons/hi";
 
 const useStyles = createStyles(() => ({
   customText: {
     fontWeight: 500,
-    fontSize: '14px',
-    color: 'darkslategray',
+    fontSize: "14px",
+    color: "darkslategray",
   },
   customText2: {
     fontWeight: 500,
-    fontSize: '16px',
-    color: 'darkslategray',
+    fontSize: "16px",
+    color: "darkslategray",
   },
   customText3: {
     fontWeight: 500,
-    fontSize: '14px',
-    color: 'gray',
+    fontSize: "14px",
+    color: "gray",
   },
   customText4: {
-    fontSize: '1.1rem',
+    fontSize: "1.1rem",
     fontWeight: 500,
-    color: 'darkslategray',
+    color: "darkslategray",
   },
-}))
+}));
 
-const OrderDetails = () => {
-  const [active, setActive] = useState(1)
-  const { classes } = useStyles()
-  const [opened, setOpened] = useState(false)
+const OrderDetails = ({ orderDetails }) => {
+  const [active, setActive] = useState(1);
+  const { classes } = useStyles();
+  const [opened, setOpened] = useState(false);
 
-  const match768 = useMediaQuery('(max-width: 768px)')
-  const match550 = useMediaQuery('(max-width: 550px)')
-
-  const items = [
-    {
-      id: 1,
-      name: 'Item 1',
-      price: 10,
-      quantity: 1,
-      category: 'Decoration',
-      image:
-        'https://images.unsplash.com/photo-1485955900006-10f4d324d411?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    },
-    {
-      id: 2,
-      name: 'Item 2',
-      price: 20,
-      quantity: 1,
-      category: 'Decoration',
-      image:
-        'https://images.unsplash.com/photo-1485955900006-10f4d324d411?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    },
-    {
-      id: 3,
-      name: 'Item 3',
-      price: 20,
-      quantity: 1,
-      category: 'Decoration',
-      image:
-        'https://images.unsplash.com/photo-1485955900006-10f4d324d411?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG90fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
-    },
-  ]
+  const match768 = useMediaQuery("(max-width: 768px)");
+  const match550 = useMediaQuery("(max-width: 550px)");
 
   function StyledStepper(props) {
     return (
       <Stepper
-        p={'xl'}
+        p={"xl"}
         styles={{
           stepBody: {
-            display: 'none',
+            display: "none",
           },
 
           step: {
@@ -111,26 +81,26 @@ const OrderDetails = () => {
           },
 
           separatorActive: {
-            backgroundColor: '#62A82C',
+            backgroundColor: "#62A82C",
           },
         }}
         active={2}
         {...props}
         size="xl"
       />
-    )
+    );
   }
 
   return (
     <>
       <Group position="apart">
-        <Group spacing={'xs'}>
+        <Group spacing={"xs"}>
           <BsBagCheckFill size={22} color="#62A82C" />
           <Text
             style={{
               fontWeight: 500,
-              fontSize: '24px',
-              color: 'darkslategray',
+              fontSize: "24px",
+              color: "darkslategray",
             }}
           >
             Order Details
@@ -138,15 +108,15 @@ const OrderDetails = () => {
         </Group>
         <Button
           variant="light"
-          c={'#62A82C'}
+          c={"#62A82C"}
           component={Link}
-          href={'/customer/products'}
+          href={"/customer/products"}
         >
           <Text weight={400}>Order Again</Text>
         </Button>
       </Group>
 
-      <Paper p={'xl'} mt={'lg'} shadow="xs" radius={'md'}>
+      <Paper p={"xl"} mt={"lg"} shadow="xs" radius={"md"}>
         <StyledStepper active={active}>
           <Stepper.Step
             completedIcon={
@@ -155,94 +125,103 @@ const OrderDetails = () => {
                 <AiOutlineCheckCircle
                   size={16}
                   style={{
-                    position: 'absolute',
-                    top: '0px',
-                    right: '0px',
+                    position: "absolute",
+                    top: "0px",
+                    right: "0px",
                     zIndex: 1,
-                    backgroundColor: 'gray',
-                    fill: 'white',
-                    borderRadius: '50%',
+                    backgroundColor: "gray",
+                    fill: "white",
+                    borderRadius: "50%",
                   }}
                 />
               </>
             }
             color="#62A82C"
             style={{
-              position: 'relative',
+              position: "relative",
             }}
           />
           <Stepper.Step icon={<BsTruck size={28} />} />
           <Stepper.Step icon={<FaGifts size={28} />} />
         </StyledStepper>
-        <Group pt={'xl'} position="right">
-          <Badge variant="light" c={'#62A82C'} size="lg">
-            <Text c={'#62A82C'} weight={400}>
+        <Group pt={"xl"} position="right">
+          <Badge variant="light" c={"#62A82C"} size="lg">
+            <Text c={"#62A82C"} weight={400}>
               Estimated Delivery Date 4th October
             </Text>
           </Badge>
         </Group>
       </Paper>
 
-      <Paper bg={'#e5e5e5'} mt={'xl'} radius={'md'} withBorder>
-        <Group position="apart" py={'xs'} px={'md'}>
+      <Paper bg={"#e5e5e5"} mt={"xl"} radius={"md"} withBorder>
+        <Group position="apart" py={"xs"} px={"md"}>
           <Group>
             <Text className={classes.customText3}>Order Id:</Text>
-            <Text className={classes.customText}>f0ba5b8c</Text>
+            <Text className={classes.customText}>{orderDetails?.id}</Text>
           </Group>
           <Group>
             <Text className={classes.customText3}>Placed On:</Text>
-            <Text className={classes.customText}>10 Nov, 2022</Text>
+            <Text className={classes.customText}>
+              {new Date(
+                parseInt(orderDetails?.orderingDate)
+              ).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </Text>
           </Group>
         </Group>
 
-        {items.map((item) => {
+        {orderDetails?.productsDetails?.map((item, index) => {
           return (
             <Paper
               key={item.id}
-              py={'xl'}
-              m={'xs'}
+              py={"xl"}
+              m={"xs"}
               style={{
                 borderBottomLeftRadius: 7,
                 borderBottomRightRadius: 7,
               }}
             >
               <Group position="apart">
-                <Group noWrap pl={'xl'}>
+                <Group noWrap pl={"xl"}>
                   <Image
-                    src={item.image}
+                    src={item?.images?.[0]}
                     height={100}
                     width={100}
-                    radius={'sm'}
+                    radius={"sm"}
                   />
-                  <Stack spacing={'xs'} pl={'xs'}>
+                  <Stack spacing={"xs"} pl={"xs"}>
                     <Text className={classes.customText4}>{item.name}</Text>
                     <Text className={classes.customText3}>
-                      Rs. {item.price}
+                      Rs. {item.retailPrice} x{" "}
+                      {orderDetails?.products?.[index]?.quantity}
                     </Text>
                   </Stack>
                 </Group>
 
                 <Group hidden={match768 ? true : false}>
                   <Text className={classes.customText3}>
-                    Product Category:{' '}
+                    Product Category:{" "}
                   </Text>
                   <Text
-                    c={'#62A82C'}
+                    c={"#62A82C"}
                     style={{
-                      fontSize: '15px',
+                      fontSize: "15px",
                     }}
                   >
-                    {item.category}
+                    {item.category?.name}
                   </Text>
                 </Group>
 
-                <Group ml={match550 ? 'xl' : 0}>
+                <Group ml={match550 ? "xl" : 0}>
                   <Button
                     variant="light"
-                    c={'#62A82C'}
-                    mr={'lg'}
+                    c={"#62A82C"}
+                    mr={"lg"}
                     onClick={() => {
-                      setOpened(true)
+                      setOpened(true);
                     }}
                   >
                     <Text weight={400}>Write a Review</Text>
@@ -250,26 +229,26 @@ const OrderDetails = () => {
                 </Group>
               </Group>
             </Paper>
-          )
+          );
         })}
       </Paper>
 
       <Grid>
         <Grid.Col md={6}>
-          <Paper mt={'xl'} radius={'md'} p={'xl'} withBorder>
-            <Stack spacing={'lg'}>
+          <Paper mt={"xl"} radius={"md"} p={"xl"} withBorder>
+            <Stack spacing={"lg"}>
               <Text className={classes.customText2}>Shipping Address</Text>
               <Text className={classes.customText3}>
                 i8 Markaz, Zaki Center, Islamabad
               </Text>
             </Stack>
           </Paper>
-          <Group position="right" mt={'md'}>
+          <Group position="right" mt={"md"}>
             <Button
               leftIcon={<HiOutlineDownload size={20} />}
               style={{
-                backgroundColor: '#62A82C',
-                color: 'White',
+                backgroundColor: "#62A82C",
+                color: "White",
               }}
             >
               Export Data to CSV
@@ -277,32 +256,43 @@ const OrderDetails = () => {
           </Group>
         </Grid.Col>
         <Grid.Col md={6}>
-          <Paper mt={'xl'} radius={'md'} withBorder p={'xl'}>
+          <Paper mt={"xl"} radius={"md"} withBorder p={"xl"}>
             <Stack>
               <Text className={classes.customText4}>Total Summary</Text>
               <Group position="apart">
                 <Text className={classes.customText}>Subtotal</Text>
-                <Text className={classes.customText3}>Rs. 1000</Text>
+                <Text className={classes.customText3}>
+                  Rs.{" "}
+                  {orderDetails?.totalPrice -
+                    200 -
+                    Math.floor(orderDetails?.totalPrice * 0.18)}
+                </Text>
               </Group>
               <Group position="apart">
                 <Text className={classes.customText}>Delivery Charges</Text>
-                <Text className={classes.customText3}>Rs. 100</Text>
+                <Text className={classes.customText3}>Rs. 200</Text>
               </Group>
               <Group position="apart">
-                <Text className={classes.customText}>Discount</Text>
-                <Text className={classes.customText3}>Rs. 100</Text>
+                <Text className={classes.customText}>GST</Text>
+                <Text className={classes.customText3}>
+                  Rs. {Math.floor(orderDetails?.totalPrice * 0.18)}
+                </Text>
               </Group>
 
               <Divider />
 
               <Group position="apart">
                 <Text className={classes.customText2}>Total</Text>
-                <Text className={classes.customText2}>Rs. 1000</Text>
+                <Text className={classes.customText2}>
+                  Rs. {orderDetails?.totalPrice}
+                </Text>
               </Group>
 
               <Group position="apart">
                 <Text className={classes.customText}>Payment Method </Text>
-                <Text className={classes.customText3}>Debit Card</Text>
+                <Text className={classes.customText3}>
+                  {orderDetails?.paymentType}
+                </Text>
               </Group>
             </Stack>
           </Paper>
@@ -311,7 +301,7 @@ const OrderDetails = () => {
 
       <ProductReview opened={opened} setOpened={setOpened} />
     </>
-  )
-}
+  );
+};
 
-export default OrderDetails
+export default OrderDetails;
