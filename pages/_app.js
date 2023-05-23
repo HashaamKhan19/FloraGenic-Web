@@ -21,8 +21,8 @@ const appendCache = createEmotionCache({ key: "mantine", prepend: false });
 
 function MyApp({ Component, pageProps, router }) {
   const client = new ApolloClient({
-    uri: "https://floragenic.herokuapp.com/graphql",
-    // uri: "http://localhost:4000/graphql",
+    // uri: "https://floragenic.herokuapp.com/graphql",
+    uri: "http://localhost:4000/graphql",
     cache: new InMemoryCache(),
   });
 

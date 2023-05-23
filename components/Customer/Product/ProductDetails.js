@@ -1,60 +1,61 @@
-import { Badge, Box, Button, Group, Rating, Stack, Text } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
-import React, { useContext } from 'react'
-import { ShopContext } from '../../../context/shopContextProvider'
+import { Badge, Box, Button, Group, Rating, Stack, Text } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
+import React, { useContext } from "react";
+import { ShopContext } from "../../../context/shopContextProvider";
 
 const ProductDetails = ({ data, loading, error }) => {
-  const matches768 = useMediaQuery('(max-width: 768px)')
+  const matches768 = useMediaQuery("(max-width: 768px)");
 
-  const { cartItems, addToCart, removeFromCart } = useContext(ShopContext)
+  const { cartItems, addToCart, removeFromCart, processing } =
+    useContext(ShopContext);
 
-  console.log('====================================')
-  console.log('cartItems details', cartItems)
-  console.log('====================================')
+  console.log("====================================");
+  console.log("cartItems details", cartItems);
+  console.log("====================================");
 
   return (
-    <Box mt={matches768 ? 'md' : '0'} px={matches768 ? 'md' : '0'}>
+    <Box mt={matches768 ? "md" : "0"} px={matches768 ? "md" : "0"}>
       <Text
         weight={600}
         style={{
           fontSize: 28,
-          color: 'darkslategray',
+          color: "darkslategray",
         }}
       >
-        {data?.name || 'Product Name'}
+        {data?.name || "Product Name"}
       </Text>
-      <Group align="center" spacing={'sm'}>
+      <Group align="center" spacing={"sm"}>
         <Rating value={data?.overallRating} size="md" readOnly />
         <Text
           weight={400}
           style={{
             fontSize: 14,
-            color: 'darkslategray',
+            color: "darkslategray",
           }}
         >
           {data?.overallRating} ({data?.sold || 0})
         </Text>
       </Group>
-      <Group mt={'lg'}>
+      <Group mt={"lg"}>
         <Text
           weight={600}
           style={{
             fontSize: 14,
-            color: 'darkslategray',
+            color: "darkslategray",
           }}
         >
-          Category:{' '}
+          Category:{" "}
         </Text>
         <Badge color="green" variant="filled">
-          {data?.category?.name || 'Category'}
+          {data?.category?.name || "Category"}
         </Badge>
       </Group>
-      <Group spacing={'xs'} mt={'sm'}>
+      <Group spacing={"xs"} mt={"sm"}>
         <Text
           weight={600}
           style={{
             fontSize: 14,
-            color: 'darkslategray',
+            color: "darkslategray",
           }}
         >
           Seller:
@@ -62,12 +63,12 @@ const ProductDetails = ({ data, loading, error }) => {
         <Text
           style={{
             fontSize: 14,
-            cursor: 'pointer',
+            cursor: "pointer",
           }}
           weight={600}
-          c={'green'}
+          c={"green"}
         >
-          {data?.nursery?.name || 'null'}
+          {data?.nursery?.name || "null"}
         </Text>
       </Group>
       <Stack spacing={0}>
@@ -75,9 +76,9 @@ const ProductDetails = ({ data, loading, error }) => {
           weight={600}
           style={{
             fontSize: 14,
-            color: 'darkslategray',
+            color: "darkslategray",
           }}
-          mt={'md'}
+          mt={"md"}
         >
           Description:
         </Text>
@@ -87,14 +88,14 @@ const ProductDetails = ({ data, loading, error }) => {
           }}
         >
           <Text
-            mt={'xs'}
+            mt={"xs"}
             style={{
-              color: 'darkslategray',
+              color: "darkslategray",
               fontSize: 14,
             }}
             lineClamp={3}
           >
-            {data?.description || 'null'}
+            {data?.description || "null"}
           </Text>
         </Box>
       </Stack>
@@ -103,9 +104,9 @@ const ProductDetails = ({ data, loading, error }) => {
           weight={600}
           style={{
             fontSize: 23,
-            color: '#d4172e',
+            color: "#d4172e",
           }}
-          mt={'md'}
+          mt={"md"}
         >
           Rs. {data?.retailPrice || 0}
         </Text>
@@ -113,24 +114,24 @@ const ProductDetails = ({ data, loading, error }) => {
           weight={600}
           style={{
             fontSize: 14,
-            color: 'darkslategray',
+            color: "darkslategray",
           }}
         >
-          {data?.stock > 0 ? 'In Stock' : 'Out of Stock'}
+          {data?.stock > 0 ? "In Stock" : "Out of Stock"}
         </Text>
       </Stack>
       <Button
-        mt={'lg'}
+        mt={"lg"}
         color="green"
-        disabled={loading || error || data?.stock === 0}
+        disabled={processing || loading || error || data?.stock === 0}
         onClick={() => {
-          addToCart(data?.id)
+          addToCart(data?.id, 1);
         }}
       >
         Add To Cart
       </Button>
     </Box>
-  )
-}
+  );
+};
 
-export default ProductDetails
+export default ProductDetails;

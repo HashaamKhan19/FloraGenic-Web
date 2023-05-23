@@ -1,93 +1,124 @@
-import { gql, useQuery } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  gql,
+  useMutation,
+  useQuery,
+} from "@apollo/client";
 import React, { createContext, useState } from "react";
+import { CREATE_CART_ITEM, GET_CART_ITEMS } from "./cart-query";
+import { DELETE_CART_ITEM } from "./cart-query";
+import { toast } from "react-hot-toast";
 
-const GET_PRODUCTS = gql`
-  query Query {
-    products {
-      category {
-        name
-      }
-      description
-      hidden
-      id
-      images
-      name
-      nursery {
-        id
-        images
-        name
-        details
-      }
-      overallRating
-      retailPrice
-      sold
-      stock
-    }
-  }
-`;
+export const ShopContext = createContext({});
 
-export const ShopContext = createContext(null);
+const httpLink = new HttpLink({
+  // uri: "https://floragenic.herokuapp.com/graphql",
+  uri: "http://localhost:4000/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 const ShopContextProvider = (props) => {
-  const { loading, error, data } = useQuery(GET_PRODUCTS);
+  const [cartItems, setCartItems] = useState([]);
+  const [processing, setProcessing] = useState(false);
+  const { loading, error, data } = useQuery(GET_CART_ITEMS, {
+    client,
+    onCompleted: (data) => {
+      setCartItems(data.cartItems);
+      setProcessing(false);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      setProcessing(false);
+    },
+  });
 
-  const getDefaultCart = () => {
-    let cart = {};
-    for (let i = 0; i < data?.products?.length; i++) {
-      cart[i.toString()] = 0;
-    }
-    return cart;
-  };
+  const [addToCartMutation] = useMutation(CREATE_CART_ITEM, {
+    client,
+    onCompleted: (data) => {
+      setCartItems(data.cartItemCreate);
+      setProcessing(false);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      setProcessing(false);
+    },
+  });
 
-  const [cartItems, setCartItems] = useState(getDefaultCart());
+  const [removeFromCartMutation] = useMutation(DELETE_CART_ITEM, {
+    client,
+    onCompleted: (data) => {
+      setCartItems(data.cartItemDelete);
+      setProcessing(false);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      setProcessing(false);
+    },
+  });
 
-  const cartItemsArray = Object.entries(cartItems).map(([id, quantity]) => ({
-    id,
-    quantity,
-  }));
+  const [removeCompletelyFromCartMutation] = useMutation(DELETE_CART_ITEM, {
+    client,
+    onCompleted: () => {
+      setCartItems([]);
+      setProcessing(false);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      setProcessing(false);
+    },
+  });
 
-  // console.log("HASHAM KI BARAT", cartItems);
-
-  const addToCart = (id) => {
-    setCartItems((prev) => {
-      const updatedCart = { ...prev };
-      const itemId = id.toString(); // make sure id is a string
-      const itemQuantity = updatedCart[itemId] || 0;
-      updatedCart[itemId] = itemQuantity + 1;
-      return updatedCart;
+  const addToCart = (product, quantity) => {
+    setProcessing(true);
+    addToCartMutation({
+      variables: {
+        data: {
+          productID: product,
+          quantity: quantity,
+        },
+      },
     });
   };
 
   const removeFromCart = (id) => {
-    setCartItems((prev) => {
-      const updatedCart = { ...prev };
-      const itemId = id.toString(); // make sure id is a string
-      const itemQuantity = updatedCart[itemId] || 0;
-      if (itemQuantity === 1) {
-        delete updatedCart[itemId];
-      } else if (itemQuantity > 1) {
-        updatedCart[itemId] = itemQuantity - 1;
-      }
-      return updatedCart;
+    setProcessing(true);
+    removeFromCartMutation({
+      variables: {
+        cartItemDeleteId: id,
+      },
     });
   };
 
-  const removeCompletelyFromCart = (id) => {
-    setCartItems((prev) => {
-      const updatedCart = { ...prev };
-      const itemId = id.toString(); // make sure id is a string
-      if (updatedCart.hasOwnProperty(itemId)) {
-        delete updatedCart[itemId];
-      }
-      return updatedCart;
-    });
+  const clearCart = () => {
+    setProcessing(true);
+    removeCompletelyFromCartMutation();
   };
 
   const contextValue = {
-    cartItems: cartItemsArray,
+    cartItems,
     addToCart,
     removeFromCart,
-    removeCompletelyFromCart,
+    clearCart,
+    processing,
   };
 
   return (

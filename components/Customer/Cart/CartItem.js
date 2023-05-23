@@ -17,56 +17,15 @@ import { FiMinus, FiPlus } from "react-icons/fi";
 import { ShopContext } from "../../../context/shopContextProvider";
 import CartItemsDrawer from "./CartItemsDrawer";
 
-const GET_PRODUCTS = gql`
-  query Query {
-    products {
-      category {
-        name
-      }
-      description
-      hidden
-      id
-      images
-      name
-      nursery {
-        id
-        images
-        name
-        details
-      }
-      overallRating
-      retailPrice
-      sold
-      stock
-    }
-  }
-`;
-
 export default function CartItem({ closeDrawer }) {
-  const { data, loading, error } = useQuery(GET_PRODUCTS);
-
   const { cartItems } = useContext(ShopContext);
 
-  // Calculate total amount
-  const totalAmount = cartItems.reduce((total, item) => {
-    const product = data?.products.find((p) => p.id === item.id);
-    if (product) {
-      return total + product.retailPrice * item.quantity;
-    }
-    return total;
-  }, 0);
+  const totalAmount = cartItems.reduce((acc, item) => acc + item.totalPrice, 0);
 
   return (
     <Box style={{ height: "calc(100vh - 200px)", overflowY: "scroll" }}>
-      {data?.products
-        ?.filter((product) => {
-          return cartItems.some((item) => item.id === product.id);
-        })
-        .map((product, index) => {
-          return (
-            <CartItemsDrawer product={product} index={index} key={product.id} />
-          );
-        })}
+      <CartItemsDrawer />
+
       {cartItems.length !== 0 && (
         <Stack
           style={{

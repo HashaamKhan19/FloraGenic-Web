@@ -111,7 +111,7 @@ export default function ProductsCardHero({ heart, data }) {
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                addToCart(data?.id);
+                addToCart(data?.id, 1);
               }}
               disabled={data?.stock === 0}
             >
