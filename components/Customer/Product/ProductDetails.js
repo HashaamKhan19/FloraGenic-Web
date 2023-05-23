@@ -117,7 +117,7 @@ const ProductDetails = ({ data, loading, error }) => {
             color: "darkslategray",
           }}
         >
-          {data?.stock > 0 ? "In Stock" : "Out of Stock"}
+          {data?.stock > 0 ? "In Stock" : "Out of Stock"} ({data?.stock || 0})
         </Text>
       </Stack>
       <Button
