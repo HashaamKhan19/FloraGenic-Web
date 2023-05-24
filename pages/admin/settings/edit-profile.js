@@ -277,7 +277,7 @@ const EditProfile = () => {
       </div>
       <TaskConfirmationModal
         open={modalOpen}
-        redirectURL="/admin/viewUsers"
+        redirectURL={userType === "admin" ? "/admin" : "/nursery"}
         loading={loading}
         successMessage={successMessage}
         err={errorMessage}

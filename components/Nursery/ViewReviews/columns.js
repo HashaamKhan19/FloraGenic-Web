@@ -4,32 +4,43 @@ import ReviewActions from "../../Generic/ReviewActions";
 
 export const columns = [
   { field: "id", headerName: "ID", width: 40 },
-  { field: "image", headerName: "Image", width: 80 },
-  { field: "type", headerName: "Type", width: 160 },
+  { field: "productType", headerName: "Type", width: 160 },
   {
     field: "name",
     headerName: "Added By",
     width: 150,
+    valueGetter: (params) => {
+      return `${params.row?.customerDetails?.firstName} ${params.row?.customerDetails?.lastName}`;
+    },
   },
-  { field: "date", headerName: "Added On", width: 150 },
   {
-    field: "ratings",
+    field: "date",
+    headerName: "Added On",
+    width: 150,
+    valueGetter: (params) => {
+      return new Date(parseInt(params.row.createdAt)).toLocaleDateString(
+        "en-US",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }
+      );
+    },
+  },
+  {
+    field: "rating",
     headerName: "Ratings",
     width: 150,
     headerAlign: "center",
-    renderCell: () => {
-      return <Ratings />;
+    renderCell: (params) => {
+      return <Ratings value={params.row.rating} />;
     },
   },
   {
-    field: "status",
-    headerName: "Status",
-    width: 150,
-    headerAlign: "center",
-    align: "center",
-    renderCell: () => {
-      return <BlockToggle />;
-    },
+    field: "review",
+    headerName: "Review",
+    flex: 1,
   },
   {
     field: "actions",

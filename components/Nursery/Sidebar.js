@@ -94,6 +94,8 @@ export default function Sidebar({ children }) {
   const [productlistOpen, setProductListOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
+  const [reviewlistOpen, setReviewListOpen] = useState(false);
+
   const { user, setUser } = React.useContext(AuthContext);
 
   const handleAdminClick = () => {
@@ -108,6 +110,11 @@ export default function Sidebar({ children }) {
   const handleNurseryClick = () => {
     setNurseryListOpen(!nurserylistOpen);
   };
+
+  const handleReviewClick = () => {
+    setReviewListOpen(!reviewlistOpen);
+  };
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -402,20 +409,60 @@ export default function Sidebar({ children }) {
           </Link>
 
           {/* Reviews */}
-          <Link href="/nursery/viewReviews">
-            <ListItemButton
-              sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
-            >
-              <ListItemIcon>
-                <ReviewsIcon style={{ color: "white" }} />
-              </ListItemIcon>
-              <ListItemText
-                primary="5 - Reviews"
-                primaryTypographyProps={{
-                  marginLeft: -1.5,
-                }}
-              />
-            </ListItemButton>
+          <ListItemButton
+            onClick={handleReviewClick}
+            sx={{ marginTop: 1, ":hover": { backgroundColor: "#058f00" } }}
+          >
+            <ListItemIcon>
+              <GiteIcon style={{ color: "white" }} />
+            </ListItemIcon>
+            <ListItemText
+              primary="5 - My Reviews"
+              primaryTypographyProps={{
+                marginLeft: -1.5,
+              }}
+            />
+            {adminlistOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Link href="/nursery/viewNurseryReviews">
+            <Collapse in={reviewlistOpen} timeout="auto" unmountOnExit>
+              <List disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
+                >
+                  <ListItemIcon>
+                    <AddBusiness style={{ color: "white", fontSize: "22px" }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="5.1 - Nursery Reviews"
+                    primaryTypographyProps={{
+                      fontSize: "14px",
+                      marginLeft: -1.5,
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </Link>
+          <Link href="/nursery/viewProductReviews">
+            <Collapse in={reviewlistOpen} timeout="auto" unmountOnExit>
+              <List disablePadding>
+                <ListItemButton
+                  sx={{ pl: 4, ":hover": { backgroundColor: "#058f00" } }}
+                >
+                  <ListItemIcon>
+                    <WidgetsIcon style={{ color: "white", fontSize: "22px" }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="5.2 - Product Reviews"
+                    primaryTypographyProps={{
+                      fontSize: "14px",
+                      marginLeft: -1.5,
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            </Collapse>
           </Link>
 
           {/* Chat */}
