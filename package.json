@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.10.5",
     "@mantine/carousel": "^5.10.3",
     "@mantine/core": "^5.10.5",
+    "@mantine/dates": "^5.10.5",
     "@mantine/form": "^6.0.2",
     "@mantine/hooks": "^5.10.3",
     "@mantine/modals": "^5.10.3",

@@ -33,7 +33,8 @@ const ProductDetails = ({ data, loading, error }) => {
             color: "darkslategray",
           }}
         >
-          {data?.overallRating} ({data?.sold || 0})
+          {data?.overallRating.toString().slice(0, 3)} (
+          {data?.reviews?.length || 0})
         </Text>
       </Group>
       <Group mt={"lg"}>

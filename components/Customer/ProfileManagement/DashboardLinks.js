@@ -23,6 +23,7 @@ import Address from "./DashboardTabs/Address/Address";
 import Payment from "./DashboardTabs/Payments/Payment";
 import OrderDetails from "./DashboardTabs/OrderDetails";
 import MobileDashboard from "./MobileDashboard";
+import GardenerOrders from "./DashboardTabs/GardenerOrders";
 
 const useStyles = createStyles(() => ({
   title: {
@@ -126,6 +127,20 @@ const DashboardLinks = () => {
               </Group>
             </UnstyledButton>
 
+            <UnstyledButton
+              className={`${classes.links} ${
+                active === "hirings" ? "active" : ""
+              }`}
+              onClick={() => handleButtonClick("hirings")}
+            >
+              <Group position="apart" noWrap>
+                <Group spacing={"xs"} noWrap>
+                  <BsBookmarkHeart />
+                  <Text>Hirings</Text>
+                </Group>
+              </Group>
+            </UnstyledButton>
+
             {/* <UnstyledButton
               className={`${classes.links} ${
                 active === "wishlist" ? "active" : ""
@@ -200,8 +215,11 @@ const DashboardLinks = () => {
               setOrdersLength={setOrdersLength}
             />
           )
-        ) : active === "wishlist" ? (
-          <Wishlist />
+        ) : active === "hirings" ? (
+          <GardenerOrders
+            ordersLength={ordersLength}
+            setOrdersLength={setOrdersLength}
+          />
         ) : active === "profile" ? (
           <ProfileInfo ordersLength={ordersLength} />
         ) : active === "addresses" ? (

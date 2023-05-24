@@ -1,4 +1,5 @@
 import {
+  Badge,
   Chip,
   Divider,
   Paper,
@@ -6,12 +7,12 @@ import {
   Space,
   Stack,
   Text,
-} from '@mantine/core'
-import React, { useState } from 'react'
+} from "@mantine/core";
+import React, { useState } from "react";
 
 const GardenerEndorsements = ({ data, loading, error }) => {
-  const [checked, setChecked] = useState(false)
-  const [endorsements, setEndorsements] = useState(0)
+  const [checked, setChecked] = useState(false);
+  const [endorsements, setEndorsements] = useState(0);
 
   return (
     <>
@@ -27,53 +28,29 @@ const GardenerEndorsements = ({ data, loading, error }) => {
       )}
       <Text
         style={{
-          fontSize: '1.3rem',
+          fontSize: "1.3rem",
           fontWeight: 525,
-          color: 'darkslategray',
+          color: "darkslategray",
         }}
       >
         Skills
       </Text>
-      <Space mt={'xl'} />
+
       {data?.skills?.map((skill, id) => (
-        <Stack key={id}>
-          <Text
-            style={{
-              fontSize: '1rem',
-              fontWeight: 500,
-              color: 'darkslategray',
-            }}
-          >
-            {skill.name || 'Skill Name'}
-          </Text>
-          {endorsements > 0 && (
-            <Text
-              style={{
-                fontSize: '14px',
-                color: 'darkslategray',
-              }}
-            >
-              {endorsements} {endorsements > 1 ? 'Endorsements' : 'Endorsement'}
-            </Text>
-          )}
-          <Chip
-            variant="outline"
-            color="gray"
-            checked={checked}
-            onChange={() => {
-              setChecked((v) => !v)
-              checked
-                ? setEndorsements(endorsements - 1)
-                : setEndorsements(endorsements + 1)
-            }}
-          >
-            Endorse
-          </Chip>
-          <Divider />
-        </Stack>
+        <Badge
+          key={id}
+          size="lg"
+          color="green"
+          style={{
+            fontWeight: 500,
+            marginInline: "0.5rem",
+          }}
+        >
+          {skill.name || "Skill Name"}
+        </Badge>
       ))}
     </>
-  )
-}
+  );
+};
 
-export default GardenerEndorsements
+export default GardenerEndorsements;
