@@ -5,6 +5,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import ComplaintData from "./ModalData/ComplaintData";
+import ReviewData from "./ModalData/ReviewData";
 
 const style = {
   position: "absolute",
@@ -25,6 +26,7 @@ export default function ViewFeedbackModal({
   viewOpen,
   handleViewClose,
   open,
+  type,
   data,
 }) {
   return (
@@ -61,7 +63,11 @@ export default function ViewFeedbackModal({
               }}
             >
               <Typography>{viewText}</Typography>
-              <ComplaintData data={data} />
+              {type === "review" ? (
+                <ReviewData data={data} />
+              ) : (
+                <ComplaintData data={data} />
+              )}
             </Box>
           </Box>
         </Fade>

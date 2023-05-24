@@ -57,9 +57,11 @@ export const columns = [
     width: 150,
     headerAlign: "center",
     align: "center",
-    renderCell: () => {
+    renderCell: (params) => {
       return (
         <ReviewActions
+          data={params.row}
+          type="review"
           text={"Are you sure you want to delete this Review?"}
           warningText={"This action is irreversable!"}
           viewText={"Review Details"}

@@ -30,8 +30,8 @@ const client = new ApolloClient({
 });
 
 const GET_PRODUCT_REVIEWS = gql`
-  query Reviews {
-    reviews {
+  query Reviews($productId: ID) {
+    reviews(productID: $productId) {
       id
       userID
       productID
@@ -41,13 +41,15 @@ const GET_PRODUCT_REVIEWS = gql`
       likes
       createdAt
       updatedAt
+      productDetails {
+        name
+      }
       customerDetails {
         firstName
         lastName
-        image
-      }
-      productDetails {
-        name
+        userDetails {
+          email
+        }
       }
       totalReviews
     }

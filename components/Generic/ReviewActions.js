@@ -16,6 +16,7 @@ const ReviewActions = ({
   viewSubject,
   replyText,
   data,
+  type,
 }) => {
   // Action Confirmation Modal States
   const [open, setOpen] = React.useState(false);
@@ -101,6 +102,7 @@ const ReviewActions = ({
         viewOpen={openView}
         handleViewClose={handleCloseView}
         data={data}
+        type={type}
       />
 
       <ReplyFeedbackModal
