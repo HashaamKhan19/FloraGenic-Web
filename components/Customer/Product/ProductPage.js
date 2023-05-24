@@ -3,6 +3,7 @@ import ProductTabs from "./Tabs/ProductTabs";
 import RelatedNurseries from "./Tabs/RelatedNurseries";
 import ProductDetails from "./ProductDetails";
 import ProductImageSlider from "./ProductImageSlider";
+import { gql, useQuery } from "@apollo/client";
 
 export default function ProductPage({ data, loading, error }) {
   return (
@@ -27,7 +28,7 @@ export default function ProductPage({ data, loading, error }) {
         <ProductTabs data={data?.product} loading={loading} error={error} />
       </Container>
       <Container size={"xl"} mt={80} pb={"xl"}>
-        <RelatedNurseries />
+        <RelatedNurseries data={data} />
       </Container>
     </Container>
   );
