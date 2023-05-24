@@ -109,7 +109,7 @@ const SignUpCard = () => {
                 label="Age"
               >
                 <MenuItem value="Customer">Customer</MenuItem>
-                <MenuItem value="Gardener">Gardener</MenuItem>
+                {/* <MenuItem value="Gardener">Gardener</MenuItem> */}
                 <MenuItem value="Nursery Owner">Nursery Owner</MenuItem>
               </ControlledSelect>
             </FormControl>

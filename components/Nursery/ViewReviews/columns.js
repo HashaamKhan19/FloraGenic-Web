@@ -1,4 +1,3 @@
-import BlockToggle from "../../Generic/BlockToggle";
 import Ratings from "../../Generic/Ratings";
 import ReviewActions from "../../Generic/ReviewActions";
 
@@ -26,6 +25,16 @@ export const columns = [
           day: "numeric",
         }
       );
+    },
+  },
+  {
+    field: "product",
+    headerName: "Product",
+    width: 150,
+    headerAlign: "center",
+    align: "center",
+    renderCell: (params) => {
+      return params.row.productDetails.name;
     },
   },
   {

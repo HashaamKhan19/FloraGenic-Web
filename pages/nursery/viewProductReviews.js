@@ -46,6 +46,9 @@ const GET_PRODUCT_REVIEWS = gql`
         lastName
         image
       }
+      productDetails {
+        name
+      }
       totalReviews
     }
   }

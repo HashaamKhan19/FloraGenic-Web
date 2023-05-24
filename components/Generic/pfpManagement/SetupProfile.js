@@ -1,7 +1,13 @@
-import { Box, InputLabel, MenuItem, Paper } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  InputLabel,
+  MenuItem,
+  Paper,
+} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { UsersIcon } from "../../../public/icons/UsersIcon";
 import ControlledDropzone from "../ControlledComponents/ControlledDropzone";
@@ -11,12 +17,69 @@ import ControlledTelInput from "../ControlledComponents/ControlledTelInput";
 import ControlledTextInput from "../ControlledComponents/ControlledTextInput";
 
 // GraphQL
-import { gql, useMutation } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  gql,
+  useMutation,
+} from "@apollo/client";
 import { uploadImage } from "../../../services/fileUpload";
+import { AuthContext } from "../../../context/authContext";
+import { toast } from "react-hot-toast";
 
-const CREATE_CUSTOMER_PROFILE = gql`
-  mutation Mutation($userId: ID!, $details: CustomerCreateInput!) {
-    addCustomer(userID: $userId, details: $details)
+const SETUP_CUSTOMER_PROFILE = gql`
+  mutation CustomerCreate($data: CustomerCreateInput!) {
+    customerCreate(data: $data) {
+      id
+      firstName
+      lastName
+      nationality
+      phoneNumber
+      gender
+      image
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+  // uri: "http://localhost:4000/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  operation.setContext({
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
+const SETUP_NURSERY_PROFILE = gql`
+  mutation NurseryOwnerCreate($data: NurseryOwnerCreateInput!) {
+    nurseryOwnerCreate(data: $data) {
+      id
+      firstName
+      lastName
+      gender
+      nationality
+      phoneNumber
+      CNIC
+      image
+      nurseries
+      createdAt
+      updatedAt
+    }
   }
 `;
 
@@ -25,22 +88,37 @@ const SetupGardenerProfile = () => {
   const user = router.query.userType;
   const userID = router.query.userID;
 
-  const [createCustomerProfile, { data }] = useMutation(
-    CREATE_CUSTOMER_PROFILE,
+  const { setUser } = useContext(AuthContext);
+
+  const [createCustomerProfile, { data, loading }] = useMutation(
+    SETUP_CUSTOMER_PROFILE,
     {
+      client: client,
       onCompleted: (data) => {
-        console.log(data);
-        if (user === "Customer") {
-          router.push("/customer");
-        } else if (user === "NurseryOwner") {
-          router.push("/nurseryOwner");
-        }
+        toast.success("Profile Created Successfully");
+        setUser(data.customerCreate);
+        window.location.href = "/customer";
       },
       onError: (error) => {
+        toast.error("Something went wrong");
         console.log(error);
       },
     }
   );
+
+  const [setupNurseryProfile, { data: nurseryData, loading: nurseryLoading }] =
+    useMutation(SETUP_NURSERY_PROFILE, {
+      client,
+      onCompleted: (data) => {
+        toast.success("Profile Created Successfully");
+        setUser(data.nurseryOwnerCreate);
+        window.location.href = "/nursery";
+      },
+      onError: (error) => {
+        toast.error("Something went wrong");
+        console.log(error);
+      },
+    });
 
   const {
     register,
@@ -53,20 +131,35 @@ const SetupGardenerProfile = () => {
 
   const onSubmit = async (data) => {
     const imageURL = await uploadImage(data.image);
-    createCustomerProfile({
-      variables: {
-        userId: userID,
-        details: {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          phoneNumber: data.phoneNumber,
-          gender: data.gender,
-          nationality: data.nationality,
-          image: imageURL,
+
+    if (user === "NurseryOwner") {
+      setupNurseryProfile({
+        variables: {
+          data: {
+            firstName: data.firstName,
+            gender: data.gender,
+            image: imageURL,
+            lastName: data.lastName,
+            phoneNumber: data.phoneNumber,
+            nationality: data.nationality,
+            CNIC: data.CNIC,
+          },
         },
-      },
-    });
-    console.log(data);
+      });
+    } else {
+      createCustomerProfile({
+        variables: {
+          data: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phoneNumber: data.phoneNumber,
+            gender: data.gender,
+            nationality: data.nationality,
+            image: imageURL,
+          },
+        },
+      });
+    }
   };
 
   return (
@@ -323,7 +416,14 @@ const SetupGardenerProfile = () => {
                   </svg>
                 </span>
                 <UsersIcon sx={{ mr: 1 }} fontSize="small" />
-                <span className="relative">Add {user}</span>
+
+                <span className="relative">
+                  {loading || nurseryLoading ? (
+                    <CircularProgress size={20} />
+                  ) : (
+                    `Add ${user}`
+                  )}
+                </span>
               </button>
             </Grid>
           </Grid>
