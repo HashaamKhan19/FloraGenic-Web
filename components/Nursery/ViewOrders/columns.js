@@ -1,5 +1,6 @@
 import { Chip } from "@mui/material";
 import ActionIcons from "../../Generic/ActionIcons";
+import DispatchToggle from "../../Generic/DispatchToggle";
 
 export const columns = [
   {
@@ -64,7 +65,13 @@ export const columns = [
     width: 150,
     align: "center",
     renderCell: (params) => {
-      return <Chip label={params.row.orderStatus} />;
+      return (
+        <DispatchToggle
+          shippingStatus={params.row.orderStatus}
+          id={params.row.id}
+          data={params.row}
+        />
+      );
     },
   },
   {
