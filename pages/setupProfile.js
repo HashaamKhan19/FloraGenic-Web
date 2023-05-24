@@ -1,12 +1,8 @@
-import React from 'react'
-import SetupProfile from '../components/Generic/pfpManagement/SetupProfile'
+import React from "react";
+import SetupProfile from "../components/Generic/pfpManagement/SetupProfile";
 
 const setupProfile = () => {
-  return (
-    <>
-      <SetupProfile />
-    </>
-  )
-}
+  return <SetupProfile />;
+};
 
-export default setupProfile
+export default setupProfile;

@@ -48,30 +48,43 @@ const SignInCard = () => {
 
   const [login, { data, loading, error }] = useMutation(LOGIN_QUERY, {
     onCompleted: (data) => {
-      (data?.login?.userType === "Customer" &&
-        data?.login?.details !== null &&
-        router.push("/customer")) ||
-        (data?.login?.userType === "Customer" &&
-          data?.login?.details === null &&
-          router.push({
-            pathname: "/setupProfile",
-            query: {
-              userType: data.login.userType,
-              userID: data.login.id,
-            },
-          })) ||
-        (data?.login?.userType === "NurseryOwner" &&
-          data?.login?.details !== null &&
-          router.push("/nursery")) ||
-        (data?.login?.userType === "NurseryOwner" &&
-          data?.login?.details === null &&
-          router.push({
-            pathname: "/setupProfile",
-            query: {
-              userType: data.login.userType,
-              userID: data.login.id,
-            },
-          }));
+      if (
+        data?.login?.userType === "Customer" &&
+        data?.login?.details !== null
+      ) {
+        console.log("here");
+        router.push("/customer");
+      } else if (
+        data?.login?.userType === "Customer" &&
+        data?.login?.details === null
+      ) {
+        console.log("here2");
+        router.push({
+          pathname: "/setupProfile",
+          query: {
+            userType: data.login.userType,
+            userID: data.login.id,
+          },
+        });
+      } else if (
+        data?.login?.userType === "NurseryOwner" &&
+        data?.login?.details !== null
+      ) {
+        console.log("here3");
+        router.push("/nursery");
+      } else if (
+        data?.login?.userType === "NurseryOwner" &&
+        data?.login?.details === null
+      ) {
+        console.log("here4");
+        router.push({
+          pathname: "/setupProfile",
+          query: {
+            userType: data.login.userType,
+            userID: data.login.id,
+          },
+        });
+      }
 
       toast.success("Login Successful!");
       setUser(data.login);
@@ -79,12 +92,14 @@ const SignInCard = () => {
       localStorage.setItem("userType", data.login.userType);
       localStorage.setItem("id", data.login.id);
 
-      if (data.login.userType === "Customer") {
-        router.push("/customer");
-      } else if (data.login.userType === "NurseryOwner") {
-        router.push("/nursery");
-      } else if (data.login.userType === "Admin") {
-        router.push("/admin");
+      if (data?.login?.details !== null) {
+        if (data.login.userType === "Customer") {
+          router.push("/customer");
+        } else if (data.login.userType === "NurseryOwner") {
+          router.push("/nursery");
+        } else if (data.login.userType === "Admin") {
+          router.push("/admin");
+        }
       }
     },
     onError: (error) => {
