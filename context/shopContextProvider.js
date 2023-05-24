@@ -8,7 +8,7 @@ import {
   useQuery,
 } from "@apollo/client";
 import React, { createContext, useState } from "react";
-import { CREATE_CART_ITEM, GET_CART_ITEMS } from "./cart-query";
+import { CLEAR_CART, CREATE_CART_ITEM, GET_CART_ITEMS } from "./cart-query";
 import { DELETE_CART_ITEM } from "./cart-query";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "./authContext";
@@ -84,7 +84,7 @@ const ShopContextProvider = (props) => {
     },
   });
 
-  const [removeCompletelyFromCartMutation] = useMutation(DELETE_CART_ITEM, {
+  const [removeCompletelyFromCartMutation] = useMutation(CLEAR_CART, {
     client,
     onCompleted: () => {
       setCartItems([]);

@@ -18,7 +18,7 @@ import { ShopContext } from "../../../context/shopContextProvider";
 import CartItemsDrawer from "./CartItemsDrawer";
 
 export default function CartItem({ closeDrawer }) {
-  const { cartItems, totalPrice } = useContext(ShopContext);
+  const { cartItems, totalPrice, clearCart } = useContext(ShopContext);
 
   return (
     <Box style={{ height: "calc(100vh - 200px)", overflowY: "scroll" }}>
@@ -53,24 +53,20 @@ export default function CartItem({ closeDrawer }) {
             </Button>
           </Link>
 
-          <Link
-            href={"/customer/viewCart"}
+          <Button
             style={{
+              backgroundColor: "white",
+              color: "#D92228",
+              border: "1px solid #D92228",
               width: "100%",
             }}
+            onClick={() => {
+              clearCart();
+              closeDrawer();
+            }}
           >
-            <Button
-              style={{
-                backgroundColor: "white",
-                color: "#62A82C",
-                border: "1px solid #62A82C",
-                width: "100%",
-              }}
-              onClick={closeDrawer}
-            >
-              View Cart ({cartItems.length})
-            </Button>
-          </Link>
+            Clear Cart
+          </Button>
         </Stack>
       )}
     </Box>
