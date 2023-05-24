@@ -16,6 +16,7 @@ import {
 } from "@apollo/client";
 import { AuthContext } from "../../../context/authContext";
 import { ShopContext } from "../../../context/shopContextProvider";
+import { useRouter } from "next/router";
 
 const styles = {
   container: {
@@ -64,12 +65,14 @@ const PaymentScreen = ({ selectedAddress }) => {
 
   const { user } = useContext(AuthContext);
   const { setCartItems } = useContext(ShopContext);
+  const router = useRouter();
 
   const [createOrder] = useMutation(CREATE_ORDER, {
     client: client,
     onCompleted: (data) => {
       toast.success("Payment Successful. Order Placed!");
       setCartItems([]);
+      router.push("/customer");
     },
     onError: (error) => {
       toast.error(error.message);
@@ -98,7 +101,6 @@ const PaymentScreen = ({ selectedAddress }) => {
         toast.error("An unexpected error ocurred.");
       }
     } else {
-      toast.success("Payment Successful. Order Placed!");
       createOrder({
         variables: {
           input: {

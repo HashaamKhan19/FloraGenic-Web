@@ -128,6 +128,7 @@ const ShopContextProvider = (props) => {
 
   const contextValue = {
     cartItems,
+    setCartItems,
     addToCart,
     removeFromCart,
     clearCart,

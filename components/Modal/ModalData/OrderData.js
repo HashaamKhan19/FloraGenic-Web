@@ -32,7 +32,16 @@ const OrderData = ({ data }) => {
           >
             Ordered On :
           </TableCell>
-          <TableCell>{new Date(data?.orderingDate).toString()}</TableCell>
+          <TableCell>
+            {new Date(parseInt(data?.orderingDate)).toLocaleDateString(
+              "en-US",
+              {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              }
+            )}
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell
@@ -86,6 +95,22 @@ const OrderData = ({ data }) => {
           </TableCell>
           <TableCell>
             <Chip label={data?.paymentStatus} />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell
+            sx={{
+              fontWeight: "600",
+            }}
+          >
+            Products
+          </TableCell>
+          <TableCell>
+            {data?.products?.map((product, index) => (
+              <p key={index}>
+                {product?.productDetails?.name} x {product?.quantity}
+              </p>
+            ))}
           </TableCell>
         </TableRow>
       </Table>

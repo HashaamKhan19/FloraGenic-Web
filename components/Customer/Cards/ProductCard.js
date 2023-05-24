@@ -37,15 +37,20 @@ export default function ProductCard({ data }) {
 
   const { addToCart } = useContext(ShopContext);
 
-  const { addItemToWishlist, removeItemFromWishlist, wishlistItems } = useContext(WishlistContext);
+  const { addItemToWishlist, removeItemFromWishlist, wishlistItems } =
+    useContext(WishlistContext);
 
   useEffect(() => {
-    const isInWishlist = wishlistItems.some((wishlistItem) => wishlistItem.id === data.id);
+    const isInWishlist = wishlistItems.some(
+      (wishlistItem) => wishlistItem.id === data.id
+    );
     setHeartChecked(isInWishlist);
   }, [wishlistItems, data.id]);
 
   const handleAddToWishlist = () => {
-    const isInWishlist = wishlistItems.some((wishlistItem) => wishlistItem.id === data.id);
+    const isInWishlist = wishlistItems.some(
+      (wishlistItem) => wishlistItem.id === data.id
+    );
 
     if (isInWishlist) {
       removeItemFromWishlist(data.id);
@@ -157,7 +162,7 @@ export default function ProductCard({ data }) {
       <Card.Section className={classes.footer}>
         <Group position="apart">
           <Text size="xs" color="dimmed">
-            {data?.sold} people bought this
+            {data?.sold} items sold
           </Text>
           <Group spacing={"xs"}>
             <ActionIcon
@@ -175,7 +180,9 @@ export default function ProductCard({ data }) {
                   color: heartChecked ? "red" : "",
                   fill: heartChecked ? "#D92228" : "",
                   transition: "fill 0.5s ease-in-out",
-                  animation: `${heartChecked ? "sparkle 0.5s ease-in-out" : ""}`,
+                  animation: `${
+                    heartChecked ? "sparkle 0.5s ease-in-out" : ""
+                  }`,
                 }}
               />
             </ActionIcon>

@@ -102,7 +102,7 @@ export default function ProductsCardHero({ heart, data }) {
       <Card.Section className={classes.footer}>
         <Group position="apart">
           <Text size="xs" color="dimmed">
-            {data?.sold} people bought this
+            {data?.sold} items sold
           </Text>
           <Group spacing={"xs"}>
             <ActionIcon

@@ -2,7 +2,14 @@ import { Chip } from "@mui/material";
 import ActionIcons from "../../Generic/ActionIcons";
 
 export const columns = [
-  { field: "id", headerName: "ID", width: 40 },
+  {
+    field: "id",
+    headerName: "ID",
+    width: 100,
+    valueGetter: (params) => {
+      return params.row.id.slice(-6);
+    },
+  },
   {
     field: "name",
     headerName: "Customer",
@@ -17,7 +24,14 @@ export const columns = [
     headerName: "Ordered On",
     width: 150,
     valueGetter: (params) => {
-      return new Date(params.row.orderingDate).toString();
+      return new Date(parseInt(params.row.orderingDate)).toLocaleDateString(
+        "en-US",
+        {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }
+      );
     },
   },
   {
