@@ -28,7 +28,13 @@ const ComplaintData = ({ data }) => {
           >
             Email:
           </TableCell>
-          <TableCell>{data?.email}</TableCell>
+          <TableCell
+            sx={{
+              wordBreak: "break-all",
+            }}
+          >
+            {data?.email}
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell
@@ -48,7 +54,13 @@ const ComplaintData = ({ data }) => {
           >
             Description:
           </TableCell>
-          <TableCell>{data?.description}</TableCell>
+          <TableCell
+            sx={{
+              wordBreak: "break-all",
+            }}
+          >
+            {data?.description}
+          </TableCell>
         </TableRow>
         <TableRow>
           <TableCell
