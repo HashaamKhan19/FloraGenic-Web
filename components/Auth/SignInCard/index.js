@@ -48,42 +48,30 @@ const SignInCard = () => {
 
   const [login, { data, loading, error }] = useMutation(LOGIN_QUERY, {
     onCompleted: (data) => {
-      if (
-        data?.login?.userType === "Customer" &&
-        data?.login?.details !== null
-      ) {
-        console.log("here");
-        router.push("/customer");
-      } else if (
-        data?.login?.userType === "Customer" &&
-        data?.login?.details === null
-      ) {
-        console.log("here2");
-        router.push({
-          pathname: "/setupProfile",
-          query: {
-            userType: data.login.userType,
-            userID: data.login.id,
-          },
-        });
-      } else if (
-        data?.login?.userType === "NurseryOwner" &&
-        data?.login?.details !== null
-      ) {
-        console.log("here3");
-        router.push("/nursery");
-      } else if (
-        data?.login?.userType === "NurseryOwner" &&
-        data?.login?.details === null
-      ) {
-        console.log("here4");
-        router.push({
-          pathname: "/setupProfile",
-          query: {
-            userType: data.login.userType,
-            userID: data.login.id,
-          },
-        });
+      if (data?.login?.userType === "Customer") {
+        if (data?.login?.details) {
+          router.push("/customer");
+        } else {
+          router.push({
+            pathname: "/setupProfile",
+            query: {
+              userType: data.login.userType,
+              userID: data.login.id,
+            },
+          });
+        }
+      } else if (data?.login?.userType === "NurseryOwner") {
+        if (data?.login?.details) {
+          router.push("/nursery");
+        } else {
+          router.push({
+            pathname: "/setupProfile",
+            query: {
+              userType: data.login.userType,
+              userID: data.login.id,
+            },
+          });
+        }
       }
 
       toast.success("Login Successful!");
@@ -91,16 +79,6 @@ const SignInCard = () => {
       localStorage.setItem("token", data.login.token);
       localStorage.setItem("userType", data.login.userType);
       localStorage.setItem("id", data.login.id);
-
-      if (data?.login?.details !== null) {
-        if (data.login.userType === "Customer") {
-          router.push("/customer");
-        } else if (data.login.userType === "NurseryOwner") {
-          router.push("/nursery");
-        } else if (data.login.userType === "Admin") {
-          router.push("/admin");
-        }
-      }
     },
     onError: (error) => {
       toast.error(error.message);
