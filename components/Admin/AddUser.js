@@ -53,58 +53,35 @@ const ADD_NURSERY_OWNER = gql`
 `;
 
 const UPDATE_ADMIN = gql`
-  mutation UpdateAdmin(
-    $updateAdminId: ID!
-    $credentials: UserUpdateInput!
-    $details: AdminUpdateInput!
-  ) {
-    updateAdmin(
-      id: $updateAdminId
-      credentials: $credentials
-      details: $details
-    )
+  mutation UpdateAdmin($updateAdminId: ID!, $details: AdminUpdateInput!) {
+    updateAdmin(id: $updateAdminId, details: $details)
   }
 `;
 
 const UPDATE_GARDENER = gql`
   mutation UpdateGardener(
     $updateGardenerId: ID!
-    $credentials: UserUpdateInput!
     $details: GardenerUpdateInput!
   ) {
-    updateGardener(
-      id: $updateGardenerId
-      credentials: $credentials
-      details: $details
-    )
+    updateGardener(id: $updateGardenerId, details: $details)
   }
 `;
 
 const UPDATE_NURSERY_OWNER = gql`
   mutation UpdateNurseryOwner(
     $updateNurseryOwnerId: ID!
-    $credentials: UserUpdateInput!
     $details: NurseryOwnerUpdateInput!
   ) {
-    updateNurseryOwner(
-      id: $updateNurseryOwnerId
-      credentials: $credentials
-      details: $details
-    )
+    updateNurseryOwner(id: $updateNurseryOwnerId, details: $details)
   }
 `;
 
 const UPDATE_CUSTOMER = gql`
   mutation UpdateNurseryOwner(
     $updateCustomerId: ID!
-    $credentials: UserUpdateInput!
     $details: CustomerUpdateInput!
   ) {
-    updateCustomer(
-      id: $updateCustomerId
-      credentials: $credentials
-      details: $details
-    )
+    updateCustomer(id: $updateCustomerId, details: $details)
   }
 `;
 
@@ -244,10 +221,7 @@ const AddUser = ({ data = {} }) => {
         updateCustomer({
           variables: {
             updateCustomerId: data.id,
-            credentials: {
-              password: formData.password,
-              userType: userType,
-            },
+
             details: {
               firstName: formData.firstName,
               lastName: formData.lastName,
@@ -284,10 +258,7 @@ const AddUser = ({ data = {} }) => {
         updateGardener({
           variables: {
             updateGardenerId: data.id,
-            credentials: {
-              password: formData.password,
-              userType: userType,
-            },
+
             details: {
               firstName: formData.firstName,
               lastName: formData.lastName,
@@ -333,10 +304,7 @@ const AddUser = ({ data = {} }) => {
         updateAdmin({
           variables: {
             updateAdminId: data.id,
-            credentials: {
-              password: formData.password,
-              userType: userType,
-            },
+
             details: {
               firstName: formData.firstName,
               lastName: formData.lastName,
@@ -375,10 +343,7 @@ const AddUser = ({ data = {} }) => {
         updateNurseryOwner({
           variables: {
             updateNurseryOwnerId: data.id,
-            credentials: {
-              password: formData.password,
-              userType: userType,
-            },
+
             details: {
               firstName: formData.firstName,
               lastName: formData.lastName,
@@ -537,6 +502,7 @@ const AddUser = ({ data = {} }) => {
         loading={loading}
         successMessage={successMessage}
         err={errorMessage}
+        setOpen={setModalOpen}
       />
     </>
   );

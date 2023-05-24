@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import TaskConfirmationModal from "../../../components/Generic/TaskConfirmationModal";
 import { UsersIcon } from "../../../public/icons/UsersIcon";
 import ButtonBackground from "../../../assets/Pattern/ButtonBackground";
-import { InputLabel, MenuItem } from "@mui/material";
+import { CircularProgress, InputLabel, MenuItem } from "@mui/material";
 import AddAdmin from "../../../components/Admin/AddAdmin";
 import AddGardener from "../../../components/Admin/AddGardener";
 import AddNurseryOwner from "../../../components/Admin/AddNurseryOwner";
@@ -99,15 +99,18 @@ const EditProfile = () => {
       });
       setSuccessMessage("Profile updated successfully");
       setModalOpen(true);
+      setLoading(false);
     },
     onError: (error) => {
       console.log(error);
       setErrorMessage(error.message);
       setModalOpen(true);
+      setLoading(false);
     },
   });
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const image = await uploadImage(data.image);
     updateProfile({
       variables: {
@@ -267,8 +270,14 @@ const EditProfile = () => {
                 >
                   <ButtonBackground />
 
-                  <UsersIcon sx={{ mr: 1 }} fontSize="small" />
-                  <span className="relative">Edit Profile</span>
+                  {loading ? (
+                    <CircularProgress color="white" size={24} />
+                  ) : (
+                    <>
+                      <UsersIcon sx={{ mr: 1 }} fontSize="small" />
+                      <span className="relative">Edit Profile</span>
+                    </>
+                  )}
                 </button>
               </Grid>
             </Grid>

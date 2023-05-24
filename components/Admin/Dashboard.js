@@ -122,10 +122,10 @@ const Dashboard = () => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={6}>
+        {/* <Grid item xs={12} sm={12} md={6} lg={6}>
           <GrowthChart />
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6}>
+        </Grid> */}
+        <Grid item xs={12} sm={12} md={12} lg={12}>
           <FeedbackChart
             title="Users by Type"
             data={

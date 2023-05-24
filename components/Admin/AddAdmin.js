@@ -163,99 +163,104 @@ const AddAdmin = ({ control, getValues, setValue, errors }) => {
         />
       </Grid>
 
-      <Grid item xs={12} sm={6}>
-        <InputLabel
-          htmlFor="password"
-          variant="standard"
-          required={action === "Edit" ? false : true}
-          sx={{
-            mb: 1.5,
-            color: "text.primary",
-            "& span": { color: "error.light" },
-          }}
-        >
-          {action} Password
-        </InputLabel>
-        <ControlledTextInput
-          control={control}
-          required={action === "Edit" ? false : true}
-          minLength={5}
-          id="password"
-          name="password"
-          type={showPassword}
-          fullWidth
-          autoComplete="password"
-          placeholder="••••••••••"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={passwordDisplay}
-                  aria-label="toggle password visibility"
-                  edge="end"
-                >
-                  {showPassword == "password" ? (
-                    <VisibilityOff />
-                  ) : (
-                    <Visibility />
-                  )}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          error={errors.password ? true : false}
-          helperText={
-            errors.password && "Password must be at least 5 characters long"
-          }
-        />
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <InputLabel
-          htmlFor="confirmPassword"
-          variant="standard"
-          required={action === "Edit" ? false : true}
-          sx={{
-            mb: 1.5,
-            color: "text.primary",
-            "& span": { color: "error.light" },
-          }}
-        >
-          Confirm Password
-        </InputLabel>
+      {action === "Enter" && (
+        <>
+          <Grid item xs={12} sm={6}>
+            <InputLabel
+              htmlFor="password"
+              variant="standard"
+              required={action === "Edit" ? false : true}
+              sx={{
+                mb: 1.5,
+                color: "text.primary",
+                "& span": { color: "error.light" },
+              }}
+            >
+              {action} Password
+            </InputLabel>
+            <ControlledTextInput
+              control={control}
+              required={action === "Edit" ? false : true}
+              minLength={5}
+              id="password"
+              name="password"
+              type={showPassword}
+              fullWidth
+              autoComplete="password"
+              placeholder="••••••••••"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={passwordDisplay}
+                      aria-label="toggle password visibility"
+                      edge="end"
+                    >
+                      {showPassword == "password" ? (
+                        <VisibilityOff />
+                      ) : (
+                        <Visibility />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              error={errors.password ? true : false}
+              helperText={
+                errors.password && "Password must be at least 5 characters long"
+              }
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <InputLabel
+              htmlFor="confirmPassword"
+              variant="standard"
+              required={action === "Edit" ? false : true}
+              sx={{
+                mb: 1.5,
+                color: "text.primary",
+                "& span": { color: "error.light" },
+              }}
+            >
+              Confirm Password
+            </InputLabel>
 
-        <ControlledTextInput
-          control={control}
-          required={action === "Edit" ? false : true}
-          validate={(value) => value === getValues("password")}
-          id="confirmPassword"
-          name="confirmPassword"
-          fullWidth
-          autoComplete="confirmPassword"
-          type={showConfirmPassword}
-          placeholder="••••••••••"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={confirmPasswordDisplay}
-                  aria-label="toggle password visibility"
-                  edge="end"
-                >
-                  {showConfirmPassword == "password" ? (
-                    <VisibilityOff />
-                  ) : (
-                    <Visibility />
-                  )}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          error={errors.confirmPassword ? true : false}
-          helperText={
-            errors.confirmPassword && "Password and confirm password must match"
-          }
-        />
-      </Grid>
+            <ControlledTextInput
+              control={control}
+              required={action === "Edit" ? false : true}
+              validate={(value) => value === getValues("password")}
+              id="confirmPassword"
+              name="confirmPassword"
+              fullWidth
+              autoComplete="confirmPassword"
+              type={showConfirmPassword}
+              placeholder="••••••••••"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={confirmPasswordDisplay}
+                      aria-label="toggle password visibility"
+                      edge="end"
+                    >
+                      {showConfirmPassword == "password" ? (
+                        <VisibilityOff />
+                      ) : (
+                        <Visibility />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              error={errors.confirmPassword ? true : false}
+              helperText={
+                errors.confirmPassword &&
+                "Password and confirm password must match"
+              }
+            />
+          </Grid>
+        </>
+      )}
 
       <Grid item xs={12} sm={6}>
         <InputLabel
