@@ -422,7 +422,7 @@ export default function Sidebar({ children }) {
                 marginLeft: -1.5,
               }}
             />
-            {adminlistOpen ? <ExpandLess /> : <ExpandMore />}
+            {reviewlistOpen ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Link href="/nursery/viewNurseryReviews">
             <Collapse in={reviewlistOpen} timeout="auto" unmountOnExit>
