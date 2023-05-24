@@ -298,7 +298,7 @@ const ChangePassword = () => {
       <TaskConfirmationModal
         open={modalOpen}
         setOpen={setModalOpen}
-        redirectURL="/admin/viewUsers"
+        redirectURL={userType == "admin" ? "/admin" : "/nursery"}
         loading={loading}
         successMessage={successMessage}
         err={errorMessage}
