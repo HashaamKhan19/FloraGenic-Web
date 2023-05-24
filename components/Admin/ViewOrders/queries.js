@@ -1,10 +1,15 @@
 import { gql } from "@apollo/client";
 
 export const GET_ORDERS = gql`
-  query Query {
+  query Orders {
     orders {
       id
       customerID
+      products {
+        productDetails {
+          name
+        }
+      }
       totalPrice
       discount
       totalPriceAfterDiscount
@@ -17,10 +22,9 @@ export const GET_ORDERS = gql`
       customerDetails {
         firstName
         lastName
-        userDetails {
-          email
-        }
+        image
       }
+      paymentType
     }
   }
 `;

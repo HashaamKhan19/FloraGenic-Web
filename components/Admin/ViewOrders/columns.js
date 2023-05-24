@@ -17,7 +17,14 @@ export const columns = [
     headerName: "Ordered On",
     width: 150,
     valueGetter: (params) => {
-      return new Date(params.row.orderingDate).toString();
+      return new Date(parseInt(params.row.orderingDate)).toLocaleString(
+        "en-US",
+        {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }
+      );
     },
   },
   {

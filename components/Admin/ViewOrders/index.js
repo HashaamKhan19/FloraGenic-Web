@@ -1,4 +1,11 @@
-import { gql, useQuery } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  gql,
+  useQuery,
+} from "@apollo/client";
 import { Box, Chip, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import * as React from "react";
@@ -11,8 +18,31 @@ import SearchField from "../../Generic/SearchField";
 import { columns } from "./columns";
 import { GET_ORDERS } from "./queries";
 
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
 export default function ViewOrders() {
-  const { loading, error, data } = useQuery(GET_ORDERS);
+  const { loading, error, data } = useQuery(GET_ORDERS, {
+    client,
+  });
 
   const [rows, setRows] = React.useState([]);
   const [searchValue, setSearchValue] = React.useState("");
