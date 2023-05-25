@@ -14,7 +14,15 @@ import ControlledTextInput from "../Generic/ControlledComponents/ControlledTextI
 import ControlledTimePicker from "../Generic/ControlledComponents/ControlledTimePicker";
 
 // GraphQL
-import { gql, useMutation, useQuery } from "@apollo/client";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+  gql,
+  useMutation,
+  useQuery,
+} from "@apollo/client";
 import ButtonBackground from "../../assets/Pattern/ButtonBackground";
 import { uploadMultipleImages } from "../../services/fileUpload";
 import CityOptions from "../Generic/CityOptions";
@@ -48,6 +56,27 @@ const GET_NURSERY_OWNERS = gql`
   }
 `;
 
+const httpLink = new HttpLink({
+  uri: "https://floragenic.herokuapp.com/graphql",
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+  const token = localStorage.getItem("token");
+
+  operation.setContext({
+    headers: {
+      Authorization: token ? `${token}` : "",
+    },
+  });
+
+  return forward(operation);
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
 const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
@@ -76,6 +105,7 @@ const AddNursery = ({ data = {} }) => {
   });
 
   const [nurseryCreate] = useMutation(ADD_NURSERY, {
+    client,
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Nursery added successfully");
@@ -88,6 +118,7 @@ const AddNursery = ({ data = {} }) => {
   });
 
   const [nurseryUpdate] = useMutation(UPDATE_NURSERY, {
+    client,
     onCompleted: () => {
       setLoading(false);
       setSuccessMessage("Gardener updated successfully");
