@@ -120,7 +120,7 @@ const AddNursery = ({ data = {} }) => {
     client,
     onCompleted: () => {
       setLoading(false);
-      setSuccessMessage("Gardener updated successfully");
+      setSuccessMessage("Nursery updated successfully");
     },
     onError: (error) => {
       setLoading(false);
