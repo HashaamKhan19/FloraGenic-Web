@@ -113,7 +113,6 @@ const AddNursery = ({ data = {} }) => {
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      console.log(error);
     },
   });
 
@@ -126,7 +125,6 @@ const AddNursery = ({ data = {} }) => {
     onError: (error) => {
       setLoading(false);
       setErrorMessage(error);
-      console.log(error);
     },
   });
 
@@ -197,7 +195,6 @@ const AddNursery = ({ data = {} }) => {
         },
       });
     }
-    router.push("/admin/viewNurseries");
   };
 
   if (nurseryOwnersLoading) return <LoadingScreen />;
