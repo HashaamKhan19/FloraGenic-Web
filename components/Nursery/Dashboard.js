@@ -24,8 +24,12 @@ const GET_DASHBOARD_STATS = gql`
   query StatsNursery {
     statsNursery {
       totalNurseries
-      totalProducts
       totalOrders
+      totalProducts
+      productsByCategory {
+        category
+        count
+      }
     }
   }
 `;
@@ -92,17 +96,22 @@ const Dashboard = () => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={8} lg={8}>
-          <GrowthChart />
-        </Grid>
-        <Grid item xs={12} sm={12} md={4} lg={4}>
-          <FeedbackChart />
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6}>
-          <AreaChart />
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6}>
-          <LineChart />
+        <Grid item xs={12} sm={12} md={12} lg={12}>
+          <FeedbackChart
+            title="Products by Category"
+            data={
+              data?.statsNursery?.productsByCategory &&
+              data?.statsNursery?.productsByCategory.map((item) => {
+                return item.count;
+              })
+            }
+            labels={
+              data?.statsNursery?.productsByCategory &&
+              data?.statsNursery?.productsByCategory.map((item) => {
+                return item.category;
+              })
+            }
+          />
         </Grid>
       </Grid>
     </>
