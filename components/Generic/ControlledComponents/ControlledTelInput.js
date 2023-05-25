@@ -23,7 +23,7 @@ const ControlledTelInput = ({
         minLength,
         maxLength,
         validate: (value) => {
-          if (required) return matchIsValidTel(value);
+          if (required || value) return matchIsValidTel(value);
           else return true;
         },
       }}
