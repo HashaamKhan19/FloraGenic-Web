@@ -1,88 +1,95 @@
 // import { Box } from "@mui/material";
-import Image from 'next/legacy/image'
-import React from 'react'
-import LandingPageBackground from '../../assets/images/landing-page-bg.jpg'
-import LandingPageForeground from '../../assets/images/transparent-leaf-bark.png'
-import { Box, Button, Center, Group, Text, UnstyledButton } from '@mantine/core'
-import FloraGenicLogo from '../../public/Logo/floraGenic.png'
-import Link from 'next/link'
+import Image from "next/legacy/image";
+import React from "react";
+import LandingPageBackground from "../../assets/images/landing-page-bg.jpg";
+import LandingPageForeground from "../../assets/images/transparent-leaf-bark.png";
+import {
+  Box,
+  Button,
+  Center,
+  Group,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
+import FloraGenicLogo from "../../public/Logo/floraGenic.png";
+import Link from "next/link";
 
 const LandingPage = () => {
   return (
     <Box
       p="100px"
       sx={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        overflow: 'hidden',
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden",
         backgroundImage: `url(${LandingPageBackground.src})`,
-        objectFit: 'cover',
-        backgroundSize: 'cover',
-        position: 'relative',
-        backgroundRepeat: 'no-repeat',
+        objectFit: "cover",
+        backgroundSize: "cover",
+        position: "relative",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <Box
         sx={{
-          backdropFilter: 'blur(25px)',
-          height: '100%',
-          width: '100%',
-          bgcolor: 'rgba(61, 117, 48, 0.5)',
+          backdropFilter: "blur(25px)",
+          height: "100%",
+          width: "100%",
+          bgcolor: "rgba(61, 117, 48, 0.5)",
           borderRadius: 10,
         }}
       >
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100%',
-            width: '100%',
-            flexDirection: 'column',
-            position: 'relative',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+            flexDirection: "column",
+            position: "relative",
           }}
         >
           <Group
             position="apart"
             style={{
-              width: '100%',
-              position: 'absolute',
+              width: "100%",
+              position: "absolute",
               top: 20,
               right: 5,
               left: 5,
             }}
-            px={'xl'}
+            px={"xl"}
           >
-            <Link href={'/customer'}>
+            <Link href={"/login"}>
               <Button
                 styles={{
                   label: {
-                    fontSize: '1.2rem',
-                    fontFamily: 'Poppins',
+                    fontSize: "1.2rem",
+                    fontFamily: "Poppins",
                   },
                 }}
                 variant="white"
                 style={{
-                  color: 'white',
+                  color: "white",
                 }}
               >
-                Shop Now
+                Login
               </Button>
             </Link>
 
-            <Link href={'/contact'}>
+            <Link href={"/contact"}>
               <Button
                 styles={{
                   label: {
-                    fontSize: '1.2rem',
-                    fontFamily: 'Poppins',
+                    fontSize: "1.2rem",
+                    fontFamily: "Poppins",
                   },
                 }}
                 variant="white"
                 style={{
-                  color: 'white',
+                  color: "white",
                 }}
               >
                 Contact Us
@@ -93,13 +100,13 @@ const LandingPage = () => {
           <Text
             style={{
               fontSize: 45,
-              fontWeight: 'bold',
-              color: 'white',
-              textAlign: 'center',
-              fontFamily: 'Poppins',
+              fontWeight: "bold",
+              color: "white",
+              textAlign: "center",
+              fontFamily: "Poppins",
             }}
-            mb={'xl'}
-            pb={'xl'}
+            mb={"xl"}
+            pb={"xl"}
           >
             Buy Your Favorite Plants from FloraGenic!
           </Text>
@@ -109,32 +116,18 @@ const LandingPage = () => {
               zIndex: 1,
             }}
           >
-            <Link href={'/login'}>
+            <Link href={"/customer"}>
               <Button
                 variant="outline"
+                size="xl"
                 style={{
-                  color: 'white',
-                  border: '1px solid #62A82C',
-                  fontFamily: 'Poppins',
-                  cursor: 'pointer',
+                  color: "white",
+                  border: "1px solid #62A82C",
+                  fontFamily: "Poppins",
+                  cursor: "pointer",
                 }}
               >
-                Sign In
-              </Button>
-            </Link>
-
-            <Link href={'/register'}>
-              <Button
-                variant="outline"
-                style={{
-                  color: 'white',
-                  border: '1px solid #62A82C',
-                  fontFamily: 'Poppins',
-                  cursor: 'pointer',
-                  zIndex: 1,
-                }}
-              >
-                Sign Up
+                Shop Now
               </Button>
             </Link>
           </Group>
@@ -151,7 +144,7 @@ const LandingPage = () => {
         <Image src={LandingPageForeground} alt="Landing Page Foreground" />
       </div> */}
     </Box>
-  )
-}
+  );
+};
 
-export default LandingPage
+export default LandingPage;

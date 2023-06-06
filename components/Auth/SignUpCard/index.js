@@ -253,7 +253,7 @@ const SignIn = () => {
             setGoogleToken(credentialResponse.credential);
           }}
           onError={() => {
-            console.log("Signup Failed");
+            console.log("Something went wrong. Perhaps try again?");
           }}
         />
       </Box>

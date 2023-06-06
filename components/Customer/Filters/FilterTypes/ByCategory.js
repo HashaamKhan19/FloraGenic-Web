@@ -1,8 +1,20 @@
+import { gql, useQuery } from "@apollo/client";
 import { Checkbox } from "@mantine/core";
 import { React, useState } from "react";
 
 const ByCategory = ({ categoryValue, setCategoryValue }) => {
   // const [categoryValue, setCategoryValue] = useState([])
+
+  const GET_CATEGORIES = gql`
+    query Categories {
+      categories {
+        name
+        id
+      }
+    }
+  `;
+
+  const { loading, error, data } = useQuery(GET_CATEGORIES);
 
   const categories = [
     { label: "Plants" },
@@ -14,7 +26,7 @@ const ByCategory = ({ categoryValue, setCategoryValue }) => {
 
   return (
     <>
-      {categories.map((category, index) => (
+      {data?.categories?.map((category, index) => (
         <Checkbox.Group
           orientation="vertical"
           value={categoryValue}
@@ -22,8 +34,8 @@ const ByCategory = ({ categoryValue, setCategoryValue }) => {
           key={index}
         >
           <Checkbox
-            label={category.label}
-            value={category.label.toLowerCase()}
+            label={category.name}
+            value={category.name.toLowerCase()}
             key={index}
             radius={"xs"}
             my={1}

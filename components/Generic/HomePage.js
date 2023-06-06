@@ -1,8 +1,8 @@
-import React from 'react'
-import mainLogo from '../../public/images/Logo.png'
-import backgroundImage from '../../public/images/mainBG-removebg-preview.png'
-import Image from 'next/image'
-import Link from 'next/link'
+import React from "react";
+import mainLogo from "../../public/images/Logo.png";
+import backgroundImage from "../../public/images/mainBG-removebg-preview.png";
+import Image from "next/image";
+import Link from "next/link";
 
 export const HomePage = () => {
   return (
@@ -44,5 +44,5 @@ export const HomePage = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};

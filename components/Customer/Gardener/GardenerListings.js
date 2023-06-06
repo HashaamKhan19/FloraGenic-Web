@@ -65,11 +65,16 @@ export default function GardenerListings() {
 
   const indexOfLastPost = currentPage * postsPerPage; // = 9
   const indexOfFirstPost = indexOfLastPost - postsPerPage; // = 0
-  const currentPosts = filteredGardners?.slice(indexOfFirstPost, indexOfLastPost); // = 9
+  const currentPosts = filteredGardners?.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  ); // = 9
 
   useEffect(() => {
     console.log(cities, ratingValue, available);
-    setFilteredGardners(gardenerFiltering(cities, ratingValue, available, allGardners));
+    setFilteredGardners(
+      gardenerFiltering(cities, ratingValue, available, allGardners)
+    );
   }, [cities, ratingValue, available, allGardners]);
 
   useEffect(() => {
@@ -108,8 +113,12 @@ export default function GardenerListings() {
                     if (query === "") {
                       return data;
                     } else if (
-                      data?.firstName?.toLowerCase().includes(query?.toLowerCase()) ||
-                      data?.lastName?.toLowerCase().includes(query?.toLowerCase())
+                      data?.firstName
+                        ?.toLowerCase()
+                        .includes(query?.toLowerCase()) ||
+                      data?.lastName
+                        ?.toLowerCase()
+                        .includes(query?.toLowerCase())
                     ) {
                       return data;
                     }
@@ -209,7 +218,9 @@ export default function GardenerListings() {
             totalPosts={data?.nurseries?.length}
             paginate={paginate}
             currentPosts={currentPosts}
-            filteredData={data?.gardeners?.length > 0 ? data?.gardeners : undefined}
+            filteredData={
+              data?.gardeners?.length > 0 ? data?.gardeners : undefined
+            }
           />
         )}
       </Group>
@@ -228,10 +239,14 @@ export default function GardenerListings() {
           <ByCity cities={cities} setCities={setCities} />
         </Box>
         <ByRatings ratingValue={ratingValue} setRatingValue={setRatingValue} />
-        <ByAvailability available={available} setAvailable={setAvailable} />
+        {/* <ByAvailability available={available} setAvailable={setAvailable} /> */}
         <Box pl={8} pt={"lg"}>
           <Button
-            disabled={cities.length === 0 && ratingValue.length === 0 && available === false}
+            disabled={
+              cities.length === 0 &&
+              ratingValue.length === 0 &&
+              available === false
+            }
             fullWidth
             onClick={() => {
               setCities([]);
